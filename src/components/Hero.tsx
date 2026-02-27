@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
+import apexLogo from "@/assets/apex-logo.png";
 
 const getTimeLeft = () => {
   const target = new Date("2026-08-02T00:00:00Z").getTime();
@@ -23,6 +24,11 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-16 grid-bg overflow-hidden">
+      {/* Brand logo background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] pointer-events-none opacity-15">
+        <img src={apexLogo} alt="" className="w-full h-full object-contain" />
+      </div>
+
       {/* Radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold/5 blur-[120px] pointer-events-none" />
 
@@ -54,8 +60,8 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="lg" className="text-base px-8">
-              Request Demo <ArrowRight className="ml-1 h-4 w-4" />
+            <Button variant="hero" size="lg" className="text-base px-8" asChild>
+              <a href="#contact">Request Demo <ArrowRight className="ml-1 h-4 w-4" /></a>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-base px-8">
               <FileText className="mr-1 h-4 w-4" /> View Documentation

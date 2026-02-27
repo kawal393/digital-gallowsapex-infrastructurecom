@@ -5,32 +5,32 @@ const steps = [
   {
     icon: Upload,
     step: "01",
-    title: "Submit Model",
-    description: "Upload your AI model hash — no weights revealed.",
+    title: "Submit Model Hash",
+    description: "Upload your AI model's inference hash. No weights or proprietary data revealed.",
   },
   {
     icon: Lock,
     step: "02",
     title: "MPC Verification",
-    description: "Our network verifies compliance in secret using multi-party computation.",
+    description: "Our distributed network verifies compliance without seeing your model.",
   },
   {
     icon: Award,
     step: "03",
     title: "Get Certificate",
-    description: "Receive your EU AI Act compliant certificate on-chain.",
+    description: "Receive your EU AI Act compliant certificate (Articles 12–15).",
   },
   {
     icon: Eye,
     step: "04",
     title: "Stay Compliant",
-    description: "Continuous monitoring for Articles 12–15 with real-time alerts.",
+    description: "Continuous monitoring and automatic alerts for ongoing compliance.",
   },
 ];
 
 const HowItWorks = () => {
   return (
-    <section className="relative py-24 px-4">
+    <section className="relative py-24 px-4" id="how-it-works">
       <div className="container mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -41,9 +41,10 @@ const HowItWorks = () => {
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
             Process
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             How It Works
           </h2>
+          <p className="text-muted-foreground">Four Steps to Compliance</p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
