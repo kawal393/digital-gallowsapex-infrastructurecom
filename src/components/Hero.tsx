@@ -32,8 +32,8 @@ const Hero = () => {
         style={{ background: "radial-gradient(ellipse, hsl(35 60% 35% / 0.06) 0%, transparent 70%)" }}
       />
 
-      {/* Brand logo background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] pointer-events-none opacity-20 glow-gold">
+      {/* Logo emerging from behind the screen */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] pointer-events-none logo-emerge animate-breathe">
         <img src={apexLogo} alt="" className="w-full h-full object-contain" />
       </div>
 
@@ -68,8 +68,8 @@ const Hero = () => {
             <Button variant="hero" size="lg" className="text-base px-8" asChild>
               <a href="#contact">Request Demo <ArrowRight className="ml-1 h-4 w-4" /></a>
             </Button>
-            <Button variant="heroOutline" size="lg" className="text-base px-8">
-              <FileText className="mr-1 h-4 w-4" /> View Documentation
+            <Button variant="heroOutline" size="lg" className="text-base px-8" asChild>
+              <a href="#how-it-works"><FileText className="mr-1 h-4 w-4" /> View Documentation</a>
             </Button>
           </div>
         </motion.div>

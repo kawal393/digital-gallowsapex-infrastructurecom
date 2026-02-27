@@ -94,6 +94,10 @@ export default {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        "breathe": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.15" },
+          "50%": { transform: "scale(1.03)", opacity: "0.22" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -101,6 +105,7 @@ export default {
         "pulse-gold": "pulse-gold 2.5s ease-in-out infinite",
         "float": "float 6s ease-in-out infinite",
         "shimmer": "shimmer 3s ease-in-out infinite",
+        "breathe": "breathe 8s ease-in-out infinite",
       },
     },
   },

@@ -56,6 +56,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     @apply border-border;
   }
@@ -126,5 +130,12 @@
     border-color: hsl(43 85% 52% / 0.2);
     box-shadow: inset 0 1px 0 0 hsl(43 85% 52% / 0.1),
                 0 0 20px -8px hsl(43 85% 52% / 0.15);
+  }
+
+  .logo-emerge {
+    mix-blend-mode: screen;
+    mask-image: radial-gradient(ellipse 70% 70% at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at center, black 30%, transparent 80%);
+    will-change: transform, opacity;
   }
 }
