@@ -1,14 +1,24 @@
 import { Github, FileText, Shield } from "lucide-react";
+import apexLogo from "@/assets/apex-logo.png";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border py-12 px-4">
-      <div className="container mx-auto max-w-6xl">
+    <footer className="border-t border-border py-12 px-4 relative overflow-hidden">
+      {/* Subtle bottom glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, hsl(43 85% 52% / 0.03) 0%, transparent 70%)" }}
+      />
+
+      <div className="container mx-auto max-w-6xl relative z-10">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
-            <h3 className="text-lg font-bold text-foreground mb-2">
-              <span className="text-gold">APEX</span> DIGITAL GALLOWS
-            </h3>
+            <div className="flex items-center gap-2.5 mb-3">
+              <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain" />
+              <h3 className="text-lg font-bold">
+                <span className="text-gold-gradient">APEX</span>{" "}
+                <span className="text-chrome-gradient">DIGITAL GALLOWS</span>
+              </h3>
+            </div>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mb-4">
               Privacy-preserving AI compliance for the 2026 enforcement wave. The standard the industry will be measured against.
             </p>
