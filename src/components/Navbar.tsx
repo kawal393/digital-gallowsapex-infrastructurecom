@@ -15,11 +15,14 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/90 backdrop-blur-xl">
       <div className="container mx-auto max-w-6xl flex items-center justify-between h-16 px-4">
-        <a href="/" className="flex items-center gap-2 text-lg font-bold text-foreground tracking-tight">
-          <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain" />
-          <span><span className="text-gold">APEX</span> DIGITAL GALLOWS</span>
+        <a href="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight group">
+          <img src={apexLogo} alt="APEX" className="h-9 w-9 object-contain glow-gold" />
+          <span>
+            <span className="text-gold-gradient">APEX</span>{" "}
+            <span className="text-chrome-gradient">DIGITAL GALLOWS</span>
+          </span>
         </a>
 
         <div className="hidden md:flex items-center gap-6">

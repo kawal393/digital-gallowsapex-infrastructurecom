@@ -30,8 +30,8 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="relative py-24 px-4" id="how-it-works">
-      <div className="container mx-auto max-w-5xl">
+    <section className="relative py-24 px-4 overflow-hidden" id="how-it-works">
+      <div className="container mx-auto max-w-5xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -41,8 +41,9 @@ const HowItWorks = () => {
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
             Process
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            How It Works
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            <span className="text-chrome-gradient">How It</span>{" "}
+            <span className="text-gold-gradient">Works</span>
           </h2>
           <p className="text-muted-foreground">Four Steps to Compliance</p>
         </motion.div>
@@ -55,9 +56,9 @@ const HowItWorks = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="text-center"
+              className="text-center group"
             >
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-gold/30 bg-gold/5">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-gold/20 bg-gold/5 group-hover:border-gold/40 group-hover:shadow-gold transition-all duration-500">
                 <s.icon className="h-7 w-7 text-gold" />
               </div>
               <span className="text-xs font-bold text-gold tracking-widest">{s.step}</span>

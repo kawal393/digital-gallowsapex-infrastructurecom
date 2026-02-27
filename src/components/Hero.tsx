@@ -24,13 +24,18 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-16 grid-bg overflow-hidden">
+      {/* Warm ambient glow layers */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, hsl(35 80% 45% / 0.04) 40%, transparent 70%)" }}
+      />
+      <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[400px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, hsl(35 60% 35% / 0.06) 0%, transparent 70%)" }}
+      />
+
       {/* Brand logo background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] pointer-events-none opacity-15">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] pointer-events-none opacity-20 glow-gold">
         <img src={apexLogo} alt="" className="w-full h-full object-contain" />
       </div>
-
-      {/* Radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold/5 blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div
@@ -38,22 +43,22 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-4 py-1.5 mb-8 border-glow">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse-gold" />
             <span className="text-xs font-semibold text-gold tracking-widest uppercase">
               {time.days}d {time.hours}h {time.minutes}m until enforcement
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-4 tracking-tight leading-[0.95]">
-            THE GALLOWS
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight leading-[0.95]">
+            <span className="text-chrome-gradient">THE GALLOWS</span>
             <br />
             <span className="text-gold-gradient">ARE READY</span>
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
             EU AI Act 2026 Compliance.{" "}
-            <span className="text-foreground font-medium">Verify Without Disclosure.</span>
+            <span className="text-gold-gradient font-medium">Verify Without Disclosure.</span>
           </p>
           <p className="text-sm text-muted-foreground mb-10">
             Privacy-Preserving AI Compliance for the 2026 Enforcement Wave

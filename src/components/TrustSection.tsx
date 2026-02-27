@@ -4,8 +4,8 @@ const companies = ["Microsoft", "Google", "OpenAI", "Anthropic", "Meta"];
 
 const TrustSection = () => {
   return (
-    <section className="relative py-20 px-4">
-      <div className="container mx-auto max-w-5xl">
+    <section className="relative py-20 px-4 overflow-hidden">
+      <div className="container mx-auto max-w-5xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +23,7 @@ const TrustSection = () => {
             {companies.map((name) => (
               <div
                 key={name}
-                className="flex items-center justify-center h-12 px-6 rounded-lg border border-border/50 bg-card/50 text-muted-foreground text-sm font-semibold tracking-wider uppercase opacity-60 hover:opacity-100 hover:border-gold/30 transition-all"
+                className="flex items-center justify-center h-12 px-6 rounded-lg border border-border bg-card/50 text-chrome text-sm font-semibold tracking-wider uppercase opacity-50 hover:opacity-100 hover:border-gold/20 hover:shadow-gold transition-all duration-500"
               >
                 {name}
               </div>
