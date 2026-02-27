@@ -1,5 +1,13 @@
 import { Github, FileText, Shield } from "lucide-react";
+import { toast } from "sonner";
 import apexLogo from "@/assets/apex-logo.png";
+
+const GITHUB_URL = "https://github.com/kawal393/-apex-digital-gallows";
+
+const handleComingSoon = (e: React.MouseEvent, label: string) => {
+  e.preventDefault();
+  toast.info(`${label} — Coming soon`);
+};
 
 const Footer = () => {
   return (
@@ -32,18 +40,18 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Resources</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-gold transition-colors flex items-center gap-2"><FileText className="h-3 w-3" /> Documentation</a></li>
-              <li><a href="#" className="hover:text-gold transition-colors flex items-center gap-2"><Github className="h-3 w-3" /> GitHub</a></li>
-              <li><a href="#" className="hover:text-gold transition-colors flex items-center gap-2"><Shield className="h-3 w-3" /> Security</a></li>
+              <li><a href="#how-it-works" className="hover:text-gold transition-colors flex items-center gap-2"><FileText className="h-3 w-3" /> Documentation</a></li>
+              <li><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors flex items-center gap-2"><Github className="h-3 w-3" /> GitHub</a></li>
+              <li><a href="#faq" className="hover:text-gold transition-colors flex items-center gap-2"><Shield className="h-3 w-3" /> Security</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-gold transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-gold transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-gold transition-colors">Cookie Policy</a></li>
+              <li><a href="#" onClick={(e) => handleComingSoon(e, "Privacy Policy")} className="hover:text-gold transition-colors">Privacy Policy</a></li>
+              <li><a href="#" onClick={(e) => handleComingSoon(e, "Terms of Service")} className="hover:text-gold transition-colors">Terms of Service</a></li>
+              <li><a href="#" onClick={(e) => handleComingSoon(e, "Cookie Policy")} className="hover:text-gold transition-colors">Cookie Policy</a></li>
             </ul>
           </div>
         </div>
