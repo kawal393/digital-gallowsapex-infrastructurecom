@@ -13,7 +13,7 @@ const ContactSection = () => {
     setSending(true);
     setTimeout(() => {
       setSending(false);
-      toast.success("Demo request submitted. We'll be in touch.");
+      toast.success("Demo request submitted. We'll be in touch within 24 hours.");
       (e.target as HTMLFormElement).reset();
     }, 1000);
   };
@@ -47,7 +47,7 @@ const ContactSection = () => {
         >
           <div className="grid sm:grid-cols-2 gap-4">
             <Input
-              placeholder="Name"
+              placeholder="Full Name"
               required
               maxLength={100}
               className="bg-card border-border text-foreground placeholder:text-muted-foreground"
@@ -60,12 +60,19 @@ const ContactSection = () => {
               className="bg-card border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
-          <Input
-            placeholder="Company"
-            required
-            maxLength={100}
-            className="bg-card border-border text-foreground placeholder:text-muted-foreground"
-          />
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Input
+              placeholder="Company Name"
+              required
+              maxLength={100}
+              className="bg-card border-border text-foreground placeholder:text-muted-foreground"
+            />
+            <Input
+              placeholder="Role / Title (optional)"
+              maxLength={100}
+              className="bg-card border-border text-foreground placeholder:text-muted-foreground"
+            />
+          </div>
           <Textarea
             placeholder="Tell us about your AI compliance needs..."
             rows={4}

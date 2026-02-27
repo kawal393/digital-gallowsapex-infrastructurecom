@@ -12,6 +12,7 @@ const tiers = [
       "Basic dashboard",
       "Email support",
       "SHIELD mode only",
+      "Standard response time",
     ],
     cta: "Get Started",
     featured: false,
@@ -25,6 +26,7 @@ const tiers = [
       "API access",
       "Priority support",
       "SHIELD + SWORD mode",
+      "Public audit trail",
     ],
     cta: "Get Started",
     featured: true,
@@ -36,9 +38,10 @@ const tiers = [
     features: [
       "Unlimited everything",
       "Dedicated nodes",
-      "24/7 SLA",
-      "All 3 modes",
+      "24/7 SLA support",
+      "All 3 modes (SHIELD/SWORD/JUDGE)",
       "Custom integrations",
+      "White-label options",
     ],
     cta: "Contact Sales",
     featured: false,
@@ -48,12 +51,14 @@ const tiers = [
     price: "$49,999",
     period: "/month",
     features: [
-      "White-label solution",
       "Sovereign infrastructure",
       "Judge mode licensing",
       "Direct API access",
+      "White-label",
+      "Custom SLA",
+      "Dedicated account manager",
     ],
-    cta: "Contact Us",
+    cta: "Contact Sales",
     featured: false,
   },
 ];
@@ -72,10 +77,10 @@ const Pricing = () => {
             Pricing
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Choose Your Tier
+            Scale Compliance With Your Ambition
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            From startups to sovereigns. Scale compliance with your ambition.
+            From startups to sovereigns. Choose the tier that matches your scale.
           </p>
         </motion.div>
 
@@ -119,8 +124,9 @@ const Pricing = () => {
               <Button
                 variant={tier.featured ? "hero" : "heroOutline"}
                 className="w-full"
+                asChild
               >
-                {tier.cta}
+                <a href="#contact">{tier.cta}</a>
               </Button>
             </motion.div>
           ))}

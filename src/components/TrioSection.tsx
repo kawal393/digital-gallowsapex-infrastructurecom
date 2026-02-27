@@ -9,7 +9,7 @@ const modes = [
     headline: "Defend the Giants",
     description:
       "Private compliance verification. MPC keeps their weights 100% secret. Your AI stays protected.",
-    features: ["Private Merkle Tree", "Internal Safety Flags", "Private Reports"],
+    features: ["Private Merkle Tree Ledger", "Internal Safety Flags", "Private Compliance Reports", "MPC Verification (secret weights)"],
   },
   {
     icon: Swords,
@@ -18,7 +18,7 @@ const modes = [
     headline: "Expose the Truth",
     description:
       "Public ledger for regulators. Whistleblower hook sends violations directly to EU AI Office.",
-    features: ["Public Audit Trail", "EU Regulator Alerts", "ZK Verification"],
+    features: ["Public Audit Trail (Regulator-visible)", "EU Whistleblower Integration", "ZK Proof Verification", "Public Certificate of Trust"],
   },
   {
     icon: Gavel,
@@ -27,7 +27,7 @@ const modes = [
     headline: "Set the Standards",
     description:
       "Binding legal rulings. Your interpretations become precedent. Courts cite YOUR rulings.",
-    features: ["Canonical Standards", "Legal Precedent", "Binding Interpretations"],
+    features: ["Canonical Standards", "Legal Precedent", "Binding Interpretations", "Court-Recognized Authority"],
   },
 ];
 
@@ -82,7 +82,7 @@ const TrioSection = () => {
               <ul className="space-y-2">
                 {mode.features.map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-foreground/80">
-                    <ArrowRight className="h-3 w-3 text-gold" />
+                    <ArrowRight className="h-3 w-3 text-gold flex-shrink-0" />
                     {f}
                   </li>
                 ))}

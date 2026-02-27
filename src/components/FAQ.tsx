@@ -8,34 +8,42 @@ import { motion } from "framer-motion";
 
 const faqs = [
   {
-    q: "What is the EU AI Act and when does it take effect?",
-    a: "The EU AI Act is the world's first comprehensive AI regulation. Key provisions for high-risk AI systems become enforceable on August 2, 2026. Non-compliance can result in fines up to €35 million or 7% of global turnover.",
+    q: "What is the Digital Gallows?",
+    a: "APEX DIGITAL GALLOWS is a privacy-preserving compliance verification platform for the EU AI Act 2026. We verify AI model compliance without requiring disclosure of proprietary model weights.",
   },
   {
-    q: "How does zero-knowledge verification work?",
-    a: "Our ZK proof system allows you to prove your AI model complies with specific articles of the EU AI Act without ever revealing your model weights, training data, or proprietary architectures. The proof is mathematically verifiable by regulators.",
+    q: "How is this different from traditional compliance audits?",
+    a: "Traditional audits require full model disclosure. Our MPC (Multi-Party Computation) and ZK (Zero-Knowledge Proof) technology verifies compliance while keeping your AI's 'brain' completely secret.",
   },
   {
-    q: "What is Multi-Party Computation (MPC)?",
-    a: "MPC allows multiple parties to jointly compute a function over their inputs while keeping those inputs private. We use this to verify compliance properties of your AI model without any single party seeing the full model.",
+    q: "What is the EU AI Act enforcement date?",
+    a: "August 2, 2026. After this date, non-compliance can result in fines of €35 million or 7% of global turnover, whichever is higher.",
   },
   {
-    q: "Do I need to share my model weights?",
-    a: "No. That's the entire point of APEX DIGITAL GALLOWS. Your model weights stay 100% private. We verify compliance through cryptographic proofs — not by accessing your model.",
+    q: "What does SHIELD mode do?",
+    a: "SHIELD mode provides private compliance verification. Your audit logs stay internal, and MPC ensures your model weights never leave your infrastructure.",
   },
   {
-    q: "What happens if my model fails verification?",
-    a: "In SHIELD mode, you receive a private report with specific remediation steps. Your failure is never public. In SWORD mode, failures are reported to the EU AI Office via our whistleblower mechanism.",
+    q: "What does SWORD mode do?",
+    a: "SWORD mode publishes compliance status to a public ledger visible to regulators. If violations are detected, the Whistleblower Hook automatically alerts the EU AI Office.",
   },
   {
-    q: "Is this legally binding?",
-    a: "JUDGE mode rulings create canonical interpretations of the EU AI Act that can be cited as legal precedent. SHIELD and SWORD certifications provide compliance evidence for regulatory audits.",
+    q: "What does JUDGE mode do?",
+    a: "JUDGE mode allows you to issue binding compliance interpretations that become legal precedent. Courts and regulators cite your rulings as the standard.",
+  },
+  {
+    q: "Do I need to disclose my model weights?",
+    a: "No. Our MPC and ZK technology verifies compliance without ever seeing your model weights. You maintain 100% IP protection.",
+  },
+  {
+    q: "How do I get started?",
+    a: "Request a demo or choose a pricing tier. We'll set up your compliance infrastructure within 48 hours.",
   },
 ];
 
 const FAQ = () => {
   return (
-    <section className="relative py-24 px-4 bg-dark-gradient">
+    <section className="relative py-24 px-4 bg-dark-gradient" id="faq">
       <div className="container mx-auto max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

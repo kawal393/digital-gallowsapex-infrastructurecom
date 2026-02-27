@@ -6,29 +6,33 @@ const articles = [
     icon: FileText,
     article: "Article 12",
     title: "Record-Keeping",
-    tech: "Merkle Ledger",
-    description: "Immutable audit trail for every AI decision logged via cryptographic Merkle trees.",
+    tech: "Merkle Tree Ledger",
+    description: "Automatic logging of all system events. Immutable, tamper-proof audit trail.",
+    reference: "\"High-risk AI systems shall automatically record events...\"",
   },
   {
     icon: Search,
     article: "Article 13",
     title: "Transparency",
-    tech: "ZK Proofs",
-    description: "Zero-knowledge proofs demonstrate compliance without revealing proprietary model details.",
+    tech: "ZK Proof Engine",
+    description: "Prove model capabilities without disclosure. Transparency without IP loss.",
+    reference: "\"High-risk systems shall be designed to ensure sufficient transparency...\"",
   },
   {
     icon: Users,
     article: "Article 14",
     title: "Human Oversight",
     tech: "Sovereign Pause",
-    description: "Hardware-level kill switch ensures humans can always intervene in AI operations.",
+    description: "Kill switch mechanism. Human override for all automated decisions.",
+    reference: "\"Human oversight measures shall be in place...\"",
   },
   {
     icon: Target,
     article: "Article 15",
     title: "Accuracy & Robustness",
-    tech: "MPC Testing",
-    description: "Multi-party computation validates model accuracy without exposing training data.",
+    tech: "MPC Benchmark Testing",
+    description: "Verify accuracy through privacy-preserving testing protocols.",
+    reference: "\"Systems shall achieve appropriate accuracy and robustness...\"",
   },
 ];
 
@@ -49,7 +53,7 @@ const ArticlesSection = () => {
             EU AI Act Coverage
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Full coverage of the four key articles for high-risk AI systems.
+            Full coverage of Articles 12–15 for high-risk AI systems.
           </p>
         </motion.div>
 
@@ -73,7 +77,8 @@ const ArticlesSection = () => {
                   <span className="text-xs text-muted-foreground">{a.tech}</span>
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-1">{a.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{a.description}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-2">{a.description}</p>
+                <p className="text-xs text-muted-foreground/70 italic font-mono">{a.reference}</p>
               </div>
             </motion.div>
           ))}
