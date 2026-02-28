@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { toast } from "sonner";
 
-const ContactSection = () => {
+const ContactSection = forwardRef<HTMLElement>((_, ref) => {
   const [sending, setSending] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +19,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="relative py-24 px-4" id="contact">
+    <section ref={ref} className="relative py-24 px-4" id="contact">
       <div className="container mx-auto max-w-xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -86,6 +86,8 @@ const ContactSection = () => {
       </div>
     </section>
   );
-};
+});
+
+ContactSection.displayName = "ContactSection";
 
 export default ContactSection;
