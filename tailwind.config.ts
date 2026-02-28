@@ -95,8 +95,8 @@ export default {
           "100%": { backgroundPosition: "200% 0" },
         },
         "breathe": {
-          "0%, 100%": { transform: "scale(1)", opacity: "0.15" },
-          "50%": { transform: "scale(1.03)", opacity: "0.22" },
+          "0%, 100%": { transform: "scale(1)", opacity: "0.35" },
+          "50%": { transform: "scale(1.04)", opacity: "0.5" },
         },
       },
       animation: {

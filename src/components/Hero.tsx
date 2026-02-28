@@ -36,13 +36,14 @@ const Hero = () => {
       />
 
       {/* Logo emerging from behind the screen */}
+      {/* Logo centred and absorbed into background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[440px] h-[440px] md:w-[680px] md:h-[680px] logo-emerge animate-breathe overflow-hidden rounded-full">
+        <div className="w-[500px] h-[500px] md:w-[720px] md:h-[720px] logo-emerge overflow-hidden rounded-full animate-breathe">
           <img
             src={apexLogo}
             alt=""
-            className="w-full h-full object-cover object-left"
-            style={{ opacity: 0.4, filter: "blur(0.6px)", transform: "scale(1.35)" }}
+            className="w-full h-full object-contain"
+            style={{ opacity: 1, filter: "blur(0.5px)", transform: "scale(1.1)" }}
           />
         </div>
       </div>
