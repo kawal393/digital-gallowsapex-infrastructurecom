@@ -5,17 +5,40 @@ import { motion } from "framer-motion";
 import { forwardRef, useState } from "react";
 import { toast } from "sonner";
 
+const FUNCTION_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/send-contact-email`;
+
 const ContactSection = forwardRef<HTMLElement>((_, ref) => {
   const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
-      setSending(false);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch(FUNCTION_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          company: formData.get("company"),
+          role: formData.get("role"),
+          message: formData.get("message"),
+        }),
+      });
+
+      if (!res.ok) throw new Error("Request failed");
+
       toast.success("Demo request submitted. We'll be in touch within 24 hours.");
-      (e.target as HTMLFormElement).reset();
-    }, 1000);
+      form.reset();
+    } catch {
+      toast.error("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -47,12 +70,14 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
         >
           <div className="grid sm:grid-cols-2 gap-4">
             <Input
+              name="name"
               placeholder="Full Name"
               required
               maxLength={100}
               className="bg-card border-border text-foreground placeholder:text-muted-foreground"
             />
             <Input
+              name="email"
               placeholder="Email"
               type="email"
               required
@@ -62,18 +87,21 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <Input
+              name="company"
               placeholder="Company Name"
               required
               maxLength={100}
               className="bg-card border-border text-foreground placeholder:text-muted-foreground"
             />
             <Input
+              name="role"
               placeholder="Role / Title (optional)"
               maxLength={100}
               className="bg-card border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
           <Textarea
+            name="message"
             placeholder="Tell us about your AI compliance needs..."
             rows={4}
             maxLength={1000}
