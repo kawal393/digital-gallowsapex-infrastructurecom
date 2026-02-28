@@ -1,13 +1,9 @@
 import { Github, FileText, Shield } from "lucide-react";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 
 const GITHUB_URL = "https://github.com/kawal393/-apex-digital-gallows";
 
-const handleComingSoon = (e: React.MouseEvent, label: string) => {
-  e.preventDefault();
-  toast.info(`${label} — Coming soon`);
-};
 
 const Footer = () => {
   return (
@@ -49,9 +45,9 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" onClick={(e) => handleComingSoon(e, "Privacy Policy")} className="hover:text-gold transition-colors">Privacy Policy</a></li>
-              <li><a href="#" onClick={(e) => handleComingSoon(e, "Terms of Service")} className="hover:text-gold transition-colors">Terms of Service</a></li>
-              <li><a href="#" onClick={(e) => handleComingSoon(e, "Cookie Policy")} className="hover:text-gold transition-colors">Cookie Policy</a></li>
+              <li><Link to="/privacy" className="hover:text-gold transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-gold transition-colors">Terms of Service</Link></li>
+              <li><Link to="/cookies" className="hover:text-gold transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>

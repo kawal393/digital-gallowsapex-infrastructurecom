@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, FileText, MapPin, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import apexLogo from "@/assets/apex-logo.png";
+import { useVisitorLocation, useLiveClock } from "@/hooks/use-visitor-info";
 
 const getTimeLeft = () => {
   const target = new Date("2026-08-02T00:00:00Z").getTime();
@@ -16,6 +17,8 @@ const getTimeLeft = () => {
 
 const Hero = () => {
   const [time, setTime] = useState(getTimeLeft);
+  const location = useVisitorLocation();
+  const clock = useLiveClock();
 
   useEffect(() => {
     const id = setInterval(() => setTime(getTimeLeft()), 60_000);
@@ -47,6 +50,22 @@ const Hero = () => {
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse-gold" />
             <span className="text-xs font-semibold text-gold tracking-widest uppercase">
               {time.days}d {time.hours}h {time.minutes}m until enforcement
+            </span>
+          </div>
+
+          {/* Visitor location + live clock */}
+          <div className="flex items-center justify-center gap-4 mb-8 flex-wrap">
+            {location && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                <MapPin className="h-3 w-3 text-gold" />
+                {location.city}, {location.country}
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Clock className="h-3 w-3 text-gold" />
+              {clock.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+              {" · "}
+              {clock.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
             </span>
           </div>
 
