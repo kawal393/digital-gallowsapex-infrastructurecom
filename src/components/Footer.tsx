@@ -1,15 +1,15 @@
+import { forwardRef } from "react";
 import { Github, FileText, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 
 const GITHUB_URL = "https://github.com/kawal393/-apex-digital-gallows";
 
-
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   return (
-    <footer className="border-t border-border py-12 px-4 relative overflow-hidden">
-      {/* Subtle bottom glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
+    <footer ref={ref} className="border-t border-border py-12 px-4 relative overflow-hidden">
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
         style={{ background: "radial-gradient(ellipse, hsl(43 85% 52% / 0.03) 0%, transparent 70%)" }}
       />
 
@@ -63,6 +63,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;

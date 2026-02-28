@@ -58,7 +58,7 @@ const Hero = () => {
             {location && (
               <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                 <MapPin className="h-3 w-3 text-gold" />
-                {location.city}, {location.country}
+                {location.country ? `${location.city}, ${location.country}` : location.city}
               </span>
             )}
             <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">

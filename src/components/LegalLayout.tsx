@@ -12,17 +12,20 @@ const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/90 backdrop-blur-xl">
-        <div className="container mx-auto max-w-6xl flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight">
+        <div className="container mx-auto max-w-6xl h-16 px-4 relative flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-gold transition-colors z-10">
+            <ArrowLeft className="h-4 w-4" /> Back to Home
+          </Link>
+
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2.5 text-lg font-bold tracking-tight">
             <img src={apexLogo} alt="APEX" className="h-9 w-9 object-contain glow-gold" />
             <span>
               <span className="text-gold-gradient">APEX</span>{" "}
-              <span className="text-chrome-gradient">DIGITAL GALLOWS</span>
+              <span className="text-chrome-gradient hidden md:inline">DIGITAL GALLOWS</span>
             </span>
           </Link>
-          <Link to="/" className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-gold transition-colors">
-            <ArrowLeft className="h-4 w-4" /> Back to Home
-          </Link>
+
+          <div className="w-24" aria-hidden="true" />
         </div>
       </nav>
 
