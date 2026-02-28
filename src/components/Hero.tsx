@@ -36,8 +36,15 @@ const Hero = () => {
       />
 
       {/* Logo emerging from behind the screen */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] pointer-events-none logo-emerge animate-breathe">
-        <img src={apexLogo} alt="" className="w-full h-full object-contain" />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[520px] h-[520px] md:w-[760px] md:h-[760px] logo-emerge animate-breathe overflow-hidden">
+          <img
+            src={apexLogo}
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ transform: "translate(-18%, -10%) scale(1.22)" }}
+          />
+        </div>
       </div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
