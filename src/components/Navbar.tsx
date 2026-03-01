@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import apexLogo from "@/assets/apex-logo.png";
 
 const navLinks = [
@@ -13,6 +15,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/90 backdrop-blur-xl">
@@ -20,7 +23,7 @@ const Navbar = () => {
         <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-16 px-4">
           <div className="flex items-center gap-6">
             {navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="text-sm text-muted-foreground hover:text-gold transition-colors">
+              <a key={link.label} href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 {link.label}
               </a>
             ))}
@@ -32,7 +35,16 @@ const Navbar = () => {
             <span className="text-chrome-gradient hidden lg:inline">DIGITAL GALLOWS</span>
           </a>
 
-          <div className="justify-self-end">
+          <div className="justify-self-end flex items-center gap-2">
+            {user ? (
+              <Button variant="heroOutline" size="sm" asChild>
+                <a href="/dashboard"><LayoutDashboard className="h-4 w-4 mr-1" />Dashboard</a>
+              </Button>
+            ) : (
+              <Button variant="heroOutline" size="sm" asChild>
+                <a href="/auth"><LogIn className="h-4 w-4 mr-1" />Login</a>
+              </Button>
+            )}
             <Button variant="hero" size="sm" asChild>
               <a href="#contact">Request Demo</a>
             </Button>
@@ -57,12 +69,21 @@ const Navbar = () => {
             <a
               key={link.label}
               href={link.href}
-              className="block text-sm text-muted-foreground hover:text-gold"
+              className="block text-sm text-muted-foreground hover:text-primary"
               onClick={() => setOpen(false)}
             >
               {link.label}
             </a>
           ))}
+          {user ? (
+            <Button variant="heroOutline" size="sm" className="w-full" asChild>
+              <a href="/dashboard" onClick={() => setOpen(false)}>Dashboard</a>
+            </Button>
+          ) : (
+            <Button variant="heroOutline" size="sm" className="w-full" asChild>
+              <a href="/auth" onClick={() => setOpen(false)}>Login</a>
+            </Button>
+          )}
           <Button variant="hero" size="sm" className="w-full" asChild>
             <a href="#contact" onClick={() => setOpen(false)}>Request Demo</a>
           </Button>
