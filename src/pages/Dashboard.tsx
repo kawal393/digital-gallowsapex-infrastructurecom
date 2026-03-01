@@ -8,6 +8,9 @@ import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
 import ComplianceLedger from "@/components/dashboard/ComplianceLedger";
 import ReferralCard from "@/components/dashboard/ReferralCard";
+import ComplianceQuestionnaire from "@/components/dashboard/ComplianceQuestionnaire";
+import ComplianceCertificate from "@/components/dashboard/ComplianceCertificate";
+import ScoreBreakdown from "@/components/dashboard/ScoreBreakdown";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,15 +21,32 @@ const TIER_LABELS: Record<string, string> = {
   goliath: "GOLIATH",
 };
 
+// Scoring logic (must match questionnaire)
+function calculateBreakdown(qData: any) {
+  if (!qData) return null;
+  const breakdown: Record<string, { score: number; max: number; label: string }> = {};
+
+  const hrCount = (qData.high_risk_uses || []).filter((u: string) => u !== "None").length;
+  breakdown["Article 5"] = { score: hrCount === 0 ? 20 : hrCount === 1 ? 10 : 0, max: 20, label: "Prohibited Practices" };
+  breakdown["Article 6"] = { score: qData.automated_decisions === "no" ? 15 : qData.automated_decisions === "occasionally" ? 10 : 5, max: 15, label: "Classification" };
+  breakdown["Article 9"] = { score: qData.governance_policy === "documented" ? 20 : qData.governance_policy === "informal" ? 10 : 0, max: 20, label: "Risk Management" };
+  breakdown["Article 13"] = { score: qData.users_informed === "always" ? 15 : qData.users_informed === "sometimes" ? 8 : 0, max: 15, label: "Transparency" };
+  breakdown["Article 14"] = { score: qData.right_to_explanation === "fully" ? 15 : qData.right_to_explanation === "partially" ? 8 : 0, max: 15, label: "Human Oversight" };
+  breakdown["Article 52"] = { score: qData.ai_content_labeled === "yes" ? 15 : qData.ai_content_labeled === "somewhat" ? 8 : 0, max: 15, label: "Content Labeling" };
+
+  return breakdown;
+}
+
 const Dashboard = () => {
   const { user, signOut, subscription, checkSubscription } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [compliance, setCompliance] = useState<any>(null);
   const [verifications, setVerifications] = useState<any[]>([]);
+  const [questionnaire, setQuestionnaire] = useState<any>(null);
+  const [qLoaded, setQLoaded] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
 
-  // After checkout success, refresh subscription
   useEffect(() => {
     if (searchParams.get("checkout") === "success") {
       toast.success("Payment successful! Refreshing your subscription...");
@@ -34,32 +54,26 @@ const Dashboard = () => {
     }
   }, [searchParams]);
 
-  useEffect(() => {
+  const fetchData = async () => {
     if (!user) return;
-    const fetchData = async () => {
-      const { data: cr } = await supabase
-        .from("compliance_results")
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      setCompliance(cr);
 
-      const { data: vh } = await supabase
-        .from("verification_history")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("article_number");
-      setVerifications(vh || []);
-    };
-    fetchData();
-  }, [user]);
+    const [crRes, vhRes, qRes] = await Promise.all([
+      supabase.from("compliance_results").select("*").eq("user_id", user.id).maybeSingle(),
+      supabase.from("verification_history").select("*").eq("user_id", user.id).order("article_number"),
+      supabase.from("questionnaire_responses").select("*").eq("user_id", user.id).maybeSingle(),
+    ]);
+
+    setCompliance(crRes.data);
+    setVerifications(vhRes.data || []);
+    setQuestionnaire(qRes.data);
+    setQLoaded(true);
+  };
+
+  useEffect(() => { fetchData(); }, [user]);
 
   const updateTrioMode = async (mode: string) => {
     if (!compliance) return;
-    await supabase
-      .from("compliance_results")
-      .update({ trio_mode: mode })
-      .eq("id", compliance.id);
+    await supabase.from("compliance_results").update({ trio_mode: mode }).eq("id", compliance.id);
     setCompliance({ ...compliance, trio_mode: mode });
   };
 
@@ -80,6 +94,9 @@ const Dashboard = () => {
       setPortalLoading(false);
     }
   };
+
+  const showQuestionnaire = qLoaded && (!questionnaire || !questionnaire.completed);
+  const breakdown = questionnaire?.completed ? calculateBreakdown(questionnaire) : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -149,10 +166,25 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {compliance ? (
+        {/* Questionnaire or Dashboard */}
+        {!qLoaded ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : showQuestionnaire ? (
+          <ComplianceQuestionnaire onComplete={fetchData} existingData={questionnaire} />
+        ) : compliance ? (
           <div className="grid gap-4 md:grid-cols-2">
             <ComplianceStatus score={compliance.overall_score} status={compliance.status} />
             <TrioModeSelector mode={compliance.trio_mode} onModeChange={updateTrioMode} />
+            {breakdown && <ScoreBreakdown breakdown={breakdown} />}
+            <ComplianceCertificate
+              companyName={compliance.company_name}
+              score={compliance.overall_score}
+              status={compliance.status}
+              date={compliance.updated_at}
+              merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
+            />
             <ComplianceLedger verifications={verifications} />
             <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
           </div>
