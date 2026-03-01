@@ -50,7 +50,7 @@ const PartnerHero = ({ isPartner }: Props) => {
         <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
           <span className="text-gold-gradient">Earn 50% Commission</span>
           <br />
-          <span className="text-foreground">on Every Sale</span>
+          <span className="text-foreground">on Every Subscription</span>
         </h1>
         <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
           Share your unique referral link. When someone signs up and becomes a paying customer,
