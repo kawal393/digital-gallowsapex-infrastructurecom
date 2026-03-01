@@ -157,6 +157,48 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          status: string
+          stripe_customer_id: string | null
+          stripe_session_id: string | null
+          tier: string
+          user_id: string
+          verifications_limit: number
+          verifications_used: number
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_session_id?: string | null
+          tier?: string
+          user_id: string
+          verifications_limit?: number
+          verifications_used?: number
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_session_id?: string | null
+          tier?: string
+          user_id?: string
+          verifications_limit?: number
+          verifications_used?: number
+        }
+        Relationships: []
+      }
       verification_history: {
         Row: {
           article_number: string

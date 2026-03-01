@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
+import { Shield, Eye, Scale, Lock, Globe } from "lucide-react";
 
-const companies = ["Microsoft", "Google", "OpenAI", "Anthropic", "Meta"];
+const indicators = [
+  { icon: Shield, label: "Privacy-Preserving" },
+  { icon: Eye, label: "Zero-Knowledge" },
+  { icon: Scale, label: "EU AI Act Ready" },
+  { icon: Lock, label: "End-to-End Encrypted" },
+  { icon: Globe, label: "Jurisdiction-Agnostic" },
+];
 
 const TrustSection = () => {
   return (
@@ -13,19 +20,20 @@ const TrustSection = () => {
           className="text-center"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Trusted By Industry Leaders
+            Built For The AI Industry
           </p>
           <p className="text-muted-foreground text-sm mb-10">
-            The standard the AI industry will be measured against
+            The compliance infrastructure modern AI companies depend on
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14">
-            {companies.map((name) => (
+            {indicators.map(({ icon: Icon, label }) => (
               <div
-                key={name}
-                className="flex items-center justify-center h-12 px-6 rounded-lg border border-border bg-card/50 text-chrome text-sm font-semibold tracking-wider uppercase opacity-50 hover:opacity-100 hover:border-gold/20 hover:shadow-gold transition-all duration-500"
+                key={label}
+                className="flex items-center justify-center gap-2 h-12 px-6 rounded-lg border border-border bg-card/50 text-chrome text-sm font-semibold tracking-wider uppercase opacity-70 hover:opacity-100 hover:border-gold/20 hover:shadow-gold transition-all duration-500"
               >
-                {name}
+                <Icon className="h-4 w-4 text-gold" />
+                {label}
               </div>
             ))}
           </div>
