@@ -1,178 +1,134 @@
 
 
-# APEX Digital Gallows - Major Feature Update
+# Become a Partner - Full Feature Addition
 
 ## Overview
-Adding authentication gate, compliance dashboard, social proof counters, and enhanced EU AI Act countdown — all without removing any existing content.
+Add a public-facing "Become a Partner" page, a dedicated Partner Dashboard for tracking earnings and referrals, and integrate partner CTAs throughout the site. Any authenticated user can become a partner and earn 50% commission on referred sales.
 
 ---
 
-## 1. Database Schema (Migrations)
+## 1. Database Changes
 
-Create two new tables plus enable auth:
+### New table: `partners`
+Tracks partner status and earnings for users who opt in.
 
-**`compliance_results`** — stores company compliance data per user
-- `id` (uuid, PK)
-- `user_id` (uuid, references auth.users, ON DELETE CASCADE)
-- `company_name` (text)
-- `overall_score` (integer, 0-100)
-- `status` (text: compliant / partially_compliant / non_compliant)
-- `next_audit_date` (timestamptz)
-- `trio_mode` (text: SHIELD / SWORD / JUDGE)
-- `referral_code` (text, unique)
-- `referral_count` (integer, default 0)
-- `created_at` / `updated_at` (timestamptz)
+| Column | Type | Notes |
+|--------|------|-------|
+| id | uuid (PK) | auto-generated |
+| user_id | uuid | references auth.users, ON DELETE CASCADE, unique |
+| partner_code | text | unique, auto-generated (8-char hash) |
+| status | text | active / pending / suspended (default: active) |
+| total_earnings | numeric | default 0 |
+| total_referrals | integer | default 0 |
+| payout_email | text | PayPal/bank email for payouts |
+| created_at | timestamptz | default now() |
 
-**`verification_history`** — article-level verification logs
-- `id` (uuid, PK)
-- `user_id` (uuid, references auth.users)
-- `compliance_result_id` (uuid, references compliance_results)
-- `article_number` (text, e.g. "Article 12")
-- `article_title` (text)
-- `status` (text: verified / pending / failed)
-- `verified_at` (timestamptz)
-- `merkle_proof_hash` (text)
+### New table: `partner_referrals`
+Logs each referred signup and sale.
 
-**RLS Policies**: Users can only read/insert/update their own records.
+| Column | Type | Notes |
+|--------|------|-------|
+| id | uuid (PK) | auto-generated |
+| partner_id | uuid | references partners |
+| referred_user_id | uuid | nullable (references auth.users) |
+| referred_email | text | email of the referred person |
+| status | text | clicked / signed_up / converted / paid |
+| commission_amount | numeric | default 0 |
+| created_at | timestamptz | default now() |
 
----
-
-## 2. Authentication System
-
-### Pages & Components
-- **`/auth`** route — Login / Sign Up page (the "Membership Gate")
-  - Dark themed, matching existing design
-  - "Member Access Only" heading
-  - Social proof: "Trusted by 150+ AI Companies" and "32 companies joined this week"
-  - Email + password sign up / sign in forms
-  - Toggle between login and signup modes
-  - Password reset flow with `/reset-password` route
-
-- **`/dashboard`** route — Protected, redirects to `/auth` if not logged in
-- **`/reset-password`** route — Password reset form
-
-### Auth Context
-- Create `AuthProvider` component wrapping the app
-- `useAuth` hook for session state
-- `ProtectedRoute` wrapper component
+### RLS Policies
+- Partners can only read/update their own `partners` row
+- Partners can only read their own `partner_referrals`
+- Insert on `partners` restricted to authenticated users (user_id = auth.uid())
 
 ---
 
-## 3. Compliance Dashboard (`/dashboard`)
+## 2. New Pages and Components
 
-Four card-based sections in a responsive grid:
+### A. `/partner` - Public "Become a Partner" Page
+A landing page selling the partnership opportunity:
+- Hero: "Earn 50% Commission on Every Sale"
+- How it works: 3 steps (Sign Up, Share Link, Earn)
+- Commission structure breakdown
+- CTA: "Become a Partner" button (links to /auth if not logged in, or activates partner status if logged in)
+- Social proof: "Join 150+ partners earning with APEX"
+- FAQ section specific to partners
 
-### A. Compliance Status Card
-- Circular/linear progress bar showing overall score (seeded at 0% for new users)
-- Color-coded status badge (green/orange/red)
-- Next Audit Deadline countdown
-- Days remaining to August 2, 2026
+### B. `/partner/dashboard` - Partner Dashboard (Protected)
+Accessible only to authenticated partners:
+- **Earnings Overview Card**: Total earnings, this month's earnings, pending payouts
+- **Referral Stats Card**: Total referrals, conversions, conversion rate
+- **Unique Referral Link**: Copy-to-clipboard with partner code
+- **Referral Activity Table**: List of referrals with status (clicked/signed_up/converted/paid), date, and commission
+- **Payout Settings**: Update payout email
 
-### B. TRIO Verification Mode Selector
-- Three toggle cards for SHIELD / SWORD / JUDGE
-- Only one active at a time
-- Visual feedback with gold highlight on selected mode
-- Persisted to `compliance_results.trio_mode`
-
-### C. Compliance Ledger
-- Table listing EU AI Act articles (12, 13, 14, 15)
-- Status column with color-coded badges (Verified=green, Pending=orange, Failed=red)
-- Timestamp column
-- Merkle proof hash (truncated, copyable)
-- Data from `verification_history` table
-
-### D. Partner Referral Card
-- Display unique referral link (generated from user ID)
-- Copy-to-clipboard button
-- "50% Commission" badge
-- Referral count display
-
----
-
-## 4. Social Proof Counters
-
-Add a new `SocialProofBar` component rendered on the landing page (between Hero and TrioSection):
-- "Trusted by 150+ AI Companies"
-- "32 companies joined this week"
-- "2,500+ Compliances Verified"
-- Animated count-up on scroll into view
-- Styled with gold accents on dark background
+### C. New Components
+- `src/components/partner/PartnerHero.tsx` - Partner page hero section
+- `src/components/partner/PartnerHowItWorks.tsx` - 3-step process
+- `src/components/partner/PartnerEarnings.tsx` - Dashboard earnings card
+- `src/components/partner/PartnerReferralTable.tsx` - Referral activity table
+- `src/components/partner/PartnerCTA.tsx` - Reusable CTA banner for landing page
+- `src/pages/Partner.tsx` - Public partner page
+- `src/pages/PartnerDashboard.tsx` - Protected partner dashboard
 
 ---
 
-## 5. Enhanced EU AI Act Countdown Banner
+## 3. Site Integration
 
-Add a sticky/prominent `CountdownBanner` component below the navbar on the landing page:
-```text
-EU AI ACT ENFORCEMENT: AUGUST 2, 2026
-   XXX DAYS    XX HOURS    XX MINUTES
-Penalties: EUR 35,000,000 OR 7% Global Turnover
-          [ GET COMPLIANT NOW ]
-```
-- Live countdown (updates every second)
-- Warning icon
-- Red/orange gradient background
-- CTA links to `#contact` (or `/auth` if not logged in)
+### Navbar
+- Add "Partner" link in the navigation menu (between FAQ and Contact)
+- On the partner dashboard, show "Partner Dashboard" in header
 
----
+### Landing Page
+- Add a `PartnerCTA` banner section between FAQ and Contact sections on Index page
+- Gold-accented banner: "Earn 50% on Every Sale. Become a Partner."
 
-## 6. Navbar Updates
+### Footer
+- Add "Become a Partner" link under Resources column
 
-- Add "Login" / "Dashboard" button to navbar (conditional on auth state)
-- If logged in: show "Dashboard" link + user avatar/initial
-- If not logged in: show "Login" button
+### Existing Dashboard
+- Replace or enhance the existing `ReferralCard` component to link to the full Partner Dashboard
 
 ---
 
-## 7. Design Tokens
+## 4. Partner Activation Flow
 
-Add to CSS variables:
-- `--eu-blue: 220 100% 20%` (#003399)
-- `--compliant: 142 76% 36%` (green)
-- `--warning: 38 92% 50%` (orange)  
-- `--danger: 0 84% 60%` (red — already exists as destructive)
+1. Visitor clicks "Become a Partner" on `/partner` page
+2. If not logged in: redirected to `/auth`, then back to `/partner`
+3. If logged in: clicks "Activate Partnership" button
+4. Backend inserts a row into `partners` table with auto-generated partner code
+5. User is redirected to `/partner/dashboard`
 
 ---
 
-## File Structure (New Files)
+## 5. File Structure
 
 ```text
-src/
-  components/
-    auth/
-      AuthForm.tsx          -- Login/Signup form component
-      ProtectedRoute.tsx    -- Route guard
-    dashboard/
-      ComplianceStatus.tsx  -- Score + progress bar
-      TrioModeSelector.tsx  -- SHIELD/SWORD/JUDGE toggle
-      ComplianceLedger.tsx  -- Article verification table
-      ReferralCard.tsx      -- Referral link + commission
-      DashboardLayout.tsx   -- Dashboard shell with sidebar/nav
-    CountdownBanner.tsx     -- Prominent countdown strip
-    SocialProofBar.tsx      -- Counter stats bar
-  contexts/
-    AuthContext.tsx          -- Auth provider + hook
-  pages/
-    Auth.tsx                -- /auth page (membership gate)
-    Dashboard.tsx           -- /dashboard page
-    ResetPassword.tsx       -- /reset-password page
+New files:
+  src/pages/Partner.tsx              -- Public partner landing page
+  src/pages/PartnerDashboard.tsx     -- Protected partner dashboard
+  src/components/partner/
+    PartnerHero.tsx                  -- Hero section
+    PartnerHowItWorks.tsx            -- 3-step explainer
+    PartnerEarnings.tsx              -- Earnings overview card
+    PartnerReferralTable.tsx         -- Referral activity table
+    PartnerCTA.tsx                   -- Reusable CTA banner
+
+Modified files:
+  src/App.tsx                        -- Add /partner and /partner/dashboard routes
+  src/components/Navbar.tsx          -- Add Partner nav link
+  src/components/Footer.tsx          -- Add Partner link
+  src/pages/Index.tsx                -- Add PartnerCTA section
+  src/pages/Dashboard.tsx            -- Link ReferralCard to partner dashboard
 ```
 
-## Modified Files
+---
 
-```text
-src/App.tsx                -- Add new routes + AuthProvider
-src/components/Navbar.tsx  -- Add Login/Dashboard button
-src/pages/Index.tsx        -- Add SocialProofBar + CountdownBanner
-src/index.css              -- Add new design tokens
-```
+## 6. Implementation Order
 
-## Implementation Order
-
-1. Database migration (tables + RLS)
-2. Auth context + auth pages
-3. Navbar auth-aware updates
-4. Dashboard page with all four sections
-5. SocialProofBar component on landing page
-6. CountdownBanner component on landing page
-
+1. Database migration (partners + partner_referrals tables with RLS)
+2. Public partner landing page (`/partner`)
+3. Partner activation flow (insert into partners table)
+4. Partner dashboard page (`/partner/dashboard`) with earnings + referral table
+5. Navbar, footer, and landing page integration (CTAs and links)
+6. Enhance existing ReferralCard to link to partner dashboard
