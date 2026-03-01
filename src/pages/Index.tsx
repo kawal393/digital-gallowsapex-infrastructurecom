@@ -1,6 +1,8 @@
 import ParticlesBackground from "@/components/ParticlesBackground";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import CountdownBanner from "@/components/CountdownBanner";
+import SocialProofBar from "@/components/SocialProofBar";
 import TrioSection from "@/components/TrioSection";
 import HowItWorks from "@/components/HowItWorks";
 import ArticlesSection from "@/components/ArticlesSection";
@@ -16,6 +18,8 @@ const Index = () => {
       <ParticlesBackground />
       <Navbar />
       <Hero />
+      <CountdownBanner />
+      <SocialProofBar />
       <TrioSection />
       <HowItWorks />
       <ArticlesSection />

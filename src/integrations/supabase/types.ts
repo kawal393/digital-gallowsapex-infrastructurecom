@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      compliance_results: {
+        Row: {
+          company_name: string
+          created_at: string
+          id: string
+          next_audit_date: string | null
+          overall_score: number
+          referral_code: string | null
+          referral_count: number
+          status: string
+          trio_mode: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_name?: string
+          created_at?: string
+          id?: string
+          next_audit_date?: string | null
+          overall_score?: number
+          referral_code?: string | null
+          referral_count?: number
+          status?: string
+          trio_mode?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_name?: string
+          created_at?: string
+          id?: string
+          next_audit_date?: string | null
+          overall_score?: number
+          referral_code?: string | null
+          referral_count?: number
+          status?: string
+          trio_mode?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           company: string
@@ -43,6 +85,50 @@ export type Database = {
           role?: string | null
         }
         Relationships: []
+      }
+      verification_history: {
+        Row: {
+          article_number: string
+          article_title: string
+          compliance_result_id: string | null
+          created_at: string
+          id: string
+          merkle_proof_hash: string | null
+          status: string
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          article_number: string
+          article_title: string
+          compliance_result_id?: string | null
+          created_at?: string
+          id?: string
+          merkle_proof_hash?: string | null
+          status?: string
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          article_number?: string
+          article_title?: string
+          compliance_result_id?: string | null
+          created_at?: string
+          id?: string
+          merkle_proof_hash?: string | null
+          status?: string
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_history_compliance_result_id_fkey"
+            columns: ["compliance_result_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_results"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
