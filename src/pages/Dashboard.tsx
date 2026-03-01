@@ -2,19 +2,37 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogOut, Crown, Shield, RefreshCw } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
 import ComplianceLedger from "@/components/dashboard/ComplianceLedger";
 import ReferralCard from "@/components/dashboard/ReferralCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
+
+const TIER_LABELS: Record<string, string> = {
+  startup: "STARTUP",
+  growth: "GROWTH",
+  enterprise: "ENTERPRISE",
+  goliath: "GOLIATH",
+};
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, subscription, checkSubscription } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [compliance, setCompliance] = useState<any>(null);
   const [verifications, setVerifications] = useState<any[]>([]);
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  // After checkout success, refresh subscription
+  useEffect(() => {
+    if (searchParams.get("checkout") === "success") {
+      toast.success("Payment successful! Refreshing your subscription...");
+      checkSubscription();
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (!user) return;
@@ -50,9 +68,21 @@ const Dashboard = () => {
     navigate("/");
   };
 
+  const handleManageSubscription = async () => {
+    setPortalLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal");
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (e: any) {
+      toast.error(e.message || "Failed to open subscription management");
+    } finally {
+      setPortalLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Top bar */}
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="container mx-auto max-w-6xl flex items-center justify-between h-14 px-4">
           <a href="/" className="flex items-center gap-2">
@@ -70,6 +100,54 @@ const Dashboard = () => {
 
       <main className="container mx-auto max-w-6xl px-4 py-8">
         <h1 className="text-xl font-bold text-gold-gradient mb-6">Compliance Dashboard</h1>
+
+        {/* Subscription Card */}
+        <div className="rounded-xl border border-border bg-card p-6 mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-3">
+              {subscription.subscribed ? (
+                <Crown className="h-6 w-6 text-gold" />
+              ) : (
+                <Shield className="h-6 w-6 text-muted-foreground" />
+              )}
+              <div>
+                <p className="text-sm font-bold text-foreground">
+                  {subscription.subscribed
+                    ? `${TIER_LABELS[subscription.tier || ""] || subscription.tier?.toUpperCase()} Plan`
+                    : "No Active Subscription"}
+                </p>
+                {subscription.subscribed && subscription.subscriptionEnd && (
+                  <p className="text-xs text-muted-foreground">
+                    Renews {new Date(subscription.subscriptionEnd).toLocaleDateString()}
+                  </p>
+                )}
+                {!subscription.subscribed && (
+                  <p className="text-xs text-muted-foreground">
+                    Subscribe to unlock compliance verifications
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" onClick={checkSubscription}>
+                <RefreshCw className="h-4 w-4 mr-1" /> Refresh
+              </Button>
+              {subscription.subscribed ? (
+                <Button variant="heroOutline" size="sm" onClick={handleManageSubscription} disabled={portalLoading}>
+                  {portalLoading ? "Loading..." : "Manage Subscription"}
+                </Button>
+              ) : (
+                <Button variant="hero" size="sm" onClick={() => {
+                  const el = document.getElementById("pricing");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                  else navigate("/#pricing");
+                }}>
+                  View Plans
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
 
         {compliance ? (
           <div className="grid gap-4 md:grid-cols-2">
