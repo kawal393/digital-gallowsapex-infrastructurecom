@@ -36,9 +36,9 @@ const ReferralCard = ({ referralCode, referralCount }: Props) => {
             <Copy className="h-4 w-4" />
           </Button>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Users className="h-4 w-4" />
-          <span>{referralCount} referral{referralCount !== 1 ? "s" : ""}</span>
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <span className="flex items-center gap-2"><Users className="h-4 w-4" />{referralCount} referral{referralCount !== 1 ? "s" : ""}</span>
+          <a href="/partner/dashboard" className="text-primary text-xs hover:underline">Partner Dashboard →</a>
         </div>
       </CardContent>
     </Card>

@@ -86,6 +86,77 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_referrals: {
+        Row: {
+          commission_amount: number
+          created_at: string
+          id: string
+          partner_id: string
+          referred_email: string
+          referred_user_id: string | null
+          status: string
+        }
+        Insert: {
+          commission_amount?: number
+          created_at?: string
+          id?: string
+          partner_id: string
+          referred_email: string
+          referred_user_id?: string | null
+          status?: string
+        }
+        Update: {
+          commission_amount?: number
+          created_at?: string
+          id?: string
+          partner_id?: string
+          referred_email?: string
+          referred_user_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partners: {
+        Row: {
+          created_at: string
+          id: string
+          partner_code: string
+          payout_email: string | null
+          status: string
+          total_earnings: number
+          total_referrals: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          partner_code: string
+          payout_email?: string | null
+          status?: string
+          total_earnings?: number
+          total_referrals?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          partner_code?: string
+          payout_email?: string | null
+          status?: string
+          total_earnings?: number
+          total_referrals?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       verification_history: {
         Row: {
           article_number: string
