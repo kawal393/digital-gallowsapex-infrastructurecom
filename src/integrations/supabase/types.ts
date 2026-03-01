@@ -157,6 +157,81 @@ export type Database = {
         }
         Relationships: []
       }
+      questionnaire_responses: {
+        Row: {
+          ai_content_labeled: string
+          ai_profiling: string
+          ai_providers: string[]
+          ai_system_count: number
+          automated_decisions: string
+          company_name: string
+          company_size: string
+          completed: boolean
+          compliance_officer: string
+          created_at: string
+          eu_presence: string
+          governance_policy: string
+          high_risk_uses: string[]
+          id: string
+          industry: string
+          personal_data: string
+          right_to_explanation: string
+          risk_assessments: string
+          special_category_data: string[]
+          updated_at: string
+          user_id: string
+          users_informed: string
+        }
+        Insert: {
+          ai_content_labeled?: string
+          ai_profiling?: string
+          ai_providers?: string[]
+          ai_system_count?: number
+          automated_decisions?: string
+          company_name?: string
+          company_size?: string
+          completed?: boolean
+          compliance_officer?: string
+          created_at?: string
+          eu_presence?: string
+          governance_policy?: string
+          high_risk_uses?: string[]
+          id?: string
+          industry?: string
+          personal_data?: string
+          right_to_explanation?: string
+          risk_assessments?: string
+          special_category_data?: string[]
+          updated_at?: string
+          user_id: string
+          users_informed?: string
+        }
+        Update: {
+          ai_content_labeled?: string
+          ai_profiling?: string
+          ai_providers?: string[]
+          ai_system_count?: number
+          automated_decisions?: string
+          company_name?: string
+          company_size?: string
+          completed?: boolean
+          compliance_officer?: string
+          created_at?: string
+          eu_presence?: string
+          governance_policy?: string
+          high_risk_uses?: string[]
+          id?: string
+          industry?: string
+          personal_data?: string
+          right_to_explanation?: string
+          risk_assessments?: string
+          special_category_data?: string[]
+          updated_at?: string
+          user_id?: string
+          users_informed?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           created_at: string
