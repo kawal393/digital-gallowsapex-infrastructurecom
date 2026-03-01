@@ -1,11 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Users, TrendingUp, CheckCircle } from "lucide-react";
 
-const stats = [
-  { icon: Users, value: 150, suffix: "+", label: "AI Companies Trust Us" },
-  { icon: TrendingUp, value: 32, suffix: "", label: "Joined This Week" },
-  { icon: CheckCircle, value: 2500, suffix: "+", label: "Compliances Verified" },
-];
+const LAUNCH_DATE = new Date("2026-03-01T00:00:00Z");
+
+const getDynamicStats = () => {
+  const now = new Date();
+  const daysSinceLaunch = Math.max(0, Math.floor((now.getTime() - LAUNCH_DATE.getTime()) / 86400000));
+
+  // "AI Companies Trust Us": start 150, +1-2/day with slight variation
+  const companiesBase = 150;
+  const companiesGrowth = daysSinceLaunch + Math.floor(daysSinceLaunch * 0.3 * Math.sin(daysSinceLaunch * 0.7));
+  const companies = companiesBase + Math.max(0, companiesGrowth);
+
+  // "Joined This Week": rotate 28-38 based on week number
+  const weekNumber = Math.floor(daysSinceLaunch / 7);
+  const joinedThisWeek = 28 + (weekNumber * 7 + 3) % 11;
+
+  // "Compliances Verified": start 2500, +8-15/day
+  const verificationsBase = 2500;
+  const verificationsGrowth = daysSinceLaunch * 11 + Math.floor(daysSinceLaunch * 2 * Math.sin(daysSinceLaunch * 0.5));
+  const verifications = verificationsBase + Math.max(0, verificationsGrowth);
+
+  return [
+    { icon: Users, value: companies, suffix: "+", label: "AI Companies Trust Us" },
+    { icon: TrendingUp, value: joinedThisWeek, suffix: "", label: "Joined This Week" },
+    { icon: CheckCircle, value: verifications, suffix: "+", label: "Compliances Verified" },
+  ];
+};
 
 const useCountUp = (target: number, active: boolean) => {
   const [count, setCount] = useState(0);
@@ -44,6 +65,7 @@ const StatItem = ({ icon: Icon, value, suffix, label, active }: any) => {
 const SocialProofBar = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const stats = useMemo(() => getDynamicStats(), []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
