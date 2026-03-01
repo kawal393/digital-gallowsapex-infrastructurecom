@@ -14,7 +14,8 @@ const tiers = [
       "SHIELD mode only",
       "Standard response time",
     ],
-    cta: "Get Started",
+    cta: "Subscribe Now",
+    link: "https://buy.stripe.com/fZudR15c5bH2fUIdAEb7y05",
     featured: false,
   },
   {
@@ -28,7 +29,8 @@ const tiers = [
       "SHIELD + SWORD mode",
       "Public audit trail",
     ],
-    cta: "Get Started",
+    cta: "Subscribe Now",
+    link: "https://buy.stripe.com/dRm14feMF6mI5g4aosb7y06",
     featured: true,
   },
   {
@@ -43,7 +45,8 @@ const tiers = [
       "Custom integrations",
       "White-label options",
     ],
-    cta: "Contact Sales",
+    cta: "Subscribe Now",
+    link: "https://buy.stripe.com/3cI3cndIBbH223Saosb7y07",
     featured: false,
   },
   {
@@ -58,7 +61,8 @@ const tiers = [
       "Custom SLA",
       "Dedicated account manager",
     ],
-    cta: "Contact Sales",
+    cta: "Subscribe Now",
+    link: "https://buy.stripe.com/4gM6oz6g99yU9wkcwAb7y08",
     featured: false,
   },
 ];
@@ -126,7 +130,7 @@ const Pricing = () => {
                 className="w-full"
                 asChild
               >
-                <a href="#contact">{tier.cta}</a>
+                <a href={tier.link} target="_blank" rel="noopener noreferrer">{tier.cta}</a>
               </Button>
             </motion.div>
           ))}
