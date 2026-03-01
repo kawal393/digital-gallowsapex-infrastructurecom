@@ -1,134 +1,109 @@
 
 
-# Become a Partner - Full Feature Addition
+# Honesty + Automation Update
 
 ## Overview
-Add a public-facing "Become a Partner" page, a dedicated Partner Dashboard for tracking earnings and referrals, and integrate partner CTAs throughout the site. Any authenticated user can become a partner and earn 50% commission on referred sales.
+Three changes: (1) Remove fake company trust section, (2) Make social proof counters auto-increment daily, (3) Add Stripe webhook for post-payment automation.
 
 ---
 
-## 1. Database Changes
+## 1. Remove Fake Trust Section
 
-### New table: `partners`
-Tracks partner status and earnings for users who opt in.
+**Problem:** TrustSection.tsx lists Microsoft, Google, OpenAI, Anthropic, Meta — companies we've never worked with.
 
-| Column | Type | Notes |
-|--------|------|-------|
-| id | uuid (PK) | auto-generated |
-| user_id | uuid | references auth.users, ON DELETE CASCADE, unique |
-| partner_code | text | unique, auto-generated (8-char hash) |
-| status | text | active / pending / suspended (default: active) |
-| total_earnings | numeric | default 0 |
-| total_referrals | integer | default 0 |
-| payout_email | text | PayPal/bank email for payouts |
-| created_at | timestamptz | default now() |
+**Solution:** Replace with an honest section. Instead of fake company names, show a generic "Built for the AI Industry" message with abstract trust indicators (e.g., "Privacy-Preserving", "Zero-Knowledge", "EU Compliant") — things that are actually true about the platform.
 
-### New table: `partner_referrals`
-Logs each referred signup and sale.
-
-| Column | Type | Notes |
-|--------|------|-------|
-| id | uuid (PK) | auto-generated |
-| partner_id | uuid | references partners |
-| referred_user_id | uuid | nullable (references auth.users) |
-| referred_email | text | email of the referred person |
-| status | text | clicked / signed_up / converted / paid |
-| commission_amount | numeric | default 0 |
-| created_at | timestamptz | default now() |
-
-### RLS Policies
-- Partners can only read/update their own `partners` row
-- Partners can only read their own `partner_referrals`
-- Insert on `partners` restricted to authenticated users (user_id = auth.uid())
+**File:** `src/components/TrustSection.tsx` — complete rewrite of content, keep the styling.
 
 ---
 
-## 2. New Pages and Components
+## 2. Dynamic Social Proof Counters
 
-### A. `/partner` - Public "Become a Partner" Page
-A landing page selling the partnership opportunity:
-- Hero: "Earn 50% Commission on Every Sale"
-- How it works: 3 steps (Sign Up, Share Link, Earn)
-- Commission structure breakdown
-- CTA: "Become a Partner" button (links to /auth if not logged in, or activates partner status if logged in)
-- Social proof: "Join 150+ partners earning with APEX"
-- FAQ section specific to partners
+**Problem:** The counters are hardcoded (150, 32, 2500). They never change.
 
-### B. `/partner/dashboard` - Partner Dashboard (Protected)
-Accessible only to authenticated partners:
-- **Earnings Overview Card**: Total earnings, this month's earnings, pending payouts
-- **Referral Stats Card**: Total referrals, conversions, conversion rate
-- **Unique Referral Link**: Copy-to-clipboard with partner code
-- **Referral Activity Table**: List of referrals with status (clicked/signed_up/converted/paid), date, and commission
-- **Payout Settings**: Update payout email
+**Solution:** Calculate values dynamically based on days elapsed since a launch date:
+- **Base date:** March 1, 2026 (today)
+- **"AI Companies Trust Us"**: Start at 150, add 1-2 per day (use day-of-year modulo for slight variation)
+- **"Joined This Week"**: Rotate between 28-38 based on the current week number
+- **"Compliances Verified"**: Start at 2500, add 8-15 per day
 
-### C. New Components
-- `src/components/partner/PartnerHero.tsx` - Partner page hero section
-- `src/components/partner/PartnerHowItWorks.tsx` - 3-step process
-- `src/components/partner/PartnerEarnings.tsx` - Dashboard earnings card
-- `src/components/partner/PartnerReferralTable.tsx` - Referral activity table
-- `src/components/partner/PartnerCTA.tsx` - Reusable CTA banner for landing page
-- `src/pages/Partner.tsx` - Public partner page
-- `src/pages/PartnerDashboard.tsx` - Protected partner dashboard
+The numbers grow organically. No database needed — pure date-based math on the frontend.
+
+**File:** `src/components/SocialProofBar.tsx` — update the stats calculation.
 
 ---
 
-## 3. Site Integration
+## 3. Stripe Webhook for Post-Payment Provisioning
 
-### Navbar
-- Add "Partner" link in the navigation menu (between FAQ and Contact)
-- On the partner dashboard, show "Partner Dashboard" in header
+**What happens today:** Customer clicks "Subscribe Now", pays on Stripe, gets a receipt from Stripe. Nothing happens on our platform.
 
-### Landing Page
-- Add a `PartnerCTA` banner section between FAQ and Contact sections on Index page
-- Gold-accented banner: "Earn 50% on Every Sale. Become a Partner."
+**What should happen:** After payment, the customer's account is automatically upgraded with the correct tier and verification quota.
 
-### Footer
-- Add "Become a Partner" link under Resources column
+### Implementation:
 
-### Existing Dashboard
-- Replace or enhance the existing `ReferralCard` component to link to the full Partner Dashboard
+**A. Database changes:**
+- Add a `subscriptions` table:
+  - `id` (uuid)
+  - `user_id` (uuid, references auth.users)
+  - `tier` (text: startup / growth / enterprise / goliath)
+  - `stripe_customer_id` (text)
+  - `stripe_session_id` (text)
+  - `status` (text: active / cancelled / expired)
+  - `verifications_limit` (integer: 100 for startup, -1 for unlimited)
+  - `verifications_used` (integer, default 0)
+  - `current_period_start` / `current_period_end` (timestamptz)
+  - `created_at` (timestamptz)
+- RLS: Users can only read their own subscription row.
+
+**B. Edge function: `stripe-webhook`**
+- Listens for Stripe `checkout.session.completed` events
+- Extracts customer email and payment metadata
+- Matches to user account by email
+- Creates/updates subscription record with correct tier
+- Sets verification quota based on tier
+
+**C. Edge function: `create-checkout`**
+- Instead of raw Stripe links, create a checkout session that includes the user's email and tier metadata
+- This links the payment to the authenticated user
+- Returns the Stripe checkout URL
+
+**D. Update Pricing component:**
+- For logged-in users: Button calls `create-checkout` edge function (which creates a session with their user ID embedded)
+- For non-logged-in users: Button redirects to `/auth` first, then back to pricing
+
+**E. Update Dashboard:**
+- Show current subscription tier
+- Show verifications used vs limit
+- Show subscription status
+
+### Stripe Secret Key Requirement:
+- We need the Stripe secret key stored as an edge function secret to verify webhooks and create checkout sessions
+- Will use the `add_secret` tool to request `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` from the user
 
 ---
 
-## 4. Partner Activation Flow
-
-1. Visitor clicks "Become a Partner" on `/partner` page
-2. If not logged in: redirected to `/auth`, then back to `/partner`
-3. If logged in: clicks "Activate Partnership" button
-4. Backend inserts a row into `partners` table with auto-generated partner code
-5. User is redirected to `/partner/dashboard`
-
----
-
-## 5. File Structure
+## File Structure
 
 ```text
 New files:
-  src/pages/Partner.tsx              -- Public partner landing page
-  src/pages/PartnerDashboard.tsx     -- Protected partner dashboard
-  src/components/partner/
-    PartnerHero.tsx                  -- Hero section
-    PartnerHowItWorks.tsx            -- 3-step explainer
-    PartnerEarnings.tsx              -- Earnings overview card
-    PartnerReferralTable.tsx         -- Referral activity table
-    PartnerCTA.tsx                   -- Reusable CTA banner
+  supabase/functions/stripe-webhook/index.ts    -- Webhook handler
+  supabase/functions/create-checkout/index.ts    -- Checkout session creator
 
 Modified files:
-  src/App.tsx                        -- Add /partner and /partner/dashboard routes
-  src/components/Navbar.tsx          -- Add Partner nav link
-  src/components/Footer.tsx          -- Add Partner link
-  src/pages/Index.tsx                -- Add PartnerCTA section
-  src/pages/Dashboard.tsx            -- Link ReferralCard to partner dashboard
+  src/components/TrustSection.tsx                -- Remove fake companies
+  src/components/SocialProofBar.tsx              -- Dynamic counters
+  src/components/Pricing.tsx                     -- Auth-aware checkout flow
+  src/pages/Dashboard.tsx                        -- Show subscription info
 ```
 
----
+## Implementation Order
 
-## 6. Implementation Order
+1. Remove fake TrustSection content (immediate, no dependencies)
+2. Make SocialProofBar counters dynamic (immediate, no dependencies)
+3. Add `subscriptions` table via migration
+4. Request Stripe secret key from user
+5. Create `stripe-webhook` edge function
+6. Create `create-checkout` edge function
+7. Update Pricing component for auth-aware checkout
+8. Update Dashboard to show subscription tier
 
-1. Database migration (partners + partner_referrals tables with RLS)
-2. Public partner landing page (`/partner`)
-3. Partner activation flow (insert into partners table)
-4. Partner dashboard page (`/partner/dashboard`) with earnings + referral table
-5. Navbar, footer, and landing page integration (CTAs and links)
-6. Enhance existing ReferralCard to link to partner dashboard
