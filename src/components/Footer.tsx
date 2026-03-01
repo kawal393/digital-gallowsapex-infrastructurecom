@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Github, FileText, Shield } from "lucide-react";
+import { Github, FileText, Shield, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 
@@ -39,6 +39,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
               <li><a href="#how-it-works" className="hover:text-gold transition-colors flex items-center gap-2"><FileText className="h-3 w-3" /> Documentation</a></li>
               <li><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors flex items-center gap-2"><Github className="h-3 w-3" /> GitHub</a></li>
               <li><a href="#faq" className="hover:text-gold transition-colors flex items-center gap-2"><Shield className="h-3 w-3" /> Security</a></li>
+              <li><Link to="/partner" className="hover:text-gold transition-colors flex items-center gap-2"><Users className="h-3 w-3" /> Become a Partner</Link></li>
             </ul>
           </div>
 

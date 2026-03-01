@@ -9,6 +9,7 @@ import ArticlesSection from "@/components/ArticlesSection";
 import TrustSection from "@/components/TrustSection";
 import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
+import PartnerCTA from "@/components/partner/PartnerCTA";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -26,6 +27,7 @@ const Index = () => {
       <TrustSection />
       <Pricing />
       <FAQ />
+      <PartnerCTA />
       <ContactSection />
       <Footer />
     </div>

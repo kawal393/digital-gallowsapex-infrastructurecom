@@ -13,6 +13,8 @@ import CookiePolicy from "./pages/CookiePolicy";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
+import Partner from "./pages/Partner";
+import PartnerDashboard from "./pages/PartnerDashboard";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,15 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/partner" element={<Partner />} />
+            <Route
+              path="/partner/dashboard"
+              element={
+                <ProtectedRoute>
+                  <PartnerDashboard />
                 </ProtectedRoute>
               }
             />
