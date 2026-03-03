@@ -171,11 +171,7 @@ const Dashboard = () => {
                   {portalLoading ? "Loading..." : "Manage Subscription"}
                 </Button>
               ) : (
-                <Button variant="hero" size="sm" onClick={() => {
-                  const el = document.getElementById("pricing");
-                  if (el) el.scrollIntoView({ behavior: "smooth" });
-                  else navigate("/#pricing");
-                }}>
+                <Button variant="hero" size="sm" onClick={() => navigate("/#pricing")}>
                   View Plans
                 </Button>
               )}
