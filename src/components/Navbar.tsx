@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LogIn, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -10,13 +10,29 @@ const navLinks = [
   { label: "Pricing", href: "#pricing" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "FAQ", href: "#faq" },
-  { label: "Partner", href: "/partner" },
+  { label: "Partner", href: "/partner", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleNavClick = (href: string, isRoute?: boolean) => {
+    setOpen(false);
+    if (isRoute) {
+      navigate(href);
+    } else if (href.startsWith("#")) {
+      const el = document.getElementById(href.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      } else {
+        // If not on the index page, go there first
+        navigate("/" + href);
+      }
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/90 backdrop-blur-xl">
@@ -24,39 +40,49 @@ const Navbar = () => {
         <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-16 px-4">
           <div className="flex items-center gap-6">
             {navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <button
+                key={link.label}
+                onClick={() => handleNavClick(link.href, link.isRoute)}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer"
+              >
                 {link.label}
-              </a>
+              </button>
             ))}
           </div>
 
-          <a href="#top" className="flex items-center gap-2.5 text-base font-bold tracking-tight justify-self-center">
+          <button
+            onClick={() => handleNavClick("#top")}
+            className="flex items-center gap-2.5 text-base font-bold tracking-tight justify-self-center bg-transparent border-none cursor-pointer"
+          >
             <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-gold" />
             <span className="text-gold-gradient">APEX</span>
             <span className="text-chrome-gradient hidden lg:inline">DIGITAL GALLOWS</span>
-          </a>
+          </button>
 
           <div className="justify-self-end flex items-center gap-2">
             {user ? (
-              <Button variant="heroOutline" size="sm" asChild>
-                <a href="/dashboard"><LayoutDashboard className="h-4 w-4 mr-1" />Dashboard</a>
+              <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
+                <LayoutDashboard className="h-4 w-4 mr-1" />Dashboard
               </Button>
             ) : (
-              <Button variant="heroOutline" size="sm" asChild>
-                <a href="/auth"><LogIn className="h-4 w-4 mr-1" />Login</a>
+              <Button variant="heroOutline" size="sm" onClick={() => navigate("/auth")}>
+                <LogIn className="h-4 w-4 mr-1" />Login
               </Button>
             )}
-            <Button variant="hero" size="sm" asChild>
-              <a href="#contact">Request Demo</a>
+            <Button variant="hero" size="sm" onClick={() => handleNavClick("#contact")}>
+              Request Demo
             </Button>
           </div>
         </div>
 
         <div className="md:hidden relative flex items-center h-16 px-4">
-          <a href="#top" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <button
+            onClick={() => handleNavClick("#top")}
+            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 bg-transparent border-none cursor-pointer"
+          >
             <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-gold" />
             <span className="text-sm font-bold text-gold-gradient">APEX</span>
-          </a>
+          </button>
 
           <button className="ml-auto text-foreground" onClick={() => setOpen(!open)} aria-label="Toggle menu">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -67,26 +93,25 @@ const Navbar = () => {
       {open && (
         <div className="md:hidden border-t border-border bg-background px-4 py-4 space-y-3">
           {navLinks.map((link) => (
-            <a
+            <button
               key={link.label}
-              href={link.href}
-              className="block text-sm text-muted-foreground hover:text-primary"
-              onClick={() => setOpen(false)}
+              onClick={() => handleNavClick(link.href, link.isRoute)}
+              className="block text-sm text-muted-foreground hover:text-primary w-full text-left bg-transparent border-none cursor-pointer"
             >
               {link.label}
-            </a>
+            </button>
           ))}
           {user ? (
-            <Button variant="heroOutline" size="sm" className="w-full" asChild>
-              <a href="/dashboard" onClick={() => setOpen(false)}>Dashboard</a>
+            <Button variant="heroOutline" size="sm" className="w-full" onClick={() => { setOpen(false); navigate("/dashboard"); }}>
+              Dashboard
             </Button>
           ) : (
-            <Button variant="heroOutline" size="sm" className="w-full" asChild>
-              <a href="/auth" onClick={() => setOpen(false)}>Login</a>
+            <Button variant="heroOutline" size="sm" className="w-full" onClick={() => { setOpen(false); navigate("/auth"); }}>
+              Login
             </Button>
           )}
-          <Button variant="hero" size="sm" className="w-full" asChild>
-            <a href="#contact" onClick={() => setOpen(false)}>Request Demo</a>
+          <Button variant="hero" size="sm" className="w-full" onClick={() => handleNavClick("#contact")}>
+            Request Demo
           </Button>
         </div>
       )}
