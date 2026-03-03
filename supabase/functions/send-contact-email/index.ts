@@ -42,6 +42,7 @@ Deno.serve(async (req) => {
     // Send email notification via Resend if API key exists
     const resendKey = Deno.env.get("RESEND_API_KEY");
     if (resendKey) {
+      // 1. Notify you (admin)
       const emailRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -65,7 +66,39 @@ Deno.serve(async (req) => {
         }),
       });
       const emailData = await emailRes.text();
-      console.log("Resend response:", emailRes.status, emailData);
+      console.log("Admin notification:", emailRes.status, emailData);
+
+      // 2. Send confirmation to the customer
+      const confirmRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "APEX Digital Gallows <onboarding@resend.dev>",
+          to: [email],
+          subject: "We received your request — APEX Digital Gallows",
+          html: `
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#ffffff;">
+              <h2 style="color:#1a1a2e;">Thank you, ${name}!</h2>
+              <p>We've received your request and our team will get back to you within <strong>24 hours</strong>.</p>
+              <p>Here's a summary of what you sent:</p>
+              <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                <tr><td style="padding:8px;border-bottom:1px solid #eee;color:#666;">Company</td><td style="padding:8px;border-bottom:1px solid #eee;">${company}</td></tr>
+                ${role ? `<tr><td style="padding:8px;border-bottom:1px solid #eee;color:#666;">Role</td><td style="padding:8px;border-bottom:1px solid #eee;">${role}</td></tr>` : ""}
+                ${message ? `<tr><td style="padding:8px;border-bottom:1px solid #eee;color:#666;">Message</td><td style="padding:8px;border-bottom:1px solid #eee;">${message}</td></tr>` : ""}
+              </table>
+              <p style="margin-top:24px;">In the meantime, the <strong>EU AI Act deadline is August 2, 2026</strong>. Start your compliance journey today:</p>
+              <a href="https://digital-gallowsapex-infrastructurecom.lovable.app/auth" style="display:inline-block;padding:12px 24px;background:#e63946;color:#fff;text-decoration:none;border-radius:6px;font-weight:bold;margin-top:8px;">Get Started Free →</a>
+              <hr style="margin-top:32px;border:none;border-top:1px solid #eee;">
+              <p style="color:#888;font-size:12px;">APEX Digital Gallows — EU AI Act Compliance Platform</p>
+            </div>
+          `,
+        }),
+      });
+      const confirmData = await confirmRes.text();
+      console.log("Customer confirmation:", confirmRes.status, confirmData);
     }
 
     return new Response(
