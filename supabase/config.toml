@@ -11,3 +11,9 @@ verify_jwt = false
 
 [functions.customer-portal]
 verify_jwt = false
+
+[functions.run-verification]
+verify_jwt = false
+
+[functions.compliance-api]
+verify_jwt = false

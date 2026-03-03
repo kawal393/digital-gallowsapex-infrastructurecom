@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Crown, Shield, RefreshCw } from "lucide-react";
+import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
@@ -21,11 +21,9 @@ const TIER_LABELS: Record<string, string> = {
   goliath: "GOLIATH",
 };
 
-// Scoring logic (must match questionnaire)
 function calculateBreakdown(qData: any) {
   if (!qData) return null;
   const breakdown: Record<string, { score: number; max: number; label: string }> = {};
-
   const hrCount = (qData.high_risk_uses || []).filter((u: string) => u !== "None").length;
   breakdown["Article 5"] = { score: hrCount === 0 ? 20 : hrCount === 1 ? 10 : 0, max: 20, label: "Prohibited Practices" };
   breakdown["Article 6"] = { score: qData.automated_decisions === "no" ? 15 : qData.automated_decisions === "occasionally" ? 10 : 5, max: 15, label: "Classification" };
@@ -33,7 +31,6 @@ function calculateBreakdown(qData: any) {
   breakdown["Article 13"] = { score: qData.users_informed === "always" ? 15 : qData.users_informed === "sometimes" ? 8 : 0, max: 15, label: "Transparency" };
   breakdown["Article 14"] = { score: qData.right_to_explanation === "fully" ? 15 : qData.right_to_explanation === "partially" ? 8 : 0, max: 15, label: "Human Oversight" };
   breakdown["Article 52"] = { score: qData.ai_content_labeled === "yes" ? 15 : qData.ai_content_labeled === "somewhat" ? 8 : 0, max: 15, label: "Content Labeling" };
-
   return breakdown;
 }
 
@@ -46,6 +43,8 @@ const Dashboard = () => {
   const [questionnaire, setQuestionnaire] = useState<any>(null);
   const [qLoaded, setQLoaded] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [showRetake, setShowRetake] = useState(false);
 
   useEffect(() => {
     if (searchParams.get("checkout") === "success") {
@@ -56,17 +55,16 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     if (!user) return;
-
     const [crRes, vhRes, qRes] = await Promise.all([
       supabase.from("compliance_results").select("*").eq("user_id", user.id).maybeSingle(),
       supabase.from("verification_history").select("*").eq("user_id", user.id).order("article_number"),
       supabase.from("questionnaire_responses").select("*").eq("user_id", user.id).maybeSingle(),
     ]);
-
     setCompliance(crRes.data);
     setVerifications(vhRes.data || []);
     setQuestionnaire(qRes.data);
     setQLoaded(true);
+    setShowRetake(false);
   };
 
   useEffect(() => { fetchData(); }, [user]);
@@ -95,8 +93,27 @@ const Dashboard = () => {
     }
   };
 
-  const showQuestionnaire = qLoaded && (!questionnaire || !questionnaire.completed);
-  const breakdown = questionnaire?.completed ? calculateBreakdown(questionnaire) : null;
+  const handleRunVerification = async () => {
+    setVerifying(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("run-verification");
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast.success(`Verification complete! Score: ${data.score}% (${data.mode} mode)`);
+      await fetchData();
+    } catch (e: any) {
+      toast.error(e.message || "Verification failed");
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleRetake = () => {
+    setShowRetake(true);
+  };
+
+  const showQuestionnaire = qLoaded && (!questionnaire || !questionnaire.completed || showRetake);
+  const breakdown = questionnaire?.completed && !showRetake ? calculateBreakdown(questionnaire) : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -172,21 +189,39 @@ const Dashboard = () => {
             <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         ) : showQuestionnaire ? (
-          <ComplianceQuestionnaire onComplete={fetchData} existingData={questionnaire} />
+          <ComplianceQuestionnaire onComplete={fetchData} existingData={showRetake ? questionnaire : questionnaire} />
         ) : compliance ? (
-          <div className="grid gap-4 md:grid-cols-2">
-            <ComplianceStatus score={compliance.overall_score} status={compliance.status} />
-            <TrioModeSelector mode={compliance.trio_mode} onModeChange={updateTrioMode} />
-            {breakdown && <ScoreBreakdown breakdown={breakdown} />}
-            <ComplianceCertificate
-              companyName={compliance.company_name}
-              score={compliance.overall_score}
-              status={compliance.status}
-              date={compliance.updated_at}
-              merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
-            />
-            <ComplianceLedger verifications={verifications} />
-            <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
+          <div className="space-y-6">
+            {/* Action Bar */}
+            <div className="flex flex-wrap gap-3">
+              <Button
+                variant="hero"
+                size="sm"
+                onClick={handleRunVerification}
+                disabled={verifying || !subscription.subscribed}
+              >
+                <Zap className="h-4 w-4 mr-1" />
+                {verifying ? "Verifying…" : "Run TRIO Verification"}
+              </Button>
+              <Button variant="heroOutline" size="sm" onClick={handleRetake}>
+                <RotateCcw className="h-4 w-4 mr-1" /> Retake Assessment
+              </Button>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <ComplianceStatus score={compliance.overall_score} status={compliance.status} />
+              <TrioModeSelector mode={compliance.trio_mode} onModeChange={updateTrioMode} />
+              {breakdown && <ScoreBreakdown breakdown={breakdown} />}
+              <ComplianceCertificate
+                companyName={compliance.company_name}
+                score={compliance.overall_score}
+                status={compliance.status}
+                date={compliance.updated_at}
+                merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
+              />
+              <ComplianceLedger verifications={verifications} />
+              <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
+            </div>
           </div>
         ) : (
           <div className="flex items-center justify-center py-20">
