@@ -1,9 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Shield } from "lucide-react";
+import { ArrowRight, Shield, Globe, Clock } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
+import { useVisitorLocation, useLiveClock } from "@/hooks/use-visitor-info";
 
 const Hero = () => {
+  const location = useVisitorLocation();
+  const time = useLiveClock();
+
+  const formattedTime = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const formattedDate = time.toLocaleDateString([], { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const cityDisplay = [location.city, location.country].filter(Boolean).join(", ");
+
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-16 grid-bg overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
@@ -18,6 +26,13 @@ const Hero = () => {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+          {/* WORLD'S FIRST badge */}
+          <div className="mb-4">
+            <span className="text-sm md:text-base font-black tracking-[0.3em] uppercase text-gold-gradient">
+              WORLD&apos;S FIRST
+            </span>
+          </div>
+
           <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-4 py-1.5 mb-8 border-glow">
             <Shield className="h-3.5 w-3.5 text-gold" />
             <span className="text-xs font-semibold text-gold tracking-widest uppercase">
@@ -37,9 +52,24 @@ const Hero = () => {
             The Optimistic ZKML Solution for the EU AI Act.{" "}
             <span className="text-gold-gradient font-medium">99.9% cost reduction over traditional ZK proofs.</span>
           </p>
-          <p className="text-sm text-muted-foreground mb-10 max-w-xl mx-auto">
+          <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
             The World's First Optimistic ZKML Compliance Architecture — by Apex Intelligence Empire
           </p>
+
+          {/* Live clock & location */}
+          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground mb-10">
+            <span className="inline-flex items-center gap-1.5">
+              <Globe className="h-3 w-3 text-gold/70" />
+              {cityDisplay}
+            </span>
+            <span className="text-border">|</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Clock className="h-3 w-3 text-gold/70" />
+              <span className="tabular-nums">{formattedTime}</span>
+            </span>
+            <span className="text-border">|</span>
+            <span>{formattedDate}</span>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button variant="hero" size="lg" className="text-base px-8" asChild>

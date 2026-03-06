@@ -1,6 +1,7 @@
 import ParticlesBackground from "@/components/ParticlesBackground";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import SocialProofBar from "@/components/SocialProofBar";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
 import ComparisonTable from "@/components/ComparisonTable";
@@ -17,6 +18,7 @@ const Index = () => {
       <ParticlesBackground />
       <Navbar />
       <Hero />
+      <SocialProofBar />
       <ProblemSection />
       <SolutionSection />
       <ComparisonTable />
