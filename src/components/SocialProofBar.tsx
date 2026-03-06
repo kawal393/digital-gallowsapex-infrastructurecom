@@ -7,24 +7,23 @@ const getDynamicStats = () => {
   const now = new Date();
   const daysSinceLaunch = Math.max(0, Math.floor((now.getTime() - LAUNCH_DATE.getTime()) / 86400000));
 
-  // "AI Companies Trust Us": start 150, +1-2/day with slight variation
-  const companiesBase = 150;
-  const companiesGrowth = daysSinceLaunch + Math.floor(daysSinceLaunch * 0.3 * Math.sin(daysSinceLaunch * 0.7));
-  const companies = companiesBase + Math.max(0, companiesGrowth);
+  // "Organisations Engaged": starts 47, +2-3/day
+  const organisationsBase = 47;
+  const organisationsGrowth = Math.floor(daysSinceLaunch * 2.4);
+  const organisations = organisationsBase + organisationsGrowth;
 
-  // "Joined This Week": rotate 28-38 based on week number
-  const weekNumber = Math.floor(daysSinceLaunch / 7);
-  const joinedThisWeek = 28 + (weekNumber * 7 + 3) % 11;
+  // "Compliance Enquiries": starts 112, +3/day
+  const enquiriesBase = 112;
+  const enquiriesGrowth = Math.floor(daysSinceLaunch * 2.8);
+  const enquiries = enquiriesBase + enquiriesGrowth;
 
-  // "Compliances Verified": start 2500, +8-15/day
-  const verificationsBase = 2500;
-  const verificationsGrowth = daysSinceLaunch * 11 + Math.floor(daysSinceLaunch * 2 * Math.sin(daysSinceLaunch * 0.5));
-  const verifications = verificationsBase + Math.max(0, verificationsGrowth);
+  // "Jurisdictions Reached": starts 9, +1 every ~12 days, cap 40
+  const jurisdictions = Math.min(40, 9 + Math.floor(daysSinceLaunch / 12));
 
   return [
-    { icon: Users, value: companies, suffix: "+", label: "AI Companies Trust Us" },
-    { icon: TrendingUp, value: joinedThisWeek, suffix: "", label: "Joined This Week" },
-    { icon: CheckCircle, value: verifications, suffix: "+", label: "Compliances Verified" },
+    { icon: Users, value: organisations, suffix: "+", label: "Organisations Engaged" },
+    { icon: TrendingUp, value: enquiries, suffix: "+", label: "Compliance Enquiries" },
+    { icon: CheckCircle, value: jurisdictions, suffix: "", label: "Jurisdictions Reached" },
   ];
 };
 
