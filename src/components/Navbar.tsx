@@ -6,10 +6,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import apexLogo from "@/assets/apex-logo.png";
 
 const navLinks = [
-  { label: "Home", href: "#top" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Problem", href: "#problem" },
+  { label: "Solution", href: "#solution" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Business Model", href: "#business-model" },
   { label: "Partner", href: "/partner", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
@@ -28,7 +28,6 @@ const Navbar = () => {
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
       } else {
-        // If not on the index page, go there first
         navigate("/" + href);
       }
     }
@@ -55,8 +54,8 @@ const Navbar = () => {
             className="flex items-center gap-2.5 text-base font-bold tracking-tight justify-self-center bg-transparent border-none cursor-pointer"
           >
             <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-gold" />
-            <span className="text-gold-gradient">APEX</span>
-            <span className="text-chrome-gradient hidden lg:inline">DIGITAL GALLOWS</span>
+            <span className="text-gold-gradient">DIGITAL</span>
+            <span className="text-chrome-gradient hidden lg:inline">GALLOWS</span>
           </button>
 
           <div className="justify-self-end flex items-center gap-2">
@@ -70,7 +69,7 @@ const Navbar = () => {
               </Button>
             )}
             <Button variant="hero" size="sm" onClick={() => handleNavClick("#contact")}>
-              Request Demo
+              Request Audit
             </Button>
           </div>
         </div>
@@ -81,7 +80,7 @@ const Navbar = () => {
             className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 bg-transparent border-none cursor-pointer"
           >
             <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-gold" />
-            <span className="text-sm font-bold text-gold-gradient">APEX</span>
+            <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
 
           <button className="ml-auto text-foreground" onClick={() => setOpen(!open)} aria-label="Toggle menu">
@@ -111,7 +110,7 @@ const Navbar = () => {
             </Button>
           )}
           <Button variant="hero" size="sm" className="w-full" onClick={() => handleNavClick("#contact")}>
-            Request Demo
+            Request Audit
           </Button>
         </div>
       )}

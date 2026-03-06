@@ -1,15 +1,13 @@
 import ParticlesBackground from "@/components/ParticlesBackground";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import CountdownBanner from "@/components/CountdownBanner";
-import SocialProofBar from "@/components/SocialProofBar";
-import TrioSection from "@/components/TrioSection";
-import HowItWorks from "@/components/HowItWorks";
-import ArticlesSection from "@/components/ArticlesSection";
-import TrustSection from "@/components/TrustSection";
-import Pricing from "@/components/Pricing";
+import ProblemSection from "@/components/ProblemSection";
+import SolutionSection from "@/components/SolutionSection";
+import ComparisonTable from "@/components/ComparisonTable";
+import OptimisticModel from "@/components/OptimisticModel";
+import BusinessModel from "@/components/BusinessModel";
+import TechSpecs from "@/components/TechSpecs";
 import FAQ from "@/components/FAQ";
-import PartnerCTA from "@/components/partner/PartnerCTA";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -19,15 +17,13 @@ const Index = () => {
       <ParticlesBackground />
       <Navbar />
       <Hero />
-      <CountdownBanner />
-      <SocialProofBar />
-      <TrioSection />
-      <HowItWorks />
-      <ArticlesSection />
-      <TrustSection />
-      <Pricing />
+      <ProblemSection />
+      <SolutionSection />
+      <ComparisonTable />
+      <OptimisticModel />
+      <BusinessModel />
+      <TechSpecs />
       <FAQ />
-      <PartnerCTA />
       <ContactSection />
       <Footer />
     </div>
