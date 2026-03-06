@@ -48,8 +48,8 @@ const Hero = () => {
             <span className="text-chrome-gradient">YOUR IP</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
-            The Optimistic ZKML Solution for the EU AI Act.{" "}
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-4">
+            <span className="text-foreground font-semibold">The Optimistic ZKML Solution for the EU AI Act.</span>{" "}
             <span className="text-gold-gradient font-medium">99.9% cost reduction over traditional ZK proofs.</span>
           </p>
           <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
