@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { forwardRef, useState } from "react";
 import { toast } from "sonner";
+import { Mail, MapPin, ExternalLink } from "lucide-react";
 
 const FUNCTION_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/send-contact-email`;
 
@@ -32,10 +33,10 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
 
       if (!res.ok) throw new Error("Request failed");
 
-      toast.success("Demo request submitted. We'll be in touch within 24 hours.");
+      toast.success("Compliance audit request submitted. We'll respond within 24 hours.");
       form.reset();
     } catch {
-      toast.error("Something went wrong. Please try again or email us directly.");
+      toast.error("Something went wrong. Please email apexinfrastructure369@gmail.com directly.");
     } finally {
       setSending(false);
     }
@@ -43,74 +44,72 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
 
   return (
     <section ref={ref} className="relative py-24 px-4" id="contact">
-      <div className="container mx-auto max-w-xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Contact
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            Request a Demo
-          </h2>
-          <p className="text-muted-foreground text-sm">
-            Get ahead of August 2, 2026. Start your compliance journey today.
-          </p>
-        </motion.div>
+      <div className="container mx-auto max-w-4xl">
+        <div className="grid md:grid-cols-5 gap-12">
+          <div className="md:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Contact</p>
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Request a Sovereign Compliance Audit
+              </h2>
+              <p className="text-muted-foreground text-sm mb-8">
+                Let's discuss how PSI can solve your compliance paradox without exposing your IP.
+              </p>
 
-        <motion.form
-          onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-4"
-        >
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Input
-              name="name"
-              placeholder="Full Name"
-              required
-              maxLength={100}
-              className="bg-card border-border text-foreground placeholder:text-muted-foreground"
-            />
-            <Input
-              name="email"
-              placeholder="Email"
-              type="email"
-              required
-              maxLength={255}
-              className="bg-card border-border text-foreground placeholder:text-muted-foreground"
-            />
+              <div className="space-y-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <Mail className="h-4 w-4 text-gold flex-shrink-0" />
+                  <a href="mailto:apexinfrastructure369@gmail.com" className="hover:text-gold transition-colors">
+                    apexinfrastructure369@gmail.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <ExternalLink className="h-4 w-4 text-gold flex-shrink-0" />
+                  <a href="https://apex-infrastructure.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                    apex-infrastructure.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-4 w-4 text-gold flex-shrink-0" />
+                  <span>Victoria, Australia</span>
+                </div>
+              </div>
+            </motion.div>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Input
-              name="company"
-              placeholder="Company Name"
-              required
-              maxLength={100}
-              className="bg-card border-border text-foreground placeholder:text-muted-foreground"
-            />
-            <Input
-              name="role"
-              placeholder="Role / Title (optional)"
-              maxLength={100}
-              className="bg-card border-border text-foreground placeholder:text-muted-foreground"
-            />
+
+          <div className="md:col-span-3">
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="space-y-4"
+            >
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Input name="name" placeholder="Full Name" required maxLength={100} className="bg-card border-border text-foreground placeholder:text-muted-foreground" />
+                <Input name="email" placeholder="Email" type="email" required maxLength={255} className="bg-card border-border text-foreground placeholder:text-muted-foreground" />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Input name="company" placeholder="Company Name" required maxLength={100} className="bg-card border-border text-foreground placeholder:text-muted-foreground" />
+                <Input name="role" placeholder="Role / Title (optional)" maxLength={100} className="bg-card border-border text-foreground placeholder:text-muted-foreground" />
+              </div>
+              <Textarea
+                name="message"
+                placeholder="Tell us about your AI systems and compliance challenges..."
+                rows={4}
+                maxLength={1000}
+                className="bg-card border-border text-foreground placeholder:text-muted-foreground resize-none"
+              />
+              <Button variant="hero" className="w-full" disabled={sending}>
+                {sending ? "Submitting..." : "Request Sovereign Compliance Audit"}
+              </Button>
+            </motion.form>
           </div>
-          <Textarea
-            name="message"
-            placeholder="Tell us about your AI compliance needs..."
-            rows={4}
-            maxLength={1000}
-            className="bg-card border-border text-foreground placeholder:text-muted-foreground resize-none"
-          />
-          <Button variant="hero" className="w-full" disabled={sending}>
-            {sending ? "Submitting..." : "Submit Request"}
-          </Button>
-        </motion.form>
+        </div>
       </div>
     </section>
   );

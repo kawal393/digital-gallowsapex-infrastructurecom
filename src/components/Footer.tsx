@@ -1,9 +1,7 @@
 import { forwardRef } from "react";
-import { Github, FileText, Shield, Users } from "lucide-react";
+import { Github, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
-
-const GITHUB_URL = "https://github.com/kawal393/-apex-digital-gallows";
 
 const Footer = forwardRef<HTMLElement>((_, ref) => {
   return (
@@ -19,32 +17,39 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             <div className="flex items-center gap-2.5 mb-3">
               <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain" />
               <h3 className="text-lg font-bold">
-                <span className="text-gold-gradient">APEX</span>{" "}
-                <span className="text-chrome-gradient">DIGITAL GALLOWS</span>
+                <span className="text-gold-gradient">DIGITAL</span>{" "}
+                <span className="text-chrome-gradient">GALLOWS</span>
               </h3>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mb-4">
-              Privacy-preserving AI compliance for the 2026 enforcement wave. The standard the industry will be measured against.
+              Proof of Sovereign Integrity — The World's First Optimistic ZKML Compliance Architecture. By Apex Intelligence Empire.
             </p>
             <div className="text-xs text-muted-foreground space-y-1">
               <p>A division of <span className="text-foreground/80">APEX INTELLIGENCE EMPIRE</span></p>
+              <p>ROCKYFILMS888 PTY LTD</p>
               <p>ABN: 71 672 237 795 &nbsp;|&nbsp; ACN: 672 237 795</p>
               <p>Registered in Victoria, Australia</p>
             </div>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Resources</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-3">Navigation</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#how-it-works" className="hover:text-gold transition-colors flex items-center gap-2"><FileText className="h-3 w-3" /> Documentation</a></li>
-              <li><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors flex items-center gap-2"><Github className="h-3 w-3" /> GitHub</a></li>
-              <li><a href="#faq" className="hover:text-gold transition-colors flex items-center gap-2"><Shield className="h-3 w-3" /> Security</a></li>
-              <li><Link to="/partner" className="hover:text-gold transition-colors flex items-center gap-2"><Users className="h-3 w-3" /> Become a Partner</Link></li>
+              <li><a href="#problem" className="hover:text-gold transition-colors">The Problem</a></li>
+              <li><a href="#solution" className="hover:text-gold transition-colors">PSI Solution</a></li>
+              <li><a href="#how-it-works" className="hover:text-gold transition-colors">How It Works</a></li>
+              <li><a href="#business-model" className="hover:text-gold transition-colors">Business Model</a></li>
+              <li><Link to="/partner" className="hover:text-gold transition-colors">Revenue Partners</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Legal</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-3">Contact</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><a href="mailto:apexinfrastructure369@gmail.com" className="hover:text-gold transition-colors">apexinfrastructure369@gmail.com</a></li>
+              <li><a href="https://apex-infrastructure.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors inline-flex items-center gap-1">apex-infrastructure.com <ExternalLink className="h-3 w-3" /></a></li>
+            </ul>
+            <h4 className="text-sm font-semibold text-foreground mt-4 mb-3">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link to="/privacy" className="hover:text-gold transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-gold transition-colors">Terms of Service</Link></li>
@@ -55,10 +60,10 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
 
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
-            © 2026 Digital Gallows Technologies Pty Ltd. All rights reserved.
+            © 2026 ROCKYFILMS888 PTY LTD (ABN: 71 672 237 795). All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            Ready for August 2, 2026.
+            Proof of Sovereign Integrity™
           </p>
         </div>
       </div>
