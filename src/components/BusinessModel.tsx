@@ -1,19 +1,19 @@
 import { motion } from "framer-motion";
-import { Handshake, Users, TrendingUp, Percent } from "lucide-react";
+import { Handshake, Users, TrendingUp, Shield, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const pillars = [
   {
-    icon: Percent,
-    title: "Equity Infrastructure Partner",
-    subtitle: "10–15% Equity Stake",
+    icon: Shield,
+    title: "Infrastructure Partner",
+    subtitle: "Aligned Incentives",
     desc: "We deploy our full PSI compliance stack into your AI company. We don't sell software licences — we become your compliance infrastructure partner with skin in the game.",
     details: [
       "Full PSI deployment and integration",
       "Ongoing compliance monitoring",
       "Regulatory updates and adaptation",
-      "We succeed when you succeed",
+      "Terms discussed under NDA",
     ],
     cta: "Discuss Partnership",
     ctaHref: "#contact",
@@ -22,15 +22,15 @@ const pillars = [
   {
     icon: Users,
     title: "Revenue Partner Program",
-    subtitle: "50% Revenue Commission",
-    desc: "Introduce AI companies trapped by the compliance paradox to our solution. Earn 50% of the recurring revenue from every company you bring in.",
+    subtitle: "Industry-Leading Commission",
+    desc: "Introduce AI companies trapped by the compliance paradox to our solution. Earn recurring revenue from every company you bring in.",
     details: [
       "No technical work required",
-      "Recurring commission on all revenue",
+      "Recurring commission structure",
       "Full marketing and sales support",
-      "Unlimited referral potential",
+      "Apply to learn terms",
     ],
-    cta: "Become a Revenue Partner",
+    cta: "Apply as Revenue Partner",
     ctaHref: "/partner",
     variant: "heroOutline" as const,
     isRoute: true,
@@ -46,14 +46,12 @@ const BusinessModel = () => (
         viewport={{ once: true }}
         className="text-center mb-16"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Business Model</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Partnership</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
           We Are the <span className="text-gold-gradient">Partner</span>, Not the Vendor
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          The EU AI Act compliance market is projected at{" "}
-          <span className="text-foreground font-semibold">€7–17 billion</span>.
-          {" "}We deploy sovereign compliance infrastructure and share in the value we create.
+          We deploy sovereign compliance infrastructure and share in the value we create. All partnership terms are discussed privately.
         </p>
       </motion.div>
 
@@ -71,7 +69,7 @@ const BusinessModel = () => (
               <p.icon className="h-7 w-7 text-gold" />
             </div>
             <h3 className="text-xl font-bold text-foreground mb-1">{p.title}</h3>
-            <p className="text-3xl font-black text-gold-gradient mb-4">{p.subtitle}</p>
+            <p className="text-2xl font-black text-gold-gradient mb-4">{p.subtitle}</p>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5">{p.desc}</p>
             <ul className="space-y-2 mb-6">
               {p.details.map((d) => (
