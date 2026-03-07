@@ -5,7 +5,7 @@ const PrivacyPolicy = () => (
     <section>
       <h2>1. Introduction</h2>
       <p>
-        Digital Gallows Technologies Pty Ltd (ABN 71 672 237 795, ACN 672 237 795), trading as
+        ROCKYFILMS888 PTY LTD (ABN 71 672 237 795, ACN 672 237 795), trading as
         <strong> APEX DIGITAL GALLOWS</strong>, a division of APEX INTELLIGENCE EMPIRE
         ("we", "us", "our"), is committed to protecting your personal information. We are
         headquartered in Melbourne, Victoria, Australia and operate globally.

@@ -7,7 +7,7 @@ const CookiePolicy = () => (
       <p>
         Cookies are small text files placed on your device when you visit a website. They are
         widely used to make websites work efficiently and provide information to website owners.
-        This policy explains how Digital Gallows Technologies Pty Ltd (ABN 71 672 237 795),
+        This policy explains how ROCKYFILMS888 PTY LTD (ABN 71 672 237 795),
         trading as <strong>APEX DIGITAL GALLOWS</strong>, uses cookies and similar technologies.
       </p>
     </section>
@@ -95,7 +95,7 @@ const CookiePolicy = () => (
     <section>
       <h2>8. Contact</h2>
       <ul>
-        <li><strong>Digital Gallows Technologies Pty Ltd</strong></li>
+        <li><strong>ROCKYFILMS888 PTY LTD</strong></li>
         <li>A division of APEX INTELLIGENCE EMPIRE</li>
         <li>Melbourne, Victoria, Australia</li>
         <li>Email: privacy@apexdigitalgallows.com</li>
