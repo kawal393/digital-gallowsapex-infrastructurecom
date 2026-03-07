@@ -19,8 +19,8 @@ const problems = [
   },
   {
     icon: AlertTriangle,
-    title: "The Compliance Paradox",
-    desc: "Prove you're compliant without revealing how your AI works. Current solutions are either too expensive, too slow, or too invasive. This is the trap.",
+    title: "We Solved It.",
+    desc: "Prove you're compliant without revealing how your AI works. Current solutions are either too expensive, too slow, or too invasive. Apex eliminates the paradox entirely.",
   },
 ];
 
@@ -33,9 +33,10 @@ const ProblemSection = () => (
         viewport={{ once: true }}
         className="text-center mb-16"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">The Problem</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">The Paradox</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          The <span className="text-gold-gradient">Compliance Paradox</span>
+          Regulators Demand Transparency.{" "}
+          <span className="text-gold-gradient">AI Companies Demand Privacy.</span>
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           AI companies are trapped between regulatory demands and commercial survival. Every existing path leads to a dead end.
@@ -50,12 +51,18 @@ const ProblemSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="rounded-xl border border-border bg-card/60 p-6 hover:border-destructive/40 transition-colors"
+            className={`rounded-xl border bg-card/60 p-6 transition-colors ${
+              i === 3
+                ? "border-gold/40 hover:border-gold/60 hover:shadow-gold"
+                : "border-border hover:border-destructive/40"
+            }`}
           >
-            <div className="w-12 h-12 rounded-lg bg-destructive/10 flex items-center justify-center mb-4">
-              <p.icon className="h-6 w-6 text-destructive" />
+            <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
+              i === 3 ? "bg-gold/10" : "bg-destructive/10"
+            }`}>
+              <p.icon className={`h-6 w-6 ${i === 3 ? "text-gold" : "text-destructive"}`} />
             </div>
-            <h3 className="text-lg font-bold text-foreground mb-2">{p.title}</h3>
+            <h3 className={`text-lg font-bold mb-2 ${i === 3 ? "text-gold-gradient" : "text-foreground"}`}>{p.title}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
           </motion.div>
         ))}

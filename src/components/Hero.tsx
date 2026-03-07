@@ -41,19 +41,20 @@ const Hero = () => {
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight leading-[0.95]">
-            <span className="text-chrome-gradient">PROVE COMPLIANCE</span>
+            <span className="text-chrome-gradient">THE WORLD FEARS AI.</span>
             <br />
-            <span className="text-gold-gradient">WITHOUT SURRENDERING</span>
-            <br />
-            <span className="text-chrome-gradient">YOUR IP</span>
+            <span className="text-gold-gradient">AI FEARS US.</span>
           </h1>
 
-          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-4">
-            <span className="text-foreground font-semibold">The Optimistic ZKML Solution for the EU AI Act.</span>{" "}
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-2">
+            <span className="text-foreground font-bold">Global Compliance Standard for the AI Age.</span>
+          </p>
+          <p className="text-base md:text-lg max-w-2xl mx-auto mb-4">
+            <span className="text-foreground font-semibold">Optimistic ZKML Compliance Architecture.</span>{" "}
             <span className="text-gold-gradient font-medium">99.9% cost reduction over traditional ZK proofs.</span>
           </p>
           <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
-            The World's First Optimistic ZKML Compliance Architecture — by Apex Intelligence Empire
+            By Apex Intelligence Empire
           </p>
 
           {/* Live clock & location */}
@@ -73,10 +74,10 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button variant="hero" size="lg" className="text-base px-8" asChild>
-              <a href="#contact">Request Sovereign Compliance Audit <ArrowRight className="ml-1 h-4 w-4" /></a>
+              <a href="#contact">Request Compliance Consultation <ArrowRight className="ml-1 h-4 w-4" /></a>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-base px-8" asChild>
-              <a href="#solution"><Shield className="mr-1 h-4 w-4" /> Learn How PSI Works</a>
+              <a href="#solution"><Shield className="mr-1 h-4 w-4" /> How PSI Works</a>
             </Button>
           </div>
         </motion.div>

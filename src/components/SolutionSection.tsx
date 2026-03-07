@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, Gavel, Link2, FileText, ClipboardList } from "lucide-react";
+import { ShieldCheck, Gavel, Link2, FileText, ClipboardList, Cpu } from "lucide-react";
 
 const features = [
   {
@@ -26,6 +26,11 @@ const features = [
     icon: FileText,
     title: "Policy Generation",
     desc: "Automated Article 11 technical documentation. Generate compliant policies, risk assessments, and audit-ready reports.",
+  },
+  {
+    icon: Cpu,
+    title: "ZK-Ready Architecture",
+    desc: "Designed for future Zero-Knowledge integration. As ZK technology matures, PSI seamlessly upgrades from optimistic to full ZK verification.",
   },
 ];
 
@@ -55,9 +60,7 @@ const SolutionSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08 }}
-            className={`rounded-xl border border-border bg-card/60 p-6 hover:border-gold/40 transition-colors ${
-              i === features.length - 1 && features.length % 3 === 2 ? "md:col-span-2 lg:col-span-1" : ""
-            }`}
+            className="rounded-xl border border-border bg-card/60 p-6 hover:border-gold/40 transition-colors"
           >
             <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-4">
               <f.icon className="h-6 w-6 text-gold" />

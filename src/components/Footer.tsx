@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 
@@ -12,6 +12,16 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
       />
 
       <div className="container mx-auto max-w-6xl relative z-10">
+        {/* Legal Disclaimer */}
+        <div className="rounded-lg border border-border bg-card/40 p-4 mb-8">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              <span className="text-foreground font-semibold">Disclaimer:</span> Apex Intelligence Empire provides technical tools to assist with AI compliance. We are not a law firm and do not provide legal advice. Our tools and documentation are designed to support regulatory compliance efforts — consult qualified legal counsel for legal matters specific to your jurisdiction.
+            </p>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-3">
@@ -35,16 +45,16 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Navigation</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#problem" className="hover:text-gold transition-colors">The Problem</a></li>
+              <li><a href="#problem" className="hover:text-gold transition-colors">The Paradox</a></li>
               <li><a href="#solution" className="hover:text-gold transition-colors">PSI Solution</a></li>
+              <li><a href="#pillars" className="hover:text-gold transition-colors">Three Pillars</a></li>
               <li><a href="#how-it-works" className="hover:text-gold transition-colors">How It Works</a></li>
-              <li><a href="#business-model" className="hover:text-gold transition-colors">Business Model</a></li>
-              <li><Link to="/partner" className="hover:text-gold transition-colors">Revenue Partners</Link></li>
+              <li><a href="#research" className="hover:text-gold transition-colors">Research</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-3">Contact</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-3">Connect</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="mailto:apexinfrastructure369@gmail.com" className="hover:text-gold transition-colors">apexinfrastructure369@gmail.com</a></li>
               <li><a href="https://apex-infrastructure.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors inline-flex items-center gap-1">apex-infrastructure.com <ExternalLink className="h-3 w-3" /></a></li>

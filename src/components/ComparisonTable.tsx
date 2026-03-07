@@ -5,7 +5,7 @@ const rows = [
   {
     approach: "Full ZKML",
     cost: "$1,000+",
-    feasibility: "Computationally Impossible at Scale",
+    feasibility: "Research Stage",
     feasibilityIcon: "bad",
     acceptance: "High (if achievable)",
     acceptanceIcon: "mid",
@@ -19,22 +19,22 @@ const rows = [
     feasibilityIcon: "good",
     acceptance: "High",
     acceptanceIcon: "good",
-    ipProtection: "Full",
+    ipProtection: "100%",
     highlight: true,
   },
   {
-    approach: "Documentation Only",
+    approach: "Manual Documentation",
     cost: "$0",
     feasibility: "Easy",
     feasibilityIcon: "mid",
-    acceptance: "Medium — may not satisfy Art. 12–15",
-    acceptanceIcon: "mid",
+    acceptance: "Low — may not satisfy Art. 12–15",
+    acceptanceIcon: "bad",
     ipProtection: "None (full disclosure)",
     highlight: false,
   },
   {
     approach: "Third-Party Audit",
-    cost: "$50K–$500K per audit",
+    cost: "$50K–$500K",
     feasibility: "Periodic, Not Continuous",
     feasibilityIcon: "mid",
     acceptance: "Medium",
@@ -59,12 +59,13 @@ const ComparisonTable = () => (
         viewport={{ once: true }}
         className="text-center mb-12"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Competitive Analysis</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Why PSI Wins</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          Why <span className="text-gold-gradient">PSI Wins</span>
+          <span className="text-gold-gradient">99.9% Cost Reduction.</span>{" "}
+          <span className="text-chrome-gradient">Deployable Today.</span>
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
-          The EU AI Act compliance market is projected at{" "}
+          EU AI Act compliance market projected at{" "}
           <span className="text-foreground font-semibold">€7–17 billion</span>. Every existing approach fails on cost, feasibility, or IP protection.
         </p>
       </motion.div>
@@ -123,7 +124,7 @@ const ComparisonTable = () => (
         viewport={{ once: true }}
         className="text-xs text-muted-foreground/50 mt-4 text-center italic"
       >
-        ZKML cost estimates based on published research from ezkl, Modulus Labs, and Giza. Sources: CEPS, armsofold.co.uk, Medium/Prieditis.
+        ZKML cost estimates based on published research from ezkl, Modulus Labs, and Giza. Market data: CEPS, European Commission.
       </motion.p>
     </div>
   </section>

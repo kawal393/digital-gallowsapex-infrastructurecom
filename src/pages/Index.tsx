@@ -5,10 +5,12 @@ import CountdownBanner from "@/components/CountdownBanner";
 import SocialProofBar from "@/components/SocialProofBar";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
+import TrioSection from "@/components/TrioSection";
 import ComparisonTable from "@/components/ComparisonTable";
+import HowItWorks from "@/components/HowItWorks";
 import OptimisticModel from "@/components/OptimisticModel";
+import VisionSection from "@/components/VisionSection";
 import ArticlesSection from "@/components/ArticlesSection";
-import BusinessModel from "@/components/BusinessModel";
 import ResearchReferences from "@/components/ResearchReferences";
 import TechSpecs from "@/components/TechSpecs";
 import FAQ from "@/components/FAQ";
@@ -25,10 +27,12 @@ const Index = () => {
       <SocialProofBar />
       <ProblemSection />
       <SolutionSection />
+      <TrioSection />
       <ComparisonTable />
+      <HowItWorks />
       <OptimisticModel />
+      <VisionSection />
       <ArticlesSection />
-      <BusinessModel />
       <ResearchReferences />
       <TechSpecs />
       <FAQ />

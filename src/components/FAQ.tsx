@@ -24,20 +24,16 @@ const faqs = [
     a: "No. PSI uses Zero-Knowledge proofs to verify compliance without ever exposing your model weights, training data, or proprietary architecture. Your IP remains completely sovereign.",
   },
   {
-    q: "What's the equity partnership model?",
-    a: "We don't sell software. We deploy our full PSI compliance stack into your AI company in exchange for 10–15% equity. Your compliance becomes our investment — we succeed when you succeed.",
-  },
-  {
     q: "What EU AI Act articles does PSI cover?",
     a: "PSI provides compliance coverage for Articles 11 (Technical Documentation), 12 (Record-Keeping), 13 (Transparency), 14 (Human Oversight), and 15 (Accuracy & Robustness).",
   },
   {
-    q: "How does the Revenue Partner program work?",
-    a: "Introduce AI companies trapped by the compliance paradox. You earn 50% of all revenue generated from your referral. No cap, no limits, no strings.",
+    q: "Is Apex a law firm?",
+    a: "No. Apex provides technical compliance tools and infrastructure. We are not a law firm and do not provide legal advice. Our tools assist with regulatory compliance — consult qualified legal counsel for legal matters.",
   },
   {
     q: "How do I get started?",
-    a: "Request a Sovereign Compliance Audit via our contact form. We'll assess your AI systems and present a tailored PSI deployment plan within 48 hours.",
+    a: "Request a Compliance Consultation via our contact form. We'll assess your AI systems and present a tailored PSI deployment plan.",
   },
 ];
 
