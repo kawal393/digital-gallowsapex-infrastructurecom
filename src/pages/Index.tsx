@@ -7,7 +7,7 @@ import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
 import TrioSection from "@/components/TrioSection";
 import ComparisonTable from "@/components/ComparisonTable";
-import HowItWorks from "@/components/HowItWorks";
+import LiveCaseStudy from "@/components/LiveCaseStudy";
 import OptimisticModel from "@/components/OptimisticModel";
 import VisionSection from "@/components/VisionSection";
 import ArticlesSection from "@/components/ArticlesSection";
@@ -29,7 +29,7 @@ const Index = () => {
       <SolutionSection />
       <TrioSection />
       <ComparisonTable />
-      <HowItWorks />
+      <LiveCaseStudy />
       <OptimisticModel />
       <VisionSection />
       <ArticlesSection />

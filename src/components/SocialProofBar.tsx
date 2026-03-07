@@ -21,9 +21,9 @@ const getDynamicStats = () => {
   const jurisdictions = Math.min(40, 9 + Math.floor(daysSinceLaunch / 12));
 
   return [
-    { icon: Users, value: organisations, suffix: "+", label: "Organisations Engaged" },
-    { icon: TrendingUp, value: enquiries, suffix: "+", label: "Compliance Enquiries" },
-    { icon: CheckCircle, value: jurisdictions, suffix: "", label: "Jurisdictions Reached" },
+    { icon: Users, value: organisations, suffix: "+", label: "Research Engagements" },
+    { icon: TrendingUp, value: enquiries, suffix: "+", label: "Compliance Inquiries" },
+    { icon: CheckCircle, value: jurisdictions, suffix: "", label: "Jurisdictions Covered" },
   ];
 };
 
