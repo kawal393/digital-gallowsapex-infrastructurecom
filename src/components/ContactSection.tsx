@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { forwardRef, useState } from "react";
 import { toast } from "sonner";
-import { Mail, MapPin, ExternalLink } from "lucide-react";
+import { Mail, MapPin, ExternalLink, Github } from "lucide-react";
 
 const FUNCTION_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/send-contact-email`;
 
@@ -33,7 +33,7 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
 
       if (!res.ok) throw new Error("Request failed");
 
-      toast.success("Compliance audit request submitted. We'll respond within 24 hours.");
+      toast.success("Consultation request submitted. We'll respond within 24 hours.");
       form.reset();
     } catch {
       toast.error("Something went wrong. Please email apexinfrastructure369@gmail.com directly.");
@@ -54,7 +54,7 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
             >
               <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Contact</p>
               <h2 className="text-3xl font-bold text-foreground mb-4">
-                Request a Sovereign Compliance Audit
+                Request a Compliance Consultation
               </h2>
               <p className="text-muted-foreground text-sm mb-8">
                 Let's discuss how PSI can solve your compliance paradox without exposing your IP.
@@ -71,6 +71,12 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
                   <ExternalLink className="h-4 w-4 text-gold flex-shrink-0" />
                   <a href="https://apex-infrastructure.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
                     apex-infrastructure.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Github className="h-4 w-4 text-gold flex-shrink-0" />
+                  <a href="https://github.com/kawal393/-apex-digital-gallows" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                    GitHub Repository
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
@@ -105,7 +111,7 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
                 className="bg-card border-border text-foreground placeholder:text-muted-foreground resize-none"
               />
               <Button variant="hero" className="w-full" disabled={sending}>
-                {sending ? "Submitting..." : "Request Sovereign Compliance Audit"}
+                {sending ? "Submitting..." : "Request Compliance Consultation"}
               </Button>
             </motion.form>
           </div>

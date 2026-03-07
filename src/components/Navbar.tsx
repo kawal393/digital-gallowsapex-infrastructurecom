@@ -8,9 +8,9 @@ import apexLogo from "@/assets/apex-logo.png";
 const navLinks = [
   { label: "Problem", href: "#problem" },
   { label: "Solution", href: "#solution" },
+  { label: "Pillars", href: "#pillars" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Research", href: "#research" },
-  { label: "Partner", href: "/partner", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -41,7 +41,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => handleNavClick(link.href, link.isRoute)}
+                onClick={() => handleNavClick(link.href)}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer"
               >
                 {link.label}
@@ -69,7 +69,7 @@ const Navbar = () => {
               </Button>
             )}
             <Button variant="hero" size="sm" onClick={() => handleNavClick("#contact")}>
-              Request Audit
+              Get Started
             </Button>
           </div>
         </div>
@@ -94,7 +94,7 @@ const Navbar = () => {
           {navLinks.map((link) => (
             <button
               key={link.label}
-              onClick={() => handleNavClick(link.href, link.isRoute)}
+              onClick={() => handleNavClick(link.href)}
               className="block text-sm text-muted-foreground hover:text-primary w-full text-left bg-transparent border-none cursor-pointer"
             >
               {link.label}
@@ -110,7 +110,7 @@ const Navbar = () => {
             </Button>
           )}
           <Button variant="hero" size="sm" className="w-full" onClick={() => handleNavClick("#contact")}>
-            Request Audit
+            Get Started
           </Button>
         </div>
       )}
