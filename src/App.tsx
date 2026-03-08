@@ -16,6 +16,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Partner from "./pages/Partner";
 import PartnerDashboard from "./pages/PartnerDashboard";
 import Gallows from "./pages/Gallows";
+import Architecture from "./pages/Architecture";
 
 const queryClient = new QueryClient();
 
