@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      assessment_leads: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          email: string
+          id: string
+          industry: string | null
+          score: number | null
+          status: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          industry?: string | null
+          score?: number | null
+          status?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          industry?: string | null
+          score?: number | null
+          status?: string | null
+        }
+        Relationships: []
+      }
       compliance_results: {
         Row: {
           company_name: string

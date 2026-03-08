@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RegulationMap from "@/components/RegulationMap";
 
 type RegStatus = "enforced" | "enacted" | "proposed" | "draft" | "none";
 
@@ -98,6 +99,14 @@ const Regulations = () => {
                 Track AI regulation status across every major jurisdiction. Updated regularly.
               </p>
             </motion.div>
+
+            {/* Interactive Map */}
+            <div className="mb-8">
+              <RegulationMap
+                regulations={regulations}
+                onCountryClick={(country) => setSearch(country)}
+              />
+            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">

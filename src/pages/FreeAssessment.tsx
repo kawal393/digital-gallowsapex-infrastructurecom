@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ClipboardCheck, ArrowRight, ArrowLeft, Shield, ShieldCheck, ShieldAlert, ShieldX, Lock, LogIn } from "lucide-react";
+import { ArrowRight, ArrowLeft, Shield, ShieldCheck, ShieldAlert, ShieldX, Lock, LogIn, Mail, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const AI_PROVIDERS = ["OpenAI", "Anthropic", "Google", "Meta", "Microsoft", "Hugging Face", "Stability AI", "Other"];
 const HIGH_RISK_USES = ["Recruitment", "Credit Scoring", "Healthcare Diagnosis", "Law Enforcement", "Essential Services Access", "None"];
@@ -70,6 +72,9 @@ const FreeAssessment = () => {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormData>(defaultData);
   const [showResult, setShowResult] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailStep, setEmailStep] = useState(false);
+  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
   const totalSteps = 5;
 
@@ -86,7 +91,40 @@ const FreeAssessment = () => {
 
   const result = calculateScore(data);
 
-  const handleSubmit = () => setShowResult(true);
+  const handleSubmit = () => setEmailStep(true);
+
+  const handleEmailSubmit = async () => {
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    setSaving(true);
+    try {
+      await supabase.from("assessment_leads").insert({
+        email: email.trim(),
+        company_name: data.company_name,
+        score: result.score,
+        status: result.status,
+        industry: data.industry,
+      });
+    } catch {
+      // Non-blocking — still show result
+    }
+    setSaving(false);
+    setEmailStep(false);
+    setShowResult(true);
+  };
+
+  const shareText = `I just scored ${result.score}% on the APEX AI Compliance Assessment! Check yours at`;
+  const shareUrl = "https://digital-gallowsapex-infrastructurecom.lovable.app/assess";
+
+  const shareOnLinkedIn = () => {
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, "_blank");
+  };
+
+  const shareOnX = () => {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, "_blank");
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -95,7 +133,7 @@ const FreeAssessment = () => {
         <section className="py-12 sm:py-20 px-4">
           <div className="container mx-auto max-w-2xl">
             <AnimatePresence mode="wait">
-              {!showResult ? (
+              {!showResult && !emailStep ? (
                 <motion.div key="form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                   <div className="text-center mb-8">
                     <Badge variant="outline" className="border-gold/30 text-gold mb-4">FREE ASSESSMENT</Badge>
@@ -118,7 +156,7 @@ const FreeAssessment = () => {
                         <h3 className="font-semibold text-foreground">Company Information</h3>
                         <div className="space-y-2">
                           <Label>Company Name</Label>
-                          <Input value={data.company_name} onChange={e => update("company_name", e.target.value)} placeholder="Acme Corp" className="bg-background border-border" />
+                          <Input value={data.company_name} onChange={e => update("company_name", e.target.value)} placeholder="Acme Corp" className="bg-background border-border" maxLength={100} />
                         </div>
                         <div className="space-y-2">
                           <Label>Industry</Label>
@@ -332,9 +370,40 @@ const FreeAssessment = () => {
                     </div>
                   </div>
                 </motion.div>
+              ) : emailStep ? (
+                <motion.div key="email" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+                  <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 sm:p-12 max-w-md mx-auto text-center">
+                    <div className="mx-auto w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
+                      <Mail className="h-7 w-7 text-gold" />
+                    </div>
+                    <h2 className="text-xl font-black text-foreground mb-2">Almost There!</h2>
+                    <p className="text-sm text-muted-foreground mb-6">
+                      Enter your email to receive your compliance score and a summary of key findings.
+                    </p>
+                    <div className="space-y-3">
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        onKeyDown={e => e.key === "Enter" && handleEmailSubmit()}
+                        placeholder="you@company.com"
+                        className="bg-background border-border text-center"
+                        maxLength={255}
+                      />
+                      <Button variant="hero" className="w-full" onClick={handleEmailSubmit} disabled={saving}>
+                        {saving ? "Processing..." : "Show My Score"}
+                      </Button>
+                      <button
+                        onClick={() => { setEmailStep(false); setShowResult(true); }}
+                        className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors bg-transparent border-none cursor-pointer"
+                      >
+                        Skip for now
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
               ) : (
                 <motion.div key="result" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center">
-                  {/* Score Display */}
                   <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 sm:p-12 mb-6">
                     <result.Icon className={`h-16 w-16 ${result.color} mx-auto mb-4`} />
                     <p className={`text-6xl sm:text-7xl font-black ${result.color} mb-2`}>{result.score}%</p>
@@ -346,9 +415,28 @@ const FreeAssessment = () => {
                       }
                     </p>
 
+                    {/* Social Share */}
+                    <div className="flex items-center justify-center gap-2 mb-8">
+                      <span className="text-xs text-muted-foreground mr-1">Share:</span>
+                      <button
+                        onClick={shareOnLinkedIn}
+                        className="px-3 py-1.5 rounded-md text-xs font-semibold border border-border bg-background text-muted-foreground hover:border-gold/40 hover:text-gold transition-colors cursor-pointer flex items-center gap-1.5"
+                      >
+                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        LinkedIn
+                      </button>
+                      <button
+                        onClick={shareOnX}
+                        className="px-3 py-1.5 rounded-md text-xs font-semibold border border-border bg-background text-muted-foreground hover:border-gold/40 hover:text-gold transition-colors cursor-pointer flex items-center gap-1.5"
+                      >
+                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        Post on X
+                      </button>
+                    </div>
+
                     {/* Score Breakdown Teaser */}
                     <div className="grid grid-cols-3 gap-3 mb-8 max-w-sm mx-auto">
-                      {["Art. 5-6", "Art. 13-14", "Art. 52"].map((art, i) => (
+                      {["Art. 5-6", "Art. 13-14", "Art. 52"].map((art) => (
                         <div key={art} className="rounded-lg border border-border bg-background p-3 relative">
                           <p className="text-xs text-muted-foreground">{art}</p>
                           <div className="flex items-center justify-center h-8">
@@ -370,7 +458,7 @@ const FreeAssessment = () => {
                         <LogIn className="h-4 w-4 mr-2" />
                         Sign Up — Get Full Report
                       </Button>
-                      <Button variant="heroOutline" size="lg" onClick={() => { setShowResult(false); setStep(1); setData(defaultData); }}>
+                      <Button variant="heroOutline" size="lg" onClick={() => { setShowResult(false); setEmailStep(false); setStep(1); setData(defaultData); setEmail(""); }}>
                         Retake Assessment
                       </Button>
                     </div>

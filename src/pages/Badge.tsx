@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Copy, Code, ShieldCheck, ExternalLink, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,8 @@ import { Badge as UiBadge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import apexLogo from "@/assets/apex-logo.png";
 
 type BadgeTheme = "dark" | "light" | "gold";
@@ -16,6 +18,25 @@ const Badge = () => {
   const [companyName, setCompanyName] = useState("Your Company");
   const [theme, setTheme] = useState<BadgeTheme>("dark");
   const [size, setSize] = useState<BadgeSize>("md");
+  const { user } = useAuth();
+  const [complianceStatus, setComplianceStatus] = useState<string | null>(null);
+
+  // Fetch real compliance status for authenticated users
+  useEffect(() => {
+    if (!user) return;
+    const fetchStatus = async () => {
+      const { data } = await supabase
+        .from("compliance_results")
+        .select("company_name, status")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (data) {
+        if (data.company_name) setCompanyName(data.company_name);
+        setComplianceStatus(data.status);
+      }
+    };
+    fetchStatus();
+  }, [user]);
 
   const sizeConfig = {
     sm: { w: 200, h: 48, fontSize: 10, logoSize: 20 },
@@ -187,12 +208,21 @@ const Badge = () => {
                     </ul>
                   </div>
 
-                  <div className="rounded-lg border border-border bg-background/60 p-4">
-                    <p className="text-xs text-muted-foreground mb-2">Want a dynamic badge that updates in real-time?</p>
-                    <Button variant="hero" size="sm" className="w-full" asChild>
-                      <a href="#contact">Contact Us for Enterprise Badge</a>
-                    </Button>
-                  </div>
+                  {complianceStatus ? (
+                    <div className="rounded-lg border border-compliant/20 bg-compliant/5 p-4">
+                      <p className="text-xs text-compliant font-semibold mb-1">✓ Dynamic Badge Active</p>
+                      <p className="text-xs text-muted-foreground">
+                        Your badge reflects your live compliance status: <span className="font-bold text-foreground">{complianceStatus}</span>
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="rounded-lg border border-border bg-background/60 p-4">
+                      <p className="text-xs text-muted-foreground mb-2">Sign in to get a dynamic badge that shows your real compliance status.</p>
+                      <Button variant="hero" size="sm" className="w-full" asChild>
+                        <a href="/auth">Sign In for Dynamic Badge</a>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             </div>
