@@ -248,6 +248,53 @@ export type Database = {
         }
         Relationships: []
       }
+      drip_queue: {
+        Row: {
+          conversation_id: string | null
+          created_at: string
+          drip_index: number
+          id: string
+          lead_company: string | null
+          lead_email: string
+          lead_name: string | null
+          send_at: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          conversation_id?: string | null
+          created_at?: string
+          drip_index?: number
+          id?: string
+          lead_company?: string | null
+          lead_email: string
+          lead_name?: string | null
+          send_at: string
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          conversation_id?: string | null
+          created_at?: string
+          drip_index?: number
+          id?: string
+          lead_company?: string | null
+          lead_email?: string
+          lead_name?: string | null
+          send_at?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drip_queue_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gallows_ledger: {
         Row: {
           action: string
