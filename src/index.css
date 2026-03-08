@@ -273,7 +273,15 @@
 /* Hide Lovable badge completely */
 #lovable-badge,
 [id*="lovable"],
-a[href*="lovable.dev"][target="_blank"][rel="noopener noreferrer"] {
+[class*="lovable"],
+[data-testid*="lovable"],
+a[href*="lovable.dev"],
+a[href*="lovable.app"],
+iframe[src*="lovable"],
+div[id*="lovable"] *,
+img[src*="lovable"],
+img[alt*="Lovable"],
+img[alt*="lovable"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;

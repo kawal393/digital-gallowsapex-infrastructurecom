@@ -56,7 +56,7 @@ const EmbedCountdown = () => {
           August 2, 2026 — Full enforcement begins
         </div>
         <a
-          href="https://digital-gallowsapex-infrastructurecom.lovable.app/assess"
+          href="https://digital-gallows.apex-infrastructure.com/assess"
           target="_blank"
           rel="noopener noreferrer"
           style={{

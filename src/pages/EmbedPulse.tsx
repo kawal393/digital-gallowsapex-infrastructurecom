@@ -49,7 +49,7 @@ const EmbedPulse = () => {
       padding: 16,
     }}>
       <a
-        href="https://digital-gallowsapex-infrastructurecom.lovable.app/verify"
+        href="https://digital-gallows.apex-infrastructure.com/verify"
         target="_blank"
         rel="noopener noreferrer"
         style={{
