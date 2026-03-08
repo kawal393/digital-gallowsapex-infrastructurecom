@@ -118,6 +118,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            <ThemeToggle />
             <LanguageSelector />
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
