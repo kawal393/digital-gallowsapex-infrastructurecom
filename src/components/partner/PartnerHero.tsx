@@ -45,7 +45,7 @@ const PartnerHero = ({ isPartner }: Props) => {
       <div className="container mx-auto max-w-3xl">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm mb-6">
           <Users className="h-4 w-4" />
-          Join 150+ partners earning with APEX
+          Start earning with APEX
         </div>
         <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
           <span className="text-gold-gradient">Earn 50% Commission</span>
