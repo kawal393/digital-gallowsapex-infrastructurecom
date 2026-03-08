@@ -318,6 +318,9 @@ serve(async (req) => {
       updated_at: new Date().toISOString(),
     }).eq("id", conversation_id);
 
+    // Build self-learning system prompt (injects recent knowledge gaps)
+    const SYSTEM_PROMPT = await buildSystemPrompt(supabase);
+
     // Call AI gateway
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
