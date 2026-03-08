@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { MessageCircle, Users, AlertTriangle, ThumbsUp, ThumbsDown, Mail, RefreshCw } from "lucide-react";
+import { MessageCircle, Users, AlertTriangle, ThumbsUp, ThumbsDown, Mail, RefreshCw, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -10,6 +10,7 @@ type Analytics = {
   leads: Array<{ id: string; lead_name: string | null; lead_email: string; lead_company: string | null; created_at: string }>;
   knowledgeGaps: Array<{ id: string; question: string; created_at: string }>;
   feedback: { total: number; positive: number; negative: number };
+  drip: { pending: number; sent: number };
   recentConversations: Array<{
     id: string; visitor_id: string; message_count: number;
     lead_email: string | null; lead_name: string | null; created_at: string; updated_at: string;
@@ -58,10 +59,11 @@ export default function ChatAnalytics() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <StatCard icon={<MessageCircle className="h-4 w-4" />} label="Conversations" value={data.totalConversations} />
         <StatCard icon={<Users className="h-4 w-4" />} label="Messages" value={data.totalMessages} />
         <StatCard icon={<Mail className="h-4 w-4" />} label="Leads Captured" value={data.leads.length} accent />
+        <StatCard icon={<Send className="h-4 w-4" />} label="Drip Emails" value={`${data.drip.sent} sent`} subtitle={`${data.drip.pending} pending`} />
         <StatCard
           icon={<ThumbsUp className="h-4 w-4" />}
           label="Satisfaction"

@@ -54,10 +54,19 @@
     <link rel="shortcut icon" href="/favicon.ico?v=3" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
     <link rel="canonical" href="https://digital-gallows.apex-infrastructure.com/" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#d4a017" />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

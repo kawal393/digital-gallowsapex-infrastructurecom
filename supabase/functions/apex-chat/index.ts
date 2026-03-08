@@ -349,12 +349,39 @@ serve(async (req) => {
             if (Object.keys(update).length > 0) {
               await supabase.from("chat_conversations").update(update).eq("id", conversation_id);
             }
+
+            // Trigger drip sequence + webhook notification
+            if (args.email) {
+              const fnUrl = supabaseUrl + "/functions/v1";
+              // Fire-and-forget: don't block the chat response
+              fetch(`${fnUrl}/lead-drip`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${supabaseKey}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ lead_email: args.email, lead_name: args.name || "", lead_company: args.company || "", conversation_id, drip_index: 0 }),
+              }).catch(e => console.error("Drip trigger failed:", e));
+
+              fetch(`${fnUrl}/webhook-notify`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${supabaseKey}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ event: "lead_captured", data: { email: args.email, name: args.name || "", company: args.company || "" } }),
+              }).catch(e => console.error("Webhook notify failed:", e));
+            }
+
             toolResults.push({ tool_call_id: tc.id, role: "tool", content: "Lead captured successfully." });
           } else if (tc.function.name === "flag_knowledge_gap") {
             await supabase.from("chat_knowledge_gaps").insert({
               question: args.question,
               conversation_id,
             });
+
+            // Notify about knowledge gap
+            const fnUrl = supabaseUrl + "/functions/v1";
+            fetch(`${fnUrl}/webhook-notify`, {
+              method: "POST",
+              headers: { Authorization: `Bearer ${supabaseKey}`, "Content-Type": "application/json" },
+              body: JSON.stringify({ event: "knowledge_gap", data: { question: args.question, conversation_id } }),
+            }).catch(e => console.error("Webhook notify failed:", e));
+
             toolResults.push({ tool_call_id: tc.id, role: "tool", content: "Knowledge gap flagged." });
           }
         } catch {
