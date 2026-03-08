@@ -449,7 +449,7 @@ export async function verifyHash(hash: string): Promise<{
 }> {
   const merkleRoot = await globalTree.getRoot();
   const record = commitLog.find(
-    r => r.commitHash === hash || r.merkleLeafHash === hash || r.auditHash === hash || r.proofHash === hash
+    r => r.commitHash === hash || r.merkleLeafHash === hash || r.proofHash === hash || r.challengeHash === hash
   );
 
   if (!record) {
