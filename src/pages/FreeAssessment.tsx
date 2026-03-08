@@ -397,12 +397,9 @@ const FreeAssessment = () => {
                       <Button variant="hero" className="w-full" onClick={handleEmailSubmit} disabled={saving}>
                         {saving ? "Processing..." : "Show My Score"}
                       </Button>
-                      <button
-                        onClick={() => { setEmailStep(false); setShowResult(true); }}
-                        className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors bg-transparent border-none cursor-pointer"
-                      >
-                        Skip for now
-                      </button>
+                      <p className="text-[10px] text-muted-foreground/40 mt-2">
+                        We'll send your compliance summary to this email.
+                      </p>
                     </div>
                   </div>
                 </motion.div>
