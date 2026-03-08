@@ -23,3 +23,9 @@ verify_jwt = false
 
 [functions.commit-action]
 verify_jwt = false
+
+[functions.challenge-action]
+verify_jwt = false
+
+[functions.prove-action]
+verify_jwt = false
