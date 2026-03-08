@@ -14,6 +14,7 @@ import ComparisonTable from "@/components/ComparisonTable";
 import FreeToolsCTA from "@/components/FreeToolsCTA";
 import BusinessModel from "@/components/BusinessModel";
 import TechSpecs from "@/components/TechSpecs";
+import FeaturedResearch from "@/components/FeaturedResearch";
 import ArticlesSection from "@/components/ArticlesSection";
 import ResearchReferences from "@/components/ResearchReferences";
 import Pricing from "@/components/Pricing";
