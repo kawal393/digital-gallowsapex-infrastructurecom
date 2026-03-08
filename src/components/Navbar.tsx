@@ -5,6 +5,7 @@ import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Awar
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
+import ThemeToggle from "@/components/ThemeToggle";
 import apexLogo from "@/assets/apex-logo.png";
 
 const toolLinks = [
