@@ -14,12 +14,11 @@ const ScoreCard = () => {
   useEffect(() => {
     if (!shareId) return;
     supabase
-      .from("assessment_leads")
-      .select("company_name, score, status, industry")
-      .eq("share_id", shareId)
-      .maybeSingle()
+      .rpc("get_assessment_by_share_id", { p_share_id: shareId })
       .then(({ data }) => {
-        setData(data as any);
+        if (data && data.length > 0) {
+          setData(data[0] as any);
+        }
         setLoading(false);
       });
   }, [shareId]);
