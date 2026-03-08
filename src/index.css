@@ -141,6 +141,23 @@
     -webkit-mask-image: radial-gradient(ellipse 62% 62% at center, black 40%, transparent 85%);
     will-change: transform, opacity;
   }
+
+  .shadow-gallows-approved {
+    box-shadow: 0 0 20px hsla(136, 100%, 50%, 0.5), 0 0 40px hsla(136, 100%, 50%, 0.2);
+  }
+
+  .shadow-gallows-blocked {
+    box-shadow: 0 0 20px hsla(349, 100%, 50%, 0.5), 0 0 40px hsla(349, 100%, 50%, 0.2);
+  }
+}
+
+@keyframes gallows-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-gallows-pulse {
+  animation: gallows-pulse 3s ease-in-out infinite;
 }
 
 /* Hide Lovable badge completely */
