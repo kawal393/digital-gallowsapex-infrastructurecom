@@ -89,7 +89,7 @@ const Gallows = () => {
     return unsubscribe;
   }, []);
 
-  const handleCommit = useCallback(async (action: string, predicateId: string) => {
+  const handleCommit = useCallback(async (action: string, predicateId: string, zkMode?: boolean) => {
     setIsProcessing(true);
     setError(null);
     setCertificate(null);
