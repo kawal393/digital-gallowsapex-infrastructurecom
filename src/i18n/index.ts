@@ -79,10 +79,10 @@ export const LANGUAGES: Record<string, { name: string; nativeName: string; dir?:
 };
 
 // Translation cache
-const translationCache: Record<string, Record<string, string>> = {};
+const translationCache: Record<string, any> = {};
 
 // Lazy-load translations from backend
-const loadTranslation = async (lang: string): Promise<Record<string, string>> => {
+const loadTranslation = async (lang: string): Promise<any> => {
   if (lang === 'en') return en;
   if (translationCache[lang]) return translationCache[lang];
 
