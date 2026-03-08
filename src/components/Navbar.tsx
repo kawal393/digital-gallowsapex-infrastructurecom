@@ -49,11 +49,14 @@ const Navbar = () => {
       navigate(href);
     } else if (href.startsWith("#")) {
       if (location.pathname !== "/") {
+        // Cross-page hash nav — navigate to /#{hash}, ScrollToTop handles scrolling
         navigate("/" + href);
       } else {
         const el = document.getElementById(href.slice(1));
         if (el) {
           el.scrollIntoView({ behavior: "smooth" });
+        } else if (href === "#top") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }
     }
