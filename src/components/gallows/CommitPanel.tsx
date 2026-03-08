@@ -140,6 +140,22 @@ const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
           </AnimatePresence>
         </div>
 
+        {/* ZK Privacy Mode Toggle */}
+        <div className="flex items-center justify-between p-3 rounded bg-gallows-bg border border-gallows-border">
+          <div className="flex items-center gap-2">
+            <Shield className="h-4 w-4 text-gallows-highlight" />
+            <div>
+              <span className="text-xs font-mono text-gallows-text block">ZK-SNARK PRIVACY MODE</span>
+              <span className="text-[10px] font-mono text-gallows-muted">Groth16 proof on BN128 — hides action content</span>
+            </div>
+          </div>
+          <Switch
+            checked={zkMode}
+            onCheckedChange={setZkMode}
+            className="data-[state=checked]:bg-gallows-highlight"
+          />
+        </div>
+
         <motion.div
           whileHover={{ scale: paused || isProcessing || !action.trim() ? 1 : 1.02 }}
           whileTap={{ scale: paused || isProcessing || !action.trim() ? 1 : 0.98 }}
