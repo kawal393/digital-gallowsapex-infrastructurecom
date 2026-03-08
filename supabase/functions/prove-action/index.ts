@@ -26,12 +26,64 @@ const VIOLATION_PATTERNS: Record<string, string[]> = {
   EU_ART_52: ["impersonate human", "pretend to be person", "hide ai identity", "no bot disclosure", "pose as human", "conceal ai nature"],
 };
 
+// MiFID II violation patterns
+const MIFID_PATTERNS: Record<string, string[]> = {
+  MIFID_ART_16: ["no algo controls", "unmonitored trading", "no circuit breaker", "uncapped orders", "no kill switch trading", "bypass trading limits"],
+  MIFID_ART_17: ["untested algorithm", "no market abuse check", "flash crash risk", "no order records", "unregistered algo", "market manipulation"],
+  MIFID_ART_25: ["no suitability check", "unsuitable advice", "ignore client profile", "no risk assessment client", "skip kyc", "no appropriateness test"],
+  MIFID_ART_27: ["worst execution", "no best execution", "front running", "client disadvantage", "no execution policy", "ignore best price"],
+};
+
+// DORA violation patterns
+const DORA_PATTERNS: Record<string, string[]> = {
+  DORA_ART_5: ["no ict governance", "no risk framework", "unmanaged cyber risk", "no security controls", "no incident response", "ignore ict risk"],
+  DORA_ART_6: ["outdated systems", "unpatched software", "legacy vulnerability", "no system updates", "insecure infrastructure", "end of life software"],
+  DORA_ART_9: ["no monitoring", "no threat detection", "disabled security", "no access controls", "unprotected data", "no encryption"],
+  DORA_ART_11: ["no backup", "no disaster recovery", "untested recovery", "no business continuity", "no failover", "single point of failure"],
+  DORA_ART_17: ["unreported incident", "delayed reporting", "hidden breach", "no incident log", "concealed attack", "suppressed alert"],
+  DORA_ART_26: ["no vendor assessment", "unvetted third party", "no exit strategy", "no vendor monitoring", "uncontrolled outsourcing", "no supply chain risk"],
+};
+
+// Merge all violation patterns
+const ALL_VIOLATION_PATTERNS: Record<string, string[]> = {
+  ...VIOLATION_PATTERNS,
+  ...MIFID_PATTERNS,
+  ...DORA_PATTERNS,
+};
+
 async function hashSHA256(data: string): Promise<string> {
   const encoder = new TextEncoder();
   const dataBuffer = encoder.encode(data);
   const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/**
+ * Generate a ZK-style commitment that proves compliance without revealing action
+ * This is a simplified ZK proof - in production, use actual ZK-SNARK libraries
+ */
+async function generateZKCommitment(
+  actionHash: string,
+  predicateId: string,
+  compliant: boolean
+): Promise<{ zkCommitment: string; publicInputs: string }> {
+  // Public inputs: predicate ID, compliance status, timestamp
+  const publicInputs = JSON.stringify({
+    predicate: predicateId,
+    compliant,
+    timestamp: Date.now(),
+  });
+  
+  // ZK commitment: H(actionHash | predicate | compliant | randomness)
+  const randomness = crypto.getRandomValues(new Uint8Array(16));
+  const randomHex = Array.from(randomness).map(b => b.toString(16).padStart(2, "0")).join("");
+  
+  const zkCommitment = await hashSHA256(
+    `${actionHash}|${predicateId}|${compliant}|${randomHex}`
+  );
+  
+  return { zkCommitment, publicInputs };
 }
 
 interface MerkleProofStep {

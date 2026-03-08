@@ -73,6 +73,9 @@ export interface GallowsResult {
 // ── Predicates ─────────────────────────────────────────────────────────
 
 export const PREDICATES: Predicate[] = [
+  // ═══════════════════════════════════════════════════════════════════════
+  // EU AI ACT 2026 PREDICATES
+  // ═══════════════════════════════════════════════════════════════════════
   {
     id: 'EU_ART_5',
     name: 'Prohibited AI Practices',
@@ -162,6 +165,104 @@ export const PREDICATES: Predicate[] = [
     violationPatterns: ['impersonate human', 'pretend to be person', 'hide ai identity', 'no bot disclosure', 'pose as human', 'conceal ai nature'],
     riskLevel: 'LIMITED',
     enforcementDate: '2026-08-02',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // MiFID II — Markets in Financial Instruments Directive (EU 2014/65)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'MIFID_ART_16',
+    name: 'Organizational Requirements',
+    article: 'MiFID II Art. 16',
+    description: 'Investment firms using algorithmic trading must have effective systems and risk controls to ensure trading systems are resilient, have sufficient capacity, and are subject to appropriate trading thresholds.',
+    violationPatterns: ['no algo controls', 'unmonitored trading', 'no circuit breaker', 'uncapped orders', 'no kill switch trading', 'bypass trading limits'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2018-01-03',
+  },
+  {
+    id: 'MIFID_ART_17',
+    name: 'Algorithmic Trading',
+    article: 'MiFID II Art. 17',
+    description: 'Firms engaged in algorithmic trading must notify competent authorities, ensure systems prevent market disorder, maintain records of all orders and cancellations, and test algorithms.',
+    violationPatterns: ['untested algorithm', 'no market abuse check', 'flash crash risk', 'no order records', 'unregistered algo', 'market manipulation'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2018-01-03',
+  },
+  {
+    id: 'MIFID_ART_25',
+    name: 'Suitability & Appropriateness',
+    article: 'MiFID II Art. 25',
+    description: 'When providing investment advice or portfolio management, firms must obtain information about the client\'s knowledge, experience, financial situation, and investment objectives.',
+    violationPatterns: ['no suitability check', 'unsuitable advice', 'ignore client profile', 'no risk assessment client', 'skip kyc', 'no appropriateness test'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2018-01-03',
+  },
+  {
+    id: 'MIFID_ART_27',
+    name: 'Best Execution',
+    article: 'MiFID II Art. 27',
+    description: 'Firms must take all sufficient steps to obtain the best possible result for clients when executing orders, taking into account price, costs, speed, and likelihood of execution.',
+    violationPatterns: ['worst execution', 'no best execution', 'front running', 'client disadvantage', 'no execution policy', 'ignore best price'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2018-01-03',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // DORA — Digital Operational Resilience Act (EU 2022/2554)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'DORA_ART_5',
+    name: 'ICT Risk Management Framework',
+    article: 'DORA Art. 5',
+    description: 'Financial entities shall have in place an internal governance and control framework that ensures effective and prudent management of ICT risk.',
+    violationPatterns: ['no ict governance', 'no risk framework', 'unmanaged cyber risk', 'no security controls', 'no incident response', 'ignore ict risk'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-01-17',
+  },
+  {
+    id: 'DORA_ART_6',
+    name: 'ICT Systems & Tools',
+    article: 'DORA Art. 6',
+    description: 'Financial entities shall use and maintain updated ICT systems, protocols, and tools that are appropriate to support their operations and protect data.',
+    violationPatterns: ['outdated systems', 'unpatched software', 'legacy vulnerability', 'no system updates', 'insecure infrastructure', 'end of life software'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-01-17',
+  },
+  {
+    id: 'DORA_ART_9',
+    name: 'Protection & Prevention',
+    article: 'DORA Art. 9',
+    description: 'Financial entities shall continuously monitor and control ICT security, minimize impact of ICT risk through appropriate tools, policies, and procedures.',
+    violationPatterns: ['no monitoring', 'no threat detection', 'disabled security', 'no access controls', 'unprotected data', 'no encryption'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-01-17',
+  },
+  {
+    id: 'DORA_ART_11',
+    name: 'Backup & Recovery',
+    article: 'DORA Art. 11',
+    description: 'Financial entities shall develop ICT business continuity policy and disaster recovery plans, test backup procedures, and ensure restoration capabilities.',
+    violationPatterns: ['no backup', 'no disaster recovery', 'untested recovery', 'no business continuity', 'no failover', 'single point of failure'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-01-17',
+  },
+  {
+    id: 'DORA_ART_17',
+    name: 'ICT Incident Reporting',
+    article: 'DORA Art. 17',
+    description: 'Financial entities shall report major ICT-related incidents to competent authorities using standard templates and within prescribed timeframes.',
+    violationPatterns: ['unreported incident', 'delayed reporting', 'hidden breach', 'no incident log', 'concealed attack', 'suppressed alert'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-01-17',
+  },
+  {
+    id: 'DORA_ART_26',
+    name: 'Third-Party ICT Risk',
+    article: 'DORA Art. 26',
+    description: 'Financial entities shall manage ICT third-party risk as integral part of ICT risk, including due diligence, contractual arrangements, and exit strategies.',
+    violationPatterns: ['no vendor assessment', 'unvetted third party', 'no exit strategy', 'no vendor monitoring', 'uncontrolled outsourcing', 'no supply chain risk'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-01-17',
   },
 ];
 
