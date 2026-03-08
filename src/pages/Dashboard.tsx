@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3 } from "lucide-react";
+import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
@@ -14,15 +14,19 @@ import ComplianceCertificate from "@/components/dashboard/ComplianceCertificate"
 import ScoreBreakdown from "@/components/dashboard/ScoreBreakdown";
 import ChatAnalytics from "@/components/dashboard/ChatAnalytics";
 import OnboardingTour from "@/components/dashboard/OnboardingTour";
+import UpgradePrompt from "@/components/dashboard/UpgradePrompt";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const TIER_LABELS: Record<string, string> = {
+  free: "FREE",
   startup: "STARTUP",
   growth: "GROWTH",
   enterprise: "ENTERPRISE",
   goliath: "GOLIATH",
 };
+
+const FREE_VERIFICATION_LIMIT = 3;
 
 function calculateBreakdown(qData: any) {
   if (!qData) return null;
@@ -48,6 +52,11 @@ const Dashboard = () => {
   const [portalLoading, setPortalLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [showRetake, setShowRetake] = useState(false);
+  const [upgradeReason, setUpgradeReason] = useState<string | null>(null);
+  const [usageInfo, setUsageInfo] = useState<{ used: number; limit: number } | null>(null);
+
+  const tier = subscription.subscribed ? (subscription.tier || "startup") : "free";
+  const isFree = tier === "free";
 
   useEffect(() => {
     if (searchParams.get("checkout") === "success") {
@@ -58,24 +67,51 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     if (!user) return;
-    const [crRes, vhRes, qRes] = await Promise.all([
+    const [crRes, vhRes, qRes, subRes] = await Promise.all([
       supabase.from("compliance_results").select("*").eq("user_id", user.id).maybeSingle(),
       supabase.from("verification_history").select("*").eq("user_id", user.id).order("article_number"),
       supabase.from("questionnaire_responses").select("*").eq("user_id", user.id).maybeSingle(),
+      supabase.from("subscriptions").select("verifications_used, verifications_limit").eq("user_id", user.id).maybeSingle(),
     ]);
     setCompliance(crRes.data);
     setVerifications(vhRes.data || []);
     setQuestionnaire(qRes.data);
     setQLoaded(true);
     setShowRetake(false);
+    setUpgradeReason(null);
+
+    if (subRes.data) {
+      setUsageInfo({
+        used: subRes.data.verifications_used || 0,
+        limit: subRes.data.verifications_limit > 0 ? subRes.data.verifications_limit : -1,
+      });
+    } else {
+      setUsageInfo({ used: 0, limit: FREE_VERIFICATION_LIMIT });
+    }
   };
 
   useEffect(() => { fetchData(); }, [user]);
 
   const updateTrioMode = async (mode: string) => {
     if (!compliance) return;
+
+    // Check mode access for free tier
+    const allowedModes: Record<string, string[]> = {
+      free: ["SHIELD"],
+      startup: ["SHIELD"],
+      growth: ["SHIELD", "SWORD"],
+      enterprise: ["SHIELD", "SWORD", "JUDGE"],
+      goliath: ["SHIELD", "SWORD", "JUDGE"],
+    };
+
+    if (!(allowedModes[tier] || ["SHIELD"]).includes(mode)) {
+      setUpgradeReason("mode_locked");
+      return;
+    }
+
     await supabase.from("compliance_results").update({ trio_mode: mode }).eq("id", compliance.id);
     setCompliance({ ...compliance, trio_mode: mode });
+    setUpgradeReason(null);
   };
 
   const handleSignOut = async () => {
@@ -98,11 +134,34 @@ const Dashboard = () => {
 
   const handleRunVerification = async () => {
     setVerifying(true);
+    setUpgradeReason(null);
     try {
       const { data, error } = await supabase.functions.invoke("run-verification");
+
+      // Handle structured error responses (429, 403)
+      if (data?.error === "verification_limit") {
+        setUpgradeReason("verification_limit");
+        setUsageInfo({ used: data.used, limit: data.limit });
+        toast.error("Verification limit reached");
+        setVerifying(false);
+        return;
+      }
+      if (data?.error === "mode_locked") {
+        setUpgradeReason("mode_locked");
+        toast.error(data.message);
+        setVerifying(false);
+        return;
+      }
+
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
+
       toast.success(`Verification complete! Score: ${data.score}% (${data.mode} mode)`);
+
+      if (data.verifications_used !== undefined && data.verifications_limit !== undefined) {
+        setUsageInfo({ used: data.verifications_used, limit: data.verifications_limit });
+      }
+
       await fetchData();
     } catch (e: any) {
       toast.error(e.message || "Verification failed");
@@ -140,48 +199,72 @@ const Dashboard = () => {
         <h1 className="text-xl font-bold text-gold-gradient mb-6">Compliance Dashboard</h1>
 
         {/* Subscription Card */}
-        <div className="rounded-xl border border-border bg-card p-6 mb-6">
+        <div className={`rounded-xl border p-6 mb-6 ${isFree ? "border-gold/20 bg-card" : "border-border bg-card"}`}>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
-              {subscription.subscribed ? (
-                <Crown className="h-6 w-6 text-gold" />
+              {isFree ? (
+                <Sparkles className="h-6 w-6 text-gold" />
               ) : (
-                <Shield className="h-6 w-6 text-muted-foreground" />
+                <Crown className="h-6 w-6 text-gold" />
               )}
               <div>
                 <p className="text-sm font-bold text-foreground">
-                  {subscription.subscribed
-                    ? `${TIER_LABELS[subscription.tier || ""] || subscription.tier?.toUpperCase()} Plan`
-                    : "No Active Subscription"}
+                  {TIER_LABELS[tier] || tier.toUpperCase()} Plan
                 </p>
-                {subscription.subscribed && subscription.subscriptionEnd && (
+                {!isFree && subscription.subscriptionEnd && (
                   <p className="text-xs text-muted-foreground">
                     Renews {new Date(subscription.subscriptionEnd).toLocaleDateString()}
                   </p>
                 )}
-                {!subscription.subscribed && (
+                {isFree && (
                   <p className="text-xs text-muted-foreground">
-                    Subscribe to unlock compliance verifications
+                    Free forever — upgrade for regulator-ready proof
                   </p>
                 )}
               </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="sm" onClick={checkSubscription}>
-                <RefreshCw className="h-4 w-4 mr-1" /> Refresh
-              </Button>
-              {subscription.subscribed ? (
-                <Button variant="heroOutline" size="sm" onClick={handleManageSubscription} disabled={portalLoading}>
-                  {portalLoading ? "Loading..." : "Manage Subscription"}
-                </Button>
-              ) : (
-                <Button variant="hero" size="sm" onClick={() => navigate("/#pricing")}>
-                  View Plans
-                </Button>
+            <div className="flex items-center gap-3">
+              {/* Usage indicator */}
+              {usageInfo && usageInfo.limit > 0 && (
+                <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>Verifications:</span>
+                  <div className="w-20 h-1.5 rounded-full bg-muted overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${usageInfo.used >= usageInfo.limit ? "bg-destructive" : "bg-gold"}`}
+                      style={{ width: `${Math.min(100, (usageInfo.used / usageInfo.limit) * 100)}%` }}
+                    />
+                  </div>
+                  <span className="font-mono">{usageInfo.used}/{usageInfo.limit}</span>
+                </div>
               )}
+              <div className="flex gap-2">
+                <Button variant="ghost" size="sm" onClick={checkSubscription}>
+                  <RefreshCw className="h-4 w-4 mr-1" /> Refresh
+                </Button>
+                {!isFree ? (
+                  <Button variant="heroOutline" size="sm" onClick={handleManageSubscription} disabled={portalLoading}>
+                    {portalLoading ? "Loading..." : "Manage Subscription"}
+                  </Button>
+                ) : (
+                  <Button variant="hero" size="sm" onClick={() => navigate("/#pricing")}>
+                    <Zap className="h-4 w-4 mr-1" /> Upgrade
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Upgrade Prompt */}
+        {upgradeReason && (
+          <div className="mb-6">
+            <UpgradePrompt
+              reason={upgradeReason as any}
+              currentUsage={usageInfo?.used}
+              limit={usageInfo?.limit && usageInfo.limit > 0 ? usageInfo.limit : undefined}
+            />
+          </div>
+        )}
 
         {/* Tabs: Compliance + Analytics */}
         <Tabs defaultValue="compliance" className="w-full">
@@ -204,12 +287,12 @@ const Dashboard = () => {
             ) : compliance ? (
               <div className="space-y-6">
                 {/* Action Bar */}
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 items-center">
                   <Button
                     variant="hero"
                     size="sm"
                     onClick={handleRunVerification}
-                    disabled={verifying || !subscription.subscribed}
+                    disabled={verifying}
                   >
                     <Zap className="h-4 w-4 mr-1" />
                     {verifying ? "Verifying…" : "Run TRIO Verification"}
@@ -217,6 +300,11 @@ const Dashboard = () => {
                   <Button variant="heroOutline" size="sm" onClick={handleRetake}>
                     <RotateCcw className="h-4 w-4 mr-1" /> Retake Assessment
                   </Button>
+                  {isFree && usageInfo && usageInfo.limit > 0 && (
+                    <span className="text-xs text-muted-foreground">
+                      {Math.max(0, usageInfo.limit - usageInfo.used)} verifications remaining this month
+                    </span>
+                  )}
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">

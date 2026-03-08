@@ -6,7 +6,24 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Simulated Merkle tree hash generation
+const FREE_MONTHLY_LIMIT = 3;
+const TIER_LIMITS: Record<string, number> = {
+  free: FREE_MONTHLY_LIMIT,
+  startup: 100,
+  growth: -1,    // unlimited
+  enterprise: -1,
+  goliath: -1,
+};
+
+// Mode access per tier
+const TIER_MODES: Record<string, string[]> = {
+  free: ["SHIELD"],
+  startup: ["SHIELD"],
+  growth: ["SHIELD", "SWORD"],
+  enterprise: ["SHIELD", "SWORD", "JUDGE"],
+  goliath: ["SHIELD", "SWORD", "JUDGE"],
+};
+
 function generateMerkleHash(data: string): string {
   let hash = 0;
   for (let i = 0; i < data.length; i++) {
@@ -19,7 +36,6 @@ function generateMerkleHash(data: string): string {
   return `0x${hex}${timestamp}`.slice(0, 42).padEnd(42, '0');
 }
 
-// SHIELD mode: Private compliance verification
 function runShieldVerification(questionnaire: any, article: string) {
   const checks: Record<string, () => { pass: boolean; details: string }> = {
     "Article 12": () => {
@@ -55,33 +71,24 @@ function runShieldVerification(questionnaire: any, article: string) {
       };
     },
   };
-
   const check = checks[article];
   if (!check) return { pass: false, details: "Unknown article" };
   return check();
 }
 
-// SWORD mode: Public audit trail verification (adds public proof)
 function runSwordVerification(questionnaire: any, article: string) {
   const shield = runShieldVerification(questionnaire, article);
-  return {
-    ...shield,
-    publicAudit: true,
-    auditTrailId: `SWORD-${Date.now().toString(36).toUpperCase()}`,
-  };
+  return { ...shield, publicAudit: true, auditTrailId: `SWORD-${Date.now().toString(36).toUpperCase()}` };
 }
 
-// JUDGE mode: Canonical standard verification (strictest)
 function runJudgeVerification(questionnaire: any, article: string) {
   const sword = runSwordVerification(questionnaire, article);
-  // Judge mode requires ALL criteria to be met at the highest standard
   const strictChecks: Record<string, boolean> = {
     "Article 12": questionnaire.governance_policy === "documented" && questionnaire.compliance_officer === "yes" && questionnaire.risk_assessments === "recent",
     "Article 13": questionnaire.users_informed === "always" && questionnaire.ai_content_labeled === "yes" && questionnaire.right_to_explanation === "fully",
     "Article 14": questionnaire.right_to_explanation === "fully" && questionnaire.automated_decisions === "no",
     "Article 15": questionnaire.risk_assessments === "recent" && (questionnaire.high_risk_uses || []).filter((u: string) => u !== "None").length === 0,
   };
-
   return {
     ...sword,
     canonicalStandard: true,
@@ -120,37 +127,54 @@ serve(async (req) => {
     if (!compRes.data) throw new Error("No compliance results found. Complete the questionnaire first.");
     if (!qRes.data || !qRes.data.completed) throw new Error("Complete the compliance questionnaire first.");
 
-    // Check subscription for verification limits
+    // Determine tier: check subscriptions table, default to free
     const subRes = await supabaseClient.from("subscriptions").select("*").eq("user_id", user.id).maybeSingle();
-    if (!subRes.data || subRes.data.status !== "active") {
-      throw new Error("Active subscription required for verification");
+    const tier = (subRes.data?.status === "active" && subRes.data?.tier) ? subRes.data.tier : "free";
+    const limit = TIER_LIMITS[tier] ?? FREE_MONTHLY_LIMIT;
+    const used = subRes.data?.verifications_used ?? 0;
+
+    // Check verification limits (negative = unlimited)
+    if (limit > 0 && used >= limit) {
+      return new Response(JSON.stringify({
+        error: "verification_limit",
+        message: `You've used all ${limit} verifications this month. Upgrade your plan for more.`,
+        used,
+        limit,
+        tier,
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 429,
+      });
     }
 
-    // Check verification limits (startup = 100, others unlimited)
-    if (subRes.data.verifications_limit > 0 && subRes.data.verifications_used >= subRes.data.verifications_limit) {
-      throw new Error("Verification limit reached for your plan. Upgrade to continue.");
-    }
-
+    // Check mode access
     const mode = compRes.data.trio_mode || "SHIELD";
+    const allowedModes = TIER_MODES[tier] ?? ["SHIELD"];
+    if (!allowedModes.includes(mode)) {
+      return new Response(JSON.stringify({
+        error: "mode_locked",
+        message: `${mode} mode requires a ${mode === "JUDGE" ? "ENTERPRISE" : "GROWTH"} plan or above.`,
+        tier,
+        allowed_modes: allowedModes,
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 403,
+      });
+    }
+
     const articles = ["Article 12", "Article 13", "Article 14", "Article 15"];
     const results: any[] = [];
 
     for (const article of articles) {
       let result;
       switch (mode) {
-        case "SWORD":
-          result = runSwordVerification(qRes.data, article);
-          break;
-        case "JUDGE":
-          result = runJudgeVerification(qRes.data, article);
-          break;
-        default:
-          result = runShieldVerification(qRes.data, article);
+        case "SWORD": result = runSwordVerification(qRes.data, article); break;
+        case "JUDGE": result = runJudgeVerification(qRes.data, article); break;
+        default: result = runShieldVerification(qRes.data, article);
       }
 
       const merkleHash = result.pass ? generateMerkleHash(`${user.id}-${article}-${mode}-${Date.now()}`) : null;
 
-      // Update verification_history
       await supabaseClient
         .from("verification_history")
         .update({
@@ -161,22 +185,27 @@ serve(async (req) => {
         .eq("user_id", user.id)
         .eq("article_number", article);
 
-      results.push({
-        article,
-        status: result.pass ? "verified" : "failed",
-        details: result.details,
-        merkle_hash: merkleHash,
-        mode,
-      });
+      results.push({ article, status: result.pass ? "verified" : "failed", details: result.details, merkle_hash: merkleHash, mode });
     }
 
     // Increment verifications_used
-    await supabaseClient
-      .from("subscriptions")
-      .update({ verifications_used: (subRes.data.verifications_used || 0) + 1 })
-      .eq("id", subRes.data.id);
+    if (subRes.data) {
+      await supabaseClient
+        .from("subscriptions")
+        .update({ verifications_used: used + 1 })
+        .eq("id", subRes.data.id);
+    } else {
+      // Free user: create a subscription record to track usage
+      await supabaseClient.from("subscriptions").upsert({
+        user_id: user.id,
+        tier: "free",
+        status: "active",
+        verifications_limit: FREE_MONTHLY_LIMIT,
+        verifications_used: 1,
+      }, { onConflict: "user_id" });
+    }
 
-    // Recalculate overall score based on verification results
+    // Recalculate overall score
     const verified = results.filter(r => r.status === "verified").length;
     const newScore = Math.round((verified / articles.length) * 100);
     let newStatus = "non_compliant";
@@ -195,6 +224,9 @@ serve(async (req) => {
       status: newStatus,
       articles: results,
       verified_at: new Date().toISOString(),
+      tier,
+      verifications_used: (subRes.data?.verifications_used ?? 0) + 1,
+      verifications_limit: limit,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

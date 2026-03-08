@@ -14,6 +14,14 @@ const PRODUCT_TIERS: Record<string, string> = {
   prod_U4HKYz5J6HgJlj: "goliath",
 };
 
+const TIER_LIMITS: Record<string, number> = {
+  free: 3,
+  startup: 100,
+  growth: -1,
+  enterprise: -1,
+  goliath: -1,
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -39,7 +47,19 @@ serve(async (req) => {
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
 
     if (customers.data.length === 0) {
-      return new Response(JSON.stringify({ subscribed: false }), {
+      // No Stripe customer = free tier. Ensure subscription record exists for tracking.
+      await supabaseClient.from("subscriptions").upsert({
+        user_id: user.id,
+        tier: "free",
+        status: "active",
+        verifications_limit: TIER_LIMITS.free,
+      }, { onConflict: "user_id" });
+
+      return new Response(JSON.stringify({
+        subscribed: false,
+        tier: "free",
+        verifications_limit: TIER_LIMITS.free,
+      }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -52,7 +72,20 @@ serve(async (req) => {
     });
 
     if (subscriptions.data.length === 0) {
-      return new Response(JSON.stringify({ subscribed: false }), {
+      // Stripe customer but no active subscription = free tier
+      await supabaseClient.from("subscriptions").upsert({
+        user_id: user.id,
+        tier: "free",
+        status: "active",
+        stripe_customer_id: customerId,
+        verifications_limit: TIER_LIMITS.free,
+      }, { onConflict: "user_id" });
+
+      return new Response(JSON.stringify({
+        subscribed: false,
+        tier: "free",
+        verifications_limit: TIER_LIMITS.free,
+      }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -62,7 +95,6 @@ serve(async (req) => {
     const tier = PRODUCT_TIERS[productId] || "unknown";
     const subscriptionEnd = new Date(sub.current_period_end * 1000).toISOString();
 
-    // Upsert into subscriptions table
     await supabaseClient.from("subscriptions").upsert({
       user_id: user.id,
       tier,
@@ -70,13 +102,14 @@ serve(async (req) => {
       status: "active",
       current_period_start: new Date(sub.current_period_start * 1000).toISOString(),
       current_period_end: subscriptionEnd,
-      verifications_limit: tier === "startup" ? 100 : -1,
+      verifications_limit: TIER_LIMITS[tier] ?? 100,
     }, { onConflict: "user_id" });
 
     return new Response(JSON.stringify({
       subscribed: true,
       tier,
       subscription_end: subscriptionEnd,
+      verifications_limit: TIER_LIMITS[tier] ?? 100,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
