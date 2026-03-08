@@ -208,12 +208,21 @@ const Badge = () => {
                     </ul>
                   </div>
 
-                  <div className="rounded-lg border border-border bg-background/60 p-4">
-                    <p className="text-xs text-muted-foreground mb-2">Want a dynamic badge that updates in real-time?</p>
-                    <Button variant="hero" size="sm" className="w-full" asChild>
-                      <a href="#contact">Contact Us for Enterprise Badge</a>
-                    </Button>
-                  </div>
+                  {complianceStatus ? (
+                    <div className="rounded-lg border border-compliant/20 bg-compliant/5 p-4">
+                      <p className="text-xs text-compliant font-semibold mb-1">✓ Dynamic Badge Active</p>
+                      <p className="text-xs text-muted-foreground">
+                        Your badge reflects your live compliance status: <span className="font-bold text-foreground">{complianceStatus}</span>
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="rounded-lg border border-border bg-background/60 p-4">
+                      <p className="text-xs text-muted-foreground mb-2">Sign in to get a dynamic badge that shows your real compliance status.</p>
+                      <Button variant="hero" size="sm" className="w-full" asChild>
+                        <a href="/auth">Sign In for Dynamic Badge</a>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             </div>

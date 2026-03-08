@@ -100,6 +100,14 @@ const Regulations = () => {
               </p>
             </motion.div>
 
+            {/* Interactive Map */}
+            <div className="mb-8">
+              <RegulationMap
+                regulations={regulations}
+                onCountryClick={(country) => setSearch(country)}
+              />
+            </div>
+
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
               {(["enforced", "enacted", "proposed", "draft"] as RegStatus[]).map((s) => {
