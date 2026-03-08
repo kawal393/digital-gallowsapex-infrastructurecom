@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
@@ -24,60 +25,68 @@ import Verify from "./pages/Verify";
 import BadgePage from "./pages/Badge";
 import FreeAssessment from "./pages/FreeAssessment";
 import Regulations from "./pages/Regulations";
+import ScoreCard from "./pages/ScoreCard";
+import EmbedCountdown from "./pages/EmbedCountdown";
+import EmbedPulse from "./pages/EmbedPulse";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/gallows" element={<Gallows />} />
-            <Route path="/architecture" element={<Architecture />} />
-            <Route path="/sdk" element={<SDK />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="/verify" element={<Verify />} />
-            <Route path="/badge" element={<BadgePage />} />
-            <Route path="/assess" element={<FreeAssessment />} />
-            <Route path="/regulations" element={<Regulations />} />
-            <Route path="/partner" element={<Partner />} />
-            <Route
-              path="/partner/dashboard"
-              element={
-                <ProtectedRoute>
-                  <PartnerDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/cookies" element={<CookiePolicy />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <ExitIntentPopup />
-          <ChatWidget />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/gallows" element={<Gallows />} />
+              <Route path="/architecture" element={<Architecture />} />
+              <Route path="/sdk" element={<SDK />} />
+              <Route path="/compare" element={<Compare />} />
+              <Route path="/verify" element={<Verify />} />
+              <Route path="/badge" element={<BadgePage />} />
+              <Route path="/assess" element={<FreeAssessment />} />
+              <Route path="/regulations" element={<Regulations />} />
+              <Route path="/score/:shareId" element={<ScoreCard />} />
+              <Route path="/embed/countdown" element={<EmbedCountdown />} />
+              <Route path="/embed/pulse/:id" element={<EmbedPulse />} />
+              <Route path="/partner" element={<Partner />} />
+              <Route
+                path="/partner/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <PartnerDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <ExitIntentPopup />
+            <ChatWidget />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
