@@ -86,6 +86,69 @@ export type Database = {
         }
         Relationships: []
       }
+      gallows_ledger: {
+        Row: {
+          action: string
+          challenge_hash: string | null
+          challenged_at: string | null
+          commit_hash: string
+          commit_id: string
+          created_at: string
+          id: string
+          merkle_leaf_hash: string
+          merkle_proof: Json | null
+          merkle_root: string | null
+          phase: string
+          predicate_id: string
+          proof_hash: string | null
+          proven_at: string | null
+          status: string | null
+          user_id: string | null
+          verification_time_ms: number | null
+          violation_found: string | null
+        }
+        Insert: {
+          action: string
+          challenge_hash?: string | null
+          challenged_at?: string | null
+          commit_hash: string
+          commit_id: string
+          created_at?: string
+          id?: string
+          merkle_leaf_hash: string
+          merkle_proof?: Json | null
+          merkle_root?: string | null
+          phase?: string
+          predicate_id: string
+          proof_hash?: string | null
+          proven_at?: string | null
+          status?: string | null
+          user_id?: string | null
+          verification_time_ms?: number | null
+          violation_found?: string | null
+        }
+        Update: {
+          action?: string
+          challenge_hash?: string | null
+          challenged_at?: string | null
+          commit_hash?: string
+          commit_id?: string
+          created_at?: string
+          id?: string
+          merkle_leaf_hash?: string
+          merkle_proof?: Json | null
+          merkle_root?: string | null
+          phase?: string
+          predicate_id?: string
+          proof_hash?: string | null
+          proven_at?: string | null
+          status?: string | null
+          user_id?: string | null
+          verification_time_ms?: number | null
+          violation_found?: string | null
+        }
+        Relationships: []
+      }
       partner_referrals: {
         Row: {
           commission_amount: number
