@@ -17,6 +17,7 @@ import Partner from "./pages/Partner";
 import PartnerDashboard from "./pages/PartnerDashboard";
 import Gallows from "./pages/Gallows";
 import Architecture from "./pages/Architecture";
+import SDK from "./pages/SDK";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             />
             <Route path="/gallows" element={<Gallows />} />
             <Route path="/architecture" element={<Architecture />} />
+            <Route path="/sdk" element={<SDK />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"
