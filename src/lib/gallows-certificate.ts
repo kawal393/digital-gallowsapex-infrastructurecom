@@ -367,6 +367,16 @@ export function generateCertificateHTML(cert: ComplianceCertificate): string {
       `).join('')}
     </div>
 
+    ${cert.qrCodeDataUrl ? `
+    <div class="section" style="text-align: center; margin-top: 30px;">
+      <div class="section-title">Scan to Verify</div>
+      <img src="${cert.qrCodeDataUrl}" alt="Verification QR Code" style="width: 150px; height: 150px; margin: 15px auto; border: 2px solid #333; border-radius: 8px;" />
+      <p style="font-size: 10px; color: #666; word-break: break-all; max-width: 400px; margin: 0 auto;">
+        ${cert.verificationUrl}
+      </p>
+    </div>
+    ` : ''}
+
     <div class="footer">
       <div class="signature">
         Generated: ${new Date(cert.generatedAt).toLocaleString()}<br>
