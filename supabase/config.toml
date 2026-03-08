@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.verify-hash]
 verify_jwt = false
+
+[functions.commit-action]
+verify_jwt = false
