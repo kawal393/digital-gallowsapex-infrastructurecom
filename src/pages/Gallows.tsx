@@ -43,6 +43,7 @@ const Gallows = () => {
   const [persistedCount, setPersistedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [externalAnchoring, setExternalAnchoring] = useState<{ success: boolean; ots_url?: string } | null>(null);
+  const [zkResult, setZkResult] = useState<ZKProofResult | null>(null);
 
   const refreshState = () => {
     setCommitLog(getCommitLog());
