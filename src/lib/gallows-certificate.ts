@@ -5,6 +5,7 @@
 
 import type { CommitRecord } from "./gallows-engine";
 import { hashSHA256 } from "./gallows-engine";
+import QRCode from "qrcode";
 
 export interface ComplianceCertificate {
   certificateId: string;
@@ -40,6 +41,10 @@ export interface ComplianceCertificate {
   
   // Certificate Signature
   certificateHash: string;
+  
+  // QR Code for verification
+  qrCodeDataUrl?: string;
+  verificationUrl: string;
 }
 
 const PREDICATE_NAMES: Record<string, string> = {
