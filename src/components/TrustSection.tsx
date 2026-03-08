@@ -26,7 +26,7 @@ const TrustSection = () => {
             The compliance infrastructure modern AI companies depend on
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 md:gap-8">
             {indicators.map(({ icon: Icon, label }) => (
               <div
                 key={label}
