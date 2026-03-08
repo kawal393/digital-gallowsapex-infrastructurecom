@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // APEX GALLOWS — Public Hash Verification API
 // POST /verify-hash { hash: "..." }
+// GET /verify-hash?hash=...
 // Returns verification status against the immutable ledger
 // ═══════════════════════════════════════════════════════════════════════
 
@@ -8,8 +9,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
 Deno.serve(async (req) => {
@@ -23,13 +24,39 @@ Deno.serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { hash } = await req.json();
+    let hash: string | null = null;
+
+    // Support both GET (query param) and POST (body)
+    if (req.method === "GET") {
+      const url = new URL(req.url);
+      hash = url.searchParams.get("hash");
+    } else if (req.method === "POST") {
+      try {
+        const body = await req.json();
+        hash = body.hash;
+      } catch {
+        return new Response(
+          JSON.stringify({
+            error: "Invalid JSON body",
+            verified: false,
+          }),
+          {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+    }
 
     if (!hash || typeof hash !== "string") {
       return new Response(
         JSON.stringify({
           error: "Missing or invalid 'hash' parameter",
           verified: false,
+          usage: {
+            GET: "/verify-hash?hash=<sha256_hash>",
+            POST: "{ \"hash\": \"<sha256_hash>\" }",
+          },
         }),
         {
           status: 400,
@@ -67,7 +94,9 @@ Deno.serve(async (req) => {
           verified: false,
           found: false,
           message: "Hash not found in the APEX Gallows immutable ledger",
+          queried_hash: hash,
           queried_at: new Date().toISOString(),
+          engine: "APEX Digital Gallows v2.0",
         }),
         {
           status: 200,
@@ -97,6 +126,7 @@ Deno.serve(async (req) => {
         proven_at: entry.proven_at,
         verification_time_ms: entry.verification_time_ms,
         violation_found: entry.violation_found,
+        queried_hash: hash,
         queried_at: new Date().toISOString(),
         engine: "APEX Digital Gallows v2.0",
         algorithm: "SHA-256",
