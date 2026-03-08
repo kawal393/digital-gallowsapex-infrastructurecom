@@ -41,7 +41,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => handleNavClick(link.href)}
+                onClick={() => handleNavClick(link.href, (link as any).isRoute)}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer"
               >
                 {link.label}
