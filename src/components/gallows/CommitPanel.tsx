@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Switch } from "@/components/ui/switch";
 
 interface CommitPanelProps {
-  onCommit: (action: string, predicateId: string) => void;
+  onCommit: (action: string, predicateId: string, zkMode?: boolean) => void;
   isProcessing: boolean;
   paused: boolean;
 }
