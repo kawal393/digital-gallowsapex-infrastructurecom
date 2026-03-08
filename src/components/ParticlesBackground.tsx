@@ -69,7 +69,11 @@ const ParticlesBackground = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(43, 85%, 52%, ${p.opacity})`;
+        // Adapt particle color for light/dark mode
+        const isLight = document.documentElement.classList.contains("light");
+        ctx.fillStyle = isLight
+          ? `hsla(38, 70%, 35%, ${p.opacity})`
+          : `hsla(43, 85%, 52%, ${p.opacity})`;
         ctx.fill();
       }
     };

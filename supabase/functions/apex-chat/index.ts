@@ -49,7 +49,7 @@ function isInjection(input: string): boolean {
   return INJECTION_PATTERNS.some((p) => p.test(input));
 }
 
-const SYSTEM_PROMPT = `You are APEX AI, the official assistant for APEX — the world's first AI compliance infrastructure platform built on Provable Stateful Integrity (PSI).
+const BASE_SYSTEM_PROMPT = `You are APEX AI, the official assistant for APEX — the world's first AI compliance infrastructure platform built on Provable Stateful Integrity (PSI).
 
 ## YOUR IDENTITY
 - You are helpful, concise, and knowledgeable about EU AI Act compliance
@@ -110,6 +110,27 @@ When the visitor provides contact info, call the capture_lead tool.
 
 ## TONE
 Professional but approachable. Use short paragraphs. Be direct. Don't oversell — let the technology speak for itself. If you don't know something, say so honestly and call the flag_knowledge_gap tool.`;
+
+// Self-learning: fetch recent knowledge gaps and inject them as additional context
+async function buildSystemPrompt(supabase: any): Promise<string> {
+  try {
+    const { data: gaps } = await supabase
+      .from("chat_knowledge_gaps")
+      .select("question")
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    if (!gaps || gaps.length === 0) return BASE_SYSTEM_PROMPT;
+
+    const gapsList = gaps.map((g: any) => `- ${g.question}`).join("\n");
+    return BASE_SYSTEM_PROMPT + `\n\n## FREQUENTLY ASKED (LEARN FROM THESE)
+The following questions have been asked by visitors but weren't fully answered before. Try your best to provide helpful answers based on the APEX knowledge above. If you still can't answer confidently, use the flag_knowledge_gap tool.
+
+${gapsList}`;
+  } catch {
+    return BASE_SYSTEM_PROMPT;
+  }
+}
 
 const TOOLS = [
   {
@@ -296,6 +317,9 @@ serve(async (req) => {
       message_count: cleanMessages.length + 1,
       updated_at: new Date().toISOString(),
     }).eq("id", conversation_id);
+
+    // Build self-learning system prompt (injects recent knowledge gaps)
+    const SYSTEM_PROMPT = await buildSystemPrompt(supabase);
 
     // Call AI gateway
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
