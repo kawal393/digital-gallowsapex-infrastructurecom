@@ -42,6 +42,7 @@ const Index = () => {
       <ComparisonTable />
       <BusinessModel />
       <TechSpecs />
+      <FeaturedResearch />
       <ArticlesSection />
       <ResearchReferences />
       <Pricing />
