@@ -24,6 +24,7 @@ import Verify from "./pages/Verify";
 import BadgePage from "./pages/Badge";
 import FreeAssessment from "./pages/FreeAssessment";
 import Regulations from "./pages/Regulations";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <ChatWidget />
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
