@@ -30,6 +30,7 @@ const Index = () => {
       <CountdownBanner />
       <SocialProofBar />
       <ProblemSection />
+      <FreeToolsCTA />
       <VisionSection />
       <SolutionSection />
       <TrioSection />
@@ -38,7 +39,6 @@ const Index = () => {
       <HowItWorks />
       <LiveCaseStudy />
       <ComparisonTable />
-      <FreeToolsCTA />
       <BusinessModel />
       <TechSpecs />
       <ArticlesSection />
