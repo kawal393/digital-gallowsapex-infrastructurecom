@@ -99,22 +99,26 @@ const Gallows = () => {
 
       // Persist via server-side Edge Function (hashes verified server-side)
       const result = await persistCommit(record);
-      if (result.success) {
+      if (result.success && result.commit_id) {
         const description = result.hash_mismatch_detected 
           ? `⚠ Hash mismatch detected - server values used` 
           : `ID: ${result.commit_id} • Server verified`;
         toast.success("Committed to immutable ledger", { description });
         setPersistedCount((prev) => prev + 1);
         
-        // Update local record with server values
-        if (result.commit_id) {
-          updateRecordFromServer(record.id, {
-            id: result.commit_id,
-            commitHash: result.commit_hash!,
-            merkleLeafHash: result.merkle_leaf_hash!,
-          });
-          refreshState();
-        }
+        // Create updated record with server values (use server commit_id!)
+        const serverRecord: CommitRecord = {
+          ...record,
+          id: result.commit_id,
+          commitHash: result.commit_hash!,
+          merkleLeafHash: result.merkle_leaf_hash!,
+          timestamp: result.timestamp || record.timestamp,
+        };
+        
+        // Update both local engine state and current record
+        updateRecordFromServer(record.id, serverRecord);
+        setCurrentRecord(serverRecord);
+        refreshState();
       } else {
         console.error('[Gallows] Persistence failed:', result.error);
         toast.error("Persistence failed", {
