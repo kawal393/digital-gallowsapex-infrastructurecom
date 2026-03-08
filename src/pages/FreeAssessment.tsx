@@ -154,8 +154,11 @@ const FreeAssessment = () => {
     setShowResult(true);
   };
 
+  const scorePageUrl = shareId
+    ? `https://digital-gallowsapex-infrastructurecom.lovable.app/score/${shareId}`
+    : "https://digital-gallowsapex-infrastructurecom.lovable.app/assess";
   const shareText = `I just scored ${result.score}% on the APEX AI Compliance Assessment! Check yours at`;
-  const shareUrl = "https://digital-gallowsapex-infrastructurecom.lovable.app/assess";
+  const shareUrl = scorePageUrl;
 
   const shareOnLinkedIn = () => {
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, "_blank");

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge as UiBadge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EmbedCodeGenerator from "@/components/EmbedCodeGenerator";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
