@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PREDICATES } from "@/lib/gallows-engine";
-import { Lock, ArrowRight, Zap, AlertTriangle } from "lucide-react";
+import { Lock, ArrowRight, Zap, AlertTriangle, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Switch } from "@/components/ui/switch";
 
 interface CommitPanelProps {
   onCommit: (action: string, predicateId: string) => void;
