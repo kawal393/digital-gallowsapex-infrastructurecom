@@ -65,13 +65,13 @@ export async function persistCommit(record: CommitRecord): Promise<{ success: bo
  * Update a commit record after challenge or proof
  */
 export async function updateCommit(record: CommitRecord): Promise<{ success: boolean; error?: string }> {
-  const { error } = await supabase.from('gallows_ledger').update({
+  const { error } = await (supabase.from('gallows_ledger' as any) as any).update({
     phase: record.phase,
     status: record.status ?? null,
     challenge_hash: record.challengeHash ?? null,
     proof_hash: record.proofHash ?? null,
     merkle_root: record.merkleRoot ?? null,
-    merkle_proof: record.merkleProof ?? null,
+    merkle_proof: record.merkleProof ? JSON.parse(JSON.stringify(record.merkleProof)) : null,
     violation_found: record.violationFound ?? null,
     verification_time_ms: record.verificationTimeMs ?? null,
     challenged_at: record.challengedAt ?? null,
