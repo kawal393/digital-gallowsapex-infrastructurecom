@@ -94,7 +94,7 @@ const Navbar = () => {
           {navLinks.map((link) => (
             <button
               key={link.label}
-              onClick={() => handleNavClick(link.href)}
+              onClick={() => handleNavClick(link.href, (link as any).isRoute)}
               className="block text-sm text-muted-foreground hover:text-primary w-full text-left bg-transparent border-none cursor-pointer"
             >
               {link.label}

@@ -38,6 +38,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route path="/gallows" element={<Gallows />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"
