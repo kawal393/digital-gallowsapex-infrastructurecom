@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Copy, Code, ShieldCheck, ExternalLink, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,8 @@ import { Badge as UiBadge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import apexLogo from "@/assets/apex-logo.png";
 
 type BadgeTheme = "dark" | "light" | "gold";
@@ -16,6 +18,25 @@ const Badge = () => {
   const [companyName, setCompanyName] = useState("Your Company");
   const [theme, setTheme] = useState<BadgeTheme>("dark");
   const [size, setSize] = useState<BadgeSize>("md");
+  const { user } = useAuth();
+  const [complianceStatus, setComplianceStatus] = useState<string | null>(null);
+
+  // Fetch real compliance status for authenticated users
+  useEffect(() => {
+    if (!user) return;
+    const fetchStatus = async () => {
+      const { data } = await supabase
+        .from("compliance_results")
+        .select("company_name, status")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (data) {
+        if (data.company_name) setCompanyName(data.company_name);
+        setComplianceStatus(data.status);
+      }
+    };
+    fetchStatus();
+  }, [user]);
 
   const sizeConfig = {
     sm: { w: 200, h: 48, fontSize: 10, logoSize: 20 },
