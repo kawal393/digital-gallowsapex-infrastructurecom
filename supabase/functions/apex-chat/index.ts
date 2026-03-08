@@ -22,7 +22,7 @@ function checkRateLimit(key: string, map: Map<string, { count: number; resetAt: 
   return true;
 }
 
-// Cleanup old entries every 5 min
+// Cleanup old entries periodically
 setInterval(() => {
   const now = Date.now();
   for (const [k, v] of ipRequests) if (now > v.resetAt) ipRequests.delete(k);
@@ -61,10 +61,12 @@ const SYSTEM_PROMPT = `You are APEX AI, the official assistant for APEX — the 
 APEX provides real-time, cryptographic AI compliance verification using its proprietary PSI (Provable Stateful Integrity) framework. Unlike traditional audit firms that check compliance annually, APEX verifies compliance continuously and cryptographically.
 
 ### Core Technology: PSI (Provable Stateful Integrity)
-PSI combines three cryptographic primitives:
-1. **Merkle Trees** — Tamper-proof audit trails for every compliance check
-2. **Zero-Knowledge Proofs** — Prove compliance without revealing proprietary AI models
-3. **Commit-Challenge-Prove Protocol** — Three-phase verification: commit state → random challenge → prove compliance
+PSI is built on three technical pillars:
+1. **Policy Compiler (LDSL)** — Legal Domain-Specific Language that translates EU AI Act articles into mathematical compliance predicates
+2. **Context Oracle (ZK-Oracle)** — Tamper-proof data feeds using Zero-Knowledge proofs, proving compliance without revealing proprietary AI models
+3. **Commit Layer** — Ensures every state mutation requires a verified cryptographic proof via the Commit-Challenge-Prove protocol
+
+PSI combines Merkle Trees (tamper-proof audit trails), Zero-Knowledge Proofs (privacy-preserving verification), and the Commit-Challenge-Prove Protocol (three-phase verification: commit state → random challenge → prove compliance).
 
 ### TRIO Verification Modes
 - **SHIELD Mode** — Defensive compliance monitoring. Continuous background checks. Best for maintaining compliance.
@@ -107,7 +109,7 @@ When the visitor provides contact info, call the capture_lead tool.
 - Want to compare → suggest /compare
 
 ## TONE
-Professional but approachable. Use short paragraphs. Be direct. Don't oversell — let the technology speak for itself. If you don't know something, say so honestly.`;
+Professional but approachable. Use short paragraphs. Be direct. Don't oversell — let the technology speak for itself. If you don't know something, say so honestly and call the flag_knowledge_gap tool.`;
 
 const TOOLS = [
   {
@@ -141,6 +143,58 @@ const TOOLS = [
     },
   },
 ];
+
+// Helper: collect full streamed response
+async function collectStream(response: Response): Promise<{ content: string; toolCalls: any[] }> {
+  const reader = response.body!.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let fullContent = "";
+  const toolCalls: any[] = [];
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+
+    let idx: number;
+    while ((idx = buffer.indexOf("\n")) !== -1) {
+      let line = buffer.slice(0, idx);
+      buffer = buffer.slice(idx + 1);
+      if (line.endsWith("\r")) line = line.slice(0, -1);
+      if (!line.startsWith("data: ")) continue;
+      const json = line.slice(6).trim();
+      if (json === "[DONE]") continue;
+      try {
+        const parsed = JSON.parse(json);
+        const delta = parsed.choices?.[0]?.delta;
+        if (delta?.content) fullContent += delta.content;
+        if (delta?.tool_calls) {
+          for (const tc of delta.tool_calls) {
+            if (tc.index !== undefined) {
+              while (toolCalls.length <= tc.index) toolCalls.push({ id: "", function: { name: "", arguments: "" } });
+              if (tc.id) toolCalls[tc.index].id = tc.id;
+              if (tc.function?.name) toolCalls[tc.index].function.name = tc.function.name;
+              if (tc.function?.arguments) toolCalls[tc.index].function.arguments += tc.function.arguments;
+            }
+          }
+        }
+      } catch { /* partial JSON, ignore */ }
+    }
+  }
+
+  return { content: fullContent, toolCalls: toolCalls.filter(tc => tc.function.name) };
+}
+
+// Helper: store assistant message and return it for the response pipeline
+async function storeAssistantMessage(supabase: any, conversationId: string, content: string) {
+  if (!content) return;
+  await supabase.from("chat_messages").insert({
+    conversation_id: conversationId,
+    role: "assistant",
+    content,
+  });
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -237,14 +291,11 @@ serve(async (req) => {
       content: sanitized,
     });
 
-    // Increment message count
-    await supabase.rpc("increment_chat_count", { conv_id: conversation_id }).catch(() => {
-      // Fallback: direct update
-      supabase.from("chat_conversations").update({
-        message_count: messages.length,
-        updated_at: new Date().toISOString(),
-      }).eq("id", conversation_id);
-    });
+    // Update message count
+    await supabase.from("chat_conversations").update({
+      message_count: cleanMessages.length + 1,
+      updated_at: new Date().toISOString(),
+    }).eq("id", conversation_id);
 
     // Call AI gateway
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -267,14 +318,12 @@ serve(async (req) => {
     if (!aiResponse.ok) {
       if (aiResponse.status === 429) {
         return new Response(JSON.stringify({ error: "AI service is busy. Please try again in a moment." }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       if (aiResponse.status === 402) {
         return new Response(JSON.stringify({ error: "AI service temporarily unavailable." }), {
-          status: 402,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const errText = await aiResponse.text();
@@ -282,59 +331,17 @@ serve(async (req) => {
       throw new Error("AI gateway error");
     }
 
-    // We need to handle tool calls. Let's read the full stream, check for tool calls, handle them, then return.
-    // For streaming with tool calls, we collect the stream, detect tool calls, execute them, and if there are
-    // tool calls we make a second request. Otherwise we stream directly.
+    // Collect stream to check for tool calls
+    const { content: fullContent, toolCalls } = await collectStream(aiResponse);
 
-    // Strategy: stream through, collect assistant content + tool calls. If tool calls found, handle and re-request.
-    const reader = aiResponse.body!.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    let fullContent = "";
-    let toolCalls: any[] = [];
-    let currentToolCall: any = null;
-
-    // Read entire stream to check for tool calls
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-
-      let idx: number;
-      while ((idx = buffer.indexOf("\n")) !== -1) {
-        let line = buffer.slice(0, idx);
-        buffer = buffer.slice(idx + 1);
-        if (line.endsWith("\r")) line = line.slice(0, -1);
-        if (!line.startsWith("data: ")) continue;
-        const json = line.slice(6).trim();
-        if (json === "[DONE]") continue;
-        try {
-          const parsed = JSON.parse(json);
-          const delta = parsed.choices?.[0]?.delta;
-          if (delta?.content) fullContent += delta.content;
-          if (delta?.tool_calls) {
-            for (const tc of delta.tool_calls) {
-              if (tc.index !== undefined) {
-                while (toolCalls.length <= tc.index) toolCalls.push({ id: "", function: { name: "", arguments: "" } });
-                if (tc.id) toolCalls[tc.index].id = tc.id;
-                if (tc.function?.name) toolCalls[tc.index].function.name = tc.function.name;
-                if (tc.function?.arguments) toolCalls[tc.index].function.arguments += tc.function.arguments;
-              }
-            }
-          }
-        } catch {}
-      }
-    }
-
-    // Handle tool calls
-    if (toolCalls.length > 0 && toolCalls[0].function.name) {
+    // Handle tool calls if present
+    if (toolCalls.length > 0) {
       const toolResults: any[] = [];
 
       for (const tc of toolCalls) {
         try {
           const args = JSON.parse(tc.function.arguments);
           if (tc.function.name === "capture_lead") {
-            // Update conversation with lead info
             const update: any = {};
             if (args.name) update.lead_name = args.name;
             if (args.email) update.lead_email = args.email;
@@ -350,12 +357,12 @@ serve(async (req) => {
             });
             toolResults.push({ tool_call_id: tc.id, role: "tool", content: "Knowledge gap flagged." });
           }
-        } catch (e) {
+        } catch {
           toolResults.push({ tool_call_id: tc.id, role: "tool", content: "Tool execution failed." });
         }
       }
 
-      // Second request with tool results (non-streaming for simplicity)
+      // Second AI call with tool results — collect fully so we can store assistant message
       const followUp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -375,41 +382,38 @@ serve(async (req) => {
       });
 
       if (followUp.ok) {
-        // Store the assistant message after streaming completes on the client side
-        // Stream the follow-up response
-        return new Response(followUp.body, {
+        const { content: followUpContent } = await collectStream(followUp);
+        // Store assistant message in DB
+        await storeAssistantMessage(supabase, conversation_id, followUpContent);
+
+        const sseData = JSON.stringify({
+          choices: [{ delta: { content: followUpContent }, finish_reason: "stop" }],
+        });
+        return new Response(`data: ${sseData}\n\ndata: [DONE]\n\n`, {
           headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
         });
       }
     }
 
-    // No tool calls — we already consumed the stream, so return the content as a single SSE event
+    // No tool calls — return collected content
     if (fullContent) {
-      // Store assistant message
-      await supabase.from("chat_messages").insert({
-        conversation_id,
-        role: "assistant",
-        content: fullContent,
-      });
+      await storeAssistantMessage(supabase, conversation_id, fullContent);
 
       const sseData = JSON.stringify({
         choices: [{ delta: { content: fullContent }, finish_reason: "stop" }],
       });
-      const body = `data: ${sseData}\n\ndata: [DONE]\n\n`;
-      return new Response(body, {
+      return new Response(`data: ${sseData}\n\ndata: [DONE]\n\n`, {
         headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
       });
     }
 
     return new Response(JSON.stringify({ error: "No response generated" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
     console.error("apex-chat error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
