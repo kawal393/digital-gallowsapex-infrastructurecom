@@ -33,7 +33,8 @@ export interface LedgerEntry {
 export async function persistCommit(record: CommitRecord): Promise<{ success: boolean; error?: string }> {
   const { data: { user } } = await supabase.auth.getUser();
   
-  const { error } = await supabase.from('gallows_ledger').insert({
+  // Use type assertion since gallows_ledger isn't in generated types yet
+  const { error } = await (supabase.from('gallows_ledger' as any) as any).insert({
     commit_id: record.id,
     user_id: user?.id ?? null,
     action: record.action,
@@ -45,7 +46,7 @@ export async function persistCommit(record: CommitRecord): Promise<{ success: bo
     challenge_hash: record.challengeHash ?? null,
     proof_hash: record.proofHash ?? null,
     merkle_root: record.merkleRoot ?? null,
-    merkle_proof: record.merkleProof ?? null,
+    merkle_proof: record.merkleProof ? JSON.parse(JSON.stringify(record.merkleProof)) : null,
     violation_found: record.violationFound ?? null,
     verification_time_ms: record.verificationTimeMs ?? null,
     challenged_at: record.challengedAt ?? null,
