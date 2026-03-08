@@ -111,8 +111,7 @@ export async function verifyHashInLedger(hash: string): Promise<{
   entry?: LedgerEntry;
 }> {
   // Search across all hash columns
-  const { data, error } = await supabase
-    .from('gallows_ledger')
+  const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
     .select('*')
     .or(`commit_hash.eq.${hash},merkle_leaf_hash.eq.${hash},proof_hash.eq.${hash},challenge_hash.eq.${hash}`)
     .limit(1);
@@ -121,7 +120,7 @@ export async function verifyHashInLedger(hash: string): Promise<{
     return { found: false };
   }
 
-  return { found: true, entry: data[0] as unknown as LedgerEntry };
+  return { found: true, entry: data[0] as LedgerEntry };
 }
 
 /**
