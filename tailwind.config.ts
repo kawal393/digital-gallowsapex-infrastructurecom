@@ -70,6 +70,15 @@ export default {
         "eu-blue": "hsl(var(--eu-blue))",
         compliant: "hsl(var(--compliant))",
         warning: "hsl(var(--warning))",
+        gallows: {
+          bg: "#0a0a0a",
+          surface: "#111111",
+          border: "#1a1a1a",
+          text: "#e0e0e0",
+          muted: "#666666",
+          approved: "#00ff41",
+          blocked: "#ff0040",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
