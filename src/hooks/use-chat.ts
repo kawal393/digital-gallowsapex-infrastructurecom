@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/apex-chat`;
 
@@ -8,31 +8,57 @@ export type ChatMessage = {
   content: string;
 };
 
+const STORAGE_KEY = "apex_chat_messages";
+const VISITOR_KEY = "apex_visitor_id";
+const CONVERSATION_KEY = "apex_conversation_id";
+
 function getVisitorId(): string {
-  const key = "apex_visitor_id";
-  let id = localStorage.getItem(key);
+  let id = localStorage.getItem(VISITOR_KEY);
   if (!id) {
     id = crypto.randomUUID();
-    localStorage.setItem(key, id);
+    localStorage.setItem(VISITOR_KEY, id);
   }
   return id;
 }
 
 function getConversationId(): string {
-  const key = "apex_conversation_id";
-  let id = sessionStorage.getItem(key);
+  let id = sessionStorage.getItem(CONVERSATION_KEY);
   if (!id) {
     id = crypto.randomUUID();
-    sessionStorage.setItem(key, id);
+    sessionStorage.setItem(CONVERSATION_KEY, id);
   }
   return id;
 }
 
+export function getConversationIdForFeedback(): string {
+  return sessionStorage.getItem(CONVERSATION_KEY) || "";
+}
+
+function loadMessages(): ChatMessage[] {
+  try {
+    const stored = sessionStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveMessages(msgs: ChatMessage[]) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+  } catch { /* quota exceeded, ignore */ }
+}
+
 export function useChat() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(loadMessages);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+
+  // Persist messages to sessionStorage
+  useEffect(() => {
+    saveMessages(messages);
+  }, [messages]);
 
   const sendMessage = useCallback(async (input: string) => {
     const trimmed = input.trim();
@@ -40,6 +66,8 @@ export function useChat() {
 
     setError(null);
     const userMsg: ChatMessage = { id: crypto.randomUUID(), role: "user", content: trimmed };
+    const assistantId = crypto.randomUUID(); // Pre-generate stable ID for the assistant message
+
     setMessages(prev => [...prev, userMsg]);
     setIsLoading(true);
 
@@ -72,6 +100,7 @@ export function useChat() {
       const decoder = new TextDecoder();
       let buffer = "";
       let assistantContent = "";
+      let assistantCreated = false;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -95,18 +124,46 @@ export function useChat() {
             if (content) {
               assistantContent += content;
               const currentContent = assistantContent;
-              setMessages(prev => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant") {
-                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: currentContent } : m);
-                }
-                return [...prev, { id: crypto.randomUUID(), role: "assistant", content: currentContent }];
-              });
+              if (!assistantCreated) {
+                assistantCreated = true;
+                setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: currentContent }]);
+              } else {
+                setMessages(prev =>
+                  prev.map(m => m.id === assistantId ? { ...m, content: currentContent } : m)
+                );
+              }
             }
           } catch {
             buffer = line + "\n" + buffer;
             break;
           }
+        }
+      }
+
+      // Handle any remaining buffer
+      if (buffer.trim()) {
+        for (let raw of buffer.split("\n")) {
+          if (!raw) continue;
+          if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+          if (!raw.startsWith("data: ")) continue;
+          const jsonStr = raw.slice(6).trim();
+          if (jsonStr === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content;
+            if (content) {
+              assistantContent += content;
+              const currentContent = assistantContent;
+              if (!assistantCreated) {
+                assistantCreated = true;
+                setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: currentContent }]);
+              } else {
+                setMessages(prev =>
+                  prev.map(m => m.id === assistantId ? { ...m, content: currentContent } : m)
+                );
+              }
+            }
+          } catch { /* ignore partial */ }
         }
       }
     } catch (e: any) {
@@ -122,7 +179,8 @@ export function useChat() {
   const resetChat = useCallback(() => {
     setMessages([]);
     setError(null);
-    sessionStorage.removeItem("apex_conversation_id");
+    sessionStorage.removeItem(CONVERSATION_KEY);
+    sessionStorage.removeItem(STORAGE_KEY);
   }, []);
 
   return { messages, isLoading, error, sendMessage, resetChat };
