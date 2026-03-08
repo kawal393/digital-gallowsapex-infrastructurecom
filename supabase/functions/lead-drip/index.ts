@@ -89,7 +89,7 @@ const DRIP_EMAILS = [
         </table>
         <p style="color:#a89878;line-height:1.7;">Plans start at <strong style="color:#e8e0d0;">$499/mo</strong>. Every day you wait is another day of unverified compliance risk.</p>
         <div style="text-align:center;margin:32px 0;">
-          <a href="https://digital-gallowsapex-infrastructurecom.lovable.app/auth" style="display:inline-block;padding:14px 32px;background:#d4a017;color:#0a0b0f;text-decoration:none;border-radius:8px;font-weight:bold;font-size:14px;">Start Your Free Trial →</a>
+          <a href="https://digital-gallows.apex-infrastructure.com/auth" style="display:inline-block;padding:14px 32px;background:#d4a017;color:#0a0b0f;text-decoration:none;border-radius:8px;font-weight:bold;font-size:14px;">Start Your Free Trial →</a>
         </div>
         <hr style="border:none;border-top:1px solid #1a1a2e;margin:32px 0;">
         <p style="color:#555;font-size:11px;text-align:center;">APEX Digital Gallows · EU AI Act Compliance Platform<br>Reply STOP to unsubscribe</p>

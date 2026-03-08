@@ -241,7 +241,7 @@ const Badge = () => {
                 <EmbedCodeGenerator
                   title="Live Compliance Pulse"
                   description="Show your real-time compliance status on your website. Auto-updates as your score changes."
-                  embedUrl={`https://digital-gallowsapex-infrastructurecom.lovable.app/embed/pulse/${user?.id || ""}`}
+                  embedUrl={`https://digital-gallows.apex-infrastructure.com/embed/pulse/${user?.id || ""}`}
                   defaultWidth={320}
                   defaultHeight={160}
                 />
