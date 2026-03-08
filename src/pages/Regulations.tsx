@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RegulationMap from "@/components/RegulationMap";
 
 type RegStatus = "enforced" | "enacted" | "proposed" | "draft" | "none";
 
