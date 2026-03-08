@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Solution", href: "#solution" },
   { label: "Pillars", href: "#pillars" },
   { label: "Digital Gallows", href: "/gallows", isRoute: true },
-  { label: "Research", href: "#research" },
+  { label: "Architecture", href: "/architecture", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
