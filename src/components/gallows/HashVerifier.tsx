@@ -3,9 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { verifyHash, verifyHashInLedger } from "@/lib/gallows-engine";
+import { verifyHash } from "@/lib/gallows-engine";
 import { verifyHashInLedger as verifyInDB } from "@/lib/gallows-persistence";
 import { Search, ShieldCheck, ShieldX, Loader2, Globe, Database } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { motion, AnimatePresence } from "framer-motion";
 
 const HashVerifier = () => {
