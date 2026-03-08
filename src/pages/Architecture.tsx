@@ -328,6 +328,119 @@ function combinePair(a: string, b: string): string {
           </CardContent>
         </Card>
 
+        {/* Public API Documentation */}
+        <Card className="bg-gallows-surface border-gallows-border">
+          <CardHeader>
+            <CardTitle className="text-lg font-mono text-gallows-text flex items-center gap-2">
+              <Globe className="h-5 w-5 text-amber-400" />
+              Public Verification API
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm font-mono text-gallows-muted">
+              Anyone can independently verify a hash against the APEX Gallows immutable ledger via the public API.
+            </p>
+            <div className="space-y-3">
+              <div className="p-3 bg-gallows-bg rounded border border-gallows-border">
+                <span className="text-[10px] font-mono text-gallows-approved block mb-1">GET REQUEST</span>
+                <pre className="text-xs font-mono text-gallows-text/80 whitespace-pre-wrap">{`curl "https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/verify-hash?hash=<SHA256_HASH>"`}</pre>
+              </div>
+              <div className="p-3 bg-gallows-bg rounded border border-gallows-border">
+                <span className="text-[10px] font-mono text-gallows-approved block mb-1">POST REQUEST</span>
+                <pre className="text-xs font-mono text-gallows-text/80 whitespace-pre-wrap">{`curl -X POST "https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/verify-hash" \\
+  -H "Content-Type: application/json" \\
+  -d '{"hash": "<SHA256_HASH>"}'`}</pre>
+              </div>
+              <div className="p-3 bg-gallows-bg rounded border border-gallows-border">
+                <span className="text-[10px] font-mono text-amber-400 block mb-1">RESPONSE (FOUND)</span>
+                <pre className="text-xs font-mono text-gallows-text/80 whitespace-pre-wrap">{`{
+  "verified": true,
+  "found": true,
+  "merkle_verified": true,
+  "commit_id": "APEX-A1B2C3D4-E5F6",
+  "predicate_id": "EU_ART_50",
+  "phase": "VERIFIED",
+  "status": "APPROVED",
+  "merkle_root": "abc123...",
+  "eu_ai_act_compliance": true,
+  "engine": "APEX Digital Gallows v2.0",
+  "algorithm": "SHA-256"
+}`}</pre>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Live Code Samples */}
+        <Card className="bg-gallows-surface border-gallows-border">
+          <CardHeader>
+            <CardTitle className="text-lg font-mono text-gallows-text flex items-center gap-2">
+              <Code className="h-5 w-5 text-amber-400" />
+              Live Engine Source (Actual Implementation)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm font-mono text-gallows-muted">
+              These are actual code excerpts from <code className="text-gallows-approved">src/lib/gallows-engine.ts</code> — not pseudocode.
+            </p>
+            
+            <div className="p-4 bg-gallows-bg rounded border border-gallows-border">
+              <span className="text-[10px] font-mono text-gallows-approved block mb-2">SHA-256 HASHING (Web Crypto API)</span>
+              <pre className="text-xs font-mono text-gallows-text/80 whitespace-pre-wrap overflow-x-auto">{`export async function hashSHA256(data: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const dataBuffer = encoder.encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}`}</pre>
+            </div>
+
+            <div className="p-4 bg-gallows-bg rounded border border-gallows-border">
+              <span className="text-[10px] font-mono text-gallows-approved block mb-2">MERKLE TREE LAYER COMPUTATION</span>
+              <pre className="text-xs font-mono text-gallows-text/80 whitespace-pre-wrap overflow-x-auto">{`private async computeLayers(): Promise<string[][]> {
+  if (this.leaves.length === 0) return [['0'.repeat(64)]];
+  
+  let currentLayer = [...this.leaves];
+  const layers: string[][] = [currentLayer];
+  
+  while (currentLayer.length > 1) {
+    const nextLayer: string[] = [];
+    for (let i = 0; i < currentLayer.length; i += 2) {
+      const left = currentLayer[i];
+      const right = i + 1 < currentLayer.length ? currentLayer[i + 1] : currentLayer[i];
+      const combined = left < right ? left + right : right + left; // canonical ordering
+      const parentHash = await hashSHA256(combined);
+      nextLayer.push(parentHash);
+    }
+    currentLayer = nextLayer;
+    layers.push(currentLayer);
+  }
+  return layers;
+}`}</pre>
+            </div>
+
+            <div className="p-4 bg-gallows-bg rounded border border-gallows-border">
+              <span className="text-[10px] font-mono text-gallows-approved block mb-2">MERKLE PROOF VERIFICATION</span>
+              <pre className="text-xs font-mono text-gallows-text/80 whitespace-pre-wrap overflow-x-auto">{`export async function verifyMerkleProof(
+  leafHash: string,
+  proof: MerkleProofPath,
+  root: string
+): Promise<boolean> {
+  let computedHash = leafHash;
+  
+  for (const step of proof) {
+    const left = step.position === 'left' ? step.hash : computedHash;
+    const right = step.position === 'left' ? computedHash : step.hash;
+    const combined = left < right ? left + right : right + left;
+    computedHash = await hashSHA256(combined);
+  }
+  
+  return computedHash === root;
+}`}</pre>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Known Limitations — Intellectual Honesty */}
         <Card className="bg-gallows-surface border-gallows-border">
           <CardHeader>
@@ -343,9 +456,9 @@ function combinePair(a: string, b: string): string {
               status="SIMULATED"
             />
             <LimitationItem
-              title="Client-side Merkle Tree"
-              description="Current implementation runs in-browser. Production requires a distributed, append-only ledger with consensus (database-backed or blockchain-anchored)."
-              status="PROTOTYPE"
+              title="Database-backed Merkle Tree"
+              description="Merkle tree now persists to database and rebuilds on page load. Tree state survives browser refresh. Production requires distributed consensus anchoring."
+              status="IMPLEMENTED"
             />
             <LimitationItem
               title="Zero-Knowledge Proofs"
@@ -353,9 +466,9 @@ function combinePair(a: string, b: string): string {
               status="ARCHITECTURAL"
             />
             <LimitationItem
-              title="Regulatory PDF Generation"
-              description="EU regulators require human-readable 50-page audit reports. Current export is JSON-based. PDF generation with Article 11/12 compliance formatting is on the roadmap."
-              status="PLANNED"
+              title="Certificate Generation"
+              description="Compliance certificates with QR codes for instant verification are now generated. PDF export via print dialog. Full Article 11/12 formatted reports on roadmap."
+              status="IMPLEMENTED"
             />
             <LimitationItem
               title="Validator Governance"

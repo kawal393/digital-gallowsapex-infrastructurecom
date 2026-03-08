@@ -5,6 +5,7 @@
 
 import type { CommitRecord } from "./gallows-engine";
 import { hashSHA256 } from "./gallows-engine";
+import QRCode from "qrcode";
 
 export interface ComplianceCertificate {
   certificateId: string;
@@ -40,6 +41,10 @@ export interface ComplianceCertificate {
   
   // Certificate Signature
   certificateHash: string;
+  
+  // QR Code for verification
+  qrCodeDataUrl?: string;
+  verificationUrl: string;
 }
 
 const PREDICATE_NAMES: Record<string, string> = {
@@ -109,9 +114,29 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
   };
   
   const certificateHash = await hashSHA256(JSON.stringify(certificateData));
+  const certificateId = `CERT-${certificateHash.substring(0, 12).toUpperCase()}`;
+  
+  // Generate verification URL
+  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || 'qhtntebpcribjiwrdtdd';
+  const verificationUrl = `https://${projectId}.supabase.co/functions/v1/verify-hash?hash=${record.proofHash}`;
+  
+  // Generate QR code
+  let qrCodeDataUrl: string | undefined;
+  try {
+    qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+      width: 200,
+      margin: 2,
+      color: {
+        dark: '#00ff88',
+        light: '#0a0a0a',
+      },
+    });
+  } catch (e) {
+    console.warn('QR code generation failed:', e);
+  }
 
   return {
-    certificateId: `CERT-${certificateHash.substring(0, 12).toUpperCase()}`,
+    certificateId,
     generatedAt: new Date().toISOString(),
     engine: 'APEX Digital Gallows',
     version: '2.0',
@@ -133,6 +158,8 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
     
     attestations,
     certificateHash,
+    qrCodeDataUrl,
+    verificationUrl,
   };
 }
 
@@ -339,6 +366,16 @@ export function generateCertificateHTML(cert: ComplianceCertificate): string {
         </div>
       `).join('')}
     </div>
+
+    ${cert.qrCodeDataUrl ? `
+    <div class="section" style="text-align: center; margin-top: 30px;">
+      <div class="section-title">Scan to Verify</div>
+      <img src="${cert.qrCodeDataUrl}" alt="Verification QR Code" style="width: 150px; height: 150px; margin: 15px auto; border: 2px solid #333; border-radius: 8px;" />
+      <p style="font-size: 10px; color: #666; word-break: break-all; max-width: 400px; margin: 0 auto;">
+        ${cert.verificationUrl}
+      </p>
+    </div>
+    ` : ''}
 
     <div class="footer">
       <div class="signature">

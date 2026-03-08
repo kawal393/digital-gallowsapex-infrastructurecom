@@ -15,6 +15,7 @@ import {
   toggleSovereignPause,
   getCommitLog,
   getTreeState,
+  initializeFromLedger,
   type CommitRecord,
   type MerkleTreeState,
 } from "@/lib/gallows-engine";
@@ -22,6 +23,7 @@ import { persistCommit, updateCommit, fetchLedger, subscribeLedger, type LedgerE
 import { generateCertificate, type ComplianceCertificate } from "@/lib/gallows-certificate";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const Gallows = () => {
   const { user } = useAuth();
@@ -33,27 +35,44 @@ const Gallows = () => {
   const [error, setError] = useState<string | null>(null);
   const [certificate, setCertificate] = useState<ComplianceCertificate | null>(null);
   const [persistedCount, setPersistedCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const refreshState = () => {
     setCommitLog(getCommitLog());
     setTreeState(getTreeState());
   };
 
-  // Fetch persisted ledger on mount
+  // Initialize from database on mount
   useEffect(() => {
-    fetchLedger(50).then((entries) => {
-      setPersistedCount(entries.length);
-    });
+    const initialize = async () => {
+      setIsLoading(true);
+      try {
+        const entries = await fetchLedger(500);
+        
+        if (entries.length > 0) {
+          const result = await initializeFromLedger(entries);
+          console.log(`[Gallows] Initialized from ${result.loaded} persisted entries. Root: ${result.merkleRoot.substring(0, 16)}...`);
+          toast.success(`Loaded ${result.loaded} entries from ledger`, {
+            description: `Merkle root: ${result.merkleRoot.substring(0, 16)}...`,
+          });
+        }
+        
+        setPersistedCount(entries.length);
+        refreshState();
+      } catch (err) {
+        console.error('[Gallows] Initialization failed:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initialize();
   }, []);
 
   // Subscribe to realtime updates
   useEffect(() => {
     const unsubscribe = subscribeLedger((entry) => {
       setPersistedCount((prev) => prev + 1);
-      toast.success(`Ledger synced: ${entry.commit_id}`, {
-        description: `Phase: ${entry.phase}`,
-        duration: 2000,
-      });
     });
     return unsubscribe;
   }, []);
@@ -68,20 +87,23 @@ const Gallows = () => {
       refreshState();
 
       // Persist to database
-      if (user) {
-        const result = await persistCommit(record);
-        if (result.success) {
-          toast.success("Committed to immutable ledger", {
-            description: `ID: ${record.id}`,
-          });
-        }
+      const result = await persistCommit(record);
+      if (result.success) {
+        toast.success("Committed to immutable ledger", {
+          description: `ID: ${record.id}`,
+        });
+        setPersistedCount((prev) => prev + 1);
+      } else if (result.error?.includes('row-level security')) {
+        toast.info("Committed locally", {
+          description: "Sign in to persist to global ledger",
+        });
       }
     } catch (e: any) {
       setError(e.message);
     } finally {
       setIsProcessing(false);
     }
-  }, [user]);
+  }, []);
 
   const handleChallenge = useCallback(async (commitId: string) => {
     setIsProcessing(true);
@@ -144,6 +166,19 @@ const Gallows = () => {
       }
     );
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gallows-bg text-gallows-text flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-10 w-10 text-gallows-approved animate-spin mx-auto" />
+          <div className="font-mono text-sm text-gallows-muted">
+            INITIALIZING MERKLE TREE FROM LEDGER...
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gallows-bg text-gallows-text">
