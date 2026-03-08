@@ -332,6 +332,7 @@ export function checkCompliance(actionText: string, predicateId: string): { comp
 const globalTree = new MerkleTree();
 let commitLog: CommitRecord[] = [];
 let systemPaused = false;
+let initialized = false;
 
 export function isSystemPaused(): boolean {
   return systemPaused;
@@ -352,6 +353,85 @@ export function getTreeState(): MerkleTreeState & { layers: string[][] } {
     ...globalTree.getState(),
     layers: globalTree.getLayers(),
   };
+}
+
+/**
+ * Initialize engine from persisted ledger entries
+ * Call this on page load to restore cryptographic state
+ */
+export async function initializeFromLedger(entries: {
+  id: string;
+  commit_id: string;
+  action: string;
+  predicate_id: string;
+  phase: string;
+  status: string | null;
+  commit_hash: string;
+  merkle_leaf_hash: string;
+  challenge_hash: string | null;
+  proof_hash: string | null;
+  merkle_root: string | null;
+  merkle_proof: MerkleProofPath | null;
+  violation_found: string | null;
+  verification_time_ms: number | null;
+  challenged_at: string | null;
+  proven_at: string | null;
+  created_at: string;
+}[]): Promise<{ loaded: number; merkleRoot: string }> {
+  if (initialized && entries.length === 0) {
+    return { loaded: 0, merkleRoot: await globalTree.getRoot() };
+  }
+
+  // Sort by created_at ascending to rebuild in correct order
+  const sorted = [...entries].sort((a, b) => 
+    new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  );
+
+  // Extract leaf hashes and rebuild tree
+  const leafHashes = sorted.map(e => e.merkle_leaf_hash);
+  await globalTree.initFromLeaves(leafHashes);
+
+  // Reconstruct commit log
+  commitLog = sorted.map(e => ({
+    id: e.commit_id,
+    action: e.action,
+    predicateId: e.predicate_id,
+    timestamp: e.created_at,
+    commitHash: e.commit_hash,
+    merkleLeafHash: e.merkle_leaf_hash,
+    phase: e.phase as GallowsPhase,
+    challengeHash: e.challenge_hash ?? undefined,
+    proofHash: e.proof_hash ?? undefined,
+    merkleProof: e.merkle_proof ?? undefined,
+    merkleRoot: e.merkle_root ?? undefined,
+    verificationTimeMs: e.verification_time_ms ?? undefined,
+    status: e.status as 'APPROVED' | 'BLOCKED' | undefined,
+    violationFound: e.violation_found ?? undefined,
+    challengedAt: e.challenged_at ?? undefined,
+    provenAt: e.proven_at ?? undefined,
+  })).reverse(); // Reverse so newest is first in commit log
+
+  initialized = true;
+  const merkleRoot = await globalTree.getRoot();
+  
+  return { loaded: sorted.length, merkleRoot };
+}
+
+/**
+ * Check if engine is initialized
+ */
+export function isInitialized(): boolean {
+  return initialized;
+}
+
+/**
+ * Reset engine state (for testing)
+ */
+export function resetEngine(): void {
+  globalTree.clear();
+  commitLog = [];
+  systemPaused = false;
+  initialized = false;
 }
 
 // Phase 1: COMMIT — Hash the action into a Merkle leaf

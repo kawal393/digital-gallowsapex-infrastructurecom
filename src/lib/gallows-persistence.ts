@@ -88,8 +88,26 @@ export async function updateCommit(record: CommitRecord): Promise<{ success: boo
 
 /**
  * Fetch all ledger entries (public audit trail)
+ * Sorted by created_at ascending for tree reconstruction
  */
-export async function fetchLedger(limit = 100): Promise<LedgerEntry[]> {
+export async function fetchLedger(limit = 500): Promise<LedgerEntry[]> {
+  const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
+    .select('*')
+    .order('created_at', { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error('[Gallows Persistence] Fetch failed:', error.message);
+    return [];
+  }
+
+  return (data ?? []) as LedgerEntry[];
+}
+
+/**
+ * Fetch ledger entries sorted descending for display
+ */
+export async function fetchLedgerDescending(limit = 100): Promise<LedgerEntry[]> {
   const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
     .select('*')
     .order('created_at', { ascending: false })
