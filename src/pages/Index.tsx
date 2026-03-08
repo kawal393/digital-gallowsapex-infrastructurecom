@@ -11,6 +11,7 @@ import OptimisticModel from "@/components/OptimisticModel";
 import HowItWorks from "@/components/HowItWorks";
 import LiveCaseStudy from "@/components/LiveCaseStudy";
 import ComparisonTable from "@/components/ComparisonTable";
+import FreeToolsCTA from "@/components/FreeToolsCTA";
 import BusinessModel from "@/components/BusinessModel";
 import TechSpecs from "@/components/TechSpecs";
 import ArticlesSection from "@/components/ArticlesSection";
@@ -37,6 +38,7 @@ const Index = () => {
       <HowItWorks />
       <LiveCaseStudy />
       <ComparisonTable />
+      <FreeToolsCTA />
       <BusinessModel />
       <TechSpecs />
       <ArticlesSection />
