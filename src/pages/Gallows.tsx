@@ -101,6 +101,25 @@ const Gallows = () => {
       setCurrentRecord(record);
       refreshState();
 
+      // Generate ZK proof if enabled
+      let zkProofResult: ZKProofResult | null = null;
+      if (zkMode) {
+        try {
+          zkProofResult = await generateZKProof({
+            actionHash: record.commitHash,
+            predicateId,
+            complianceStatus: true,
+            timestamp: Date.now(),
+          });
+          setZkResult(zkProofResult);
+          toast.success("ZK-SNARK proof generated", {
+            description: `Groth16/BN128 • ${zkProofResult.generationTimeMs}ms • ${zkProofResult.privacyLevel}`,
+          });
+        } catch (e: any) {
+          console.warn("[Gallows] ZK proof generation failed:", e.message);
+        }
+      }
+
       // Persist via server-side Edge Function (hashes verified server-side)
       const result = await persistCommit(record);
       if (result.success && result.commit_id) {
