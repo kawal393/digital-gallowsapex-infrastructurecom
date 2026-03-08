@@ -18,6 +18,7 @@ import PartnerDashboard from "./pages/PartnerDashboard";
 import Gallows from "./pages/Gallows";
 import Architecture from "./pages/Architecture";
 import SDK from "./pages/SDK";
+import Compare from "./pages/Compare";
 
 const queryClient = new QueryClient();
 
