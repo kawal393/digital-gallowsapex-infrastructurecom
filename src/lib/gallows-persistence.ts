@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════
-// APEX GALLOWS — Database Persistence Layer
-// Persists cryptographic audit trail to Lovable Cloud
+// APEX GALLOWS — Server-Side Persistence Layer
+// ALL mutations go through Edge Functions for tamper-proof verification
 // ═══════════════════════════════════════════════════════════════════════
 
 import { supabase } from "@/integrations/supabase/client";
@@ -27,22 +27,57 @@ export interface LedgerEntry {
   created_at: string;
 }
 
+export interface ServerCommitResponse {
+  success: boolean;
+  commit_id?: string;
+  commit_hash?: string;
+  merkle_leaf_hash?: string;
+  timestamp?: string;
+  hash_verified_server_side?: boolean;
+  hash_mismatch_detected?: boolean;
+  rate_limit_remaining?: number;
+  error?: string;
+}
+
+export interface ServerChallengeResponse {
+  success: boolean;
+  commit_id?: string;
+  phase?: string;
+  challenge_hash?: string;
+  challenged_at?: string;
+  error?: string;
+}
+
+export interface ServerProveResponse {
+  success: boolean;
+  commit_id?: string;
+  phase?: string;
+  status?: 'APPROVED' | 'BLOCKED';
+  proof_hash?: string;
+  merkle_root?: string;
+  merkle_proof?: MerkleProofPath;
+  violation_found?: string | null;
+  verification_time_ms?: number;
+  proven_at?: string;
+  leaf_count?: number;
+  external_anchoring?: {
+    success: boolean;
+    ots_url?: string;
+    error?: string;
+  };
+  error?: string;
+}
+
 /**
- * Persist a commit record via server-side Edge Function
+ * Persist a commit via server-side Edge Function
  * Server re-computes hashes to prevent client-side tampering
  */
-export async function persistCommit(record: CommitRecord): Promise<{ 
-  success: boolean; 
-  error?: string;
-  serverVerified?: boolean;
-  hashMismatch?: boolean;
-}> {
+export async function persistCommit(record: CommitRecord): Promise<ServerCommitResponse> {
   try {
     const { data, error } = await supabase.functions.invoke('commit-action', {
       body: {
         action: record.action,
         predicate_id: record.predicateId,
-        // Send client hashes for server-side verification
         client_commit_hash: record.commitHash,
         client_leaf_hash: record.merkleLeafHash,
       },
@@ -53,48 +88,95 @@ export async function persistCommit(record: CommitRecord): Promise<{
       return { success: false, error: error.message };
     }
 
-    // Check for rate limiting
-    if (data?.error === 'Rate limit exceeded') {
-      return { 
-        success: false, 
-        error: `Rate limited: ${data.message}`,
-      };
+    if (data?.error) {
+      return { success: false, error: data.error };
     }
 
-    return { 
+    return {
       success: true,
-      serverVerified: data?.hash_verified_server_side ?? false,
-      hashMismatch: data?.hash_mismatch_detected ?? false,
+      commit_id: data.commit_id,
+      commit_hash: data.commit_hash,
+      merkle_leaf_hash: data.merkle_leaf_hash,
+      timestamp: data.timestamp,
+      hash_verified_server_side: data.hash_verified_server_side,
+      hash_mismatch_detected: data.hash_mismatch_detected,
+      rate_limit_remaining: data.rate_limit_remaining,
     };
   } catch (e: any) {
-    console.error('[Gallows Persistence] Insert failed:', e.message);
+    console.error('[Gallows Persistence] Commit failed:', e.message);
     return { success: false, error: e.message };
   }
 }
 
 /**
- * Update a commit record after challenge or proof
+ * Challenge a commit via server-side Edge Function
+ * Server generates and persists challenge hash
  */
-export async function updateCommit(record: CommitRecord): Promise<{ success: boolean; error?: string }> {
-  const { error } = await (supabase.from('gallows_ledger' as any) as any).update({
-    phase: record.phase,
-    status: record.status ?? null,
-    challenge_hash: record.challengeHash ?? null,
-    proof_hash: record.proofHash ?? null,
-    merkle_root: record.merkleRoot ?? null,
-    merkle_proof: record.merkleProof ? JSON.parse(JSON.stringify(record.merkleProof)) : null,
-    violation_found: record.violationFound ?? null,
-    verification_time_ms: record.verificationTimeMs ?? null,
-    challenged_at: record.challengedAt ?? null,
-    proven_at: record.provenAt ?? null,
-  }).eq('commit_id', record.id);
+export async function challengeCommitServer(commitId: string): Promise<ServerChallengeResponse> {
+  try {
+    const { data, error } = await supabase.functions.invoke('challenge-action', {
+      body: { commit_id: commitId },
+    });
 
-  if (error) {
-    console.error('[Gallows Persistence] Update failed:', error.message);
-    return { success: false, error: error.message };
+    if (error) {
+      console.error('[Gallows Persistence] Server challenge failed:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    if (data?.error) {
+      return { success: false, error: data.error };
+    }
+
+    return {
+      success: true,
+      commit_id: data.commit_id,
+      phase: data.phase,
+      challenge_hash: data.challenge_hash,
+      challenged_at: data.challenged_at,
+    };
+  } catch (e: any) {
+    console.error('[Gallows Persistence] Challenge failed:', e.message);
+    return { success: false, error: e.message };
   }
-  
-  return { success: true };
+}
+
+/**
+ * Prove a commit via server-side Edge Function
+ * Server builds Merkle tree, generates proof, anchors to OpenTimestamps
+ */
+export async function proveCommitServer(commitId: string): Promise<ServerProveResponse> {
+  try {
+    const { data, error } = await supabase.functions.invoke('prove-action', {
+      body: { commit_id: commitId },
+    });
+
+    if (error) {
+      console.error('[Gallows Persistence] Server prove failed:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    if (data?.error) {
+      return { success: false, error: data.error };
+    }
+
+    return {
+      success: true,
+      commit_id: data.commit_id,
+      phase: data.phase,
+      status: data.status,
+      proof_hash: data.proof_hash,
+      merkle_root: data.merkle_root,
+      merkle_proof: data.merkle_proof,
+      violation_found: data.violation_found,
+      verification_time_ms: data.verification_time_ms,
+      proven_at: data.proven_at,
+      leaf_count: data.leaf_count,
+      external_anchoring: data.external_anchoring,
+    };
+  } catch (e: any) {
+    console.error('[Gallows Persistence] Prove failed:', e.message);
+    return { success: false, error: e.message };
+  }
 }
 
 /**
@@ -139,7 +221,6 @@ export async function verifyHashInLedger(hash: string): Promise<{
   found: boolean;
   entry?: LedgerEntry;
 }> {
-  // Search across all hash columns
   const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
     .select('*')
     .or(`commit_hash.eq.${hash},merkle_leaf_hash.eq.${hash},proof_hash.eq.${hash},challenge_hash.eq.${hash}`)
@@ -153,7 +234,7 @@ export async function verifyHashInLedger(hash: string): Promise<{
 }
 
 /**
- * Get current Merkle root from the latest entry
+ * Get current Merkle root from the latest verified entry
  */
 export async function getLatestMerkleRoot(): Promise<string | null> {
   const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
@@ -170,22 +251,9 @@ export async function getLatestMerkleRoot(): Promise<string | null> {
 }
 
 /**
- * Subscribe to realtime ledger updates
- * Generates a unique session ID to filter out own inserts
+ * Subscribe to realtime ledger updates (INSERT events only)
  */
-let sessionId: string | null = null;
-
-export function getSessionId(): string {
-  if (!sessionId) {
-    sessionId = crypto.randomUUID();
-  }
-  return sessionId;
-}
-
-export function subscribeLedger(
-  callback: (entry: LedgerEntry) => void,
-  options?: { includeOwnInserts?: boolean }
-) {
+export function subscribeLedger(callback: (entry: LedgerEntry) => void) {
   const channel = supabase
     .channel('gallows_ledger_changes')
     .on(
@@ -197,9 +265,33 @@ export function subscribeLedger(
       },
       (payload) => {
         if (payload.new) {
-          // Only invoke callback for new entries
-          // The filtering of own vs others happens at UI level
           callback(payload.new as unknown as LedgerEntry);
+        }
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}
+
+/**
+ * Subscribe to all ledger changes (INSERT, UPDATE)
+ */
+export function subscribeLedgerAll(callback: (entry: LedgerEntry, event: string) => void) {
+  const channel = supabase
+    .channel('gallows_ledger_all_changes')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'gallows_ledger',
+      },
+      (payload) => {
+        if (payload.new) {
+          callback(payload.new as unknown as LedgerEntry, payload.eventType);
         }
       }
     )
