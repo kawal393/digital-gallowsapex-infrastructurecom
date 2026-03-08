@@ -30,7 +30,7 @@ const TrustSection = () => {
             {indicators.map(({ icon: Icon, label }) => (
               <div
                 key={label}
-                className="flex items-center justify-center gap-2 h-12 px-6 rounded-lg border border-border bg-card/50 text-chrome text-sm font-semibold tracking-wider uppercase opacity-70 hover:opacity-100 hover:border-gold/20 hover:shadow-gold transition-all duration-500"
+                className="flex items-center justify-center gap-1.5 sm:gap-2 h-10 sm:h-12 px-3 sm:px-5 rounded-lg border border-border bg-card/50 text-chrome text-xs sm:text-sm font-semibold tracking-wider uppercase opacity-70 hover:opacity-100 hover:border-gold/20 hover:shadow-gold transition-all duration-500"
               >
                 <Icon className="h-4 w-4 text-gold" />
                 {label}

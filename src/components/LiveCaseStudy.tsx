@@ -85,7 +85,7 @@ const LiveCaseStudy = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-[1fr_320px] gap-6">
+        <div className="grid lg:grid-cols-[1fr_320px] gap-4 sm:gap-6">
           {/* Main Demo Panel */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}

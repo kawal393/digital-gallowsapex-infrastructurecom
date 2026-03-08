@@ -79,7 +79,7 @@ const BusinessModel = () => (
                 </li>
               ))}
             </ul>
-            <Button variant={p.variant} asChild>
+            <Button variant={p.variant} className="w-full sm:w-auto" asChild>
               {p.isRoute ? (
                 <Link to={p.ctaHref}>{p.cta}</Link>
               ) : (
