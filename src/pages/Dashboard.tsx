@@ -138,22 +138,37 @@ const Dashboard = () => {
     try {
       const { data, error } = await supabase.functions.invoke("run-verification");
 
-      // Handle structured error responses (429, 403)
-      if (data?.error === "verification_limit") {
-        setUpgradeReason("verification_limit");
-        setUsageInfo({ used: data.used, limit: data.limit });
-        toast.error("Verification limit reached");
-        setVerifying(false);
-        return;
-      }
-      if (data?.error === "mode_locked") {
-        setUpgradeReason("mode_locked");
-        toast.error(data.message);
-        setVerifying(false);
-        return;
+      // supabase.functions.invoke returns non-2xx bodies in error context
+      // Parse structured error responses from the edge function
+      if (error) {
+        // Try to extract JSON body from FunctionsHttpError
+        let errorBody: any = null;
+        try {
+          if (error.context && typeof error.context.json === 'function') {
+            errorBody = await error.context.json();
+          } else if (typeof error.message === 'string') {
+            errorBody = JSON.parse(error.message);
+          }
+        } catch { /* not JSON, fall through */ }
+
+        if (errorBody?.error === "verification_limit") {
+          setUpgradeReason("verification_limit");
+          setUsageInfo({ used: errorBody.used, limit: errorBody.limit });
+          toast.error("Verification limit reached — upgrade for more");
+          setVerifying(false);
+          return;
+        }
+        if (errorBody?.error === "mode_locked") {
+          setUpgradeReason("mode_locked");
+          toast.error(errorBody.message || "This mode requires a higher plan");
+          setVerifying(false);
+          return;
+        }
+
+        throw new Error(errorBody?.error || errorBody?.message || error.message || "Verification failed");
       }
 
-      if (error) throw error;
+      // Also check data-level errors (edge function returned 200 with error)
       if (data?.error) throw new Error(data.error);
 
       toast.success(`Verification complete! Score: ${data.score}% (${data.mode} mode)`);
