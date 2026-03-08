@@ -1,23 +1,26 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LogIn, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "@/components/LanguageSelector";
 import apexLogo from "@/assets/apex-logo.png";
-
-const navLinks = [
-  { label: "Problem", href: "#problem" },
-  { label: "Solution", href: "#solution" },
-  { label: "Pillars", href: "#pillars" },
-  { label: "Digital Gallows", href: "/gallows", isRoute: true },
-  { label: "Architecture", href: "/architecture", isRoute: true },
-  { label: "Contact", href: "#contact" },
-];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { label: t("nav.problem"), href: "#problem" },
+    { label: t("nav.solution"), href: "#solution" },
+    { label: t("nav.pillars"), href: "#pillars" },
+    { label: t("nav.digitalGallows"), href: "/gallows", isRoute: true },
+    { label: t("nav.architecture"), href: "/architecture", isRoute: true },
+    { label: t("nav.contact"), href: "#contact" },
+  ];
 
   const handleNavClick = (href: string, isRoute?: boolean) => {
     setOpen(false);
@@ -59,22 +62,24 @@ const Navbar = () => {
           </button>
 
           <div className="justify-self-end flex items-center gap-2">
+            <LanguageSelector />
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
-                <LayoutDashboard className="h-4 w-4 mr-1" />Dashboard
+                <LayoutDashboard className="h-4 w-4 mr-1" />{t("nav.dashboard")}
               </Button>
             ) : (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/auth")}>
-                <LogIn className="h-4 w-4 mr-1" />Login
+                <LogIn className="h-4 w-4 mr-1" />{t("nav.login")}
               </Button>
             )}
             <Button variant="hero" size="sm" onClick={() => handleNavClick("#contact")}>
-              Get Started
+              {t("nav.getStarted")}
             </Button>
           </div>
         </div>
 
         <div className="md:hidden relative flex items-center h-16 px-4">
+          <LanguageSelector />
           <button
             onClick={() => handleNavClick("#top")}
             className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 bg-transparent border-none cursor-pointer"
@@ -102,15 +107,15 @@ const Navbar = () => {
           ))}
           {user ? (
             <Button variant="heroOutline" size="sm" className="w-full" onClick={() => { setOpen(false); navigate("/dashboard"); }}>
-              Dashboard
+              {t("nav.dashboard")}
             </Button>
           ) : (
             <Button variant="heroOutline" size="sm" className="w-full" onClick={() => { setOpen(false); navigate("/auth"); }}>
-              Login
+              {t("nav.login")}
             </Button>
           )}
           <Button variant="hero" size="sm" className="w-full" onClick={() => handleNavClick("#contact")}>
-            Get Started
+            {t("nav.getStarted")}
           </Button>
         </div>
       )}

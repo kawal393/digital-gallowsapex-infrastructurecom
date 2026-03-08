@@ -41,3 +41,6 @@ verify_jwt = false
 
 [functions.mpc-coordinator]
 verify_jwt = false
+
+[functions.translate]
+verify_jwt = false
