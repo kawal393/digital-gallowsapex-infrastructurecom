@@ -7,7 +7,6 @@ import { verifyHash } from "@/lib/gallows-engine";
 import { verifyHashInLedger as verifyInDB } from "@/lib/gallows-persistence";
 import { Search, ShieldCheck, ShieldX, Loader2, Globe, Database } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { motion, AnimatePresence } from "framer-motion";
 
 const HashVerifier = () => {
   const [inputHash, setInputHash] = useState("");
