@@ -114,9 +114,29 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
   };
   
   const certificateHash = await hashSHA256(JSON.stringify(certificateData));
+  const certificateId = `CERT-${certificateHash.substring(0, 12).toUpperCase()}`;
+  
+  // Generate verification URL
+  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID || 'qhtntebpcribjiwrdtdd';
+  const verificationUrl = `https://${projectId}.supabase.co/functions/v1/verify-hash?hash=${record.proofHash}`;
+  
+  // Generate QR code
+  let qrCodeDataUrl: string | undefined;
+  try {
+    qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+      width: 200,
+      margin: 2,
+      color: {
+        dark: '#00ff88',
+        light: '#0a0a0a',
+      },
+    });
+  } catch (e) {
+    console.warn('QR code generation failed:', e);
+  }
 
   return {
-    certificateId: `CERT-${certificateHash.substring(0, 12).toUpperCase()}`,
+    certificateId,
     generatedAt: new Date().toISOString(),
     engine: 'APEX Digital Gallows',
     version: '2.0',
@@ -138,6 +158,8 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
     
     attestations,
     certificateHash,
+    qrCodeDataUrl,
+    verificationUrl,
   };
 }
 
