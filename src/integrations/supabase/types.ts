@@ -22,6 +22,7 @@ export type Database = {
           id: string
           industry: string | null
           score: number | null
+          share_id: string | null
           status: string | null
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           id?: string
           industry?: string | null
           score?: number | null
+          share_id?: string | null
           status?: string | null
         }
         Update: {
@@ -40,6 +42,7 @@ export type Database = {
           id?: string
           industry?: string | null
           score?: number | null
+          share_id?: string | null
           status?: string | null
         }
         Relationships: []

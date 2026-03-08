@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge as UiBadge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EmbedCodeGenerator from "@/components/EmbedCodeGenerator";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -225,6 +226,26 @@ const Badge = () => {
                   )}
                 </div>
               </motion.div>
+            </div>
+
+            {/* Embed Widgets Section */}
+            <div className="grid lg:grid-cols-2 gap-8 mt-12">
+              <EmbedCodeGenerator
+                title="EU AI Act Countdown Widget"
+                description="Embed a live countdown to the August 2, 2026 enforcement deadline on any website. Drives traffic back to APEX."
+                embedUrl="https://digital-gallowsapex-infrastructurecom.lovable.app/embed/countdown"
+                defaultWidth={400}
+                defaultHeight={220}
+              />
+              {complianceStatus && (
+                <EmbedCodeGenerator
+                  title="Live Compliance Pulse"
+                  description="Show your real-time compliance status on your website. Auto-updates as your score changes."
+                  embedUrl={`https://digital-gallowsapex-infrastructurecom.lovable.app/embed/pulse/${user?.id || ""}`}
+                  defaultWidth={320}
+                  defaultHeight={160}
+                />
+              )}
             </div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Shield, ShieldCheck, ShieldAlert, ShieldX, Lock, LogIn, Mail, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -93,6 +93,17 @@ const FreeAssessment = () => {
 
   const handleSubmit = () => setEmailStep(true);
 
+  const [shareId, setShareId] = useState<string | null>(null);
+
+  // Check for referral param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) {
+      sessionStorage.setItem("apex_ref", ref);
+    }
+  }, []);
+
   const handleEmailSubmit = async () => {
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast.error("Please enter a valid email address");
@@ -100,6 +111,10 @@ const FreeAssessment = () => {
     }
     setSaving(true);
     try {
+      // Generate a short share_id
+      const sid = Math.random().toString(36).substring(2, 10);
+      setShareId(sid);
+
       await supabase.from("assessment_leads").upsert(
         {
           email: email.trim().toLowerCase(),
@@ -107,9 +122,29 @@ const FreeAssessment = () => {
           score: result.score,
           status: result.status,
           industry: data.industry,
+          share_id: sid,
         },
         { onConflict: "email" }
       );
+
+      // If referred, increment referrer's count
+      const ref = sessionStorage.getItem("apex_ref");
+      if (ref) {
+        // Find the referrer's compliance result by referral_code and increment
+        const { data: refData } = await supabase
+          .from("compliance_results")
+          .select("id, referral_count")
+          .eq("referral_code", ref)
+          .maybeSingle();
+        if (refData) {
+          await supabase
+            .from("compliance_results")
+            .update({ referral_count: (refData.referral_count || 0) + 1 })
+            .eq("id", refData.id);
+        }
+        sessionStorage.removeItem("apex_ref");
+      }
+
       toast.success("Score saved! Check your results below.");
     } catch {
       // Non-blocking — still show result
@@ -119,8 +154,11 @@ const FreeAssessment = () => {
     setShowResult(true);
   };
 
+  const scorePageUrl = shareId
+    ? `https://digital-gallowsapex-infrastructurecom.lovable.app/score/${shareId}`
+    : "https://digital-gallowsapex-infrastructurecom.lovable.app/assess";
   const shareText = `I just scored ${result.score}% on the APEX AI Compliance Assessment! Check yours at`;
-  const shareUrl = "https://digital-gallowsapex-infrastructurecom.lovable.app/assess";
+  const shareUrl = scorePageUrl;
 
   const shareOnLinkedIn = () => {
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, "_blank");
