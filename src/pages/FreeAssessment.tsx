@@ -377,12 +377,17 @@ const FreeAssessment = () => {
               ) : emailStep ? (
                 <motion.div key="email" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                   <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 sm:p-12 max-w-md mx-auto text-center">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-bold text-muted-foreground">Step 6 of 6</span>
+                      <span className="text-xs text-gold font-mono">100%</span>
+                    </div>
+                    <Progress value={100} className="h-1.5 mb-6" />
                     <div className="mx-auto w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
                       <Mail className="h-7 w-7 text-gold" />
                     </div>
-                    <h2 className="text-xl font-black text-foreground mb-2">Almost There!</h2>
+                    <h2 className="text-xl font-black text-foreground mb-2">Your Score is Ready!</h2>
                     <p className="text-sm text-muted-foreground mb-6">
-                      Enter your email to receive your compliance score and a summary of key findings.
+                      Enter your work email to see your compliance score and receive a summary of key findings.
                     </p>
                     <div className="space-y-3">
                       <Input
