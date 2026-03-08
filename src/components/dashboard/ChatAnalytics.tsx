@@ -59,10 +59,11 @@ export default function ChatAnalytics() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <StatCard icon={<MessageCircle className="h-4 w-4" />} label="Conversations" value={data.totalConversations} />
         <StatCard icon={<Users className="h-4 w-4" />} label="Messages" value={data.totalMessages} />
         <StatCard icon={<Mail className="h-4 w-4" />} label="Leads Captured" value={data.leads.length} accent />
+        <StatCard icon={<Send className="h-4 w-4" />} label="Drip Emails" value={`${data.drip.sent} sent`} subtitle={`${data.drip.pending} pending`} />
         <StatCard
           icon={<ThumbsUp className="h-4 w-4" />}
           label="Satisfaction"
