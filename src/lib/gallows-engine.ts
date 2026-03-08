@@ -434,6 +434,23 @@ export function resetEngine(): void {
   initialized = false;
 }
 
+/**
+ * Update a local record with server-side values
+ * Used to sync client state with server after challenge/prove
+ */
+export function updateRecordFromServer(
+  commitId: string,
+  serverData: Partial<CommitRecord>
+): CommitRecord | null {
+  const idx = commitLog.findIndex(r => r.id === commitId);
+  if (idx === -1) return null;
+
+  const updatedRecord = { ...commitLog[idx], ...serverData };
+  commitLog[idx] = updatedRecord;
+  
+  return updatedRecord;
+}
+
 // Phase 1: COMMIT — Hash the action into a Merkle leaf
 export async function commitAction(action: string, predicateId: string): Promise<CommitRecord> {
   if (systemPaused) {
