@@ -171,19 +171,34 @@ export async function getLatestMerkleRoot(): Promise<string | null> {
 
 /**
  * Subscribe to realtime ledger updates
+ * Generates a unique session ID to filter out own inserts
  */
-export function subscribeLedger(callback: (entry: LedgerEntry) => void) {
+let sessionId: string | null = null;
+
+export function getSessionId(): string {
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+  }
+  return sessionId;
+}
+
+export function subscribeLedger(
+  callback: (entry: LedgerEntry) => void,
+  options?: { includeOwnInserts?: boolean }
+) {
   const channel = supabase
     .channel('gallows_ledger_changes')
     .on(
       'postgres_changes',
       {
-        event: '*',
+        event: 'INSERT',
         schema: 'public',
         table: 'gallows_ledger',
       },
       (payload) => {
         if (payload.new) {
+          // Only invoke callback for new entries
+          // The filtering of own vs others happens at UI level
           callback(payload.new as unknown as LedgerEntry);
         }
       }
