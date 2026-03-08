@@ -64,7 +64,7 @@ const Badge = () => {
 </svg>`;
 
   const embedCode = `<!-- APEX PSI Trust Badge -->
-<a href="https://digital-gallowsapex-infrastructurecom.lovable.app/verify" target="_blank" rel="noopener noreferrer" title="PSI Verified by APEX Digital Gallows">
+<a href="https://digital-gallows.apex-infrastructure.com/verify" target="_blank" rel="noopener noreferrer" title="PSI Verified by APEX Digital Gallows">
   <img src="data:image/svg+xml,${encodeURIComponent(badgeSvg)}" alt="PSI Verified - ${companyName}" width="${s.w}" height="${s.h}" />
 </a>`;
 
