@@ -1,0 +1,29 @@
+{
+  "name": "@apex/gallows-sdk",
+  "version": "1.0.0",
+  "description": "Runtime AI compliance verification SDK — Block non-compliant AI actions before they reach users",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
+  },
+  "keywords": ["ai", "compliance", "eu-ai-act", "mifid", "dora", "verification", "zk-snark", "merkle-tree"],
+  "author": "Apex Intelligence Empire",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "peerDependencies": {},
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
