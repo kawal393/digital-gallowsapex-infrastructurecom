@@ -86,16 +86,17 @@ const Gallows = () => {
       setCurrentRecord(record);
       refreshState();
 
-      // Persist to database
+      // Persist to database (works for both authenticated and anonymous users)
       const result = await persistCommit(record);
       if (result.success) {
         toast.success("Committed to immutable ledger", {
           description: `ID: ${record.id}`,
         });
         setPersistedCount((prev) => prev + 1);
-      } else if (result.error?.includes('row-level security')) {
-        toast.info("Committed locally", {
-          description: "Sign in to persist to global ledger",
+      } else {
+        console.error('[Gallows] Persistence failed:', result.error);
+        toast.error("Persistence failed", {
+          description: result.error,
         });
       }
     } catch (e: any) {
