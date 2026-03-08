@@ -30,6 +30,7 @@ const EXAMPLE_ACTIONS = [
 const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
   const [action, setAction] = useState("");
   const [predicateId, setPredicateId] = useState("EU_ART_50");
+  const [zkMode, setZkMode] = useState(false);
 
   const handleCommit = () => {
     if (!action.trim() || paused) return;
