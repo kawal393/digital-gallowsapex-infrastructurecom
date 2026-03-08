@@ -17,9 +17,10 @@ const Navbar = () => {
   const navLinks = [
     { label: t("nav.problem"), href: "#problem" },
     { label: t("nav.solution"), href: "#solution" },
-    { label: t("nav.pillars"), href: "#pillars" },
     { label: t("nav.digitalGallows"), href: "/gallows", isRoute: true },
-    { label: t("nav.architecture"), href: "/architecture", isRoute: true },
+    { label: "Verify", href: "/verify", isRoute: true },
+    { label: "Regulations", href: "/regulations", isRoute: true },
+    { label: "Free Score", href: "/assess", isRoute: true },
     { label: t("nav.contact"), href: "#contact" },
   ];
 

@@ -19,6 +19,10 @@ import Gallows from "./pages/Gallows";
 import Architecture from "./pages/Architecture";
 import SDK from "./pages/SDK";
 import Compare from "./pages/Compare";
+import Verify from "./pages/Verify";
+import BadgePage from "./pages/Badge";
+import FreeAssessment from "./pages/FreeAssessment";
+import Regulations from "./pages/Regulations";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +49,10 @@ const App = () => (
             <Route path="/architecture" element={<Architecture />} />
             <Route path="/sdk" element={<SDK />} />
             <Route path="/compare" element={<Compare />} />
+            <Route path="/verify" element={<Verify />} />
+            <Route path="/badge" element={<BadgePage />} />
+            <Route path="/assess" element={<FreeAssessment />} />
+            <Route path="/regulations" element={<Regulations />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"
