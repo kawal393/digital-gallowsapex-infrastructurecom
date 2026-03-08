@@ -90,8 +90,7 @@ export async function updateCommit(record: CommitRecord): Promise<{ success: boo
  * Fetch all ledger entries (public audit trail)
  */
 export async function fetchLedger(limit = 100): Promise<LedgerEntry[]> {
-  const { data, error } = await supabase
-    .from('gallows_ledger')
+  const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
     .select('*')
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -101,7 +100,7 @@ export async function fetchLedger(limit = 100): Promise<LedgerEntry[]> {
     return [];
   }
 
-  return (data ?? []) as unknown as LedgerEntry[];
+  return (data ?? []) as LedgerEntry[];
 }
 
 /**
