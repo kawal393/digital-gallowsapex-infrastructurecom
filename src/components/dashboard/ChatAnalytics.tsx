@@ -10,6 +10,7 @@ type Analytics = {
   leads: Array<{ id: string; lead_name: string | null; lead_email: string; lead_company: string | null; created_at: string }>;
   knowledgeGaps: Array<{ id: string; question: string; created_at: string }>;
   feedback: { total: number; positive: number; negative: number };
+  drip: { pending: number; sent: number };
   recentConversations: Array<{
     id: string; visitor_id: string; message_count: number;
     lead_email: string | null; lead_name: string | null; created_at: string; updated_at: string;
