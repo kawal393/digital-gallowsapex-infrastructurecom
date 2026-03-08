@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn, LayoutDashboard } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
 import apexLogo from "@/assets/apex-logo.png";
 
+const toolLinks = [
+  { label: "Verify Hash", href: "/verify", icon: Hash, desc: "Public SHA-256 verification" },
+  { label: "Regulation Map", href: "/regulations", icon: Globe, desc: "AI laws in 25+ countries" },
+  { label: "Free Score", href: "/assess", icon: Shield, desc: "Compliance in 2 minutes" },
+  { label: "Trust Badge", href: "/badge", icon: Award, desc: "Embeddable PSI badge" },
+  { label: "SDK", href: "/sdk", icon: Code, desc: "Developer integration" },
+  { label: "Architecture", href: "/architecture", icon: Layers, desc: "Technical deep-dive" },
+];
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const toolsRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,14 +29,22 @@ const Navbar = () => {
     { label: t("nav.problem"), href: "#problem" },
     { label: t("nav.solution"), href: "#solution" },
     { label: t("nav.digitalGallows"), href: "/gallows", isRoute: true },
-    { label: "Verify", href: "/verify", isRoute: true },
-    { label: "Regulations", href: "/regulations", isRoute: true },
-    { label: "Free Score", href: "/assess", isRoute: true },
     { label: t("nav.contact"), href: "#contact" },
   ];
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) {
+        setToolsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleNavClick = (href: string, isRoute?: boolean) => {
     setOpen(false);
+    setToolsOpen(false);
     if (isRoute) {
       navigate(href);
     } else if (href.startsWith("#")) {
@@ -45,7 +64,6 @@ const Navbar = () => {
       <div className="container mx-auto max-w-6xl px-4">
         {/* Desktop */}
         <div className="hidden lg:flex items-center justify-between h-16 gap-6">
-          {/* Logo */}
           <button
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 text-base font-bold tracking-tight bg-transparent border-none cursor-pointer shrink-0"
@@ -55,7 +73,6 @@ const Navbar = () => {
             <span className="text-chrome-gradient">GALLOWS</span>
           </button>
 
-          {/* Nav Links */}
           <div className="flex items-center gap-1">
             {navLinks.map((link) => (
               <button
@@ -66,9 +83,36 @@ const Navbar = () => {
                 {link.label}
               </button>
             ))}
+
+            {/* Tools Dropdown */}
+            <div ref={toolsRef} className="relative">
+              <button
+                onClick={() => setToolsOpen(!toolsOpen)}
+                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
+              >
+                Tools
+                <ChevronDown className={`h-3 w-3 transition-transform ${toolsOpen ? "rotate-180" : ""}`} />
+              </button>
+              {toolsOpen && (
+                <div className="absolute top-full left-0 mt-1 w-64 rounded-lg border border-border bg-background/95 backdrop-blur-xl shadow-xl py-2 z-50">
+                  {toolLinks.map((tool) => (
+                    <button
+                      key={tool.label}
+                      onClick={() => handleNavClick(tool.href, true)}
+                      className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer group"
+                    >
+                      <tool.icon className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium text-foreground group-hover:text-gold transition-colors">{tool.label}</p>
+                        <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-2 shrink-0">
             <LanguageSelector />
             {user ? (
@@ -88,7 +132,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Tablet (md but not lg) */}
+        {/* Tablet */}
         <div className="hidden md:flex lg:hidden items-center justify-between h-16 gap-4">
           <button
             onClick={() => handleNavClick("#top")}
@@ -97,7 +141,6 @@ const Navbar = () => {
             <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-gold" />
             <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
-
           <div className="flex items-center gap-2">
             <LanguageSelector />
             {user ? (
@@ -131,7 +174,6 @@ const Navbar = () => {
             <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-gold" />
             <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
-
           <div className="flex items-center gap-2">
             <LanguageSelector />
             <button
@@ -156,6 +198,19 @@ const Navbar = () => {
                 className="block w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer"
               >
                 {link.label}
+              </button>
+            ))}
+            <div className="pt-2 pb-1">
+              <p className="px-3 text-[10px] font-bold text-gold uppercase tracking-widest mb-1">Tools</p>
+            </div>
+            {toolLinks.map((tool) => (
+              <button
+                key={tool.label}
+                onClick={() => handleNavClick(tool.href, true)}
+                className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
+              >
+                <tool.icon className="h-3.5 w-3.5 text-gold" />
+                {tool.label}
               </button>
             ))}
             <div className="pt-3 border-t border-border/50 space-y-2">
