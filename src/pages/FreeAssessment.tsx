@@ -100,13 +100,17 @@ const FreeAssessment = () => {
     }
     setSaving(true);
     try {
-      await supabase.from("assessment_leads").insert({
-        email: email.trim(),
-        company_name: data.company_name,
-        score: result.score,
-        status: result.status,
-        industry: data.industry,
-      });
+      await supabase.from("assessment_leads").upsert(
+        {
+          email: email.trim().toLowerCase(),
+          company_name: data.company_name,
+          score: result.score,
+          status: result.status,
+          industry: data.industry,
+        },
+        { onConflict: "email" }
+      );
+      toast.success("Score saved! Check your results below.");
     } catch {
       // Non-blocking — still show result
     }
