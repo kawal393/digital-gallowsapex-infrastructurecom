@@ -47,11 +47,11 @@ const Hero = () => {
           </h1>
 
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-2">
-            <span className="text-foreground font-bold">Global Compliance Standard for the AI Age.</span>
+            <span className="text-foreground font-bold">Live Visual Compliance Engine with Bitcoin-Anchored Audit Trails.</span>
           </p>
           <p className="text-base md:text-lg max-w-2xl mx-auto mb-4">
-            <span className="text-foreground font-semibold">Optimistic ZKML Compliance Architecture.</span>{" "}
-            <span className="text-gold-gradient font-medium">99.9% cost reduction over traditional ZK proofs.</span>
+            <span className="text-foreground font-semibold">ZK-SNARK Privacy Proofs • MPC Distributed Verification • Multi-Regulatory Coverage.</span>{" "}
+            <span className="text-gold-gradient font-medium">EU AI Act + MiFID II + DORA in one engine.</span>
           </p>
           <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
             By Apex Intelligence Empire

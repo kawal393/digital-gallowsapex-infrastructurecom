@@ -86,6 +86,32 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
             ))}
           </div>
 
+          {/* MPC Consensus Info */}
+          {certificate.mpcConsensus && (
+            <div className="p-2 rounded bg-gallows-bg border border-gallows-border">
+              <span className="text-[10px] font-mono text-gallows-muted block mb-1">MPC DISTRIBUTED CONSENSUS</span>
+              <div className="flex items-center gap-3 text-[11px] font-mono">
+                <span className="text-gallows-approved">{certificate.mpcConsensus.nodesResponded}/3 nodes</span>
+                <span className="text-gallows-muted">•</span>
+                <span className="text-gallows-text">{certificate.mpcConsensus.threshold} threshold</span>
+              </div>
+              <span className="text-[9px] font-mono text-gallows-muted/60 break-all block mt-1">
+                Consensus: {certificate.mpcConsensus.consensusSignature?.substring(0, 32)}...
+              </span>
+            </div>
+          )}
+
+          {/* ZK Proof Info */}
+          {certificate.zkProof && (
+            <div className="p-2 rounded bg-gallows-bg border border-gallows-highlight/20">
+              <span className="text-[10px] font-mono text-gallows-highlight block mb-1">ZK-SNARK PRIVACY PROOF</span>
+              <div className="text-[11px] font-mono text-gallows-text space-y-0.5">
+                <div>Protocol: <span className="text-gallows-highlight">Groth16</span> • Curve: <span className="text-gallows-highlight">BN128</span></div>
+                <div>Privacy: <span className="text-gallows-approved">Action content hidden</span></div>
+              </div>
+            </div>
+          )}
+
           {/* Signature */}
           <div className="pt-2 border-t border-gallows-border">
             <span className="text-[10px] font-mono text-gallows-muted block mb-1">CERTIFICATE SIGNATURE</span>

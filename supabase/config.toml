@@ -29,3 +29,15 @@ verify_jwt = false
 
 [functions.prove-action]
 verify_jwt = false
+
+[functions.mpc-node-alpha]
+verify_jwt = false
+
+[functions.mpc-node-beta]
+verify_jwt = false
+
+[functions.mpc-node-gamma]
+verify_jwt = false
+
+[functions.mpc-coordinator]
+verify_jwt = false

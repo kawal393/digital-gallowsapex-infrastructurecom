@@ -44,6 +44,7 @@ const App = () => (
             <Route path="/gallows" element={<Gallows />} />
             <Route path="/architecture" element={<Architecture />} />
             <Route path="/sdk" element={<SDK />} />
+            <Route path="/compare" element={<Compare />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"
