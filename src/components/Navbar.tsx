@@ -181,6 +181,7 @@ const Navbar = () => {
             <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSelector />
             <button
               className="text-foreground bg-transparent border-none cursor-pointer"

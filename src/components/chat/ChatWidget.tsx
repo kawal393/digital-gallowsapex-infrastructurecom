@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { MessageCircle, X, Send, RotateCcw, Sparkles } from "lucide-react";
 import { useChat } from "@/hooks/use-chat";
 import ChatMessage from "./ChatMessage";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useProactiveChat } from "@/hooks/use-proactive-chat";
 
 const QUICK_ACTIONS = [
   { label: "What is PSI?", message: "What is PSI and how does it work?" },
@@ -15,6 +16,9 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const { messages, isLoading, error, sendMessage, resetChat } = useChat();
+
+  const openChat = useCallback(() => setIsOpen(true), []);
+  useProactiveChat(isOpen, messages.length > 0, openChat, sendMessage);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
