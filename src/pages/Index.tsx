@@ -1,38 +1,50 @@
-import { useState, useCallback } from "react";
-import GallowsHeader from "@/components/gallows/GallowsHeader";
-import GatewayInput from "@/components/gallows/GatewayInput";
-import VerificationResult from "@/components/gallows/VerificationResult";
-import AuditTrailLog from "@/components/gallows/AuditTrailLog";
-import PredicateRegistry from "@/components/gallows/PredicateRegistry";
-import { runGallows, type GallowsResult } from "@/lib/gallows-engine";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import CountdownBanner from "@/components/CountdownBanner";
+import SocialProofBar from "@/components/SocialProofBar";
+import ProblemSection from "@/components/ProblemSection";
+import VisionSection from "@/components/VisionSection";
+import SolutionSection from "@/components/SolutionSection";
+import TrioSection from "@/components/TrioSection";
+import TrustSection from "@/components/TrustSection";
+import OptimisticModel from "@/components/OptimisticModel";
+import HowItWorks from "@/components/HowItWorks";
+import LiveCaseStudy from "@/components/LiveCaseStudy";
+import ComparisonTable from "@/components/ComparisonTable";
+import BusinessModel from "@/components/BusinessModel";
+import TechSpecs from "@/components/TechSpecs";
+import ArticlesSection from "@/components/ArticlesSection";
+import ResearchReferences from "@/components/ResearchReferences";
+import Pricing from "@/components/Pricing";
+import FAQ from "@/components/FAQ";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
-  const [currentResult, setCurrentResult] = useState<GallowsResult | null>(null);
-  const [auditTrail, setAuditTrail] = useState<GallowsResult[]>([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleExecute = useCallback(async (action: string, predicateId: string) => {
-    setIsProcessing(true);
-    try {
-      const result = await runGallows(action, predicateId);
-      setCurrentResult(result);
-      setAuditTrail((prev) => [result, ...prev]);
-    } finally {
-      setIsProcessing(false);
-    }
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gallows-bg text-gallows-text">
-      <GallowsHeader />
-      <main className="p-4 md:p-6 grid gap-4 md:gap-6 grid-cols-1 lg:grid-cols-[1fr_1fr_280px]">
-        <GatewayInput onExecute={handleExecute} isProcessing={isProcessing} />
-        <VerificationResult result={currentResult} />
-        <PredicateRegistry />
-        <div className="lg:col-span-3">
-          <AuditTrailLog entries={auditTrail} />
-        </div>
-      </main>
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <Navbar />
+      <div id="top" />
+      <Hero />
+      <CountdownBanner />
+      <SocialProofBar />
+      <ProblemSection />
+      <VisionSection />
+      <SolutionSection />
+      <TrioSection />
+      <TrustSection />
+      <OptimisticModel />
+      <HowItWorks />
+      <LiveCaseStudy />
+      <ComparisonTable />
+      <BusinessModel />
+      <TechSpecs />
+      <ArticlesSection />
+      <ResearchReferences />
+      <Pricing />
+      <FAQ />
+      <ContactSection />
+      <Footer />
     </div>
   );
 };

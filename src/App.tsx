@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import Partner from "./pages/Partner";
 import PartnerDashboard from "./pages/PartnerDashboard";
+import Gallows from "./pages/Gallows";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route path="/gallows" element={<Gallows />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"

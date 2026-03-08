@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Problem", href: "#problem" },
   { label: "Solution", href: "#solution" },
   { label: "Pillars", href: "#pillars" },
-  { label: "Demo", href: "#demo" },
+  { label: "Digital Gallows", href: "/gallows", isRoute: true },
   { label: "Research", href: "#research" },
   { label: "Contact", href: "#contact" },
 ];
@@ -41,7 +41,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => handleNavClick(link.href)}
+                onClick={() => handleNavClick(link.href, (link as any).isRoute)}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer"
               >
                 {link.label}
@@ -94,7 +94,7 @@ const Navbar = () => {
           {navLinks.map((link) => (
             <button
               key={link.label}
-              onClick={() => handleNavClick(link.href)}
+              onClick={() => handleNavClick(link.href, (link as any).isRoute)}
               className="block text-sm text-muted-foreground hover:text-primary w-full text-left bg-transparent border-none cursor-pointer"
             >
               {link.label}
