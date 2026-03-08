@@ -10,13 +10,21 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PREDICATES } from "@/lib/gallows-engine";
-import { Lock, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight, Zap, AlertTriangle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface CommitPanelProps {
   onCommit: (action: string, predicateId: string) => void;
   isProcessing: boolean;
   paused: boolean;
 }
+
+const EXAMPLE_ACTIONS = [
+  "Generate a transparent AI summary with full source attribution and disclosure that this content is AI-generated",
+  "Deploy facial recognition system for real-time identification in public spaces",
+  "Run credit scoring algorithm without human oversight or appeal mechanism",
+  "Process medical imaging with explainable AI diagnostics and physician review",
+];
 
 const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
   const [action, setAction] = useState("");
@@ -29,23 +37,50 @@ const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
 
   const selectedPredicate = PREDICATES.find(p => p.id === predicateId);
 
+  const loadExample = (example: string) => {
+    setAction(example);
+  };
+
   return (
-    <Card className="bg-gallows-surface border-gallows-border">
+    <Card className="bg-gallows-surface border-gallows-border relative overflow-hidden">
+      {/* Subtle animated border glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gallows-approved/5 via-transparent to-transparent pointer-events-none" />
+      
       <CardHeader className="pb-3">
         <CardTitle className="text-sm font-mono text-gallows-muted uppercase tracking-widest flex items-center gap-2">
-          <span className="inline-flex h-2 w-2 rounded-full bg-gallows-approved animate-pulse" />
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gallows-approved opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-gallows-approved" />
+          </span>
           Phase 1 — Commit
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative">
         <div>
-          <label className="text-xs font-mono text-gallows-muted mb-1.5 block">AI ACTION TO VERIFY</label>
+          <label className="text-xs font-mono text-gallows-muted mb-1.5 block flex items-center gap-2">
+            AI ACTION TO VERIFY
+            <Zap className="h-3 w-3" />
+          </label>
           <Textarea
             value={action}
             onChange={(e) => setAction(e.target.value)}
-            placeholder="e.g. Generate a transparent AI summary with full source attribution and disclosure that this content is AI-generated"
-            className="bg-gallows-bg border-gallows-border text-gallows-text font-mono text-sm min-h-[100px] placeholder:text-gallows-muted/50 focus-visible:ring-gallows-approved/50 resize-none"
+            placeholder="Describe the AI action to be cryptographically verified against EU AI Act predicates..."
+            className="bg-gallows-bg border-gallows-border text-gallows-text font-mono text-sm min-h-[100px] placeholder:text-gallows-muted/50 focus-visible:ring-gallows-approved/50 resize-none transition-all"
           />
+          
+          {/* Quick examples */}
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            <span className="text-[10px] font-mono text-gallows-muted">Quick test:</span>
+            {EXAMPLE_ACTIONS.slice(0, 2).map((ex, idx) => (
+              <button
+                key={idx}
+                onClick={() => loadExample(ex)}
+                className="text-[10px] font-mono text-gallows-muted/70 hover:text-gallows-approved underline underline-offset-2 transition-colors cursor-pointer bg-transparent border-none"
+              >
+                Example {idx + 1}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -72,37 +107,65 @@ const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
             </SelectContent>
           </Select>
 
-          {selectedPredicate && (
-            <div className="mt-2 p-2 rounded bg-gallows-bg border border-gallows-border">
-              <div className="flex items-center gap-2 mb-1">
-                <Lock className="h-3 w-3 text-gallows-muted" />
-                <span className="font-mono text-[10px] text-gallows-muted uppercase tracking-wider">
-                  {selectedPredicate.riskLevel} RISK — Enforceable {selectedPredicate.enforcementDate}
-                </span>
-              </div>
-              <p className="font-mono text-[11px] text-gallows-muted leading-relaxed">
-                {selectedPredicate.description}
-              </p>
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {selectedPredicate && (
+              <motion.div
+                key={selectedPredicate.id}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-2 p-3 rounded bg-gallows-bg border border-gallows-border overflow-hidden"
+              >
+                <div className="flex items-center gap-2 mb-1.5">
+                  {selectedPredicate.riskLevel === 'UNACCEPTABLE' ? (
+                    <AlertTriangle className="h-3.5 w-3.5 text-gallows-blocked" />
+                  ) : (
+                    <Lock className="h-3.5 w-3.5 text-gallows-muted" />
+                  )}
+                  <span className={`font-mono text-[10px] uppercase tracking-wider ${
+                    selectedPredicate.riskLevel === 'UNACCEPTABLE' ? 'text-gallows-blocked' :
+                    selectedPredicate.riskLevel === 'HIGH' ? 'text-amber-500' :
+                    'text-gallows-muted'
+                  }`}>
+                    {selectedPredicate.riskLevel} RISK — Enforceable {selectedPredicate.enforcementDate}
+                  </span>
+                </div>
+                <p className="font-mono text-[11px] text-gallows-muted leading-relaxed">
+                  {selectedPredicate.description}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        <Button
-          onClick={handleCommit}
-          disabled={isProcessing || !action.trim() || paused}
-          className="w-full bg-gallows-bg border border-gallows-approved/40 text-gallows-approved font-mono font-bold tracking-wider hover:bg-gallows-approved/10 hover:shadow-gallows-approved transition-all duration-200 disabled:opacity-40 gap-2"
+        <motion.div
+          whileHover={{ scale: paused || isProcessing || !action.trim() ? 1 : 1.02 }}
+          whileTap={{ scale: paused || isProcessing || !action.trim() ? 1 : 0.98 }}
         >
-          {paused ? (
-            'SYSTEM PAUSED'
-          ) : isProcessing ? (
-            'HASHING...'
-          ) : (
-            <>
-              COMMIT TO LEDGER
-              <ArrowRight className="h-4 w-4" />
-            </>
-          )}
-        </Button>
+          <Button
+            onClick={handleCommit}
+            disabled={isProcessing || !action.trim() || paused}
+            className={`w-full font-mono font-bold tracking-wider gap-2 transition-all duration-300 ${
+              paused 
+                ? 'bg-gallows-blocked/20 border-gallows-blocked/40 text-gallows-blocked'
+                : 'bg-gallows-bg border border-gallows-approved/40 text-gallows-approved hover:bg-gallows-approved/10 hover:shadow-gallows-approved'
+            } disabled:opacity-40`}
+          >
+            {paused ? (
+              'SYSTEM PAUSED'
+            ) : isProcessing ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 border-2 border-gallows-approved border-t-transparent rounded-full animate-spin" />
+                HASHING...
+              </span>
+            ) : (
+              <>
+                COMMIT TO LEDGER
+                <ArrowRight className="h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </motion.div>
       </CardContent>
     </Card>
   );
