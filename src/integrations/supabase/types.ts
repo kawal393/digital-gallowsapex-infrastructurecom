@@ -337,6 +337,30 @@ export type Database = {
         }
         Relationships: []
       }
+      translation_cache: {
+        Row: {
+          created_at: string
+          id: string
+          lang: string
+          translations: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lang: string
+          translations?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lang?: string
+          translations?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       verification_history: {
         Row: {
           article_number: string
