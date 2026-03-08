@@ -14,8 +14,9 @@ const EmbedPulse = () => {
 
   useEffect(() => {
     if (!id) return;
+    // Use the secure compliance_pulse view (no user_id exposed)
     supabase
-      .from("compliance_results")
+      .from("compliance_pulse" as any)
       .select("company_name, overall_score, status, trio_mode, updated_at")
       .eq("id", id)
       .maybeSingle()

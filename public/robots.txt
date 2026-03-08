@@ -1,8 +1,16 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /embed/
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /partner/dashboard
+Disallow: /reset-password
 
 User-agent: Bingbot
 Allow: /
+Disallow: /embed/
+Disallow: /auth
+Disallow: /dashboard
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +20,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /embed/
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /partner/dashboard
+Disallow: /reset-password
+
+Sitemap: https://digital-gallows.apex-infrastructure.com/sitemap.xml
