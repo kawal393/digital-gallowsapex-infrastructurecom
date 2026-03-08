@@ -147,6 +147,7 @@ const Navbar = () => {
             <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSelector />
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
