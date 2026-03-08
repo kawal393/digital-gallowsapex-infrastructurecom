@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, FileText, AlertTriangle, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const ARTICLE_URL = "https://medium.com/@veritaschain/ai-generated-war-footage-flooded-social-media-with-hundreds-of-millions-of-views-60e1076c8a24";
+const ARTICLE_URL = "https://medium.com/@veritaschain/seven-things-happened-this-week-that-prove-nobody-can-verify-what-ai-refuses-to-generate-e23ba194fcd6";
 
 const FeaturedResearch = () => {
   return (
