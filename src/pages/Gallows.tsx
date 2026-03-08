@@ -278,7 +278,7 @@ const Gallows = () => {
     } finally {
       setIsProcessing(false);
     }
-  }, []);
+  }, [zkResult]);
 
   const handlePause = useCallback(() => {
     const result = toggleSovereignPause();
