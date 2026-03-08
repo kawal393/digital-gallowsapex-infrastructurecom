@@ -10,11 +10,28 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Verify auth
-    const authHeader = req.headers.get("authorization");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+    // Verify the user is authenticated
+    const authHeader = req.headers.get("authorization") || "";
+    const token = authHeader.replace("Bearer ", "");
+
+    // Create client with user's token to verify auth
+    const userClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: `Bearer ${token}` } },
+    });
+    const { data: { user }, error: authError } = await userClient.auth.getUser();
+
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: "Unauthorized. Please sign in." }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Use service role for data access
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Get conversations summary
     const { data: conversations, count: totalConversations } = await supabase
@@ -54,7 +71,17 @@ serve(async (req) => {
       negative: feedbackData?.filter(f => f.rating === "down").length || 0,
     };
 
-    // Recent conversations with message counts
+    // Drip queue stats
+    const { count: dripPending } = await supabase
+      .from("drip_queue")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending");
+
+    const { count: dripSent } = await supabase
+      .from("drip_queue")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "sent");
+
     const recentConversations = (conversations || []).map(c => ({
       id: c.id,
       visitor_id: c.visitor_id,
@@ -73,6 +100,7 @@ serve(async (req) => {
       knowledgeGaps: gaps || [],
       feedback: feedbackSummary,
       recentConversations,
+      drip: { pending: dripPending || 0, sent: dripSent || 0 },
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
