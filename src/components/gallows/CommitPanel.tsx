@@ -34,7 +34,7 @@ const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
 
   const handleCommit = () => {
     if (!action.trim() || paused) return;
-    onCommit(action.trim(), predicateId);
+    onCommit(action.trim(), predicateId, zkMode);
   };
 
   const selectedPredicate = PREDICATES.find(p => p.id === predicateId);
