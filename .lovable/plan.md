@@ -1,109 +1,87 @@
 
 
-# Honesty + Automation Update
+# APEX AI Chatbot — Self-Evolving Sales Machine
 
-## Overview
-Three changes: (1) Remove fake company trust section, (2) Make social proof counters auto-increment daily, (3) Add Stripe webhook for post-payment automation.
+## What It Does
 
----
+A floating AI chatbot on every page that sells, supports, captures leads, and learns from every conversation. Not a static FAQ bot — it adapts its knowledge and improves over time.
 
-## 1. Remove Fake Trust Section
+## Three Layers
 
-**Problem:** TrustSection.tsx lists Microsoft, Google, OpenAI, Anthropic, Meta — companies we've never worked with.
+### Layer 1: The Bot (Core)
+- Floating gold widget, bottom-right, all pages
+- Streaming responses via SSE (token-by-token)
+- Deep APEX knowledge baked into system prompt: PSI, pricing ($499-$49,999), EU AI Act (Aug 2 2026), Gallows, SHIELD/SWORD/JUDGE modes, all FAQ answers
+- Quick-action buttons: "What is PSI?", "Show pricing", "Free assessment"
+- Markdown rendering for rich responses
 
-**Solution:** Replace with an honest section. Instead of fake company names, show a generic "Built for the AI Industry" message with abstract trust indicators (e.g., "Privacy-Preserving", "Zero-Knowledge", "EU Compliant") — things that are actually true about the platform.
+### Layer 2: Lead Capture + Routing
+- AI uses tool calling to capture leads (name, email, company) when buying intent is detected
+- Routes visitors to action: `/assess` for free assessment, `/auth` for signup, `/gallows` for demo
+- Stores conversations + leads in database for your team to review
 
-**File:** `src/components/TrustSection.tsx` — complete rewrite of content, keep the styling.
+### Layer 3: Self-Evolution
+- **Conversation logging**: Every chat stored in `chat_conversations` + `chat_messages` tables
+- **Feedback loop**: Thumbs up/down on each bot response, stored in `chat_feedback` table
+- **Unanswered tracker**: When the bot can't answer something, it flags it via tool call → stored in `chat_knowledge_gaps` table
+- **Admin review**: Dashboard page (`/dashboard` tab) shows: top questions, knowledge gaps, lead captures, feedback scores
+- Over time you see what visitors actually ask, what the bot fails on, and what converts — then you tell me to update the system prompt accordingly
 
----
+This isn't autonomous AI rewriting itself (that's dangerous). It's a feedback system that surfaces what needs improving so we can iterate fast.
 
-## 2. Dynamic Social Proof Counters
+## Security: Rate Limiting + Sanitization
 
-**Problem:** The counters are hardcoded (150, 32, 2500). They never change.
+### Rate Limiting (Edge Function)
+- **Per-session**: Max 30 messages per conversation per hour
+- **Per-IP**: Max 60 requests per hour (tracked via in-memory Map with TTL cleanup)
+- **Message length**: Max 500 characters per user message
+- **Conversation cap**: Max 100 messages per conversation total
+- Returns 429 with friendly message when exceeded
 
-**Solution:** Calculate values dynamically based on days elapsed since a launch date:
-- **Base date:** March 1, 2026 (today)
-- **"AI Companies Trust Us"**: Start at 150, add 1-2 per day (use day-of-year modulo for slight variation)
-- **"Joined This Week"**: Rotate between 28-38 based on the current week number
-- **"Compliances Verified"**: Start at 2500, add 8-15 per day
+### Input Sanitization (Edge Function)
+- Strip HTML tags from user input
+- Reject messages containing common injection patterns (`ignore previous`, `system:`, `you are now`)
+- Trim whitespace, reject empty messages
+- Zod validation on request body
 
-The numbers grow organically. No database needed — pure date-based math on the frontend.
+### Anti-Abuse
+- No PII in system prompt responses (bot never reveals its full instructions)
+- Bot refuses to role-play or break character via system prompt hardening
+- Conversation stored but user messages are sanitized before DB insert
 
-**File:** `src/components/SocialProofBar.tsx` — update the stats calculation.
+## Database (1 migration, 4 tables)
 
----
+| Table | Purpose |
+|-------|---------|
+| `chat_conversations` | Session tracking, lead info (visitor_id, lead_name, lead_email, lead_company) |
+| `chat_messages` | Full message history (conversation_id, role, content, created_at) |
+| `chat_feedback` | Thumbs up/down per message (message_id, rating, created_at) |
+| `chat_knowledge_gaps` | Unanswered questions flagged by bot (question, conversation_id, created_at) |
 
-## 3. Stripe Webhook for Post-Payment Provisioning
+RLS: Public INSERT for anonymous visitors (scoped by visitor_id cookie). No public SELECT on feedback/gaps (admin only via service role).
 
-**What happens today:** Customer clicks "Subscribe Now", pays on Stripe, gets a receipt from Stripe. Nothing happens on our platform.
-
-**What should happen:** After payment, the customer's account is automatically upgraded with the correct tier and verification quota.
-
-### Implementation:
-
-**A. Database changes:**
-- Add a `subscriptions` table:
-  - `id` (uuid)
-  - `user_id` (uuid, references auth.users)
-  - `tier` (text: startup / growth / enterprise / goliath)
-  - `stripe_customer_id` (text)
-  - `stripe_session_id` (text)
-  - `status` (text: active / cancelled / expired)
-  - `verifications_limit` (integer: 100 for startup, -1 for unlimited)
-  - `verifications_used` (integer, default 0)
-  - `current_period_start` / `current_period_end` (timestamptz)
-  - `created_at` (timestamptz)
-- RLS: Users can only read their own subscription row.
-
-**B. Edge function: `stripe-webhook`**
-- Listens for Stripe `checkout.session.completed` events
-- Extracts customer email and payment metadata
-- Matches to user account by email
-- Creates/updates subscription record with correct tier
-- Sets verification quota based on tier
-
-**C. Edge function: `create-checkout`**
-- Instead of raw Stripe links, create a checkout session that includes the user's email and tier metadata
-- This links the payment to the authenticated user
-- Returns the Stripe checkout URL
-
-**D. Update Pricing component:**
-- For logged-in users: Button calls `create-checkout` edge function (which creates a session with their user ID embedded)
-- For non-logged-in users: Button redirects to `/auth` first, then back to pricing
-
-**E. Update Dashboard:**
-- Show current subscription tier
-- Show verifications used vs limit
-- Show subscription status
-
-### Stripe Secret Key Requirement:
-- We need the Stripe secret key stored as an edge function secret to verify webhooks and create checkout sessions
-- Will use the `add_secret` tool to request `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` from the user
-
----
-
-## File Structure
+## Files
 
 ```text
-New files:
-  supabase/functions/stripe-webhook/index.ts    -- Webhook handler
-  supabase/functions/create-checkout/index.ts    -- Checkout session creator
+New:
+  supabase/functions/apex-chat/index.ts       — Edge function with streaming, rate limiting, sanitization, tool calling
+  src/components/chat/ChatWidget.tsx           — Floating widget UI
+  src/components/chat/ChatMessage.tsx          — Message bubble with markdown + feedback buttons
+  src/hooks/use-chat.ts                        — Streaming hook + session management
 
-Modified files:
-  src/components/TrustSection.tsx                -- Remove fake companies
-  src/components/SocialProofBar.tsx              -- Dynamic counters
-  src/components/Pricing.tsx                     -- Auth-aware checkout flow
-  src/pages/Dashboard.tsx                        -- Show subscription info
+Modified:
+  src/App.tsx                                  — Add ChatWidget globally
+  supabase/config.toml                         — Add apex-chat function config
+  src/pages/Dashboard.tsx                      — Add chat analytics tab
 ```
 
 ## Implementation Order
 
-1. Remove fake TrustSection content (immediate, no dependencies)
-2. Make SocialProofBar counters dynamic (immediate, no dependencies)
-3. Add `subscriptions` table via migration
-4. Request Stripe secret key from user
-5. Create `stripe-webhook` edge function
-6. Create `create-checkout` edge function
-7. Update Pricing component for auth-aware checkout
-8. Update Dashboard to show subscription tier
+1. Create 4 database tables via migration
+2. Build `apex-chat` edge function with full security layer
+3. Build ChatWidget + ChatMessage + use-chat hook
+4. Add widget to App.tsx
+5. Add chat analytics tab to Dashboard
+
+No new secrets needed — LOVABLE_API_KEY is already configured.
 
