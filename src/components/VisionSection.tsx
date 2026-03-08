@@ -47,7 +47,7 @@ const VisionSection = () => (
           ))}
         </div>
 
-        <Button variant="hero" size="lg" className="text-base px-8" asChild>
+        <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8" asChild>
           <a href="#contact">Request Compliance Consultation</a>
         </Button>
       </motion.div>

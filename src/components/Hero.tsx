@@ -15,13 +15,13 @@ const Hero = () => {
   const cityDisplay = [location.city, location.country].filter(Boolean).join(", ");
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-16 grid-bg overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12 grid-bg overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, hsl(35 80% 45% / 0.04) 40%, transparent 70%)" }}
       />
 
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[500px] h-[500px] md:w-[720px] md:h-[720px] logo-emerge overflow-hidden rounded-full animate-breathe">
+        <div className="w-[400px] h-[400px] md:w-[600px] md:h-[600px] lg:w-[720px] lg:h-[720px] logo-emerge overflow-hidden rounded-full animate-breathe">
           <img src={apexLogo} alt="" className="w-full h-full object-contain" style={{ opacity: 1, filter: "blur(0.5px)", transform: "scale(1.1)" }} />
         </div>
       </div>
@@ -29,36 +29,36 @@ const Hero = () => {
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
           <div className="mb-4">
-            <span className="text-sm md:text-base font-black tracking-[0.3em] uppercase text-gold-gradient">
+            <span className="text-xs sm:text-sm md:text-base font-black tracking-[0.2em] sm:tracking-[0.3em] uppercase text-gold-gradient">
               {t("hero.worldsFirst")}
             </span>
           </div>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-4 py-1.5 mb-8 border-glow">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
             <Shield className="h-3.5 w-3.5 text-gold" />
-            <span className="text-xs font-semibold text-gold tracking-widest uppercase">
+            <span className="text-[10px] sm:text-xs font-semibold text-gold tracking-widest uppercase">
               {t("hero.psi")}
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight leading-[0.95]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-6 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">{t("hero.headline1")}</span>
             <br />
             <span className="text-gold-gradient">{t("hero.headline2")}</span>
           </h1>
 
-          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-2">
+          <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-2">
             <span className="text-foreground font-bold">{t("hero.subtitle1")}</span>
           </p>
-          <p className="text-base md:text-lg max-w-2xl mx-auto mb-4">
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-3 sm:mb-4">
             <span className="text-foreground font-semibold">{t("hero.subtitle2")}</span>{" "}
             <span className="text-gold-gradient font-medium">{t("hero.subtitle3")}</span>
           </p>
-          <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-6 max-w-xl mx-auto">
             {t("hero.byline")}
           </p>
 
-          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground mb-10">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground mb-8 sm:mb-10">
             <span className="inline-flex items-center gap-1.5">
               <Globe className="h-3 w-3 text-gold/70" />
               {cityDisplay}
@@ -68,15 +68,15 @@ const Hero = () => {
               <Clock className="h-3 w-3 text-gold/70" />
               <span className="tabular-nums">{formattedTime}</span>
             </span>
-            <span className="text-border">|</span>
-            <span>{formattedDate}</span>
+            <span className="hidden sm:inline text-border">|</span>
+            <span className="hidden sm:inline">{formattedDate}</span>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="lg" className="text-base px-8" asChild>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
               <a href="#contact">{t("hero.ctaPrimary")} <ArrowRight className="ml-1 h-4 w-4" /></a>
             </Button>
-            <Button variant="heroOutline" size="lg" className="text-base px-8" asChild>
+            <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
               <a href="#solution"><Shield className="mr-1 h-4 w-4" /> {t("hero.ctaSecondary")}</a>
             </Button>
           </div>
