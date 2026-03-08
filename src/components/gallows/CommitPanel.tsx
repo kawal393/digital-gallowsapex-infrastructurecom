@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PREDICATES } from "@/lib/gallows-engine";
-import { Lock, ArrowRight, Zap, AlertTriangle } from "lucide-react";
+import { Lock, ArrowRight, Zap, AlertTriangle, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Switch } from "@/components/ui/switch";
 
 interface CommitPanelProps {
-  onCommit: (action: string, predicateId: string) => void;
+  onCommit: (action: string, predicateId: string, zkMode?: boolean) => void;
   isProcessing: boolean;
   paused: boolean;
 }
@@ -29,10 +30,11 @@ const EXAMPLE_ACTIONS = [
 const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
   const [action, setAction] = useState("");
   const [predicateId, setPredicateId] = useState("EU_ART_50");
+  const [zkMode, setZkMode] = useState(false);
 
   const handleCommit = () => {
     if (!action.trim() || paused) return;
-    onCommit(action.trim(), predicateId);
+    onCommit(action.trim(), predicateId, zkMode);
   };
 
   const selectedPredicate = PREDICATES.find(p => p.id === predicateId);
@@ -136,6 +138,22 @@ const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+
+        {/* ZK Privacy Mode Toggle */}
+        <div className="flex items-center justify-between p-3 rounded bg-gallows-bg border border-gallows-border">
+          <div className="flex items-center gap-2">
+            <Shield className="h-4 w-4 text-gallows-highlight" />
+            <div>
+              <span className="text-xs font-mono text-gallows-text block">ZK-SNARK PRIVACY MODE</span>
+              <span className="text-[10px] font-mono text-gallows-muted">Groth16 proof on BN128 — hides action content</span>
+            </div>
+          </div>
+          <Switch
+            checked={zkMode}
+            onCheckedChange={setZkMode}
+            className="data-[state=checked]:bg-gallows-highlight"
+          />
         </div>
 
         <motion.div

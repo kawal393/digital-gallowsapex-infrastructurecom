@@ -18,6 +18,7 @@ import PartnerDashboard from "./pages/PartnerDashboard";
 import Gallows from "./pages/Gallows";
 import Architecture from "./pages/Architecture";
 import SDK from "./pages/SDK";
+import Compare from "./pages/Compare";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/gallows" element={<Gallows />} />
             <Route path="/architecture" element={<Architecture />} />
             <Route path="/sdk" element={<SDK />} />
+            <Route path="/compare" element={<Compare />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"

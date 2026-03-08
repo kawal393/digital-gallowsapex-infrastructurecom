@@ -45,6 +45,21 @@ export interface ComplianceCertificate {
   // QR Code for verification
   qrCodeDataUrl?: string;
   verificationUrl: string;
+
+  // MPC Consensus (optional)
+  mpcConsensus?: {
+    nodesResponded: number;
+    threshold: string;
+    consensusSignature: string;
+  };
+
+  // ZK Proof (optional)
+  zkProof?: {
+    protocol: string;
+    curve: string;
+    proofHash: string;
+    privacyLevel: string;
+  };
 }
 
 const PREDICATE_NAMES: Record<string, string> = {

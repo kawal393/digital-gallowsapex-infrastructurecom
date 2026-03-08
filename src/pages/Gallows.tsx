@@ -27,6 +27,8 @@ import {
   type LedgerEntry 
 } from "@/lib/gallows-persistence";
 import { generateCertificate, type ComplianceCertificate } from "@/lib/gallows-certificate";
+import { generateZKProof, type ZKProofResult } from "@/lib/gallows-zk";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -41,6 +43,7 @@ const Gallows = () => {
   const [persistedCount, setPersistedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [externalAnchoring, setExternalAnchoring] = useState<{ success: boolean; ots_url?: string } | null>(null);
+  const [zkResult, setZkResult] = useState<ZKProofResult | null>(null);
 
   const refreshState = () => {
     setCommitLog(getCommitLog());
@@ -86,16 +89,36 @@ const Gallows = () => {
     return unsubscribe;
   }, []);
 
-  const handleCommit = useCallback(async (action: string, predicateId: string) => {
+  const handleCommit = useCallback(async (action: string, predicateId: string, zkMode?: boolean) => {
     setIsProcessing(true);
     setError(null);
     setCertificate(null);
     setExternalAnchoring(null);
+    setZkResult(null);
     try {
       // Create local record first (for immediate UI feedback)
       const record = await commitAction(action, predicateId);
       setCurrentRecord(record);
       refreshState();
+
+      // Generate ZK proof if enabled
+      let zkProofResult: ZKProofResult | null = null;
+      if (zkMode) {
+        try {
+          zkProofResult = await generateZKProof({
+            actionHash: record.commitHash,
+            predicateId,
+            complianceStatus: true,
+            timestamp: Date.now(),
+          });
+          setZkResult(zkProofResult);
+          toast.success("ZK-SNARK proof generated", {
+            description: `Groth16/BN128 • ${zkProofResult.generationTimeMs}ms • ${zkProofResult.privacyLevel}`,
+          });
+        } catch (e: any) {
+          console.warn("[Gallows] ZK proof generation failed:", e.message);
+        }
+      }
 
       // Persist via server-side Edge Function (hashes verified server-side)
       const result = await persistCommit(record);
@@ -173,8 +196,23 @@ const Gallows = () => {
       // Call server-side prove endpoint
       const result = await proveCommitServer(commitId);
       
+      // Call MPC coordinator in parallel (best-effort)
+      let mpcData: any = null;
+      try {
+        const { data } = await supabase.functions.invoke('mpc-coordinator', {
+          body: { commit_id: commitId },
+        });
+        if (data?.success) {
+          mpcData = data;
+          toast.success("MPC consensus reached", {
+            description: `${data.nodes_responded}/3 nodes • ${data.threshold} threshold • ${data.total_time_ms}ms`,
+          });
+        }
+      } catch {
+        // MPC is best-effort
+      }
+      
       if (result.success) {
-        // Update local record with server response
         const updatedRecord = updateRecordFromServer(commitId, {
           phase: 'VERIFIED',
           status: result.status,
@@ -189,9 +227,26 @@ const Gallows = () => {
         if (updatedRecord) {
           setCurrentRecord(updatedRecord);
           
-          // Generate certificate
+          // Generate certificate with MPC and ZK data
           const cert = await generateCertificate(updatedRecord);
           if (cert) {
+            // Attach MPC consensus data
+            if (mpcData) {
+              cert.mpcConsensus = {
+                nodesResponded: mpcData.nodes_responded,
+                threshold: mpcData.threshold,
+                consensusSignature: mpcData.consensus_signature,
+              };
+            }
+            // Attach ZK proof data
+            if (zkResult) {
+              cert.zkProof = {
+                protocol: zkResult.proof.protocol,
+                curve: zkResult.proof.curve,
+                proofHash: zkResult.proofHash,
+                privacyLevel: zkResult.privacyLevel,
+              };
+            }
             setCertificate(cert);
             toast.success("Compliance certificate generated", {
               description: cert.certificateId,
@@ -223,7 +278,7 @@ const Gallows = () => {
     } finally {
       setIsProcessing(false);
     }
-  }, []);
+  }, [zkResult]);
 
   const handlePause = useCallback(() => {
     const result = toggleSovereignPause();
