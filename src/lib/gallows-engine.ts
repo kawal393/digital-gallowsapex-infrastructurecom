@@ -190,7 +190,7 @@ export class MerkleTree {
   constructor(leaves: string[] = []) {
     this.leaves = [...leaves];
     if (leaves.length > 0) {
-      this.buildTree();
+      // Will be built async via initFromLeaves
     }
   }
 
@@ -216,8 +216,12 @@ export class MerkleTree {
     return layers;
   }
 
-  private buildTree() {
-    // Sync placeholder — actual computation is async
+  /**
+   * Initialize tree from existing leaves (for persistence recovery)
+   */
+  async initFromLeaves(leaves: string[]): Promise<void> {
+    this.leaves = [...leaves];
+    this.layers = await this.computeLayers();
   }
 
   async addLeaf(leafHash: string): Promise<void> {
@@ -278,6 +282,14 @@ export class MerkleTree {
 
   getLayers(): string[][] {
     return this.layers.map(l => [...l]);
+  }
+
+  /**
+   * Clear all state (for reset)
+   */
+  clear(): void {
+    this.leaves = [];
+    this.layers = [];
   }
 }
 

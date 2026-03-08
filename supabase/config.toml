@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.compliance-api]
 verify_jwt = false
+
+[functions.verify-hash]
+verify_jwt = false
