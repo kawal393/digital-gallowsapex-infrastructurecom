@@ -40,6 +40,7 @@ const App = () => (
               }
             />
             <Route path="/gallows" element={<Gallows />} />
+            <Route path="/architecture" element={<Architecture />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/partner/dashboard"
