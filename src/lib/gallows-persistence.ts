@@ -127,8 +127,7 @@ export async function verifyHashInLedger(hash: string): Promise<{
  * Get current Merkle root from the latest entry
  */
 export async function getLatestMerkleRoot(): Promise<string | null> {
-  const { data, error } = await supabase
-    .from('gallows_ledger')
+  const { data, error } = await (supabase.from('gallows_ledger' as any) as any)
     .select('merkle_root')
     .not('merkle_root', 'is', null)
     .order('created_at', { ascending: false })
@@ -138,7 +137,7 @@ export async function getLatestMerkleRoot(): Promise<string | null> {
     return null;
   }
 
-  return (data[0] as unknown as { merkle_root: string }).merkle_root;
+  return (data[0] as { merkle_root: string }).merkle_root;
 }
 
 /**
