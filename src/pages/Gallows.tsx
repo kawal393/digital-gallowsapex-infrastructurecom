@@ -10,23 +10,27 @@ import HashVerifier from "@/components/gallows/HashVerifier";
 import CertificatePanel from "@/components/gallows/CertificatePanel";
 import {
   commitAction,
-  challengeCommit,
-  proveCommit,
   toggleSovereignPause,
   getCommitLog,
   getTreeState,
   initializeFromLedger,
+  updateRecordFromServer,
   type CommitRecord,
   type MerkleTreeState,
 } from "@/lib/gallows-engine";
-import { persistCommit, updateCommit, fetchLedger, subscribeLedger, type LedgerEntry } from "@/lib/gallows-persistence";
+import { 
+  persistCommit, 
+  challengeCommitServer,
+  proveCommitServer,
+  fetchLedger, 
+  subscribeLedgerAll, 
+  type LedgerEntry 
+} from "@/lib/gallows-persistence";
 import { generateCertificate, type ComplianceCertificate } from "@/lib/gallows-certificate";
-import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 const Gallows = () => {
-  const { user } = useAuth();
   const [currentRecord, setCurrentRecord] = useState<CommitRecord | null>(null);
   const [commitLog, setCommitLog] = useState<CommitRecord[]>([]);
   const [treeState, setTreeState] = useState<(MerkleTreeState & { layers: string[][] }) | null>(null);
@@ -36,6 +40,7 @@ const Gallows = () => {
   const [certificate, setCertificate] = useState<ComplianceCertificate | null>(null);
   const [persistedCount, setPersistedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [externalAnchoring, setExternalAnchoring] = useState<{ success: boolean; ots_url?: string } | null>(null);
 
   const refreshState = () => {
     setCommitLog(getCommitLog());
@@ -69,10 +74,14 @@ const Gallows = () => {
     initialize();
   }, []);
 
-  // Subscribe to realtime updates
+  // Subscribe to realtime updates (INSERT and UPDATE)
   useEffect(() => {
-    const unsubscribe = subscribeLedger((entry) => {
-      setPersistedCount((prev) => prev + 1);
+    const unsubscribe = subscribeLedgerAll((entry, event) => {
+      if (event === 'INSERT') {
+        setPersistedCount((prev) => prev + 1);
+      }
+      // Refresh state on any change
+      refreshState();
     });
     return unsubscribe;
   }, []);
@@ -81,19 +90,35 @@ const Gallows = () => {
     setIsProcessing(true);
     setError(null);
     setCertificate(null);
+    setExternalAnchoring(null);
     try {
+      // Create local record first (for immediate UI feedback)
       const record = await commitAction(action, predicateId);
       setCurrentRecord(record);
       refreshState();
 
       // Persist via server-side Edge Function (hashes verified server-side)
       const result = await persistCommit(record);
-      if (result.success) {
-        const description = result.hashMismatch 
+      if (result.success && result.commit_id) {
+        const description = result.hash_mismatch_detected 
           ? `⚠ Hash mismatch detected - server values used` 
-          : `ID: ${record.id} • Server verified`;
+          : `ID: ${result.commit_id} • Server verified`;
         toast.success("Committed to immutable ledger", { description });
         setPersistedCount((prev) => prev + 1);
+        
+        // Create updated record with server values (use server commit_id!)
+        const serverRecord: CommitRecord = {
+          ...record,
+          id: result.commit_id,
+          commitHash: result.commit_hash!,
+          merkleLeafHash: result.merkle_leaf_hash!,
+          timestamp: result.timestamp || record.timestamp,
+        };
+        
+        // Update both local engine state and current record
+        updateRecordFromServer(record.id, serverRecord);
+        setCurrentRecord(serverRecord);
+        refreshState();
       } else {
         console.error('[Gallows] Persistence failed:', result.error);
         toast.error("Persistence failed", {
@@ -111,48 +136,94 @@ const Gallows = () => {
     setIsProcessing(true);
     setError(null);
     try {
-      const record = await challengeCommit(commitId);
-      setCurrentRecord(record);
-      refreshState();
-
-      // Update in database
-      if (user) {
-        await updateCommit(record);
+      // Call server-side challenge endpoint
+      const result = await challengeCommitServer(commitId);
+      
+      if (result.success) {
+        // Update local record with server response
+        const updatedRecord = updateRecordFromServer(commitId, {
+          phase: 'CHALLENGED',
+          challengeHash: result.challenge_hash,
+          challengedAt: result.challenged_at,
+        });
+        
+        if (updatedRecord) {
+          setCurrentRecord(updatedRecord);
+        }
+        refreshState();
+        
+        toast.success("Challenge registered", {
+          description: `Hash: ${result.challenge_hash?.substring(0, 16)}...`,
+        });
+      } else {
+        throw new Error(result.error || 'Challenge failed');
       }
     } catch (e: any) {
       setError(e.message);
+      toast.error("Challenge failed", { description: e.message });
     } finally {
       setIsProcessing(false);
     }
-  }, [user]);
+  }, []);
 
   const handleProve = useCallback(async (commitId: string) => {
     setIsProcessing(true);
     setError(null);
     try {
-      const record = await proveCommit(commitId);
-      setCurrentRecord(record);
-      refreshState();
-
-      // Update in database
-      if (user) {
-        await updateCommit(record);
-      }
-
-      // Generate certificate
-      const cert = await generateCertificate(record);
-      if (cert) {
-        setCertificate(cert);
-        toast.success("Compliance certificate generated", {
-          description: cert.certificateId,
+      // Call server-side prove endpoint
+      const result = await proveCommitServer(commitId);
+      
+      if (result.success) {
+        // Update local record with server response
+        const updatedRecord = updateRecordFromServer(commitId, {
+          phase: 'VERIFIED',
+          status: result.status,
+          proofHash: result.proof_hash,
+          merkleRoot: result.merkle_root,
+          merkleProof: result.merkle_proof,
+          violationFound: result.violation_found ?? undefined,
+          verificationTimeMs: result.verification_time_ms,
+          provenAt: result.proven_at,
         });
+        
+        if (updatedRecord) {
+          setCurrentRecord(updatedRecord);
+          
+          // Generate certificate
+          const cert = await generateCertificate(updatedRecord);
+          if (cert) {
+            setCertificate(cert);
+            toast.success("Compliance certificate generated", {
+              description: cert.certificateId,
+            });
+          }
+        }
+        
+        // Store external anchoring info
+        if (result.external_anchoring) {
+          setExternalAnchoring(result.external_anchoring);
+          if (result.external_anchoring.success) {
+            toast.success("Merkle root anchored to OpenTimestamps", {
+              description: "External proof of existence recorded",
+            });
+          }
+        }
+        
+        refreshState();
+        
+        toast.success(`Action ${result.status}`, {
+          description: `Proof: ${result.proof_hash?.substring(0, 16)}... • ${result.verification_time_ms}ms`,
+        });
+      } else {
+        throw new Error(result.error || 'Prove failed');
       }
     } catch (e: any) {
       setError(e.message);
+      toast.error("Prove failed", { description: e.message });
     } finally {
       setIsProcessing(false);
     }
-  }, [user]);
+  }, []);
 
   const handlePause = useCallback(() => {
     const result = toggleSovereignPause();
@@ -193,6 +264,24 @@ const Gallows = () => {
           className="mx-4 md:mx-6 mt-4 p-3 border border-gallows-blocked/40 bg-gallows-blocked/10 rounded font-mono text-sm text-gallows-blocked"
         >
           ⚠ {error}
+        </motion.div>
+      )}
+
+      {externalAnchoring?.success && externalAnchoring.ots_url && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mx-4 md:mx-6 mt-4 p-3 border border-gallows-approved/40 bg-gallows-approved/10 rounded font-mono text-sm"
+        >
+          <span className="text-gallows-approved">⚓ EXTERNAL ANCHOR:</span>{" "}
+          <a 
+            href={externalAnchoring.ots_url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gallows-highlight underline"
+          >
+            OpenTimestamps Proof
+          </a>
         </motion.div>
       )}
 
