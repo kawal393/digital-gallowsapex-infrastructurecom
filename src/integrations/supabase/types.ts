@@ -612,6 +612,13 @@ export type Database = {
             foreignKeyName: "verification_history_compliance_result_id_fkey"
             columns: ["compliance_result_id"]
             isOneToOne: false
+            referencedRelation: "compliance_pulse"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_history_compliance_result_id_fkey"
+            columns: ["compliance_result_id"]
+            isOneToOne: false
             referencedRelation: "compliance_results"
             referencedColumns: ["id"]
           },
@@ -619,10 +626,104 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      compliance_pulse: {
+        Row: {
+          company_name: string | null
+          id: string | null
+          overall_score: number | null
+          status: string | null
+          trio_mode: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          id?: string | null
+          overall_score?: number | null
+          status?: string | null
+          trio_mode?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          id?: string | null
+          overall_score?: number | null
+          status?: string | null
+          trio_mode?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      gallows_public_ledger: {
+        Row: {
+          action: string | null
+          challenge_hash: string | null
+          challenged_at: string | null
+          commit_hash: string | null
+          commit_id: string | null
+          created_at: string | null
+          id: string | null
+          merkle_leaf_hash: string | null
+          merkle_proof: Json | null
+          merkle_root: string | null
+          phase: string | null
+          predicate_id: string | null
+          proof_hash: string | null
+          proven_at: string | null
+          status: string | null
+          verification_time_ms: number | null
+          violation_found: string | null
+        }
+        Insert: {
+          action?: string | null
+          challenge_hash?: string | null
+          challenged_at?: string | null
+          commit_hash?: string | null
+          commit_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          merkle_leaf_hash?: string | null
+          merkle_proof?: Json | null
+          merkle_root?: string | null
+          phase?: string | null
+          predicate_id?: string | null
+          proof_hash?: string | null
+          proven_at?: string | null
+          status?: string | null
+          verification_time_ms?: number | null
+          violation_found?: string | null
+        }
+        Update: {
+          action?: string | null
+          challenge_hash?: string | null
+          challenged_at?: string | null
+          commit_hash?: string | null
+          commit_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          merkle_leaf_hash?: string | null
+          merkle_proof?: Json | null
+          merkle_root?: string | null
+          phase?: string | null
+          predicate_id?: string | null
+          proof_hash?: string | null
+          proven_at?: string | null
+          status?: string | null
+          verification_time_ms?: number | null
+          violation_found?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_assessment_by_share_id: {
+        Args: { p_share_id: string }
+        Returns: {
+          company_name: string
+          industry: string
+          score: number
+          status: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -6,7 +6,7 @@ import { forwardRef, useState } from "react";
 import { toast } from "sonner";
 import { Mail, MapPin, ExternalLink, Github } from "lucide-react";
 
-const FUNCTION_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/send-contact-email`;
+const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-email`;
 
 const ContactSection = forwardRef<HTMLElement>((_, ref) => {
   const [sending, setSending] = useState(false);
