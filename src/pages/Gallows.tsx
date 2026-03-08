@@ -86,12 +86,13 @@ const Gallows = () => {
       setCurrentRecord(record);
       refreshState();
 
-      // Persist to database (works for both authenticated and anonymous users)
+      // Persist via server-side Edge Function (hashes verified server-side)
       const result = await persistCommit(record);
       if (result.success) {
-        toast.success("Committed to immutable ledger", {
-          description: `ID: ${record.id}`,
-        });
+        const description = result.hashMismatch 
+          ? `⚠ Hash mismatch detected - server values used` 
+          : `ID: ${record.id} • Server verified`;
+        toast.success("Committed to immutable ledger", { description });
         setPersistedCount((prev) => prev + 1);
       } else {
         console.error('[Gallows] Persistence failed:', result.error);
