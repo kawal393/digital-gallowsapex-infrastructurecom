@@ -196,8 +196,23 @@ const Gallows = () => {
       // Call server-side prove endpoint
       const result = await proveCommitServer(commitId);
       
+      // Call MPC coordinator in parallel (best-effort)
+      let mpcData: any = null;
+      try {
+        const { data } = await supabase.functions.invoke('mpc-coordinator', {
+          body: { commit_id: commitId },
+        });
+        if (data?.success) {
+          mpcData = data;
+          toast.success("MPC consensus reached", {
+            description: `${data.nodes_responded}/3 nodes • ${data.threshold} threshold • ${data.total_time_ms}ms`,
+          });
+        }
+      } catch {
+        // MPC is best-effort
+      }
+      
       if (result.success) {
-        // Update local record with server response
         const updatedRecord = updateRecordFromServer(commitId, {
           phase: 'VERIFIED',
           status: result.status,
@@ -212,9 +227,26 @@ const Gallows = () => {
         if (updatedRecord) {
           setCurrentRecord(updatedRecord);
           
-          // Generate certificate
+          // Generate certificate with MPC and ZK data
           const cert = await generateCertificate(updatedRecord);
           if (cert) {
+            // Attach MPC consensus data
+            if (mpcData) {
+              cert.mpcConsensus = {
+                nodesResponded: mpcData.nodes_responded,
+                threshold: mpcData.threshold,
+                consensusSignature: mpcData.consensus_signature,
+              };
+            }
+            // Attach ZK proof data
+            if (zkResult) {
+              cert.zkProof = {
+                protocol: zkResult.proof.protocol,
+                curve: zkResult.proof.curve,
+                proofHash: zkResult.proofHash,
+                privacyLevel: zkResult.privacyLevel,
+              };
+            }
             setCertificate(cert);
             toast.success("Compliance certificate generated", {
               description: cert.certificateId,
