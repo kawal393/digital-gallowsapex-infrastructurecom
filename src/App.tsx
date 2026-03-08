@@ -25,6 +25,7 @@ import BadgePage from "./pages/Badge";
 import FreeAssessment from "./pages/FreeAssessment";
 import Regulations from "./pages/Regulations";
 import ChatWidget from "@/components/chat/ChatWidget";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 
 const queryClient = new QueryClient();
 
@@ -71,8 +72,9 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <ExitIntentPopup />
+          <ChatWidget />
         </BrowserRouter>
-        <ChatWidget />
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>

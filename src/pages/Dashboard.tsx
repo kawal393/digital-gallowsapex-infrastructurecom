@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3 } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
@@ -11,6 +12,8 @@ import ReferralCard from "@/components/dashboard/ReferralCard";
 import ComplianceQuestionnaire from "@/components/dashboard/ComplianceQuestionnaire";
 import ComplianceCertificate from "@/components/dashboard/ComplianceCertificate";
 import ScoreBreakdown from "@/components/dashboard/ScoreBreakdown";
+import ChatAnalytics from "@/components/dashboard/ChatAnalytics";
+import OnboardingTour from "@/components/dashboard/OnboardingTour";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -132,6 +135,7 @@ const Dashboard = () => {
         </div>
       </header>
 
+      <OnboardingTour />
       <main className="container mx-auto max-w-6xl px-4 py-8">
         <h1 className="text-xl font-bold text-gold-gradient mb-6">Compliance Dashboard</h1>
 
@@ -179,51 +183,68 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Questionnaire or Dashboard */}
-        {!qLoaded ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-        ) : showQuestionnaire ? (
-          <ComplianceQuestionnaire onComplete={fetchData} existingData={showRetake ? questionnaire : questionnaire} />
-        ) : compliance ? (
-          <div className="space-y-6">
-            {/* Action Bar */}
-            <div className="flex flex-wrap gap-3">
-              <Button
-                variant="hero"
-                size="sm"
-                onClick={handleRunVerification}
-                disabled={verifying || !subscription.subscribed}
-              >
-                <Zap className="h-4 w-4 mr-1" />
-                {verifying ? "Verifying…" : "Run TRIO Verification"}
-              </Button>
-              <Button variant="heroOutline" size="sm" onClick={handleRetake}>
-                <RotateCcw className="h-4 w-4 mr-1" /> Retake Assessment
-              </Button>
-            </div>
+        {/* Tabs: Compliance + Analytics */}
+        <Tabs defaultValue="compliance" className="w-full">
+          <TabsList className="mb-6 bg-muted">
+            <TabsTrigger value="compliance" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Shield className="h-3.5 w-3.5 mr-1.5" /> Compliance
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <BarChart3 className="h-3.5 w-3.5 mr-1.5" /> Chat Analytics
+            </TabsTrigger>
+          </TabsList>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <ComplianceStatus score={compliance.overall_score} status={compliance.status} />
-              <TrioModeSelector mode={compliance.trio_mode} onModeChange={updateTrioMode} />
-              {breakdown && <ScoreBreakdown breakdown={breakdown} />}
-              <ComplianceCertificate
-                companyName={compliance.company_name}
-                score={compliance.overall_score}
-                status={compliance.status}
-                date={compliance.updated_at}
-                merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
-              />
-              <ComplianceLedger verifications={verifications} />
-              <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center py-20">
-            <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-        )}
+          <TabsContent value="compliance">
+            {!qLoaded ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : showQuestionnaire ? (
+              <ComplianceQuestionnaire onComplete={fetchData} existingData={showRetake ? questionnaire : questionnaire} />
+            ) : compliance ? (
+              <div className="space-y-6">
+                {/* Action Bar */}
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    variant="hero"
+                    size="sm"
+                    onClick={handleRunVerification}
+                    disabled={verifying || !subscription.subscribed}
+                  >
+                    <Zap className="h-4 w-4 mr-1" />
+                    {verifying ? "Verifying…" : "Run TRIO Verification"}
+                  </Button>
+                  <Button variant="heroOutline" size="sm" onClick={handleRetake}>
+                    <RotateCcw className="h-4 w-4 mr-1" /> Retake Assessment
+                  </Button>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <ComplianceStatus score={compliance.overall_score} status={compliance.status} />
+                  <TrioModeSelector mode={compliance.trio_mode} onModeChange={updateTrioMode} />
+                  {breakdown && <ScoreBreakdown breakdown={breakdown} />}
+                  <ComplianceCertificate
+                    companyName={compliance.company_name}
+                    score={compliance.overall_score}
+                    status={compliance.status}
+                    date={compliance.updated_at}
+                    merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
+                  />
+                  <ComplianceLedger verifications={verifications} />
+                  <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center py-20">
+                <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="analytics">
+            <ChatAnalytics />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );

@@ -5,6 +5,7 @@ import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Awar
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
+import ThemeToggle from "@/components/ThemeToggle";
 import apexLogo from "@/assets/apex-logo.png";
 
 const toolLinks = [
@@ -117,6 +118,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            <ThemeToggle />
             <LanguageSelector />
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
@@ -145,6 +147,7 @@ const Navbar = () => {
             <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSelector />
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
@@ -178,6 +181,7 @@ const Navbar = () => {
             <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
           </button>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSelector />
             <button
               className="text-foreground bg-transparent border-none cursor-pointer"
