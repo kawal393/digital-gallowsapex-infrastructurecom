@@ -28,37 +28,48 @@ export interface LedgerEntry {
 }
 
 /**
- * Persist a commit record to the database
+ * Persist a commit record via server-side Edge Function
+ * Server re-computes hashes to prevent client-side tampering
  */
-export async function persistCommit(record: CommitRecord): Promise<{ success: boolean; error?: string }> {
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  // Use type assertion since gallows_ledger isn't in generated types yet
-  const { error } = await (supabase.from('gallows_ledger' as any) as any).insert({
-    commit_id: record.id,
-    user_id: user?.id ?? null,
-    action: record.action,
-    predicate_id: record.predicateId,
-    phase: record.phase,
-    status: record.status ?? null,
-    commit_hash: record.commitHash,
-    merkle_leaf_hash: record.merkleLeafHash,
-    challenge_hash: record.challengeHash ?? null,
-    proof_hash: record.proofHash ?? null,
-    merkle_root: record.merkleRoot ?? null,
-    merkle_proof: record.merkleProof ? JSON.parse(JSON.stringify(record.merkleProof)) : null,
-    violation_found: record.violationFound ?? null,
-    verification_time_ms: record.verificationTimeMs ?? null,
-    challenged_at: record.challengedAt ?? null,
-    proven_at: record.provenAt ?? null,
-  });
+export async function persistCommit(record: CommitRecord): Promise<{ 
+  success: boolean; 
+  error?: string;
+  serverVerified?: boolean;
+  hashMismatch?: boolean;
+}> {
+  try {
+    const { data, error } = await supabase.functions.invoke('commit-action', {
+      body: {
+        action: record.action,
+        predicate_id: record.predicateId,
+        // Send client hashes for server-side verification
+        client_commit_hash: record.commitHash,
+        client_leaf_hash: record.merkleLeafHash,
+      },
+    });
 
-  if (error) {
-    console.error('[Gallows Persistence] Insert failed:', error.message);
-    return { success: false, error: error.message };
+    if (error) {
+      console.error('[Gallows Persistence] Server commit failed:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    // Check for rate limiting
+    if (data?.error === 'Rate limit exceeded') {
+      return { 
+        success: false, 
+        error: `Rate limited: ${data.message}`,
+      };
+    }
+
+    return { 
+      success: true,
+      serverVerified: data?.hash_verified_server_side ?? false,
+      hashMismatch: data?.hash_mismatch_detected ?? false,
+    };
+  } catch (e: any) {
+    console.error('[Gallows Persistence] Insert failed:', e.message);
+    return { success: false, error: e.message };
   }
-  
-  return { success: true };
 }
 
 /**
@@ -160,19 +171,34 @@ export async function getLatestMerkleRoot(): Promise<string | null> {
 
 /**
  * Subscribe to realtime ledger updates
+ * Generates a unique session ID to filter out own inserts
  */
-export function subscribeLedger(callback: (entry: LedgerEntry) => void) {
+let sessionId: string | null = null;
+
+export function getSessionId(): string {
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+  }
+  return sessionId;
+}
+
+export function subscribeLedger(
+  callback: (entry: LedgerEntry) => void,
+  options?: { includeOwnInserts?: boolean }
+) {
   const channel = supabase
     .channel('gallows_ledger_changes')
     .on(
       'postgres_changes',
       {
-        event: '*',
+        event: 'INSERT',
         schema: 'public',
         table: 'gallows_ledger',
       },
       (payload) => {
         if (payload.new) {
+          // Only invoke callback for new entries
+          // The filtering of own vs others happens at UI level
           callback(payload.new as unknown as LedgerEntry);
         }
       }
