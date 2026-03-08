@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { MessageCircle, Users, AlertTriangle, ThumbsUp, ThumbsDown, Mail, RefreshCw } from "lucide-react";
+import { MessageCircle, Users, AlertTriangle, ThumbsUp, ThumbsDown, Mail, RefreshCw, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
