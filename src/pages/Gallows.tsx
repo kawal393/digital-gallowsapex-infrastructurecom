@@ -94,6 +94,7 @@ const Gallows = () => {
     setError(null);
     setCertificate(null);
     setExternalAnchoring(null);
+    setZkResult(null);
     try {
       // Create local record first (for immediate UI feedback)
       const record = await commitAction(action, predicateId);
