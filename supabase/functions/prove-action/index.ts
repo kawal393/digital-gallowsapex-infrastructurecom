@@ -134,7 +134,7 @@ async function buildMerkleTreeAndProof(
 }
 
 function checkCompliance(action: string, predicateId: string): { compliant: boolean; violationFound?: string } {
-  const patterns = VIOLATION_PATTERNS[predicateId];
+  const patterns = ALL_VIOLATION_PATTERNS[predicateId];
   if (!patterns) return { compliant: true };
 
   const lowerAction = action.toLowerCase();
