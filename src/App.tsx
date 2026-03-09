@@ -28,6 +28,7 @@ import Regulations from "./pages/Regulations";
 import ScoreCard from "./pages/ScoreCard";
 import EmbedCountdown from "./pages/EmbedCountdown";
 import EmbedPulse from "./pages/EmbedPulse";
+import Lattice from "./pages/Lattice";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 
@@ -65,6 +66,7 @@ const App = () => (
               <Route path="/score/:shareId" element={<ScoreCard />} />
               <Route path="/embed/countdown" element={<EmbedCountdown />} />
               <Route path="/embed/pulse/:id" element={<EmbedPulse />} />
+              <Route path="/lattice" element={<Lattice />} />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
