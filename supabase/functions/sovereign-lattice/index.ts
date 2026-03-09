@@ -32,9 +32,10 @@ serve(async (req) => {
   const serviceClient = createClient(supabaseUrl, supabaseServiceKey);
 
   // ── Cross-node auth ───────────────────────────────────────────────────────
-  const platformKey = req.headers.get("X-Platform-Key");
+  const platformKey = req.headers.get("x-platform-key") || req.headers.get("X-Platform-Key");
   const latticeKey = Deno.env.get("APEX_LATTICE_KEY");
-  const sourceNode = req.headers.get("X-Node-Id") || "unknown";
+  const sourceNode = req.headers.get("x-node-id") || req.headers.get("X-Node-Id") || "unknown";
+  console.log("[sovereign-lattice] platformKey present:", !!platformKey, "latticeKey present:", !!latticeKey, "match:", platformKey === latticeKey);
 
   let isAuthorized = false;
 
