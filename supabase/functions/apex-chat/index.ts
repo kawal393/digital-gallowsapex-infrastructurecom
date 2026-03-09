@@ -345,9 +345,11 @@ serve(async (req) => {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (aiResponse.status === 402) {
-        return new Response(JSON.stringify({ error: "AI service temporarily unavailable." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      if (aiResponse.status === 402 || aiResponse.status === 403) {
+        const errText = await aiResponse.text();
+        console.error("Gemini API billing/auth error:", aiResponse.status, errText);
+        return new Response(JSON.stringify({ error: "AI service authentication error. Please check your API key and billing." }), {
+          status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const errText = await aiResponse.text();
