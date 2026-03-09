@@ -310,6 +310,7 @@ const Gallows = () => {
 
   return (
     <div className="min-h-screen bg-gallows-bg text-gallows-text">
+      <TrafficNoticeBanner />
       <GallowsHeader paused={paused} onTogglePause={handlePause} persistedCount={persistedCount} />
 
       {error && (

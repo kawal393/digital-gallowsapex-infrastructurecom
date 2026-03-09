@@ -196,6 +196,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <TrafficNoticeBanner />
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="container mx-auto max-w-6xl flex items-center justify-between h-14 px-4">
           <a href="/" className="flex items-center gap-2">
