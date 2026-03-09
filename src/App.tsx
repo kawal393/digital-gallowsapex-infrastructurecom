@@ -32,6 +32,7 @@ import Lattice from "./pages/Lattice";
 import Admin from "./pages/Admin";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import FeedbackWidget from "@/components/FeedbackWidget";
 
 const queryClient = new QueryClient();
 
