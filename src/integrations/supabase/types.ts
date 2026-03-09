@@ -361,6 +361,27 @@ export type Database = {
         }
         Relationships: []
       }
+      lattice_config: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          value?: string
+        }
+        Relationships: []
+      }
       partner_referrals: {
         Row: {
           commission_amount: number
