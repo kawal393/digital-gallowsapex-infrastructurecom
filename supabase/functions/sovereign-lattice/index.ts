@@ -184,7 +184,7 @@ serve(async (req) => {
             payload: heartbeat,
             timestamp: now(),
           }),
-        }).catch(() => null);
+        }).catch(() => { /* ignore */ });
       }
     }
 
