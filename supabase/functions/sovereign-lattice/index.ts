@@ -133,12 +133,14 @@ serve(async (req) => {
 
     // If it's a verification-trigger event, handle it
     if (event_type === "verification-trigger" && payload?.user_id && payload?.article_number) {
-      await serviceClient.from("verification_history").insert({
-        user_id: payload.user_id,
-        article_number: payload.article_number,
-        article_title: payload.article_title || "Cross-Node Verification",
-        status: "pending",
-      }).catch(() => null);
+      try {
+        await serviceClient.from("verification_history").insert({
+          user_id: payload.user_id,
+          article_number: payload.article_number,
+          article_title: payload.article_title || "Cross-Node Verification",
+          status: "pending",
+        });
+      } catch { /* ignore */ }
     }
 
     return json({ success: true, message: "Event ingested", node: NODE_CONFIG.id, timestamp: now() });
