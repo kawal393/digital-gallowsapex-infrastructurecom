@@ -21,10 +21,12 @@ import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <TrafficNoticeBanner />
       <Navbar />
       <div id="top" />
       <Hero />

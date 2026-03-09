@@ -19,6 +19,7 @@ import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
 import WebhookConfig from "@/components/dashboard/WebhookConfig";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
 
 const TIER_LABELS: Record<string, string> = {
   free: "FREE",
@@ -196,6 +197,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <TrafficNoticeBanner />
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="container mx-auto max-w-6xl flex items-center justify-between h-14 px-4">
           <a href="/" className="flex items-center gap-2">
