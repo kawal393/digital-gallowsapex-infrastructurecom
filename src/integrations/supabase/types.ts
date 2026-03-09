@@ -298,6 +298,33 @@ export type Database = {
           },
         ]
       }
+      feedback_submissions: {
+        Row: {
+          category: string
+          created_at: string
+          email: string | null
+          id: string
+          message: string
+          page_url: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          message: string
+          page_url?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string
+          page_url?: string | null
+        }
+        Relationships: []
+      }
       gallows_ledger: {
         Row: {
           action: string
