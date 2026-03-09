@@ -209,10 +209,12 @@ serve(async (req) => {
     }
 
     // Store sync state
-    await serviceClient.from("lattice_config").upsert({
-      key: `sync:${NODE_CONFIG.id}:latest`,
-      value: JSON.stringify({ results, timestamp: now() }),
-    }).catch(() => null);
+    try {
+      await serviceClient.from("lattice_config").insert({
+        key: `sync:${NODE_CONFIG.id}:latest`,
+        value: JSON.stringify({ results, timestamp: now() }),
+      });
+    } catch { /* ignore */ }
 
     return json({
       node: NODE_CONFIG.id,
