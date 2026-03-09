@@ -15,6 +15,8 @@ import ScoreBreakdown from "@/components/dashboard/ScoreBreakdown";
 import ChatAnalytics from "@/components/dashboard/ChatAnalytics";
 import OnboardingTour from "@/components/dashboard/OnboardingTour";
 import UpgradePrompt from "@/components/dashboard/UpgradePrompt";
+import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
+import WebhookConfig from "@/components/dashboard/WebhookConfig";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
