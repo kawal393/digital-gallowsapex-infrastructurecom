@@ -321,11 +321,11 @@ serve(async (req) => {
     // Build self-learning system prompt (injects recent knowledge gaps)
     const SYSTEM_PROMPT = await buildSystemPrompt(supabase);
 
-    // Call AI gateway
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Call Gemini API directly
+    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${GEMINI_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
