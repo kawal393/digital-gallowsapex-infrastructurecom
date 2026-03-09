@@ -29,7 +29,9 @@ const statusColors: Record<string, string> = {
 };
 
 const ComplianceCertificate = ({ companyName, score, status, date, merkleHash }: Props) => {
-  const handleDownload = () => {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadTxt = () => {
     const certContent = `
 ═══════════════════════════════════════════════════════
               APEX DIGITAL GALLOWS
@@ -64,6 +66,28 @@ Deadline: August 2, 2026
     URL.revokeObjectURL(url);
   };
 
+  const handleDownloadPdf = async () => {
+    setDownloading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-certificate-pdf");
+      if (error) throw error;
+      // data is HTML string, open in new window for print/save
+      const blob = new Blob([data], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const w = window.open(url, "_blank");
+      if (w) {
+        w.onload = () => {
+          URL.revokeObjectURL(url);
+        };
+      }
+      toast.success("Certificate opened — use Print > Save as PDF");
+    } catch (e: any) {
+      toast.error(e.message || "Failed to generate certificate");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <Card className="border-glow bg-card/80">
       <CardHeader className="pb-3">
@@ -82,9 +106,14 @@ Deadline: August 2, 2026
             {statusLabels[status] || "N/A"}
           </Badge>
         </div>
-        <Button variant="heroOutline" size="sm" className="w-full" onClick={handleDownload}>
-          <Download className="h-4 w-4 mr-2" /> Download Certificate
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="heroOutline" size="sm" className="flex-1" onClick={handleDownloadTxt}>
+            <Download className="h-4 w-4 mr-1" /> TXT
+          </Button>
+          <Button variant="hero" size="sm" className="flex-1" onClick={handleDownloadPdf} disabled={downloading}>
+            <FileText className="h-4 w-4 mr-1" /> {downloading ? "Generating…" : "PDF Certificate"}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

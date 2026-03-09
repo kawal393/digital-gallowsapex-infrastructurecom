@@ -68,6 +68,14 @@ const App = () => (
               <Route path="/embed/countdown" element={<EmbedCountdown />} />
               <Route path="/embed/pulse/:id" element={<EmbedPulse />} />
               <Route path="/lattice" element={<Lattice />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <Admin />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"

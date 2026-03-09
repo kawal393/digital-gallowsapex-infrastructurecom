@@ -336,6 +336,8 @@ const Dashboard = () => {
                     merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
                   />
                   <ComplianceLedger verifications={verifications} />
+                  <MonitoringToggle />
+                  <WebhookConfig />
                   <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
                 </div>
               </div>
