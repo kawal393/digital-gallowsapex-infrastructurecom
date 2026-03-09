@@ -29,6 +29,7 @@ import ScoreCard from "./pages/ScoreCard";
 import EmbedCountdown from "./pages/EmbedCountdown";
 import EmbedPulse from "./pages/EmbedPulse";
 import Lattice from "./pages/Lattice";
+import Admin from "./pages/Admin";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 
