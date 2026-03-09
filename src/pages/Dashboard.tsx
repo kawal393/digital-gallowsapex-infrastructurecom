@@ -19,6 +19,7 @@ import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
 import WebhookConfig from "@/components/dashboard/WebhookConfig";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
 
 const TIER_LABELS: Record<string, string> = {
   free: "FREE",

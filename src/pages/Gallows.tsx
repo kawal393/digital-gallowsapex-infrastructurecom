@@ -28,6 +28,7 @@ import {
 } from "@/lib/gallows-persistence";
 import { generateCertificate, type ComplianceCertificate } from "@/lib/gallows-certificate";
 import { generateZKProof, type ZKProofResult } from "@/lib/gallows-zk";
+import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
