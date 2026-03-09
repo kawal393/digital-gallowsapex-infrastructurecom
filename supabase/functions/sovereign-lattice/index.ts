@@ -119,15 +119,17 @@ serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const { source_node, event_type, title, description, severity, payload, timestamp } = body;
 
-    await serviceClient.from("lattice_config").upsert({
-      key: `event:${source_node || sourceNode}:${Date.now()}`,
-      value: JSON.stringify({
-        source_node: source_node || sourceNode,
-        event_type, title, description, severity, payload,
-        timestamp: timestamp || now(),
-        receivedAt: now(),
-      }),
-    }).catch(() => null);
+    try {
+      await serviceClient.from("lattice_config").insert({
+        key: `event:${source_node || sourceNode}:${Date.now()}`,
+        value: JSON.stringify({
+          source_node: source_node || sourceNode,
+          event_type, title, description, severity, payload,
+          timestamp: timestamp || now(),
+          receivedAt: now(),
+        }),
+      });
+    } catch { /* ignore */ }
 
     // If it's a verification-trigger event, handle it
     if (event_type === "verification-trigger" && payload?.user_id && payload?.article_number) {
