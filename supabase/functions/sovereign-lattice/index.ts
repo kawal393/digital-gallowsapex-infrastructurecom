@@ -158,10 +158,12 @@ serve(async (req) => {
     };
 
     // Store heartbeat locally
-    await serviceClient.from("lattice_config").upsert({
-      key: `heartbeat:${NODE_CONFIG.id}`,
-      value: JSON.stringify(heartbeat),
-    }).catch(() => null);
+    try {
+      await serviceClient.from("lattice_config").insert({
+        key: `heartbeat:${NODE_CONFIG.id}`,
+        value: JSON.stringify(heartbeat),
+      });
+    } catch { /* ignore */ }
 
     // If POST, broadcast to hub
     if (req.method === "POST") {
