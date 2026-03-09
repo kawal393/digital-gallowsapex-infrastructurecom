@@ -65,3 +65,15 @@ verify_jwt = false
 
 [functions.sovereign-lattice]
 verify_jwt = false
+
+[functions.admin-data]
+verify_jwt = false
+
+[functions.generate-certificate-pdf]
+verify_jwt = false
+
+[functions.send-alert-email]
+verify_jwt = false
+
+[functions.run-scheduled-monitoring]
+verify_jwt = false

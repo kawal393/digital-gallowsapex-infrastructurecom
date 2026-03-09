@@ -213,10 +213,40 @@ serve(async (req) => {
     else if (newScore >= 70) newStatus = "mostly_compliant";
     else if (newScore >= 50) newStatus = "partially_compliant";
 
+    const previousStatus = compRes.data.status;
+
     await supabaseClient
       .from("compliance_results")
       .update({ overall_score: newScore, status: newStatus, updated_at: new Date().toISOString() })
       .eq("user_id", user.id);
+
+    // Fire alerts if status changed
+    if (previousStatus !== newStatus && user.email) {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+      // Send email alert
+      fetch(`${supabaseUrl}/functions/v1/send-alert-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}` },
+        body: JSON.stringify({
+          to: user.email,
+          company: compRes.data.company_name,
+          score: newScore,
+          status: newStatus,
+          mode,
+          previous_status: previousStatus,
+        }),
+      }).catch(e => console.error("Alert email failed:", e));
+
+      // Notify admin via webhook-notify
+      fetch(`${supabaseUrl}/functions/v1/webhook-notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}` },
+        body: JSON.stringify({
+          event: "compliance_change",
+          data: { company: compRes.data.company_name, score: newScore, status: newStatus, mode },
+        }),
+      }).catch(e => console.error("Webhook notify failed:", e));
+    }
 
     return new Response(JSON.stringify({
       mode,

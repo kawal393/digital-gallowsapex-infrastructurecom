@@ -15,6 +15,8 @@ import ScoreBreakdown from "@/components/dashboard/ScoreBreakdown";
 import ChatAnalytics from "@/components/dashboard/ChatAnalytics";
 import OnboardingTour from "@/components/dashboard/OnboardingTour";
 import UpgradePrompt from "@/components/dashboard/UpgradePrompt";
+import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
+import WebhookConfig from "@/components/dashboard/WebhookConfig";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -334,6 +336,8 @@ const Dashboard = () => {
                     merkleHash={verifications.find(v => v.merkle_proof_hash)?.merkle_proof_hash}
                   />
                   <ComplianceLedger verifications={verifications} />
+                  <MonitoringToggle />
+                  <WebhookConfig />
                   <ReferralCard referralCode={compliance.referral_code || ""} referralCount={compliance.referral_count} />
                 </div>
               </div>
