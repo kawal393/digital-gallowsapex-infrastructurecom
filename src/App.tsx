@@ -66,6 +66,7 @@ const App = () => (
               <Route path="/score/:shareId" element={<ScoreCard />} />
               <Route path="/embed/countdown" element={<EmbedCountdown />} />
               <Route path="/embed/pulse/:id" element={<EmbedPulse />} />
+              <Route path="/lattice" element={<Lattice />} />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
