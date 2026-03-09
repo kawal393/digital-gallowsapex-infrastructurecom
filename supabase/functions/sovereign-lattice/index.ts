@@ -119,24 +119,28 @@ serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const { source_node, event_type, title, description, severity, payload, timestamp } = body;
 
-    await serviceClient.from("lattice_config").upsert({
-      key: `event:${source_node || sourceNode}:${Date.now()}`,
-      value: JSON.stringify({
-        source_node: source_node || sourceNode,
-        event_type, title, description, severity, payload,
-        timestamp: timestamp || now(),
-        receivedAt: now(),
-      }),
-    }).catch(() => null);
+    try {
+      await serviceClient.from("lattice_config").insert({
+        key: `event:${source_node || sourceNode}:${Date.now()}`,
+        value: JSON.stringify({
+          source_node: source_node || sourceNode,
+          event_type, title, description, severity, payload,
+          timestamp: timestamp || now(),
+          receivedAt: now(),
+        }),
+      });
+    } catch { /* ignore */ }
 
     // If it's a verification-trigger event, handle it
     if (event_type === "verification-trigger" && payload?.user_id && payload?.article_number) {
-      await serviceClient.from("verification_history").insert({
-        user_id: payload.user_id,
-        article_number: payload.article_number,
-        article_title: payload.article_title || "Cross-Node Verification",
-        status: "pending",
-      }).catch(() => null);
+      try {
+        await serviceClient.from("verification_history").insert({
+          user_id: payload.user_id,
+          article_number: payload.article_number,
+          article_title: payload.article_title || "Cross-Node Verification",
+          status: "pending",
+        });
+      } catch { /* ignore */ }
     }
 
     return json({ success: true, message: "Event ingested", node: NODE_CONFIG.id, timestamp: now() });
@@ -154,10 +158,12 @@ serve(async (req) => {
     };
 
     // Store heartbeat locally
-    await serviceClient.from("lattice_config").upsert({
-      key: `heartbeat:${NODE_CONFIG.id}`,
-      value: JSON.stringify(heartbeat),
-    }).catch(() => null);
+    try {
+      await serviceClient.from("lattice_config").insert({
+        key: `heartbeat:${NODE_CONFIG.id}`,
+        value: JSON.stringify(heartbeat),
+      });
+    } catch { /* ignore */ }
 
     // If POST, broadcast to hub
     if (req.method === "POST") {
@@ -178,7 +184,7 @@ serve(async (req) => {
             payload: heartbeat,
             timestamp: now(),
           }),
-        }).catch(() => null);
+        }).catch(() => { /* ignore */ });
       }
     }
 
@@ -203,10 +209,12 @@ serve(async (req) => {
     }
 
     // Store sync state
-    await serviceClient.from("lattice_config").upsert({
-      key: `sync:${NODE_CONFIG.id}:latest`,
-      value: JSON.stringify({ results, timestamp: now() }),
-    }).catch(() => null);
+    try {
+      await serviceClient.from("lattice_config").insert({
+        key: `sync:${NODE_CONFIG.id}:latest`,
+        value: JSON.stringify({ results, timestamp: now() }),
+      });
+    } catch { /* ignore */ }
 
     return json({
       node: NODE_CONFIG.id,
