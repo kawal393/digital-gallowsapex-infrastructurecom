@@ -107,18 +107,27 @@ serve(async (req) => {
   // ── ACTION: ingest-event ──────────────────────────────────────────────────
   if (action === "ingest-event" && req.method === "POST") {
     const body = await req.json().catch(() => ({}));
-    console.log("[sovereign-lattice] Cross-node event from:", sourceNode, body);
+    const { source_node, event_type, title, description, severity, payload, timestamp } = body;
+    console.log("[sovereign-lattice] Cross-node event from:", sourceNode, { source_node, event_type, title, severity });
 
-    // Optionally store the event in lattice_config for audit
     await serviceClient.from("lattice_config").upsert({
-      key: `event:${sourceNode}:${Date.now()}`,
-      value: JSON.stringify({ ...body, receivedAt: new Date().toISOString() }),
+      key: `event:${source_node || sourceNode}:${Date.now()}`,
+      value: JSON.stringify({
+        source_node: source_node || sourceNode,
+        event_type,
+        title,
+        description,
+        severity,
+        payload,
+        timestamp: timestamp || new Date().toISOString(),
+        receivedAt: new Date().toISOString(),
+      }),
     }).catch(() => null);
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Event received by Digital Gallows node",
+        message: "Event ingested into the Sovereign Lattice",
         timestamp: new Date().toISOString(),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
