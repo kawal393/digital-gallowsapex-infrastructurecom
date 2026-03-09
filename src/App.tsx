@@ -94,6 +94,7 @@ const App = () => (
             </Routes>
             <ExitIntentPopup />
             <ChatWidget />
+            <FeedbackWidget />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
