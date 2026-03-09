@@ -62,3 +62,6 @@ verify_jwt = false
 
 [functions.generate-score-card]
 verify_jwt = false
+
+[functions.sovereign-lattice]
+verify_jwt = false
