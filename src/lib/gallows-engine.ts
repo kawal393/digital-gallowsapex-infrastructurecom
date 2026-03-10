@@ -35,6 +35,8 @@ export interface CommitRecord {
   challengedAt?: string;
   provenAt?: string;
   sovereignPauseAt?: string;
+  sequenceNumber?: number;
+  ed25519Signature?: string;
 }
 
 export interface MerkleNode {
@@ -510,6 +512,8 @@ export async function initializeFromLedger(entries: {
     violationFound: e.violation_found ?? undefined,
     challengedAt: e.challenged_at ?? undefined,
     provenAt: e.proven_at ?? undefined,
+    sequenceNumber: (e as any).sequence_number ?? undefined,
+    ed25519Signature: (e as any).ed25519_signature ?? undefined,
   })).reverse(); // Reverse so newest is first in commit log
 
   initialized = true;

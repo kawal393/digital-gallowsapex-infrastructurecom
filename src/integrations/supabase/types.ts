@@ -333,6 +333,7 @@ export type Database = {
           commit_hash: string
           commit_id: string
           created_at: string
+          ed25519_signature: string | null
           id: string
           merkle_leaf_hash: string
           merkle_proof: Json | null
@@ -341,6 +342,7 @@ export type Database = {
           predicate_id: string
           proof_hash: string | null
           proven_at: string | null
+          sequence_number: number | null
           status: string | null
           user_id: string | null
           verification_time_ms: number | null
@@ -353,6 +355,7 @@ export type Database = {
           commit_hash: string
           commit_id: string
           created_at?: string
+          ed25519_signature?: string | null
           id?: string
           merkle_leaf_hash: string
           merkle_proof?: Json | null
@@ -361,6 +364,7 @@ export type Database = {
           predicate_id: string
           proof_hash?: string | null
           proven_at?: string | null
+          sequence_number?: number | null
           status?: string | null
           user_id?: string | null
           verification_time_ms?: number | null
@@ -373,6 +377,7 @@ export type Database = {
           commit_hash?: string
           commit_id?: string
           created_at?: string
+          ed25519_signature?: string | null
           id?: string
           merkle_leaf_hash?: string
           merkle_proof?: Json | null
@@ -381,6 +386,7 @@ export type Database = {
           predicate_id?: string
           proof_hash?: string | null
           proven_at?: string | null
+          sequence_number?: number | null
           status?: string | null
           user_id?: string | null
           verification_time_ms?: number | null
@@ -787,6 +793,7 @@ export type Database = {
           commit_hash: string | null
           commit_id: string | null
           created_at: string | null
+          ed25519_signature: string | null
           id: string | null
           merkle_leaf_hash: string | null
           merkle_proof: Json | null
@@ -795,6 +802,7 @@ export type Database = {
           predicate_id: string | null
           proof_hash: string | null
           proven_at: string | null
+          sequence_number: number | null
           status: string | null
           verification_time_ms: number | null
           violation_found: string | null
@@ -806,6 +814,7 @@ export type Database = {
           commit_hash?: string | null
           commit_id?: string | null
           created_at?: string | null
+          ed25519_signature?: string | null
           id?: string | null
           merkle_leaf_hash?: string | null
           merkle_proof?: Json | null
@@ -814,6 +823,7 @@ export type Database = {
           predicate_id?: string | null
           proof_hash?: string | null
           proven_at?: string | null
+          sequence_number?: number | null
           status?: string | null
           verification_time_ms?: number | null
           violation_found?: string | null
@@ -825,6 +835,7 @@ export type Database = {
           commit_hash?: string | null
           commit_id?: string | null
           created_at?: string | null
+          ed25519_signature?: string | null
           id?: string | null
           merkle_leaf_hash?: string | null
           merkle_proof?: Json | null
@@ -833,6 +844,7 @@ export type Database = {
           predicate_id?: string | null
           proof_hash?: string | null
           proven_at?: string | null
+          sequence_number?: number | null
           status?: string | null
           verification_time_ms?: number | null
           violation_found?: string | null

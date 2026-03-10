@@ -30,6 +30,7 @@ import EmbedCountdown from "./pages/EmbedCountdown";
 import EmbedPulse from "./pages/EmbedPulse";
 import Lattice from "./pages/Lattice";
 import Admin from "./pages/Admin";
+import Protocol from "./pages/Protocol";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
@@ -57,6 +58,7 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route path="/protocol" element={<Protocol />} />
               <Route path="/gallows" element={<Gallows />} />
               <Route path="/architecture" element={<Architecture />} />
               <Route path="/sdk" element={<SDK />} />
