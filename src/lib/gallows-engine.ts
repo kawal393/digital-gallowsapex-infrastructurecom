@@ -35,6 +35,8 @@ export interface CommitRecord {
   challengedAt?: string;
   provenAt?: string;
   sovereignPauseAt?: string;
+  sequenceNumber?: number;
+  ed25519Signature?: string;
 }
 
 export interface MerkleNode {
