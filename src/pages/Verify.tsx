@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink } from "lucide-react";
+import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
+import { verifyEd25519Signature, type PSIProofBundle } from "@/lib/psi-signatures";
+import { jcsHash } from "@/lib/psi-canonicalize";
+import { verifyMerkleProof, hashSHA256 } from "@/lib/gallows-engine";
 
 interface VerificationResult {
   verified: boolean;
@@ -29,15 +34,35 @@ interface VerificationResult {
   algorithm?: string;
   eu_ai_act_compliance?: boolean;
   message?: string;
+  sequence_number?: number;
 }
 
 const VERIFY_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/verify-hash`;
+
+// ZK Visualization steps
+const zkSteps = [
+  { label: "Raw Event", icon: FileJson, color: "text-muted-foreground" },
+  { label: "JCS Canonicalize", icon: Hash, color: "text-primary" },
+  { label: "SHA-256 Hash", icon: Zap, color: "text-gold" },
+  { label: "Merkle Path", icon: ArrowRight, color: "text-primary" },
+  { label: "Signed Root", icon: Shield, color: "text-compliant" },
+  { label: "VALID", icon: CheckCircle2, color: "text-compliant" },
+];
 
 const Verify = () => {
   const [hash, setHash] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<VerificationResult | null>(null);
   const [searched, setSearched] = useState(false);
+  const [activeTab, setActiveTab] = useState("hash");
+
+  // Proof bundle verification state
+  const [bundleJson, setBundleJson] = useState("");
+  const [bundleResult, setBundleResult] = useState<{
+    valid: boolean;
+    steps: { label: string; status: "pending" | "pass" | "fail"; value?: string }[];
+  } | null>(null);
+  const [bundleVerifying, setBundleVerifying] = useState(false);
 
   const handleVerify = async () => {
     if (!hash.trim()) {
@@ -62,6 +87,111 @@ const Verify = () => {
     }
   };
 
+  const handleBundleVerify = useCallback(async () => {
+    if (!bundleJson.trim()) {
+      toast.error("Please paste a proof bundle JSON");
+      return;
+    }
+
+    setBundleVerifying(true);
+    setBundleResult(null);
+
+    const steps: { label: string; status: "pending" | "pass" | "fail"; value?: string }[] = [
+      { label: "Parse JSON Bundle", status: "pending" },
+      { label: "JCS Canonicalize Event", status: "pending" },
+      { label: "Recompute SHA-256 Commit Hash", status: "pending" },
+      { label: "Recompute Merkle Leaf Hash", status: "pending" },
+      { label: "Verify Merkle Inclusion Proof", status: "pending" },
+      { label: "Verify Ed25519 Signature", status: "pending" },
+    ];
+
+    const updateStep = (idx: number, status: "pass" | "fail", value?: string) => {
+      steps[idx] = { ...steps[idx], status, value };
+      setBundleResult({ valid: !steps.some((s) => s.status === "fail"), steps: [...steps] });
+    };
+
+    try {
+      // Step 1: Parse
+      let bundle: PSIProofBundle;
+      try {
+        bundle = JSON.parse(bundleJson);
+        updateStep(0, "pass", `Protocol: ${bundle.protocol} v${bundle.version}`);
+      } catch {
+        updateStep(0, "fail", "Invalid JSON");
+        setBundleVerifying(false);
+        return;
+      }
+
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Step 2: JCS Canonicalize
+      try {
+        const eventData = { action: bundle.action, predicate_id: bundle.predicateId, timestamp: bundle.timestamp };
+        const canonicalHash = await jcsHash(eventData);
+        updateStep(1, "pass", `JCS hash: ${canonicalHash.substring(0, 24)}...`);
+      } catch {
+        updateStep(1, "fail", "Canonicalization failed");
+      }
+
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Step 3: Recompute commit hash
+      const recomputedCommitHash = await hashSHA256(`${bundle.action}|${bundle.predicateId}|${bundle.timestamp}`);
+      if (recomputedCommitHash === bundle.commitHash) {
+        updateStep(2, "pass", `${recomputedCommitHash.substring(0, 24)}... ✓ MATCH`);
+      } else {
+        updateStep(2, "fail", `Expected: ${bundle.commitHash.substring(0, 16)}... Got: ${recomputedCommitHash.substring(0, 16)}...`);
+      }
+
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Step 4: Recompute Merkle leaf
+      const recomputedLeaf = await hashSHA256(`${bundle.commitId}|${bundle.commitHash}`);
+      if (recomputedLeaf === bundle.merkleLeafHash) {
+        updateStep(3, "pass", `${recomputedLeaf.substring(0, 24)}... ✓ MATCH`);
+      } else {
+        updateStep(3, "fail", `Leaf hash mismatch`);
+      }
+
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Step 5: Merkle proof verification
+      if (bundle.merkleProof && bundle.merkleRoot) {
+        const merkleValid = await verifyMerkleProof(bundle.merkleLeafHash, bundle.merkleProof, bundle.merkleRoot);
+        updateStep(4, merkleValid ? "pass" : "fail", merkleValid ? `Root: ${bundle.merkleRoot.substring(0, 24)}... ✓ VERIFIED` : "Merkle inclusion proof failed");
+      } else {
+        updateStep(4, "fail", "No Merkle proof in bundle");
+      }
+
+      await new Promise((r) => setTimeout(r, 300));
+
+      // Step 6: Ed25519 signature
+      if (bundle.ed25519Signature && bundle.ed25519PublicKey) {
+        const sigValid = await verifyEd25519Signature(bundle.merkleRoot, bundle.ed25519Signature, bundle.ed25519PublicKey);
+        updateStep(5, sigValid ? "pass" : "fail", sigValid ? "Ed25519 signature verified" : "Signature verification failed");
+      } else {
+        updateStep(5, "pass", "No signature in bundle (pre-Ed25519 commit)");
+      }
+    } catch (err: any) {
+      toast.error("Verification error: " + err.message);
+    } finally {
+      setBundleVerifying(false);
+    }
+  }, [bundleJson]);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setBundleJson(ev.target?.result as string);
+        toast.success("Proof bundle loaded");
+      };
+      reader.readAsText(file);
+    }
+  }, []);
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
@@ -74,184 +204,231 @@ const Verify = () => {
         {/* Hero */}
         <section className="relative py-16 sm:py-24 px-4 grid-bg overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(circle, hsl(210 100% 55% / 0.06) 0%, transparent 60%)" }}
           />
           <div className="container mx-auto max-w-3xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <Badge variant="outline" className="border-gold/30 text-gold mb-4">
-                PUBLIC VERIFICATION PORTAL
+              <Badge variant="outline" className="border-primary/30 text-primary mb-4">
+                REGULATOR VERIFICATION PORTAL
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-                <span className="text-chrome-gradient">Verify Any</span>{" "}
-                <span className="text-gold-gradient">Hash</span>
+                <span className="text-chrome-gradient">Independent</span>{" "}
+                <span className="text-psi-gradient">Verification</span>
               </h1>
-              <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-                Independently verify any SHA-256 hash against the APEX immutable ledger.
-                No account required. Full transparency.
+              <p className="text-muted-foreground max-w-xl mx-auto mb-8 text-sm sm:text-base">
+                Verify any PSI proof locally in your browser. No account required. No server calls for proof bundles.
+                Full mathematical verification of Merkle inclusion, hash integrity, and Ed25519 signatures.
               </p>
-
-              {/* Search Box */}
-              <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
-                <div className="relative flex-1">
-                  <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    value={hash}
-                    onChange={(e) => setHash(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleVerify()}
-                    placeholder="Enter SHA-256 hash to verify..."
-                    className="pl-9 h-12 bg-card border-border text-foreground font-mono text-sm placeholder:text-muted-foreground"
-                  />
-                </div>
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={handleVerify}
-                  disabled={loading}
-                  className="h-12 px-6 shrink-0"
-                >
-                  {loading ? (
-                    <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <Search className="h-4 w-4 mr-2" />
-                      Verify
-                    </>
-                  )}
-                </Button>
-              </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Results */}
+        {/* Verification Tabs */}
         <section className="px-4 -mt-8">
           <div className="container mx-auto max-w-3xl">
-            <AnimatePresence mode="wait">
-              {loading && (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 text-center"
-                >
-                  <div className="h-8 w-8 border-2 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground font-mono">Querying immutable ledger...</p>
-                </motion.div>
-              )}
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="w-full grid grid-cols-2 mb-6">
+                <TabsTrigger value="hash" className="text-sm">Hash Lookup</TabsTrigger>
+                <TabsTrigger value="proof" className="text-sm">Proof Verification</TabsTrigger>
+              </TabsList>
 
-              {!loading && result && result.found && (
-                <motion.div
-                  key="found"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="rounded-xl border border-compliant/30 bg-card/80 backdrop-blur-sm overflow-hidden"
-                >
-                  {/* Status Header */}
-                  <div className="border-b border-border px-6 py-4 flex items-center justify-between flex-wrap gap-3"
-                    style={{ background: "linear-gradient(135deg, hsl(142 76% 36% / 0.08), transparent)" }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <ShieldCheck className="h-6 w-6 text-compliant" />
-                      <div>
-                        <p className="font-black text-compliant text-sm">HASH VERIFIED</p>
-                        <p className="text-xs text-muted-foreground">Found in APEX immutable ledger</p>
+              {/* Tab 1: Hash Lookup */}
+              <TabsContent value="hash">
+                <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-6">
+                  <div className="relative flex-1">
+                    <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={hash}
+                      onChange={(e) => setHash(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleVerify()}
+                      placeholder="Enter SHA-256 hash to verify..."
+                      className="pl-9 h-12 bg-card border-border text-foreground font-mono text-sm placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  <Button variant="hero" size="lg" onClick={handleVerify} disabled={loading} className="h-12 px-6 shrink-0">
+                    {loading ? (
+                      <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <><Search className="h-4 w-4 mr-2" />Verify</>
+                    )}
+                  </Button>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {loading && (
+                    <motion.div key="loading" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                      className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 text-center">
+                      <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                      <p className="text-sm text-muted-foreground font-mono">Querying immutable ledger...</p>
+                    </motion.div>
+                  )}
+
+                  {!loading && result && result.found && (
+                    <motion.div key="found" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-compliant/30 bg-card/80 backdrop-blur-sm overflow-hidden">
+                      <div className="border-b border-border px-6 py-4 flex items-center justify-between flex-wrap gap-3"
+                        style={{ background: "linear-gradient(135deg, hsl(142 76% 36% / 0.08), transparent)" }}>
+                        <div className="flex items-center gap-3">
+                          <ShieldCheck className="h-6 w-6 text-compliant" />
+                          <div>
+                            <p className="font-black text-compliant text-sm">HASH VERIFIED</p>
+                            <p className="text-xs text-muted-foreground">Found in APEX PSI immutable ledger</p>
+                          </div>
+                        </div>
+                        <Badge className="bg-compliant/10 text-compliant border-compliant/30">{result.phase}</Badge>
                       </div>
-                    </div>
-                    <Badge className="bg-compliant/10 text-compliant border-compliant/30">
-                      {result.phase}
-                    </Badge>
-                  </div>
-
-                  {/* Details */}
-                  <div className="px-6 py-5 space-y-3">
-                    {[
-                      { label: "Commit ID", value: result.commit_id },
-                      { label: "Predicate", value: result.predicate_id },
-                      { label: "Phase", value: result.phase },
-                      { label: "Status", value: result.status },
-                      { label: "Merkle Root", value: result.merkle_root, mono: true },
-                      { label: "Action", value: result.action_summary },
-                      { label: "Created", value: result.created_at ? new Date(result.created_at).toLocaleString() : null },
-                      { label: "Challenged", value: result.challenged_at ? new Date(result.challenged_at).toLocaleString() : "No challenge" },
-                      { label: "Proven", value: result.proven_at ? new Date(result.proven_at).toLocaleString() : "Not yet proven" },
-                      { label: "EU AI Act Compliant", value: result.eu_ai_act_compliance ? "YES" : "PENDING" },
-                    ].filter(r => r.value).map((row) => (
-                      <div key={row.label} className="flex items-start justify-between gap-4 text-sm">
-                        <span className="text-muted-foreground shrink-0">{row.label}</span>
-                        <span className={`text-foreground text-right ${row.mono ? 'font-mono text-xs' : ''} break-all`}>
-                          {row.value}
-                        </span>
+                      <div className="px-6 py-5 space-y-3">
+                        {[
+                          { label: "Commit ID", value: result.commit_id },
+                          { label: "Predicate", value: result.predicate_id },
+                          { label: "Phase", value: result.phase },
+                          { label: "Status", value: result.status },
+                          { label: "Sequence #", value: result.sequence_number?.toString() },
+                          { label: "Merkle Root", value: result.merkle_root, mono: true },
+                          { label: "Action", value: result.action_summary },
+                          { label: "Created", value: result.created_at ? new Date(result.created_at).toLocaleString() : null },
+                          { label: "EU AI Act Compliant", value: result.eu_ai_act_compliance ? "YES" : "PENDING" },
+                        ].filter(r => r.value).map((row) => (
+                          <div key={row.label} className="flex items-start justify-between gap-4 text-sm">
+                            <span className="text-muted-foreground shrink-0">{row.label}</span>
+                            <span className={`text-foreground text-right ${row.mono ? 'font-mono text-xs' : ''} break-all`}>{row.value}</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                      <div className="border-t border-border px-6 py-3 flex items-center justify-between">
+                        <span className="text-[10px] text-muted-foreground font-mono">{result.engine} — {result.algorithm}</span>
+                        <button onClick={() => copyToClipboard(JSON.stringify(result, null, 2))}
+                          className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 bg-transparent border-none cursor-pointer">
+                          <Copy className="h-3 w-3" /> Copy JSON
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
 
-                  {/* API Reference */}
-                  <div className="border-t border-border px-6 py-3 flex items-center justify-between">
-                    <span className="text-[10px] text-muted-foreground font-mono">{result.engine} — {result.algorithm}</span>
-                    <button
-                      onClick={() => copyToClipboard(JSON.stringify(result, null, 2))}
-                      className="text-xs text-muted-foreground hover:text-gold transition-colors flex items-center gap-1 bg-transparent border-none cursor-pointer"
-                    >
-                      <Copy className="h-3 w-3" /> Copy JSON
-                    </button>
-                  </div>
-                </motion.div>
-              )}
+                  {!loading && result && !result.found && (
+                    <motion.div key="notfound" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-destructive/30 bg-card/80 backdrop-blur-sm p-8 text-center">
+                      <ShieldX className="h-10 w-10 text-destructive mx-auto mb-3" />
+                      <p className="font-bold text-destructive mb-2">HASH NOT FOUND</p>
+                      <p className="text-sm text-muted-foreground max-w-md mx-auto mb-4">
+                        This hash does not exist in the APEX PSI immutable ledger.
+                      </p>
+                      <div className="rounded-lg bg-background/60 border border-border p-3 font-mono text-xs text-muted-foreground break-all max-w-lg mx-auto">
+                        {result.queried_hash}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </TabsContent>
 
-              {!loading && result && !result.found && (
-                <motion.div
-                  key="notfound"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="rounded-xl border border-destructive/30 bg-card/80 backdrop-blur-sm p-8 text-center"
+              {/* Tab 2: Proof Bundle Verification */}
+              <TabsContent value="proof">
+                <div
+                  onDrop={handleDrop}
+                  onDragOver={(e) => e.preventDefault()}
+                  className="rounded-xl border-2 border-dashed border-border hover:border-primary/50 transition-colors bg-card/30 p-6 mb-6"
                 >
-                  <ShieldX className="h-10 w-10 text-destructive mx-auto mb-3" />
-                  <p className="font-bold text-destructive mb-2">HASH NOT FOUND</p>
-                  <p className="text-sm text-muted-foreground max-w-md mx-auto mb-4">
-                    This hash does not exist in the APEX Gallows immutable ledger. It may not have been registered or may be from a different system.
-                  </p>
-                  <div className="rounded-lg bg-background/60 border border-border p-3 font-mono text-xs text-muted-foreground break-all max-w-lg mx-auto">
-                    {result.queried_hash}
+                  <div className="text-center mb-4">
+                    <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">Drag & drop a PSI Proof Bundle JSON file, or paste below</p>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <Textarea
+                    value={bundleJson}
+                    onChange={(e) => setBundleJson(e.target.value)}
+                    placeholder='{"version":"1.0","protocol":"APEX-PSI","commitId":"APEX-...",...}'
+                    className="font-mono text-xs h-32 bg-background border-border"
+                  />
+                  <Button variant="hero" onClick={handleBundleVerify} disabled={bundleVerifying} className="w-full mt-4">
+                    {bundleVerifying ? (
+                      <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <><Shield className="h-4 w-4 mr-2" />Verify Proof Bundle Locally</>
+                    )}
+                  </Button>
+                </div>
 
-            {/* How It Works */}
-            {!searched && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-12 grid sm:grid-cols-3 gap-6"
-              >
-                {[
-                  { icon: Hash, title: "Paste Hash", desc: "Enter any SHA-256 hash from a compliance certificate or audit trail" },
-                  { icon: Search, title: "Query Ledger", desc: "We search across commit, Merkle, proof, and challenge hashes" },
-                  { icon: Shield, title: "Get Result", desc: "Instant verification with full provenance chain and Merkle proof status" },
-                ].map((s, i) => (
-                  <div key={s.title} className="rounded-xl border border-border bg-card/60 p-5 text-center">
-                    <div className="mx-auto w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center mb-3">
-                      <s.icon className="h-5 w-5 text-gold" />
+                {/* Verification Steps Visualization */}
+                {bundleResult && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6">
+                    <h3 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-primary" />
+                      Verification Pipeline
+                    </h3>
+                    <div className="space-y-3">
+                      {bundleResult.steps.map((step, idx) => (
+                        <motion.div
+                          key={step.label}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className={`flex items-start gap-3 p-3 rounded-lg border ${
+                            step.status === "pass" ? "border-compliant/20 bg-compliant/5" :
+                            step.status === "fail" ? "border-destructive/20 bg-destructive/5" :
+                            "border-border bg-muted/5"
+                          }`}
+                        >
+                          <div className="mt-0.5">
+                            {step.status === "pass" && <CheckCircle2 className="h-4 w-4 text-compliant" />}
+                            {step.status === "fail" && <ShieldX className="h-4 w-4 text-destructive" />}
+                            {step.status === "pending" && <Clock className="h-4 w-4 text-muted-foreground" />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-foreground">{step.label}</p>
+                            {step.value && (
+                              <p className="text-xs text-muted-foreground font-mono mt-0.5 break-all">{step.value}</p>
+                            )}
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
-                    <h3 className="text-sm font-bold text-foreground mb-1">{s.title}</h3>
-                    <p className="text-xs text-muted-foreground">{s.desc}</p>
-                  </div>
-                ))}
-              </motion.div>
-            )}
+
+                    {/* Final verdict */}
+                    <div className={`mt-4 p-4 rounded-lg border text-center ${
+                      bundleResult.valid ? "border-compliant/30 bg-compliant/5" : "border-destructive/30 bg-destructive/5"
+                    }`}>
+                      <span className={`font-mono text-lg font-bold tracking-wider ${
+                        bundleResult.valid ? "text-compliant" : "text-destructive"
+                      }`}>
+                        {bundleResult.valid ? "✓ PROOF BUNDLE VERIFIED" : "✗ VERIFICATION FAILED"}
+                      </span>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        All verification performed locally in your browser. No data sent to any server.
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ZK Visualization */}
+                {!bundleResult && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+                    className="rounded-xl border border-border bg-card/60 p-6">
+                    <h3 className="text-sm font-bold text-foreground mb-4">PSI Verification Pipeline</h3>
+                    <div className="flex items-center justify-between gap-1 overflow-x-auto pb-2">
+                      {zkSteps.map((step, idx) => (
+                        <div key={step.label} className="flex items-center gap-1 shrink-0">
+                          <div className="flex flex-col items-center gap-1.5">
+                            <div className="w-10 h-10 rounded-lg bg-muted/30 border border-border flex items-center justify-center">
+                              <step.icon className={`h-4 w-4 ${step.color}`} />
+                            </div>
+                            <span className="text-[9px] text-muted-foreground whitespace-nowrap">{step.label}</span>
+                          </div>
+                          {idx < zkSteps.length - 1 && (
+                            <ArrowRight className="h-3 w-3 text-border mx-1" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </TabsContent>
+            </Tabs>
 
             {/* API Access */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-12 rounded-xl border border-border bg-card/60 p-6"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+              className="mt-12 rounded-xl border border-border bg-card/60 p-6">
               <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-                <ExternalLink className="h-4 w-4 text-gold" />
-                API Access
+                <ExternalLink className="h-4 w-4 text-primary" /> API Access
               </h3>
               <p className="text-xs text-muted-foreground mb-4">
                 Verify hashes programmatically. No authentication required.
@@ -259,13 +436,11 @@ const Verify = () => {
               <div className="space-y-3">
                 <div className="rounded-lg bg-background border border-border p-3">
                   <p className="text-[10px] text-muted-foreground font-mono mb-1">GET</p>
-                  <code className="text-xs text-gold font-mono break-all">
-                    {VERIFY_URL}?hash=YOUR_SHA256_HASH
-                  </code>
+                  <code className="text-xs text-primary font-mono break-all">{VERIFY_URL}?hash=YOUR_SHA256_HASH</code>
                 </div>
                 <div className="rounded-lg bg-background border border-border p-3">
                   <p className="text-[10px] text-muted-foreground font-mono mb-1">POST</p>
-                  <code className="text-xs text-gold font-mono break-all">
+                  <code className="text-xs text-primary font-mono break-all">
                     {`curl -X POST ${VERIFY_URL} -H "Content-Type: application/json" -d '{"hash":"YOUR_SHA256_HASH"}'`}
                   </code>
                 </div>

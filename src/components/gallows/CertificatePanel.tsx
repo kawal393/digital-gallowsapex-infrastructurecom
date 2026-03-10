@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Award, Download, Printer, CheckCircle, XCircle, QrCode, ExternalLink } from "lucide-react";
+import { Award, Download, Printer, CheckCircle, XCircle, QrCode, ExternalLink, FileJson } from "lucide-react";
 import { type ComplianceCertificate, downloadCertificateJSON, printCertificate } from "@/lib/gallows-certificate";
+import { type PSIProofBundle } from "@/lib/psi-signatures";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 interface CertificatePanelProps {
   certificate: ComplianceCertificate;
@@ -11,6 +13,35 @@ interface CertificatePanelProps {
 
 const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
   const isApproved = certificate.status === 'APPROVED';
+
+  const exportProofBundle = () => {
+    const bundle: PSIProofBundle = {
+      version: "1.0",
+      protocol: "APEX-PSI",
+      commitId: certificate.commitId,
+      action: certificate.action,
+      predicateId: certificate.predicateId,
+      timestamp: certificate.generatedAt,
+      commitHash: certificate.commitHash,
+      merkleLeafHash: certificate.merkleLeafHash,
+      merkleProof: certificate.merkleProof as any,
+      merkleRoot: certificate.merkleRoot,
+      canonicalizationScheme: "RFC-8785-JCS",
+      hashAlgorithm: "SHA-256",
+      signatureAlgorithm: "Ed25519",
+    };
+
+    const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `psi-proof-bundle-${certificate.commitId}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Proof bundle exported", {
+      description: "Drag this file into the Verification Portal to verify independently",
+    });
+  };
 
   return (
     <motion.div
@@ -23,7 +54,7 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm font-mono text-gallows-muted uppercase tracking-widest flex items-center gap-2">
               <Award className={`h-4 w-4 ${isApproved ? 'text-gallows-approved' : 'text-gallows-blocked'}`} />
-              Compliance Certificate
+              PSI Compliance Certificate
             </CardTitle>
             <Badge className={`font-mono text-xs border-0 ${isApproved ? 'bg-gallows-approved/15 text-gallows-approved' : 'bg-gallows-blocked/15 text-gallows-blocked'}`}>
               {certificate.certificateId}
@@ -41,25 +72,16 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
           {/* QR Code Section */}
           {certificate.qrCodeDataUrl && (
             <div className="flex items-center gap-3 p-2 rounded bg-gallows-bg border border-gallows-border">
-              <img 
-                src={certificate.qrCodeDataUrl} 
-                alt="Verification QR Code" 
-                className="w-16 h-16 rounded"
-              />
+              <img src={certificate.qrCodeDataUrl} alt="Verification QR Code" className="w-16 h-16 rounded" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-gallows-muted mb-1">
-                  <QrCode className="h-3 w-3" />
-                  SCAN TO VERIFY
+                  <QrCode className="h-3 w-3" /> SCAN TO VERIFY
                 </div>
                 <p className="text-[9px] font-mono text-gallows-muted/60 break-all">
                   {certificate.verificationUrl.substring(0, 50)}...
                 </p>
-                <a
-                  href={certificate.verificationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[10px] font-mono text-gallows-approved hover:underline mt-1"
-                >
+                <a href={certificate.verificationUrl} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[10px] font-mono text-gallows-approved hover:underline mt-1">
                   Open API <ExternalLink className="h-2.5 w-2.5" />
                 </a>
               </div>
@@ -77,16 +99,14 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
                   <XCircle className="h-3.5 w-3.5 text-gallows-blocked shrink-0 mt-0.5" />
                 )}
                 <div>
-                  <span className={att.compliant ? 'text-gallows-approved' : 'text-gallows-blocked'}>
-                    {att.article}
-                  </span>
+                  <span className={att.compliant ? 'text-gallows-approved' : 'text-gallows-blocked'}>{att.article}</span>
                   <span className="text-gallows-muted"> — {att.title}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* MPC Consensus Info */}
+          {/* MPC Consensus */}
           {certificate.mpcConsensus && (
             <div className="p-2 rounded bg-gallows-bg border border-gallows-border">
               <span className="text-[10px] font-mono text-gallows-muted block mb-1">MPC DISTRIBUTED CONSENSUS</span>
@@ -101,12 +121,12 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
             </div>
           )}
 
-          {/* ZK Proof Info */}
+          {/* ZK Proof */}
           {certificate.zkProof && (
-            <div className="p-2 rounded bg-gallows-bg border border-gallows-highlight/20">
-              <span className="text-[10px] font-mono text-gallows-highlight block mb-1">ZK-SNARK PRIVACY PROOF</span>
+            <div className="p-2 rounded bg-gallows-bg border border-gallows-border">
+              <span className="text-[10px] font-mono text-gallows-muted block mb-1">ZK-SNARK PRIVACY PROOF</span>
               <div className="text-[11px] font-mono text-gallows-text space-y-0.5">
-                <div>Protocol: <span className="text-gallows-highlight">Groth16</span> • Curve: <span className="text-gallows-highlight">BN128</span></div>
+                <div>Protocol: <span className="text-gallows-approved">Groth16</span> • Curve: <span className="text-gallows-approved">BN128</span></div>
                 <div>Privacy: <span className="text-gallows-approved">Action content hidden</span></div>
               </div>
             </div>
@@ -115,30 +135,25 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
           {/* Signature */}
           <div className="pt-2 border-t border-gallows-border">
             <span className="text-[10px] font-mono text-gallows-muted block mb-1">CERTIFICATE SIGNATURE</span>
-            <span className="font-mono text-[10px] text-gallows-text/60 break-all">
-              {certificate.certificateHash}
-            </span>
+            <span className="font-mono text-[10px] text-gallows-text/60 break-all">{certificate.certificateHash}</span>
           </div>
 
           {/* Actions */}
           <div className="flex gap-2 pt-2">
-            <Button
-              onClick={() => downloadCertificateJSON(certificate)}
-              className="flex-1 bg-gallows-bg border border-gallows-border text-gallows-text font-mono text-xs hover:bg-gallows-border gap-1.5"
-              variant="outline"
-              size="sm"
-            >
-              <Download className="h-3.5 w-3.5" />
-              JSON
+            <Button onClick={exportProofBundle}
+              className="flex-1 bg-gallows-bg border border-gallows-approved/30 text-gallows-approved font-mono text-xs hover:bg-gallows-approved/10 gap-1.5"
+              variant="outline" size="sm">
+              <FileJson className="h-3.5 w-3.5" /> PROOF BUNDLE
             </Button>
-            <Button
-              onClick={() => printCertificate(certificate)}
+            <Button onClick={() => downloadCertificateJSON(certificate)}
               className="flex-1 bg-gallows-bg border border-gallows-border text-gallows-text font-mono text-xs hover:bg-gallows-border gap-1.5"
-              variant="outline"
-              size="sm"
-            >
-              <Printer className="h-3.5 w-3.5" />
-              PRINT
+              variant="outline" size="sm">
+              <Download className="h-3.5 w-3.5" /> JSON
+            </Button>
+            <Button onClick={() => printCertificate(certificate)}
+              className="flex-1 bg-gallows-bg border border-gallows-border text-gallows-text font-mono text-xs hover:bg-gallows-border gap-1.5"
+              variant="outline" size="sm">
+              <Printer className="h-3.5 w-3.5" /> PRINT
             </Button>
           </div>
         </CardContent>

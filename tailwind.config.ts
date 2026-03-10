@@ -29,6 +29,11 @@ export default {
           warm: "hsl(var(--gold-warm))",
         },
         chrome: "hsl(var(--chrome))",
+        "psi-blue": {
+          DEFAULT: "hsl(var(--psi-blue))",
+          dim: "hsl(var(--psi-blue-dim))",
+          glow: "hsl(var(--psi-blue-glow))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -78,6 +83,7 @@ export default {
           muted: "#666666",
           approved: "#00ff41",
           blocked: "#ff0040",
+          highlight: "#3b82f6",
         },
       },
       borderRadius: {

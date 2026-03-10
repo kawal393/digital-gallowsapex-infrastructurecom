@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Users } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import apexLogo from "@/assets/apex-logo.png";
 
-const toolLinks = [
+const infraLinks = [
   { label: "Verify Hash", href: "/verify", icon: Hash, desc: "Public SHA-256 verification" },
   { label: "Regulation Map", href: "/regulations", icon: Globe, desc: "AI laws in 25+ countries" },
   { label: "Free Score", href: "/assess", icon: Shield, desc: "Compliance in 2 minutes" },
@@ -19,24 +19,24 @@ const toolLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [toolsOpen, setToolsOpen] = useState(false);
-  const toolsRef = useRef<HTMLDivElement>(null);
+  const [infraOpen, setInfraOpen] = useState(false);
+  const infraRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
 
   const navLinks = [
-    { label: t("nav.problem"), href: "#problem" },
-    { label: t("nav.solution"), href: "#solution" },
-    { label: t("nav.digitalGallows"), href: "/gallows", isRoute: true },
-    { label: t("nav.contact"), href: "#contact" },
+    { label: "Protocol", href: "/protocol", isRoute: true },
+    { label: "Verification Portal", href: "/verify", isRoute: true },
+    { label: "Digital Gallows", href: "/gallows", isRoute: true },
+    { label: "Sovereign Partners", href: "/partner", isRoute: true },
   ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) {
-        setToolsOpen(false);
+      if (infraRef.current && !infraRef.current.contains(e.target as Node)) {
+        setInfraOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -45,12 +45,11 @@ const Navbar = () => {
 
   const handleNavClick = (href: string, isRoute?: boolean) => {
     setOpen(false);
-    setToolsOpen(false);
+    setInfraOpen(false);
     if (isRoute) {
       navigate(href);
     } else if (href.startsWith("#")) {
       if (location.pathname !== "/") {
-        // Cross-page hash nav — navigate to /#{hash}, ScrollToTop handles scrolling
         navigate("/" + href);
       } else {
         const el = document.getElementById(href.slice(1));
@@ -72,9 +71,9 @@ const Navbar = () => {
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 text-base font-bold tracking-tight bg-transparent border-none cursor-pointer shrink-0"
           >
-            <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-gold" />
-            <span className="text-gold-gradient">DIGITAL</span>
-            <span className="text-chrome-gradient">GALLOWS</span>
+            <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-psi" />
+            <span className="text-psi-gradient">APEX</span>
+            <span className="text-chrome-gradient">PSI</span>
           </button>
 
           <div className="flex items-center gap-1">
@@ -88,26 +87,26 @@ const Navbar = () => {
               </button>
             ))}
 
-            {/* Tools Dropdown */}
-            <div ref={toolsRef} className="relative">
+            {/* Infrastructure Dropdown */}
+            <div ref={infraRef} className="relative">
               <button
-                onClick={() => setToolsOpen(!toolsOpen)}
+                onClick={() => setInfraOpen(!infraOpen)}
                 className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
               >
-                Tools
-                <ChevronDown className={`h-3 w-3 transition-transform ${toolsOpen ? "rotate-180" : ""}`} />
+                Infrastructure
+                <ChevronDown className={`h-3 w-3 transition-transform ${infraOpen ? "rotate-180" : ""}`} />
               </button>
-              {toolsOpen && (
+              {infraOpen && (
                 <div className="absolute top-full left-0 mt-1 w-64 rounded-lg border border-border bg-background/95 backdrop-blur-xl shadow-xl py-2 z-50">
-                  {toolLinks.map((tool) => (
+                  {infraLinks.map((tool) => (
                     <button
                       key={tool.label}
                       onClick={() => handleNavClick(tool.href, true)}
                       className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer group"
                     >
-                      <tool.icon className="h-4 w-4 text-gold mt-0.5 shrink-0" />
+                      <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                       <div>
-                        <p className="text-sm font-medium text-foreground group-hover:text-gold transition-colors">{tool.label}</p>
+                        <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{tool.label}</p>
                         <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
                       </div>
                     </button>
@@ -143,8 +142,8 @@ const Navbar = () => {
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 bg-transparent border-none cursor-pointer shrink-0"
           >
-            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-gold" />
-            <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
+            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-psi" />
+            <span className="text-sm font-bold text-psi-gradient">APEX PSI</span>
           </button>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -177,8 +176,8 @@ const Navbar = () => {
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 bg-transparent border-none cursor-pointer"
           >
-            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-gold" />
-            <span className="text-sm font-bold text-gold-gradient">DIGITAL GALLOWS</span>
+            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-psi" />
+            <span className="text-sm font-bold text-psi-gradient">APEX PSI</span>
           </button>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -208,15 +207,15 @@ const Navbar = () => {
               </button>
             ))}
             <div className="pt-2 pb-1">
-              <p className="px-3 text-[10px] font-bold text-gold uppercase tracking-widest mb-1">Tools</p>
+              <p className="px-3 text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Infrastructure</p>
             </div>
-            {toolLinks.map((tool) => (
+            {infraLinks.map((tool) => (
               <button
                 key={tool.label}
                 onClick={() => handleNavClick(tool.href, true)}
                 className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
               >
-                <tool.icon className="h-3.5 w-3.5 text-gold" />
+                <tool.icon className="h-3.5 w-3.5 text-primary" />
                 {tool.label}
               </button>
             ))}

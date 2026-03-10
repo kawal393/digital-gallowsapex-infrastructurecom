@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, Globe, Clock } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import apexLogo from "@/assets/apex-logo.png";
 import { useVisitorLocation, useLiveClock } from "@/hooks/use-visitor-info";
 
 const Hero = () => {
   const location = useVisitorLocation();
   const time = useLiveClock();
-  const { t } = useTranslation();
 
   const formattedTime = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   const formattedDate = time.toLocaleDateString([], { weekday: "long", day: "numeric", month: "long", year: "numeric" });
@@ -17,7 +15,7 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12 grid-bg overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, hsl(35 80% 45% / 0.04) 40%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, hsl(210 100% 55% / 0.08) 0%, hsl(210 80% 45% / 0.04) 40%, transparent 70%)" }}
       />
 
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -28,44 +26,42 @@ const Hero = () => {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="mb-4">
-            <span className="text-xs sm:text-sm md:text-base font-black tracking-[0.2em] sm:tracking-[0.3em] uppercase text-gold-gradient">
-              {t("hero.worldsFirst")}
-            </span>
-          </div>
-
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
-            <Shield className="h-3.5 w-3.5 text-gold" />
-            <span className="text-[10px] sm:text-xs font-semibold text-gold tracking-widest uppercase">
-              {t("hero.psi")}
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
+            <Shield className="h-3.5 w-3.5 text-primary" />
+            <span className="text-[10px] sm:text-xs font-semibold text-primary tracking-widest uppercase">
+              PSI Protocol v1.0
             </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-6 tracking-tight leading-[0.95]">
-            <span className="text-chrome-gradient">{t("hero.headline1")}</span>
+            <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
-            <span className="text-gold-gradient">{t("hero.headline2")}</span>
+            <span className="text-psi-gradient">The Open Standard for</span>
+            <br />
+            <span className="text-psi-gradient">Verifiable AI Governance.</span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-2">
-            <span className="text-foreground font-bold">{t("hero.subtitle1")}</span>
+          <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
+            <span className="text-foreground font-semibold">Cryptographically proving AI compliance with the EU AI Act</span>
           </p>
-          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-3 sm:mb-4">
-            <span className="text-foreground font-semibold">{t("hero.subtitle2")}</span>{" "}
-            <span className="text-gold-gradient font-medium">{t("hero.subtitle3")}</span>
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
+            <span className="text-muted-foreground">through</span>{" "}
+            <span className="text-psi-gradient font-bold">ZK-SNARKs</span>{" "}
+            <span className="text-muted-foreground">and</span>{" "}
+            <span className="text-psi-gradient font-bold">MPC Consensus</span>
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-6 max-w-xl mx-auto">
-            {t("hero.byline")}
+            RFC 8785 (JCS) · Ed25519 Signatures · Monotonic Sequencing · EU AI Act Articles 12, 14, 15
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground mb-8 sm:mb-10">
             <span className="inline-flex items-center gap-1.5">
-              <Globe className="h-3 w-3 text-gold/70" />
+              <Globe className="h-3 w-3 text-primary/70" />
               {cityDisplay}
             </span>
             <span className="text-border">|</span>
             <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-3 w-3 text-gold/70" />
+              <Clock className="h-3 w-3 text-primary/70" />
               <span className="tabular-nums">{formattedTime}</span>
             </span>
             <span className="hidden sm:inline text-border">|</span>
@@ -74,10 +70,10 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <a href="#contact">{t("hero.ctaPrimary")} <ArrowRight className="ml-1 h-4 w-4" /></a>
+              <a href="#contact">Request Consultation <ArrowRight className="ml-1 h-4 w-4" /></a>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <a href="#solution"><Shield className="mr-1 h-4 w-4" /> {t("hero.ctaSecondary")}</a>
+              <a href="/protocol"><Shield className="mr-1 h-4 w-4" /> View Protocol Spec</a>
             </Button>
           </div>
         </motion.div>
