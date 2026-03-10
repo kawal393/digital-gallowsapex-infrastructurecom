@@ -58,6 +58,7 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route path="/protocol" element={<Protocol />} />
               <Route path="/gallows" element={<Gallows />} />
               <Route path="/architecture" element={<Architecture />} />
               <Route path="/sdk" element={<SDK />} />
