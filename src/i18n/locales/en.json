@@ -4,6 +4,10 @@
     "solution": "Solution",
     "pillars": "Pillars",
     "digitalGallows": "Digital Gallows",
+    "protocol": "Protocol",
+    "verificationPortal": "Verification Portal",
+    "sovereignPartners": "Sovereign Partners",
+    "infrastructure": "Infrastructure",
     "architecture": "Architecture",
     "contact": "Contact",
     "login": "Login",
@@ -11,16 +15,14 @@
     "getStarted": "Get Started"
   },
   "hero": {
-    "worldsFirst": "WORLD'S FIRST",
-    "psi": "Proof of Sovereign Integrity",
-    "headline1": "THE WORLD FEARS AI.",
-    "headline2": "AI FEARS US.",
-    "subtitle1": "Live Visual Compliance Engine with Bitcoin-Anchored Audit Trails.",
-    "subtitle2": "ZK-SNARK Privacy Proofs • MPC Distributed Verification • Multi-Regulatory Coverage.",
-    "subtitle3": "EU AI Act + MiFID II + DORA in one engine.",
-    "byline": "By Apex Intelligence Empire",
-    "ctaPrimary": "Request Compliance Consultation",
-    "ctaSecondary": "How PSI Works"
+    "psiVersion": "PSI Protocol v1.0",
+    "headline1": "APEX PSI:",
+    "headline2": "The Open Standard for Verifiable AI Governance.",
+    "subtitle1": "Cryptographically proving AI compliance with the EU AI Act",
+    "subtitle2": "through ZK-SNARKs and MPC Consensus.",
+    "byline": "RFC 8785 (JCS) · Ed25519 Signatures · Monotonic Sequencing · EU AI Act Articles 12, 14, 15",
+    "ctaPrimary": "Request Consultation",
+    "ctaSecondary": "View Protocol Spec"
   },
   "problem": {
     "badge": "The Paradox",
@@ -37,7 +39,7 @@
     "card4Desc": "Prove you're compliant without revealing how your AI works. Current solutions are either too expensive, too slow, or too invasive. Apex eliminates the paradox entirely."
   },
   "solution": {
-    "badge": "Our Solution",
+    "badge": "PSI Protocol",
     "headline": "Proof of Sovereign Integrity",
     "headlineSuffix": "(PSI)",
     "subtitle": "An Optimistic ZKML architecture that reduces compliance costs by 99.9% while satisfying every regulatory requirement.",
@@ -141,7 +143,7 @@
   "footer": {
     "disclaimer": "Apex Intelligence Empire provides technical tools to assist with AI compliance. We are not a law firm and do not provide legal advice. Our tools and documentation are designed to support regulatory compliance efforts — consult qualified legal counsel for legal matters specific to your jurisdiction.",
     "disclaimerLabel": "Disclaimer:",
-    "tagline": "Proof of Sovereign Integrity — The World's First Optimistic ZKML Compliance Architecture. By Apex Intelligence Empire.",
+    "tagline": "Proof of Sovereign Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire.",
     "division": "A division of",
     "navigation": "Navigation",
     "theParadox": "The Paradox",
