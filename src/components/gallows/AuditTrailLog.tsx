@@ -140,7 +140,7 @@ const AuditTrailLog = ({ entries }: AuditTrailLogProps) => {
                           </TableCell>
                         </TableRow>
                       )}
-                      <TableRow key={entry.id} className={`border-gallows-border hover:bg-gallows-bg/50 ${hasGap ? 'bg-gallows-blocked/5' : ''}`}>
+                      <TableRow className={`border-gallows-border hover:bg-gallows-bg/50 ${hasGap ? 'bg-gallows-blocked/5' : ''}`}>
                         <TableCell className="font-mono text-xs text-gallows-muted whitespace-nowrap">
                           {entry.sequenceNumber != null ? `#${entry.sequenceNumber}` : '—'}
                         </TableCell>
