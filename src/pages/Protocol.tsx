@@ -91,7 +91,7 @@ const Protocol = () => {
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                 <span className="text-chrome-gradient">PSI Protocol</span>{" "}
-                <span className="text-psi-gradient">v{protocolVersion}</span>
+                <span className="text-gold-gradient">v{protocolVersion}</span>
               </h1>
               <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
                 The Proof of Sovereign Integrity (PSI) Protocol is an open cryptographic standard
