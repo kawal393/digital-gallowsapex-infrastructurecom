@@ -222,7 +222,7 @@ const Protocol = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2 className="text-2xl font-black mb-8 text-center">
                 <span className="text-chrome-gradient">Protocol</span>{" "}
-                <span className="text-psi-gradient">Changelog</span>
+                <span className="text-gold-gradient">Changelog</span>
               </h2>
 
               {changelog.map((entry) => (

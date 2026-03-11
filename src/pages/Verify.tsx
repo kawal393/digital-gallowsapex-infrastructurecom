@@ -213,7 +213,7 @@ const Verify = () => {
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                 <span className="text-chrome-gradient">Independent</span>{" "}
-                <span className="text-psi-gradient">Verification</span>
+                <span className="text-gold-gradient">Verification</span>
               </h1>
               <p className="text-muted-foreground max-w-xl mx-auto mb-8 text-sm sm:text-base">
                 Verify any PSI proof locally in your browser. No account required. No server calls for proof bundles.
