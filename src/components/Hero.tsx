@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12 grid-bg overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, hsl(210 100% 55% / 0.08) 0%, hsl(210 80% 45% / 0.04) 40%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, hsl(35 80% 45% / 0.04) 40%, transparent 70%)" }}
       />
 
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -26,9 +26,9 @@ const Hero = () => {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
-            <Shield className="h-3.5 w-3.5 text-primary" />
-            <span className="text-[10px] sm:text-xs font-semibold text-primary tracking-widest uppercase">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
+            <Shield className="h-3.5 w-3.5 text-gold" />
+            <span className="text-[10px] sm:text-xs font-semibold text-gold tracking-widest uppercase">
               PSI Protocol v1.0
             </span>
           </div>
@@ -36,9 +36,9 @@ const Hero = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-6 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
-            <span className="text-psi-gradient">The Open Standard for</span>
+            <span className="text-gold-gradient">The Open Standard for</span>
             <br />
-            <span className="text-psi-gradient">Verifiable AI Governance.</span>
+            <span className="text-gold-gradient">Verifiable AI Governance.</span>
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
@@ -46,9 +46,9 @@ const Hero = () => {
           </p>
           <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="text-muted-foreground">through</span>{" "}
-            <span className="text-psi-gradient font-bold">ZK-SNARKs</span>{" "}
+            <span className="text-gold-gradient font-bold">ZK-SNARKs</span>{" "}
             <span className="text-muted-foreground">and</span>{" "}
-            <span className="text-psi-gradient font-bold">MPC Consensus</span>
+            <span className="text-gold-gradient font-bold">MPC Consensus</span>
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-6 max-w-xl mx-auto">
             RFC 8785 (JCS) · Ed25519 Signatures · Monotonic Sequencing · EU AI Act Articles 12, 14, 15

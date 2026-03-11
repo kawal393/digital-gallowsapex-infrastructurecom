@@ -71,8 +71,8 @@ const Navbar = () => {
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 text-base font-bold tracking-tight bg-transparent border-none cursor-pointer shrink-0"
           >
-            <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-psi" />
-            <span className="text-psi-gradient">APEX</span>
+            <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain glow-gold" />
+            <span className="text-gold-gradient">APEX</span>
             <span className="text-chrome-gradient">PSI</span>
           </button>
 
@@ -142,8 +142,8 @@ const Navbar = () => {
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 bg-transparent border-none cursor-pointer shrink-0"
           >
-            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-psi" />
-            <span className="text-sm font-bold text-psi-gradient">APEX PSI</span>
+            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-gold" />
+            <span className="text-sm font-bold text-gold-gradient">APEX PSI</span>
           </button>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -176,8 +176,8 @@ const Navbar = () => {
             onClick={() => handleNavClick("#top")}
             className="flex items-center gap-2 bg-transparent border-none cursor-pointer"
           >
-            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-psi" />
-            <span className="text-sm font-bold text-psi-gradient">APEX PSI</span>
+            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain glow-gold" />
+            <span className="text-sm font-bold text-gold-gradient">APEX PSI</span>
           </button>
           <div className="flex items-center gap-2">
             <ThemeToggle />

@@ -82,7 +82,7 @@ const Protocol = () => {
         {/* Hero */}
         <section className="relative py-16 sm:py-24 px-4 grid-bg overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, hsl(210 100% 55% / 0.06) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
           />
           <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -91,7 +91,7 @@ const Protocol = () => {
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                 <span className="text-chrome-gradient">PSI Protocol</span>{" "}
-                <span className="text-psi-gradient">v{protocolVersion}</span>
+                <span className="text-gold-gradient">v{protocolVersion}</span>
               </h1>
               <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
                 The Proof of Sovereign Integrity (PSI) Protocol is an open cryptographic standard
@@ -108,7 +108,7 @@ const Protocol = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
               <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center">
                 <span className="text-chrome-gradient">Legal-to-Technical</span>{" "}
-                <span className="text-psi-gradient">Mapping</span>
+                <span className="text-gold-gradient">Mapping</span>
               </h2>
               <p className="text-muted-foreground text-center mb-10 text-sm max-w-2xl mx-auto">
                 How PSI Protocol satisfies EU AI Act requirements through cryptographic primitives.
@@ -157,7 +157,7 @@ const Protocol = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center">
                 <span className="text-chrome-gradient">Cryptographic</span>{" "}
-                <span className="text-psi-gradient">Specifications</span>
+                <span className="text-gold-gradient">Specifications</span>
               </h2>
               <p className="text-muted-foreground text-center mb-10 text-sm">
                 All algorithms used in the PSI Protocol verification pipeline.
@@ -222,7 +222,7 @@ const Protocol = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2 className="text-2xl font-black mb-8 text-center">
                 <span className="text-chrome-gradient">Protocol</span>{" "}
-                <span className="text-psi-gradient">Changelog</span>
+                <span className="text-gold-gradient">Changelog</span>
               </h2>
 
               {changelog.map((entry) => (

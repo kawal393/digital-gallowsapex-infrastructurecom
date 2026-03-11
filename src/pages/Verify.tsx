@@ -204,7 +204,7 @@ const Verify = () => {
         {/* Hero */}
         <section className="relative py-16 sm:py-24 px-4 grid-bg overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, hsl(210 100% 55% / 0.06) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
           />
           <div className="container mx-auto max-w-3xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -213,7 +213,7 @@ const Verify = () => {
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                 <span className="text-chrome-gradient">Independent</span>{" "}
-                <span className="text-psi-gradient">Verification</span>
+                <span className="text-gold-gradient">Verification</span>
               </h1>
               <p className="text-muted-foreground max-w-xl mx-auto mb-8 text-sm sm:text-base">
                 Verify any PSI proof locally in your browser. No account required. No server calls for proof bundles.
