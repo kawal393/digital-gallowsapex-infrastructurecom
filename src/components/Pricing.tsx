@@ -54,7 +54,7 @@ const tiers = [
     key: "growth",
     price: "$2,499",
     period: "/month",
-    description: "Full compliance arsenal.",
+    description: "Full managed compliance arsenal.",
     features: [
       { text: "Everything in Startup", included: true },
       { text: "Unlimited verifications", included: true },
