@@ -93,7 +93,7 @@ const tiers = [
     key: "goliath",
     price: "Custom",
     period: "",
-    description: "Sovereign infrastructure. Your rules.",
+    description: "Your rules. Your nodes. Your fortress.",
     features: [
       { text: "Everything in Enterprise", included: true },
       { text: "Sovereign infrastructure", included: true },
