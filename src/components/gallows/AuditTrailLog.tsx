@@ -129,7 +129,7 @@ const AuditTrailLog = ({ entries }: AuditTrailLogProps) => {
                 {entries.map((entry) => {
                   const hasGap = sequenceGaps.has(entry.sequenceNumber || 0);
                   return (
-                    <>
+                    <Fragment key={entry.id}>
                       {hasGap && (
                         <TableRow key={`gap-${entry.id}`} className="border-gallows-blocked/30">
                           <TableCell colSpan={8} className="py-1 px-3">
