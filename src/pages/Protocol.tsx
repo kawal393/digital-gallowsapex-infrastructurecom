@@ -82,7 +82,7 @@ const Protocol = () => {
         {/* Hero */}
         <section className="relative py-16 sm:py-24 px-4 grid-bg overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, hsl(210 100% 55% / 0.06) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
           />
           <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
