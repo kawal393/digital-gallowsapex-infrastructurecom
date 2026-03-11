@@ -9,11 +9,11 @@ import { useState } from "react";
 
 const tiers = [
   {
-    name: "FREE",
+    name: "SOVEREIGN ENTRY",
     key: "free",
     price: "$0",
     period: "forever",
-    description: "Get started. Know your risk.",
+    description: "Full PSI Protocol. Zero cost. No tricks.",
     features: [
       { text: "Full compliance assessment", included: true },
       { text: "Compliance score + status", included: true },
@@ -34,7 +34,7 @@ const tiers = [
     key: "startup",
     price: "$499",
     period: "/month",
-    description: "Prove compliance. Sleep at night.",
+    description: "Managed verification infrastructure.",
     features: [
       { text: "Everything in Free", included: true },
       { text: "100 verifications/month", included: true },
@@ -54,7 +54,7 @@ const tiers = [
     key: "growth",
     price: "$2,499",
     period: "/month",
-    description: "Full compliance arsenal.",
+    description: "Full managed compliance arsenal.",
     features: [
       { text: "Everything in Startup", included: true },
       { text: "Unlimited verifications", included: true },
@@ -74,7 +74,7 @@ const tiers = [
     key: "enterprise",
     price: "$9,999",
     period: "/month",
-    description: "The complete compliance fortress.",
+    description: "Dedicated sovereign infrastructure.",
     features: [
       { text: "Everything in Growth", included: true },
       { text: "All 3 modes (SHIELD/SWORD/JUDGE)", included: true },
@@ -93,7 +93,7 @@ const tiers = [
     key: "goliath",
     price: "Custom",
     period: "",
-    description: "Sovereign infrastructure. Your rules.",
+    description: "Your rules. Your nodes. Your fortress.",
     features: [
       { text: "Everything in Enterprise", included: true },
       { text: "Sovereign infrastructure", included: true },
@@ -154,13 +154,13 @@ const Pricing = () => {
           className="text-center mb-6"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Pricing
+            Open Standard · Managed Infrastructure
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Free Until You Need Proof
+            The Standard is Free. The Fortress is Paid.
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Know your risk for free. Pay when you need regulator-ready evidence. The free tier is real — no credit card, no trial, no tricks.
+            The PSI Protocol is open and free forever. Paid tiers are for managed infrastructure — dedicated MPC nodes, 24/7 monitoring, and regulator-ready SLA guarantees.
           </p>
         </motion.div>
 
@@ -272,7 +272,7 @@ const Pricing = () => {
           viewport={{ once: true }}
           className="text-center text-xs text-muted-foreground mt-8"
         >
-          All paid plans include a 14-day money-back guarantee. Cancel anytime from your dashboard. Prices in USD.
+          The math is free. The fortress is paid. All managed tiers include a 14-day money-back guarantee. Cancel anytime. Prices in USD.
         </motion.p>
       </div>
     </section>

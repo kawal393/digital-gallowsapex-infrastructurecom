@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -128,7 +129,7 @@ const AuditTrailLog = ({ entries }: AuditTrailLogProps) => {
                 {entries.map((entry) => {
                   const hasGap = sequenceGaps.has(entry.sequenceNumber || 0);
                   return (
-                    <>
+                    <Fragment key={entry.id}>
                       {hasGap && (
                         <TableRow key={`gap-${entry.id}`} className="border-gallows-blocked/30">
                           <TableCell colSpan={8} className="py-1 px-3">
@@ -139,7 +140,7 @@ const AuditTrailLog = ({ entries }: AuditTrailLogProps) => {
                           </TableCell>
                         </TableRow>
                       )}
-                      <TableRow key={entry.id} className={`border-gallows-border hover:bg-gallows-bg/50 ${hasGap ? 'bg-gallows-blocked/5' : ''}`}>
+                      <TableRow className={`border-gallows-border hover:bg-gallows-bg/50 ${hasGap ? 'bg-gallows-blocked/5' : ''}`}>
                         <TableCell className="font-mono text-xs text-gallows-muted whitespace-nowrap">
                           {entry.sequenceNumber != null ? `#${entry.sequenceNumber}` : '—'}
                         </TableCell>
@@ -177,7 +178,7 @@ const AuditTrailLog = ({ entries }: AuditTrailLogProps) => {
                           {entry.commitHash.substring(0, 20)}…
                         </TableCell>
                       </TableRow>
-                    </>
+                    </Fragment>
                   );
                 })}
               </TableBody>
