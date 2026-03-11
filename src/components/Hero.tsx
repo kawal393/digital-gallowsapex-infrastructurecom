@@ -71,10 +71,10 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <a href="/gallows">Get Started Free <ArrowRight className="ml-1 h-4 w-4" /></a>
+              <Link to="/gallows">Get Started Free <ArrowRight className="ml-1 h-4 w-4" /></Link>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <a href="/protocol"><Shield className="mr-1 h-4 w-4" /> View Protocol Spec</a>
+              <Link to="/protocol"><Shield className="mr-1 h-4 w-4" /> View Protocol Spec</Link>
             </Button>
           </div>
         </motion.div>
