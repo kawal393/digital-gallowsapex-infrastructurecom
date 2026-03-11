@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, Globe, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 import { useVisitorLocation, useLiveClock } from "@/hooks/use-visitor-info";
 
