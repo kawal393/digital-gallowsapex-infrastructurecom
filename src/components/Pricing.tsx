@@ -154,13 +154,13 @@ const Pricing = () => {
           className="text-center mb-6"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Pricing
+            Open Standard · Managed Infrastructure
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Free Until You Need Proof
+            The Standard is Free. The Fortress is Paid.
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Know your risk for free. Pay when you need regulator-ready evidence. The free tier is real — no credit card, no trial, no tricks.
+            The PSI Protocol is open and free forever. Paid tiers are for managed infrastructure — dedicated MPC nodes, 24/7 monitoring, and regulator-ready SLA guarantees.
           </p>
         </motion.div>
 
