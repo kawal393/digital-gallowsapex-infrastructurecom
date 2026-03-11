@@ -34,7 +34,7 @@ const tiers = [
     key: "startup",
     price: "$499",
     period: "/month",
-    description: "Prove compliance. Sleep at night.",
+    description: "Managed verification infrastructure.",
     features: [
       { text: "Everything in Free", included: true },
       { text: "100 verifications/month", included: true },
