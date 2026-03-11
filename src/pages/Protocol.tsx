@@ -157,7 +157,7 @@ const Protocol = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center">
                 <span className="text-chrome-gradient">Cryptographic</span>{" "}
-                <span className="text-psi-gradient">Specifications</span>
+                <span className="text-gold-gradient">Specifications</span>
               </h2>
               <p className="text-muted-foreground text-center mb-10 text-sm">
                 All algorithms used in the PSI Protocol verification pipeline.
