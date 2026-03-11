@@ -9,11 +9,11 @@ import { useState } from "react";
 
 const tiers = [
   {
-    name: "FREE",
+    name: "SOVEREIGN ENTRY",
     key: "free",
     price: "$0",
     period: "forever",
-    description: "Get started. Know your risk.",
+    description: "Full PSI Protocol. Zero cost. No tricks.",
     features: [
       { text: "Full compliance assessment", included: true },
       { text: "Compliance score + status", included: true },
