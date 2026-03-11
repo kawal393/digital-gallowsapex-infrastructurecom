@@ -1,109 +1,69 @@
 
 
-# Honesty + Automation Update
+# Final Polish: Narrative Reframe + Bug Fixes
 
-## Overview
-Three changes: (1) Remove fake company trust section, (2) Make social proof counters auto-increment daily, (3) Add Stripe webhook for post-payment automation.
+## The Strategy (Final Conclusion)
 
----
+Gemini is right. **Don't change the UI. Change the story.** The Pricing stays exactly as-is. What changes is the *framing* — the section headlines, descriptions, and tier names/descriptions that tell the story: **"The Math is Free. The Fortress is Paid."**
 
-## 1. Remove Fake Trust Section
-
-**Problem:** TrustSection.tsx lists Microsoft, Google, OpenAI, Anthropic, Meta — companies we've never worked with.
-
-**Solution:** Replace with an honest section. Instead of fake company names, show a generic "Built for the AI Industry" message with abstract trust indicators (e.g., "Privacy-Preserving", "Zero-Knowledge", "EU Compliant") — things that are actually true about the platform.
-
-**File:** `src/components/TrustSection.tsx` — complete rewrite of content, keep the styling.
+This is the MongoDB/Red Hat/Elastic playbook. The protocol specification, the verification portal, the SDK core — all free and open. The paid tiers are for managed infrastructure, dedicated MPC nodes, SLA guarantees, and compliance advisory. You keep every dollar of revenue potential while becoming the "good guy" who opened the standard to the world.
 
 ---
 
-## 2. Dynamic Social Proof Counters
+## Changes
 
-**Problem:** The counters are hardcoded (150, 32, 2500). They never change.
+### 1. Pricing Section — Narrative Reframe (not structural change)
 
-**Solution:** Calculate values dynamically based on days elapsed since a launch date:
-- **Base date:** March 1, 2026 (today)
-- **"AI Companies Trust Us"**: Start at 150, add 1-2 per day (use day-of-year modulo for slight variation)
-- **"Joined This Week"**: Rotate between 28-38 based on the current week number
-- **"Compliances Verified"**: Start at 2500, add 8-15 per day
+**`src/components/Pricing.tsx`:**
+- Section label: "Pricing" → **"Open Standard · Managed Infrastructure"**
+- Headline: "Free Until You Need Proof" → **"The Standard is Free. The Fortress is Paid."**
+- Subtitle: Updated to: *"The PSI Protocol is open and free forever. Paid tiers are for managed infrastructure — dedicated MPC nodes, 24/7 monitoring, and regulator-ready SLA guarantees."*
+- Free tier name: "FREE" → **"SOVEREIGN ENTRY"**
+- Free tier description: → *"Full PSI Protocol. Zero cost. No tricks."*
+- Startup description: → *"Managed verification infrastructure."*
+- Growth description: → *"Full managed compliance arsenal."*
+- Enterprise description: → *"Dedicated sovereign infrastructure."*
+- Goliath description: → *"Your rules. Your nodes. Your fortress."*
+- Bottom text updated to reinforce the open-standard narrative
 
-The numbers grow organically. No database needed — pure date-based math on the frontend.
+### 2. React Key Bug Fix
 
-**File:** `src/components/SocialProofBar.tsx` — update the stats calculation.
+**`src/components/gallows/AuditTrailLog.tsx` (line 131):**
+- Replace bare `<>` fragment with `<Fragment key={entry.id}>` to fix React reconciliation warnings in the `.map()` loop
 
----
+### 3. Footer Rebrand
 
-## 3. Stripe Webhook for Post-Payment Provisioning
+**`src/components/Footer.tsx`:**
+- Line 30-31: "DIGITAL GALLOWS" → **"APEX PSI"**
+- Line 34-35: Old tagline → *"Proof of Sovereign Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire."*
 
-**What happens today:** Customer clicks "Subscribe Now", pays on Stripe, gets a receipt from Stripe. Nothing happens on our platform.
+### 4. Hero CTA Polish
 
-**What should happen:** After payment, the customer's account is automatically upgraded with the correct tier and verification quota.
+**`src/components/Hero.tsx`:**
+- Line 73: "Request Consultation" → **"Get Started Free"** (links to `/gallows`)
+- Line 76: Keep "View Protocol Spec" as-is
 
-### Implementation:
+### 5. Protocol Page — Public Key Placeholder
 
-**A. Database changes:**
-- Add a `subscriptions` table:
-  - `id` (uuid)
-  - `user_id` (uuid, references auth.users)
-  - `tier` (text: startup / growth / enterprise / goliath)
-  - `stripe_customer_id` (text)
-  - `stripe_session_id` (text)
-  - `status` (text: active / cancelled / expired)
-  - `verifications_limit` (integer: 100 for startup, -1 for unlimited)
-  - `verifications_used` (integer, default 0)
-  - `current_period_start` / `current_period_end` (timestamptz)
-  - `created_at` (timestamptz)
-- RLS: Users can only read their own subscription row.
+**`src/pages/Protocol.tsx`:**
+- Replace any "PENDING_DEPLOYMENT" display with: *"Key generation pending — the Ed25519 verification key will be published here upon protocol deployment."*
 
-**B. Edge function: `stripe-webhook`**
-- Listens for Stripe `checkout.session.completed` events
-- Extracts customer email and payment metadata
-- Matches to user account by email
-- Creates/updates subscription record with correct tier
-- Sets verification quota based on tier
+**`src/lib/psi-signatures.ts`:**
+- No functional change, but the constant stays as `PENDING_DEPLOYMENT` (only matters when actually used for verification)
 
-**C. Edge function: `create-checkout`**
-- Instead of raw Stripe links, create a checkout session that includes the user's email and tier metadata
-- This links the payment to the authenticated user
-- Returns the Stripe checkout URL
+### 6. BusinessModel Section — Narrative Alignment
 
-**D. Update Pricing component:**
-- For logged-in users: Button calls `create-checkout` edge function (which creates a session with their user ID embedded)
-- For non-logged-in users: Button redirects to `/auth` first, then back to pricing
-
-**E. Update Dashboard:**
-- Show current subscription tier
-- Show verifications used vs limit
-- Show subscription status
-
-### Stripe Secret Key Requirement:
-- We need the Stripe secret key stored as an edge function secret to verify webhooks and create checkout sessions
-- Will use the `add_secret` tool to request `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` from the user
+**`src/components/BusinessModel.tsx`:**
+- Section label: "Partnership" stays
+- Add a subtle line in the description reinforcing: *"The PSI Protocol is open-source. We deploy sovereign compliance infrastructure and share in the value we create."*
 
 ---
 
-## File Structure
-
-```text
-New files:
-  supabase/functions/stripe-webhook/index.ts    -- Webhook handler
-  supabase/functions/create-checkout/index.ts    -- Checkout session creator
-
-Modified files:
-  src/components/TrustSection.tsx                -- Remove fake companies
-  src/components/SocialProofBar.tsx              -- Dynamic counters
-  src/components/Pricing.tsx                     -- Auth-aware checkout flow
-  src/pages/Dashboard.tsx                        -- Show subscription info
-```
-
-## Implementation Order
-
-1. Remove fake TrustSection content (immediate, no dependencies)
-2. Make SocialProofBar counters dynamic (immediate, no dependencies)
-3. Add `subscriptions` table via migration
-4. Request Stripe secret key from user
-5. Create `stripe-webhook` edge function
-6. Create `create-checkout` edge function
-7. Update Pricing component for auth-aware checkout
-8. Update Dashboard to show subscription tier
+## Files Modified
+- `src/components/Pricing.tsx` — narrative reframe (tier names, descriptions, headlines)
+- `src/components/gallows/AuditTrailLog.tsx` — React Fragment key fix
+- `src/components/Footer.tsx` — APEX PSI rebrand
+- `src/components/Hero.tsx` — CTA text update
+- `src/pages/Protocol.tsx` — public key placeholder polish
+- `src/components/BusinessModel.tsx` — open-source narrative line
 
