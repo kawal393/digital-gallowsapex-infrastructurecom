@@ -265,7 +265,7 @@
 
   .grid-bg {
     background-image:
-      radial-gradient(ellipse 80% 60% at 50% 50%, hsl(210 80% 45% / 0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 60% at 50% 50%, hsl(43 85% 52% / 0.06) 0%, transparent 70%),
       linear-gradient(hsl(240 8% 14% / 0.25) 1px, transparent 1px),
       linear-gradient(90deg, hsl(240 8% 14% / 0.25) 1px, transparent 1px);
     background-size: 100% 100%, 60px 60px, 60px 60px;
