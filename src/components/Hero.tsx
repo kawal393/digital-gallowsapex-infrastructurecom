@@ -46,9 +46,9 @@ const Hero = () => {
           </p>
           <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="text-muted-foreground">through</span>{" "}
-            <span className="text-psi-gradient font-bold">ZK-SNARKs</span>{" "}
+            <span className="text-gold-gradient font-bold">ZK-SNARKs</span>{" "}
             <span className="text-muted-foreground">and</span>{" "}
-            <span className="text-psi-gradient font-bold">MPC Consensus</span>
+            <span className="text-gold-gradient font-bold">MPC Consensus</span>
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-6 max-w-xl mx-auto">
             RFC 8785 (JCS) · Ed25519 Signatures · Monotonic Sequencing · EU AI Act Articles 12, 14, 15
