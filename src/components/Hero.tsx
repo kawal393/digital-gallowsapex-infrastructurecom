@@ -36,9 +36,9 @@ const Hero = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-6 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
-            <span className="text-psi-gradient">The Open Standard for</span>
+            <span className="text-gold-gradient">The Open Standard for</span>
             <br />
-            <span className="text-psi-gradient">Verifiable AI Governance.</span>
+            <span className="text-gold-gradient">Verifiable AI Governance.</span>
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
