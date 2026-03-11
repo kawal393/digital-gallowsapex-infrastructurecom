@@ -74,7 +74,7 @@ const tiers = [
     key: "enterprise",
     price: "$9,999",
     period: "/month",
-    description: "The complete compliance fortress.",
+    description: "Dedicated sovereign infrastructure.",
     features: [
       { text: "Everything in Growth", included: true },
       { text: "All 3 modes (SHIELD/SWORD/JUDGE)", included: true },
