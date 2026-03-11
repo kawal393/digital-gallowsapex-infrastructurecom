@@ -108,7 +108,7 @@ const Protocol = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
               <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center">
                 <span className="text-chrome-gradient">Legal-to-Technical</span>{" "}
-                <span className="text-psi-gradient">Mapping</span>
+                <span className="text-gold-gradient">Mapping</span>
               </h2>
               <p className="text-muted-foreground text-center mb-10 text-sm max-w-2xl mx-auto">
                 How PSI Protocol satisfies EU AI Act requirements through cryptographic primitives.
