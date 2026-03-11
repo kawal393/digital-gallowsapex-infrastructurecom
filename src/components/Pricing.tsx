@@ -253,7 +253,7 @@ const Pricing = () => {
                     : isCurrentPlan
                     ? "Current Plan"
                     : tier.isFree
-                    ? user ? "Current Plan" : "Get Started Free"
+                    ? "Get Started Free"
                     : tier.key === "goliath"
                     ? "Contact Sales"
                     : user
