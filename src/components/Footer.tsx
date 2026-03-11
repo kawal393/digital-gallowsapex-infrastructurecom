@@ -27,12 +27,12 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             <div className="flex items-center gap-2.5 mb-3">
               <img src={apexLogo} alt="APEX" className="h-8 w-8 object-contain" />
               <h3 className="text-lg font-bold">
-                <span className="text-gold-gradient">DIGITAL</span>{" "}
-                <span className="text-chrome-gradient">GALLOWS</span>
+                <span className="text-gold-gradient">APEX</span>{" "}
+                <span className="text-chrome-gradient">PSI</span>
               </h3>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mb-4">
-              Proof of Sovereign Integrity — The World's First Optimistic ZKML Compliance Architecture. By Apex Intelligence Empire.
+              Proof of Sovereign Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire.
             </p>
             <div className="text-xs text-muted-foreground space-y-1">
               <p>A division of <span className="text-foreground/80">APEX INTELLIGENCE EMPIRE</span></p>

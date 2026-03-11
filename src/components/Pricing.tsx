@@ -272,7 +272,7 @@ const Pricing = () => {
           viewport={{ once: true }}
           className="text-center text-xs text-muted-foreground mt-8"
         >
-          All paid plans include a 14-day money-back guarantee. Cancel anytime from your dashboard. Prices in USD.
+          The math is free. The fortress is paid. All managed tiers include a 14-day money-back guarantee. Cancel anytime. Prices in USD.
         </motion.p>
       </div>
     </section>

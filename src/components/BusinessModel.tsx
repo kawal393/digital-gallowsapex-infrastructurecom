@@ -51,7 +51,7 @@ const BusinessModel = () => (
           We Are the <span className="text-gold-gradient">Partner</span>, Not the Vendor
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          We deploy sovereign compliance infrastructure and share in the value we create. All partnership terms are discussed privately.
+          The PSI Protocol is open-source. We deploy sovereign compliance infrastructure and share in the value we create. All partnership terms are discussed privately.
         </p>
       </motion.div>
 

@@ -204,9 +204,9 @@ const Protocol = () => {
                   Use this public key to independently verify Ed25519 signatures on PSI Merkle roots.
                   Any regulator or auditor can validate proof bundles without contacting APEX.
                 </p>
-                <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs text-primary break-all">
+                <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs text-muted-foreground break-all">
                   <span className="text-muted-foreground text-[10px] block mb-1">Ed25519 Public Key (hex)</span>
-                  PENDING_DEPLOYMENT — Key will be published upon Ed25519 secret configuration
+                  Key generation pending — the Ed25519 verification key will be published here upon protocol deployment.
                 </div>
                 <p className="text-[10px] text-muted-foreground mt-3">
                   Algorithm: Ed25519 (RFC 8032) · Curve: Curve25519 · Key size: 256-bit
