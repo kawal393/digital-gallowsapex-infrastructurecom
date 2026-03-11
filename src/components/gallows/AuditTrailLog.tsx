@@ -178,7 +178,7 @@ const AuditTrailLog = ({ entries }: AuditTrailLogProps) => {
                           {entry.commitHash.substring(0, 20)}…
                         </TableCell>
                       </TableRow>
-                    </>
+                    </Fragment>
                   );
                 })}
               </TableBody>
