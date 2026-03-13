@@ -33,7 +33,7 @@ const SiloDashboard = () => {
     try {
       // Fetch user's silo assignments
       const { data: assigns } = await supabase
-        .from("silo_assignments")
+        .from("silo_assignments" as any)
         .select("*")
         .eq("user_id", user.id)
         .eq("is_active", true);
