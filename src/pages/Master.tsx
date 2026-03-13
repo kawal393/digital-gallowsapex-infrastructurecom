@@ -332,11 +332,11 @@ const Master = () => {
 
         {/* Tabs */}
         <Tabs defaultValue="partners" className="w-full">
-          <TabsList className="mb-4 bg-muted">
-            <TabsTrigger value="partners"><Users className="h-3.5 w-3.5 mr-1.5" /> Partners</TabsTrigger>
-            <TabsTrigger value="revenue"><DollarSign className="h-3.5 w-3.5 mr-1.5" /> Revenue</TabsTrigger>
-            <TabsTrigger value="data"><Activity className="h-3.5 w-3.5 mr-1.5" /> Silo Data</TabsTrigger>
-            <TabsTrigger value="kills"><AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Kill Log</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4 bg-muted w-full sm:w-auto flex-wrap">
+            <TabsTrigger value="partners" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Partners</TabsTrigger>
+            <TabsTrigger value="revenue" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><DollarSign className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Revenue</TabsTrigger>
+            <TabsTrigger value="data" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Activity className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Data</TabsTrigger>
+            <TabsTrigger value="kills" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><AlertTriangle className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Kills</TabsTrigger>
           </TabsList>
 
           {/* Partners Tab */}
