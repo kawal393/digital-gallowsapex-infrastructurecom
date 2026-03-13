@@ -96,6 +96,7 @@ const App = () => (
                     <SiloDashboard />
                   </ProtectedRoute>
                 }
+              />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
