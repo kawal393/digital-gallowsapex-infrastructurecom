@@ -38,13 +38,14 @@ const SiloDashboard = () => {
         .eq("user_id", user.id)
         .eq("is_active", true);
 
-      if (!assigns || assigns.length === 0) {
+      if (!assigns || (assigns as any[]).length === 0) {
         setAssignments([]);
         setLoading(false);
         return;
       }
-      setAssignments(assigns);
-      const siloIds = assigns.map(a => a.silo_id);
+      const assignList = assigns as any[];
+      setAssignments(assignList);
+      const siloIds = assignList.map((a: any) => a.silo_id);
 
       // Fetch silos, data, revenue, kill logs for assigned silos only
       const [silosRes, dataRes, revRes, killRes] = await Promise.all([
@@ -54,12 +55,16 @@ const SiloDashboard = () => {
         supabase.from("kill_switch_log" as any).select("*").in("silo_id", siloIds).order("created_at", { ascending: false }).limit(20),
       ]);
 
-      setSilos(silosRes.data || []);
-      setSiloData(dataRes.data || []);
-      setRevenue(revRes.data || []);
-      setKillLogs(killRes.data || []);
-      if (!activeSilo && silosRes.data && silosRes.data.length > 0) {
-        setActiveSilo(silosRes.data[0].id);
+      const silosList = (silosRes.data || []) as any[];
+      const dataList = (dataRes.data || []) as any[];
+      const revList = (revRes.data || []) as any[];
+      const killList = (killRes.data || []) as any[];
+      setSilos(silosList);
+      setSiloData(dataList);
+      setRevenue(revList);
+      setKillLogs(killList);
+      if (!activeSilo && silosList.length > 0) {
+        setActiveSilo(silosList[0].id);
       }
     } catch (e: any) {
       toast.error("Failed to load silo data");
