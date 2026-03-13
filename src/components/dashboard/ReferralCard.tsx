@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +39,7 @@ const ReferralCard = ({ referralCode, referralCount }: Props) => {
         </div>
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span className="flex items-center gap-2"><Users className="h-4 w-4" />{referralCount} referral{referralCount !== 1 ? "s" : ""}</span>
-          <a href="/partner/dashboard" className="text-primary text-xs hover:underline">Partner Dashboard →</a>
+          <Link to="/partner/dashboard" className="text-primary text-xs hover:underline">Partner Dashboard →</Link>
         </div>
       </CardContent>
     </Card>

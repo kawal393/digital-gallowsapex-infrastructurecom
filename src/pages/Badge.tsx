@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Copy, Code, ShieldCheck, ExternalLink, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -220,7 +221,7 @@ const Badge = () => {
                     <div className="rounded-lg border border-border bg-background/60 p-4">
                       <p className="text-xs text-muted-foreground mb-2">Sign in to get a dynamic badge that shows your real compliance status.</p>
                       <Button variant="hero" size="sm" className="w-full" asChild>
-                        <a href="/auth">Sign In for Dynamic Badge</a>
+                        <Link to="/auth">Sign In for Dynamic Badge</Link>
                       </Button>
                     </div>
                   )}

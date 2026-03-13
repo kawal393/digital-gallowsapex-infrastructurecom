@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Copy, Share2, Lock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -70,7 +71,7 @@ const ReferralGate = ({ shareId, referralCount, requiredReferrals = 2, unlocked,
       </div>
 
       <p className="text-[10px] text-muted-foreground/50 mt-4">
-        Or <a href="/auth" className="text-gold hover:underline">sign up</a> to unlock immediately.
+        Or <Link to="/auth" className="text-gold hover:underline">sign up</Link> to unlock immediately.
       </p>
     </div>
   );
