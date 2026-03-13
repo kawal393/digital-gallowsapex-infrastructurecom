@@ -30,6 +30,8 @@ import EmbedCountdown from "./pages/EmbedCountdown";
 import EmbedPulse from "./pages/EmbedPulse";
 import Lattice from "./pages/Lattice";
 import Admin from "./pages/Admin";
+import Master from "./pages/Master";
+import SiloDashboard from "./pages/SiloDashboard";
 import Protocol from "./pages/Protocol";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
@@ -76,6 +78,22 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Admin />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/master"
+                element={
+                  <ProtectedRoute>
+                    <Master />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/silo"
+                element={
+                  <ProtectedRoute>
+                    <SiloDashboard />
                   </ProtectedRoute>
                 }
               />

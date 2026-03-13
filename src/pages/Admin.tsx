@@ -117,6 +117,9 @@ const Admin = () => {
             <Badge variant="outline" className="text-xs border-destructive text-destructive">ADMIN</Badge>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="hero" size="sm" onClick={() => navigate("/master")} className="text-xs">
+              <Shield className="h-4 w-4 mr-1" /> Master View
+            </Button>
             <Button variant="ghost" size="sm" onClick={fetchAdminData}>
               <RefreshCw className="h-4 w-4 mr-1" /> Refresh
             </Button>
