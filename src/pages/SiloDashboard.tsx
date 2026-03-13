@@ -48,10 +48,10 @@ const SiloDashboard = () => {
 
       // Fetch silos, data, revenue, kill logs for assigned silos only
       const [silosRes, dataRes, revRes, killRes] = await Promise.all([
-        supabase.from("industry_silos").select("*").in("id", siloIds),
-        supabase.from("silo_data").select("*").in("silo_id", siloIds).order("created_at", { ascending: false }),
-        supabase.from("revenue_splits").select("*").eq("partner_user_id", user.id).order("created_at", { ascending: false }),
-        supabase.from("kill_switch_log").select("*").in("silo_id", siloIds).order("created_at", { ascending: false }).limit(20),
+        supabase.from("industry_silos" as any).select("*").in("id", siloIds),
+        supabase.from("silo_data" as any).select("*").in("silo_id", siloIds).order("created_at", { ascending: false }),
+        supabase.from("revenue_splits" as any).select("*").eq("partner_user_id", user.id).order("created_at", { ascending: false }),
+        supabase.from("kill_switch_log" as any).select("*").in("silo_id", siloIds).order("created_at", { ascending: false }).limit(20),
       ]);
 
       setSilos(silosRes.data || []);
