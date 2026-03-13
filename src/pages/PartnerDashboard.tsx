@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Copy, LogOut, Save } from "lucide-react";
+
 import { useToast } from "@/hooks/use-toast";
 import apexLogo from "@/assets/apex-logo.png";
 import PartnerEarnings from "@/components/partner/PartnerEarnings";
@@ -75,11 +76,11 @@ const PartnerDashboard = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="container mx-auto max-w-6xl flex items-center justify-between h-14 px-4">
-          <a href="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <img src={apexLogo} alt="APEX" className="h-7 w-7 glow-gold" />
             <span className="font-bold text-gold-gradient text-sm">APEX</span>
             <span className="text-xs text-muted-foreground ml-1">Partner</span>
-          </a>
+          </Link>
           <Button variant="ghost" size="sm" onClick={async () => { await signOut(); navigate("/"); }}>
             <LogOut className="h-4 w-4 mr-1" /> Sign Out
           </Button>

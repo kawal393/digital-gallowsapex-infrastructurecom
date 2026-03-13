@@ -36,11 +36,13 @@ serve(async (req) => {
       });
     }
 
-    const { method } = await req.json().catch(() => ({ method: "GET" }));
-    const body = await req.clone().json().catch(() => ({}));
+    // Parse body once
+    const body = await req.json().catch(() => ({}));
+    const { action } = body;
 
-    // Handle different actions
-    if (body.action === "toggle_partner_access") {
+    // --- ACTION HANDLERS ---
+
+    if (action === "toggle_partner_access") {
       const { assignment_id, is_active } = body;
       const { error } = await supabase
         .from("silo_assignments")
@@ -52,18 +54,21 @@ serve(async (req) => {
       });
     }
 
-    if (body.action === "assign_partner") {
+    if (action === "assign_partner") {
       const { user_id, silo_id, access_level } = body;
       const { error } = await supabase
         .from("silo_assignments")
-        .upsert({ user_id, silo_id, access_level: access_level || "partner", granted_by: userData.user.id, is_active: true }, { onConflict: "user_id,silo_id" });
+        .upsert(
+          { user_id, silo_id, access_level: access_level || "partner", granted_by: userData.user.id, is_active: true },
+          { onConflict: "user_id,silo_id" }
+        );
       if (error) throw error;
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    if (body.action === "revoke_partner") {
+    if (action === "revoke_partner") {
       const { user_id, silo_id } = body;
       const { error } = await supabase
         .from("silo_assignments")
@@ -76,13 +81,12 @@ serve(async (req) => {
       });
     }
 
-    if (body.action === "trigger_kill_switch") {
+    if (action === "trigger_kill_switch") {
       const { silo_id, reason, severity } = body;
       const { error } = await supabase
         .from("kill_switch_log")
         .insert({ silo_id, triggered_by: userData.user.id, reason, severity: severity || "critical" });
       if (error) throw error;
-      // Also deactivate all silo data
       await supabase
         .from("silo_data")
         .update({ status: "halted" })
@@ -93,7 +97,7 @@ serve(async (req) => {
       });
     }
 
-    if (body.action === "resolve_kill_switch") {
+    if (action === "resolve_kill_switch") {
       const { kill_switch_id, silo_id } = body;
       const { error } = await supabase
         .from("kill_switch_log")
@@ -110,18 +114,18 @@ serve(async (req) => {
       });
     }
 
-    if (body.action === "add_silo_data") {
-      const { silo_id, record_type, title, description, metadata } = body;
+    if (action === "add_silo_data") {
+      const { silo_id, record_type, title, description, metadata, compliance_score } = body;
       const { error } = await supabase
         .from("silo_data")
-        .insert({ silo_id, record_type, title, description, metadata, created_by: userData.user.id });
+        .insert({ silo_id, record_type, title, description, metadata, compliance_score: compliance_score || 0, created_by: userData.user.id });
       if (error) throw error;
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    if (body.action === "add_revenue_split") {
+    if (action === "add_revenue_split") {
       const { silo_id, partner_user_id, deal_name, total_amount, partner_share, master_share } = body;
       const { error } = await supabase
         .from("revenue_splits")
@@ -132,11 +136,36 @@ serve(async (req) => {
       });
     }
 
-    // Default: GET all master data
+    if (action === "add_industry") {
+      const { name, display_name, description, color, icon } = body;
+      const { error } = await supabase
+        .from("industry_silos")
+        .insert({ name, display_name, description, color: color || "#D4AF37", icon: icon || "Shield" });
+      if (error) throw error;
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (action === "delete_silo") {
+      const { silo_id } = body;
+      // Delete related data first
+      await supabase.from("silo_data").delete().eq("silo_id", silo_id);
+      await supabase.from("silo_assignments").delete().eq("silo_id", silo_id);
+      await supabase.from("kill_switch_log").delete().eq("silo_id", silo_id);
+      await supabase.from("revenue_splits").delete().eq("silo_id", silo_id);
+      const { error } = await supabase.from("industry_silos").delete().eq("id", silo_id);
+      if (error) throw error;
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // --- DEFAULT: GET all master data ---
     const [silosRes, assignmentsRes, siloDataRes, revenueRes, killRes, usersRes] = await Promise.all([
       supabase.from("industry_silos").select("*").order("created_at"),
       supabase.from("silo_assignments").select("*").order("created_at", { ascending: false }),
-      supabase.from("silo_data").select("*").order("created_at", { ascending: false }).limit(200),
+      supabase.from("silo_data").select("*").order("created_at", { ascending: false }).limit(500),
       supabase.from("revenue_splits").select("*").order("created_at", { ascending: false }),
       supabase.from("kill_switch_log").select("*").order("created_at", { ascending: false }).limit(50),
       supabase.auth.admin.listUsers({ perPage: 500 }),
@@ -149,7 +178,6 @@ serve(async (req) => {
     const revenue = revenueRes.data || [];
     const killLogs = killRes.data || [];
 
-    // Compute per-silo stats
     const siloStats = silos.map(silo => {
       const siloRecords = siloData.filter(d => d.silo_id === silo.id);
       const siloRevenue = revenue.filter(r => r.silo_id === silo.id);
@@ -157,6 +185,9 @@ serve(async (req) => {
       const activeKills = killLogs.filter(k => k.silo_id === silo.id && !k.resolved_at);
       const totalRevenue = siloRevenue.reduce((s, r) => s + Number(r.total_amount), 0);
       const masterRevenue = siloRevenue.reduce((s, r) => s + (Number(r.total_amount) * Number(r.master_share) / 100), 0);
+      const avgScore = siloRecords.length > 0
+        ? Math.round(siloRecords.reduce((s, r) => s + (Number(r.compliance_score) || 0), 0) / siloRecords.length)
+        : 0;
 
       return {
         ...silo,
@@ -166,10 +197,10 @@ serve(async (req) => {
         master_revenue: masterRevenue,
         active_kills: activeKills.length,
         is_halted: activeKills.length > 0,
+        avg_compliance_score: avgScore,
       };
     });
 
-    // Build partner list with user details
     const partnerList = assignments.map(a => {
       const u = users.find(u => u.id === a.user_id);
       const silo = silos.find(s => s.id === a.silo_id);
@@ -181,7 +212,6 @@ serve(async (req) => {
       };
     });
 
-    // Global revenue totals
     const totalGlobalRevenue = revenue.reduce((s, r) => s + Number(r.total_amount), 0);
     const totalMasterShare = revenue.reduce((s, r) => s + (Number(r.total_amount) * Number(r.master_share) / 100), 0);
     const totalPartnerShare = revenue.reduce((s, r) => s + (Number(r.total_amount) * Number(r.partner_share) / 100), 0);
@@ -207,7 +237,7 @@ serve(async (req) => {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     return new Response(JSON.stringify({ error: msg }), {
-      status: error instanceof Error && msg.includes("Forbidden") ? 403 : 500,
+      status: msg.includes("Forbidden") ? 403 : 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
