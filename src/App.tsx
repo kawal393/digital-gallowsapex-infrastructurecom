@@ -81,6 +81,21 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/master"
+                element={
+                  <ProtectedRoute>
+                    <Master />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/silo"
+                element={
+                  <ProtectedRoute>
+                    <SiloDashboard />
+                  </ProtectedRoute>
+                }
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
