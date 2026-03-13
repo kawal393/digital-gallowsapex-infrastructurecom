@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Copy, Code, ShieldCheck, ExternalLink, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
