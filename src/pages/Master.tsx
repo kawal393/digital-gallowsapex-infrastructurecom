@@ -168,7 +168,7 @@ const Master = () => {
 
         {/* Global Stats */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
             {[
               { icon: Users, value: stats.total_users, label: "Total Users", color: "text-primary" },
               { icon: Shield, value: stats.total_silos, label: "Active Silos", color: "text-primary" },
@@ -177,10 +177,10 @@ const Master = () => {
               { icon: AlertTriangle, value: stats.active_kills, label: "Kill Switches", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
             ].map((s, i) => (
               <Card key={i} className={`border-border ${i === 4 && stats.active_kills > 0 ? "border-destructive" : ""}`}>
-                <CardContent className="pt-4 pb-3 text-center">
-                  <s.icon className={`h-4 w-4 mx-auto mb-1 ${s.color}`} />
-                  <div className={`text-xl font-bold ${s.color}`}>{s.value}</div>
-                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{s.label}</div>
+                <CardContent className="pt-3 pb-2 sm:pt-4 sm:pb-3 text-center">
+                  <s.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 mx-auto mb-1 ${s.color}`} />
+                  <div className={`text-base sm:text-xl font-bold ${s.color}`}>{s.value}</div>
+                  <div className="text-[8px] sm:text-[10px] text-muted-foreground uppercase tracking-wider">{s.label}</div>
                 </CardContent>
               </Card>
             ))}
