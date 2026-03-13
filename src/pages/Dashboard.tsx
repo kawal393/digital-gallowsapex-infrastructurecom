@@ -204,8 +204,11 @@ const Dashboard = () => {
             <img src={apexLogo} alt="APEX" className="h-7 w-7 glow-gold" />
             <span className="font-bold text-gold-gradient text-sm">APEX</span>
           </a>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground hidden sm:block">{user?.email}</span>
+            <Button variant="outline" size="sm" onClick={() => navigate("/silo")} className="text-xs hidden sm:inline-flex">
+              <Shield className="h-3 w-3 mr-1" /> Silos
+            </Button>
             <Button variant="ghost" size="sm" onClick={handleSignOut}>
               <LogOut className="h-4 w-4 mr-1" /> Sign Out
             </Button>
