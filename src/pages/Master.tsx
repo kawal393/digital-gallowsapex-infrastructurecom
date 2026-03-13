@@ -95,6 +95,23 @@ const Master = () => {
     }
   };
 
+  const runAutoMonitor = async () => {
+    try {
+      toast.info("Running auto-monitor scan...");
+      const { data: result, error } = await supabase.functions.invoke("silo-auto-monitor", { body: { threshold: 40 } });
+      if (error) throw error;
+      const triggered = result?.kill_switches_triggered || 0;
+      if (triggered > 0) {
+        toast.warning(`Auto-monitor triggered ${triggered} kill switch(es)!`);
+      } else {
+        toast.success(`All ${result?.silos_scanned || 0} silos passed compliance check`);
+      }
+      fetchData();
+    } catch (e: any) {
+      toast.error("Auto-monitor failed: " + (e.message || "Unknown error"));
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
