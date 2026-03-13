@@ -79,7 +79,7 @@ const SiloDashboard = () => {
       });
       // Use query params approach via direct fetch
       const session = await supabase.auth.getSession();
-      const token = session.data.session?.accessToken;
+      const token = session.data.session?.access_token;
       if (token) {
         const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/oracle-feed?silo_id=${siloId}&silo_name=${encodeURIComponent(siloName)}`;
         const res = await fetch(url, {
