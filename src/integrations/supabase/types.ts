@@ -394,6 +394,77 @@ export type Database = {
         }
         Relationships: []
       }
+      industry_silos: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          display_name: string
+          icon: string | null
+          id: string
+          name: string
+          status: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          display_name: string
+          icon?: string | null
+          id?: string
+          name: string
+          status?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          icon?: string | null
+          id?: string
+          name?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      kill_switch_log: {
+        Row: {
+          created_at: string
+          id: string
+          reason: string
+          resolved_at: string | null
+          severity: string
+          silo_id: string
+          triggered_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reason: string
+          resolved_at?: string | null
+          severity?: string
+          silo_id: string
+          triggered_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reason?: string
+          resolved_at?: string | null
+          severity?: string
+          silo_id?: string
+          triggered_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kill_switch_log_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "industry_silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lattice_config: {
         Row: {
           created_at: string
@@ -590,6 +661,138 @@ export type Database = {
           users_informed?: string
         }
         Relationships: []
+      }
+      revenue_splits: {
+        Row: {
+          created_at: string
+          deal_name: string
+          id: string
+          master_share: number
+          partner_share: number
+          partner_user_id: string
+          silo_id: string
+          status: string
+          total_amount: number
+        }
+        Insert: {
+          created_at?: string
+          deal_name: string
+          id?: string
+          master_share?: number
+          partner_share?: number
+          partner_user_id: string
+          silo_id: string
+          status?: string
+          total_amount?: number
+        }
+        Update: {
+          created_at?: string
+          deal_name?: string
+          id?: string
+          master_share?: number
+          partner_share?: number
+          partner_user_id?: string
+          silo_id?: string
+          status?: string
+          total_amount?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revenue_splits_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "industry_silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silo_assignments: {
+        Row: {
+          access_level: string
+          created_at: string
+          granted_by: string | null
+          id: string
+          is_active: boolean
+          silo_id: string
+          user_id: string
+        }
+        Insert: {
+          access_level?: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          is_active?: boolean
+          silo_id: string
+          user_id: string
+        }
+        Update: {
+          access_level?: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          is_active?: boolean
+          silo_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_assignments_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "industry_silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silo_data: {
+        Row: {
+          compliance_score: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          metadata: Json | null
+          record_type: string
+          silo_id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          compliance_score?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          record_type: string
+          silo_id: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          compliance_score?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          record_type?: string
+          silo_id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_data_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "industry_silos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscriptions: {
         Row: {
