@@ -95,6 +95,23 @@ const Master = () => {
     }
   };
 
+  const runAutoMonitor = async () => {
+    try {
+      toast.info("Running auto-monitor scan...");
+      const { data: result, error } = await supabase.functions.invoke("silo-auto-monitor", { body: { threshold: 40 } });
+      if (error) throw error;
+      const triggered = result?.kill_switches_triggered || 0;
+      if (triggered > 0) {
+        toast.warning(`Auto-monitor triggered ${triggered} kill switch(es)!`);
+      } else {
+        toast.success(`All ${result?.silos_scanned || 0} silos passed compliance check`);
+      }
+      fetchData();
+    } catch (e: any) {
+      toast.error("Auto-monitor failed: " + (e.message || "Unknown error"));
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -129,40 +146,46 @@ const Master = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
-        <div className="container mx-auto max-w-7xl flex items-center justify-between h-14 px-4">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-2">
-              <img src={apexLogo} alt="APEX" className="h-7 w-7 glow-gold" />
-              <span className="font-bold text-gold-gradient text-sm">APEX</span>
+        <div className="container mx-auto max-w-7xl flex items-center justify-between h-14 px-3 sm:px-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <Link to="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <img src={apexLogo} alt="APEX" className="h-6 w-6 sm:h-7 sm:w-7 glow-gold" />
+              <span className="font-bold text-gold-gradient text-xs sm:text-sm">APEX</span>
             </Link>
-            <Badge variant="outline" className="text-xs border-primary text-primary font-mono">
+            <Badge variant="outline" className="text-[9px] sm:text-xs border-primary text-primary font-mono">
               MASTER VIEW
             </Badge>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={fetchData}>
-              <RefreshCw className="h-4 w-4 mr-1" /> Refresh
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Button variant="ghost" size="sm" onClick={() => runAutoMonitor()} className="h-8 px-2 sm:px-3 text-[10px] sm:text-xs text-primary">
+              <Zap className="h-3 w-3 sm:mr-1" />
+              <span className="hidden sm:inline">Auto-Monitor</span>
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate("/admin")}>
-              <ArrowLeft className="h-4 w-4 mr-1" /> Admin
+            <Button variant="ghost" size="sm" onClick={fetchData} className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3">
+              <RefreshCw className="h-4 w-4" />
+              <span className="hidden sm:inline ml-1 text-xs">Refresh</span>
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/admin")} className="h-8 px-2 sm:px-3 text-xs">
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline ml-1">Admin</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto max-w-7xl px-4 py-6 space-y-6">
+      <main className="container mx-auto max-w-7xl px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* Title */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-primary">Sovereign Command Center</h1>
-            <p className="text-xs text-muted-foreground mt-1">Global Operational Map — All Sectors</p>
+            <h1 className="text-lg sm:text-2xl font-bold text-primary">Sovereign Command Center</h1>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">Global Operational Map — All Sectors</p>
           </div>
-          <Globe className="h-8 w-8 text-primary opacity-60" />
+          <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-primary opacity-60" />
         </div>
 
         {/* Global Stats */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
             {[
               { icon: Users, value: stats.total_users, label: "Total Users", color: "text-primary" },
               { icon: Shield, value: stats.total_silos, label: "Active Silos", color: "text-primary" },
@@ -171,10 +194,10 @@ const Master = () => {
               { icon: AlertTriangle, value: stats.active_kills, label: "Kill Switches", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
             ].map((s, i) => (
               <Card key={i} className={`border-border ${i === 4 && stats.active_kills > 0 ? "border-destructive" : ""}`}>
-                <CardContent className="pt-4 pb-3 text-center">
-                  <s.icon className={`h-4 w-4 mx-auto mb-1 ${s.color}`} />
-                  <div className={`text-xl font-bold ${s.color}`}>{s.value}</div>
-                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{s.label}</div>
+                <CardContent className="pt-3 pb-2 sm:pt-4 sm:pb-3 text-center">
+                  <s.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 mx-auto mb-1 ${s.color}`} />
+                  <div className={`text-base sm:text-xl font-bold ${s.color}`}>{s.value}</div>
+                  <div className="text-[8px] sm:text-[10px] text-muted-foreground uppercase tracking-wider">{s.label}</div>
                 </CardContent>
               </Card>
             ))}
@@ -227,7 +250,7 @@ const Master = () => {
               </DialogContent>
             </Dialog>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {silos.map((silo: any) => {
               const IconComp = SILO_ICONS[silo.icon] || Shield;
               return (
@@ -309,11 +332,11 @@ const Master = () => {
 
         {/* Tabs */}
         <Tabs defaultValue="partners" className="w-full">
-          <TabsList className="mb-4 bg-muted">
-            <TabsTrigger value="partners"><Users className="h-3.5 w-3.5 mr-1.5" /> Partners</TabsTrigger>
-            <TabsTrigger value="revenue"><DollarSign className="h-3.5 w-3.5 mr-1.5" /> Revenue</TabsTrigger>
-            <TabsTrigger value="data"><Activity className="h-3.5 w-3.5 mr-1.5" /> Silo Data</TabsTrigger>
-            <TabsTrigger value="kills"><AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Kill Log</TabsTrigger>
+          <TabsList className="mb-3 sm:mb-4 bg-muted w-full sm:w-auto flex-wrap">
+            <TabsTrigger value="partners" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Partners</TabsTrigger>
+            <TabsTrigger value="revenue" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><DollarSign className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Revenue</TabsTrigger>
+            <TabsTrigger value="data" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Activity className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Data</TabsTrigger>
+            <TabsTrigger value="kills" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><AlertTriangle className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Kills</TabsTrigger>
           </TabsList>
 
           {/* Partners Tab */}

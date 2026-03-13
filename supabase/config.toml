@@ -77,3 +77,9 @@ verify_jwt = false
 
 [functions.run-scheduled-monitoring]
 verify_jwt = false
+
+[functions.oracle-feed]
+verify_jwt = false
+
+[functions.silo-auto-monitor]
+verify_jwt = false
