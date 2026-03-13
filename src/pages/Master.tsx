@@ -129,35 +129,41 @@ const Master = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
-        <div className="container mx-auto max-w-7xl flex items-center justify-between h-14 px-4">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-2">
-              <img src={apexLogo} alt="APEX" className="h-7 w-7 glow-gold" />
-              <span className="font-bold text-gold-gradient text-sm">APEX</span>
+        <div className="container mx-auto max-w-7xl flex items-center justify-between h-14 px-3 sm:px-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <Link to="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <img src={apexLogo} alt="APEX" className="h-6 w-6 sm:h-7 sm:w-7 glow-gold" />
+              <span className="font-bold text-gold-gradient text-xs sm:text-sm">APEX</span>
             </Link>
-            <Badge variant="outline" className="text-xs border-primary text-primary font-mono">
+            <Badge variant="outline" className="text-[9px] sm:text-xs border-primary text-primary font-mono">
               MASTER VIEW
             </Badge>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={fetchData}>
-              <RefreshCw className="h-4 w-4 mr-1" /> Refresh
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Button variant="ghost" size="sm" onClick={() => runAutoMonitor()} className="h-8 px-2 sm:px-3 text-[10px] sm:text-xs text-primary">
+              <Zap className="h-3 w-3 sm:mr-1" />
+              <span className="hidden sm:inline">Auto-Monitor</span>
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate("/admin")}>
-              <ArrowLeft className="h-4 w-4 mr-1" /> Admin
+            <Button variant="ghost" size="sm" onClick={fetchData} className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3">
+              <RefreshCw className="h-4 w-4" />
+              <span className="hidden sm:inline ml-1 text-xs">Refresh</span>
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/admin")} className="h-8 px-2 sm:px-3 text-xs">
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline ml-1">Admin</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto max-w-7xl px-4 py-6 space-y-6">
+      <main className="container mx-auto max-w-7xl px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* Title */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-primary">Sovereign Command Center</h1>
-            <p className="text-xs text-muted-foreground mt-1">Global Operational Map — All Sectors</p>
+            <h1 className="text-lg sm:text-2xl font-bold text-primary">Sovereign Command Center</h1>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">Global Operational Map — All Sectors</p>
           </div>
-          <Globe className="h-8 w-8 text-primary opacity-60" />
+          <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-primary opacity-60" />
         </div>
 
         {/* Global Stats */}
