@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,15 +10,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
   Shield, Activity, ArrowLeft, RefreshCw, Eye, EyeOff,
   DollarSign, AlertTriangle, Users, Zap, Heart, Mountain,
-  Pill, Brain, Power, PowerOff, Plus, UserPlus, Globe
+  Pill, Brain, Power, PowerOff, Plus, UserPlus, Globe, Factory, Landmark, Crosshair
 } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import { toast } from "sonner";
 
-const SILO_ICONS: Record<string, any> = { Heart, Mountain, Pill, Brain, Shield };
+const SILO_ICONS: Record<string, any> = { Heart, Mountain, Pill, Brain, Shield, Factory, Landmark, Crosshair };
+const ICON_OPTIONS = ["Shield", "Heart", "Mountain", "Pill", "Brain", "Factory", "Landmark", "Crosshair"];
+const COLOR_OPTIONS = ["#D4AF37", "#E74C3C", "#3498DB", "#2ECC71", "#9B59B6", "#E67E22", "#1ABC9C", "#95A5A6"];
 
 const Master = () => {
   const { user } = useAuth();
@@ -28,6 +31,31 @@ const Master = () => {
   const [data, setData] = useState<any>(null);
   const [assignUserId, setAssignUserId] = useState("");
   const [assignSiloId, setAssignSiloId] = useState("");
+
+  // Add Industry form
+  const [newSiloName, setNewSiloName] = useState("");
+  const [newSiloDisplay, setNewSiloDisplay] = useState("");
+  const [newSiloDesc, setNewSiloDesc] = useState("");
+  const [newSiloColor, setNewSiloColor] = useState("#D4AF37");
+  const [newSiloIcon, setNewSiloIcon] = useState("Shield");
+  const [showAddIndustry, setShowAddIndustry] = useState(false);
+
+  // Add Revenue form
+  const [revSiloId, setRevSiloId] = useState("");
+  const [revPartnerId, setRevPartnerId] = useState("");
+  const [revDealName, setRevDealName] = useState("");
+  const [revAmount, setRevAmount] = useState("");
+  const [revMasterShare, setRevMasterShare] = useState("50");
+  const [revPartnerShare, setRevPartnerShare] = useState("50");
+  const [showAddRevenue, setShowAddRevenue] = useState(false);
+
+  // Add Silo Data form
+  const [dataSiloId, setDataSiloId] = useState("");
+  const [dataTitle, setDataTitle] = useState("");
+  const [dataType, setDataType] = useState("");
+  const [dataDesc, setDataDesc] = useState("");
+  const [dataScore, setDataScore] = useState("75");
+  const [showAddData, setShowAddData] = useState(false);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -83,7 +111,7 @@ const Master = () => {
             <Shield className="h-12 w-12 text-destructive mx-auto mb-4" />
             <h2 className="text-lg font-bold text-foreground mb-2">SOVEREIGN ACCESS DENIED</h2>
             <p className="text-sm text-muted-foreground mb-4">Master-level clearance required.</p>
-            <Button variant="hero" onClick={() => navigate("/dashboard")}>Go to Dashboard</Button>
+            <Button onClick={() => navigate("/dashboard")}>Go to Dashboard</Button>
           </CardContent>
         </Card>
       </div>
@@ -103,11 +131,11 @@ const Master = () => {
       <header className="border-b border-border bg-card/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="container mx-auto max-w-7xl flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-3">
-            <a href="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <img src={apexLogo} alt="APEX" className="h-7 w-7 glow-gold" />
               <span className="font-bold text-gold-gradient text-sm">APEX</span>
-            </a>
-            <Badge variant="outline" className="text-xs border-gold text-gold font-mono">
+            </Link>
+            <Badge variant="outline" className="text-xs border-primary text-primary font-mono">
               MASTER VIEW
             </Badge>
           </div>
@@ -126,56 +154,79 @@ const Master = () => {
         {/* Title */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gold-gradient">Sovereign Command Center</h1>
+            <h1 className="text-2xl font-bold text-primary">Sovereign Command Center</h1>
             <p className="text-xs text-muted-foreground mt-1">Global Operational Map — All Sectors</p>
           </div>
-          <Globe className="h-8 w-8 text-gold opacity-60" />
+          <Globe className="h-8 w-8 text-primary opacity-60" />
         </div>
 
         {/* Global Stats */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            <Card className="border-border">
-              <CardContent className="pt-4 pb-3 text-center">
-                <Users className="h-4 w-4 text-primary mx-auto mb-1" />
-                <div className="text-xl font-bold text-foreground">{stats.total_users}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Total Users</div>
-              </CardContent>
-            </Card>
-            <Card className="border-border">
-              <CardContent className="pt-4 pb-3 text-center">
-                <Shield className="h-4 w-4 text-gold mx-auto mb-1" />
-                <div className="text-xl font-bold text-foreground">{stats.total_silos}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Active Silos</div>
-              </CardContent>
-            </Card>
-            <Card className="border-border">
-              <CardContent className="pt-4 pb-3 text-center">
-                <DollarSign className="h-4 w-4 text-compliant mx-auto mb-1" />
-                <div className="text-xl font-bold text-foreground">${stats.total_revenue?.toLocaleString()}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Total Revenue</div>
-              </CardContent>
-            </Card>
-            <Card className="border-border">
-              <CardContent className="pt-4 pb-3 text-center">
-                <DollarSign className="h-4 w-4 text-gold mx-auto mb-1" />
-                <div className="text-xl font-bold text-gold">${stats.master_share?.toLocaleString()}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Master Share</div>
-              </CardContent>
-            </Card>
-            <Card className={`border-border ${stats.active_kills > 0 ? "border-destructive" : ""}`}>
-              <CardContent className="pt-4 pb-3 text-center">
-                <AlertTriangle className={`h-4 w-4 mx-auto mb-1 ${stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground"}`} />
-                <div className={`text-xl font-bold ${stats.active_kills > 0 ? "text-destructive" : "text-foreground"}`}>{stats.active_kills}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Kill Switches</div>
-              </CardContent>
-            </Card>
+            {[
+              { icon: Users, value: stats.total_users, label: "Total Users", color: "text-primary" },
+              { icon: Shield, value: stats.total_silos, label: "Active Silos", color: "text-primary" },
+              { icon: DollarSign, value: `$${stats.total_revenue?.toLocaleString()}`, label: "Total Revenue", color: "text-primary" },
+              { icon: DollarSign, value: `$${stats.master_share?.toLocaleString()}`, label: "Master Share", color: "text-primary" },
+              { icon: AlertTriangle, value: stats.active_kills, label: "Kill Switches", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
+            ].map((s, i) => (
+              <Card key={i} className={`border-border ${i === 4 && stats.active_kills > 0 ? "border-destructive" : ""}`}>
+                <CardContent className="pt-4 pb-3 text-center">
+                  <s.icon className={`h-4 w-4 mx-auto mb-1 ${s.color}`} />
+                  <div className={`text-xl font-bold ${s.color}`}>{s.value}</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{s.label}</div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         )}
 
-        {/* Silo Cards — The Operational Map */}
+        {/* Silo Cards */}
         <div>
-          <h2 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wider">Industry Silos</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Industry Silos</h2>
+            <Dialog open={showAddIndustry} onOpenChange={setShowAddIndustry}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="text-xs"><Plus className="h-3 w-3 mr-1" /> Add Industry</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader><DialogTitle>Add New Industry Silo</DialogTitle></DialogHeader>
+                <div className="space-y-3">
+                  <Input placeholder="Slug (e.g. banking)" value={newSiloName} onChange={e => setNewSiloName(e.target.value)} />
+                  <Input placeholder="Display Name (e.g. Banking & Finance)" value={newSiloDisplay} onChange={e => setNewSiloDisplay(e.target.value)} />
+                  <Input placeholder="Description" value={newSiloDesc} onChange={e => setNewSiloDesc(e.target.value)} />
+                  <div className="flex gap-2">
+                    <Select value={newSiloIcon} onValueChange={setNewSiloIcon}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {ICON_OPTIONS.map(ic => <SelectItem key={ic} value={ic}>{ic}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <Select value={newSiloColor} onValueChange={setNewSiloColor}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {COLOR_OPTIONS.map(c => (
+                          <SelectItem key={c} value={c}>
+                            <span className="flex items-center gap-2"><span className="w-3 h-3 rounded-full inline-block" style={{ backgroundColor: c }} />{c}</span>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button
+                    className="w-full"
+                    disabled={!newSiloName || !newSiloDisplay}
+                    onClick={() => {
+                      invokeAction("add_industry", { name: newSiloName, display_name: newSiloDisplay, description: newSiloDesc, color: newSiloColor, icon: newSiloIcon });
+                      setNewSiloName(""); setNewSiloDisplay(""); setNewSiloDesc(""); setShowAddIndustry(false);
+                    }}
+                  >
+                    <Plus className="h-4 w-4 mr-1" /> Create Silo
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {silos.map((silo: any) => {
               const IconComp = SILO_ICONS[silo.icon] || Shield;
@@ -201,7 +252,7 @@ const Master = () => {
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <p className="text-[11px] text-muted-foreground line-clamp-2">{silo.description}</p>
-                    <div className="grid grid-cols-2 gap-2 text-center">
+                    <div className="grid grid-cols-3 gap-2 text-center">
                       <div>
                         <div className="text-sm font-bold text-foreground">{silo.record_count}</div>
                         <div className="text-[9px] text-muted-foreground">Records</div>
@@ -210,11 +261,17 @@ const Master = () => {
                         <div className="text-sm font-bold text-foreground">{silo.partner_count}</div>
                         <div className="text-[9px] text-muted-foreground">Partners</div>
                       </div>
+                      <div>
+                        <div className="text-sm font-bold text-foreground">{silo.avg_compliance_score}%</div>
+                        <div className="text-[9px] text-muted-foreground">Score</div>
+                      </div>
                     </div>
                     <div className="text-center">
                       <div className="text-sm font-bold" style={{ color: silo.color }}>${silo.total_revenue?.toLocaleString()}</div>
                       <div className="text-[9px] text-muted-foreground">Revenue</div>
                     </div>
+                    {/* Compliance gauge */}
+                    <Progress value={silo.avg_compliance_score} className="h-1.5" />
                     <div className="flex gap-1">
                       {!silo.is_halted ? (
                         <Button
@@ -233,7 +290,7 @@ const Master = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex-1 text-[10px] h-7 border-compliant text-compliant"
+                          className="flex-1 text-[10px] h-7"
                           onClick={() => {
                             const activeKill = killLogs.find((k: any) => k.silo_id === silo.id && !k.resolved_at);
                             if (activeKill) invokeAction("resolve_kill_switch", { kill_switch_id: activeKill.id, silo_id: silo.id });
@@ -250,66 +307,40 @@ const Master = () => {
           </div>
         </div>
 
-        {/* Tabs: Partners, Revenue, Kill Switch Log */}
+        {/* Tabs */}
         <Tabs defaultValue="partners" className="w-full">
           <TabsList className="mb-4 bg-muted">
-            <TabsTrigger value="partners" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Users className="h-3.5 w-3.5 mr-1.5" /> Partners
-            </TabsTrigger>
-            <TabsTrigger value="revenue" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <DollarSign className="h-3.5 w-3.5 mr-1.5" /> Revenue Ledger
-            </TabsTrigger>
-            <TabsTrigger value="kills" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Kill Switch Log
-            </TabsTrigger>
+            <TabsTrigger value="partners"><Users className="h-3.5 w-3.5 mr-1.5" /> Partners</TabsTrigger>
+            <TabsTrigger value="revenue"><DollarSign className="h-3.5 w-3.5 mr-1.5" /> Revenue</TabsTrigger>
+            <TabsTrigger value="data"><Activity className="h-3.5 w-3.5 mr-1.5" /> Silo Data</TabsTrigger>
+            <TabsTrigger value="kills"><AlertTriangle className="h-3.5 w-3.5 mr-1.5" /> Kill Log</TabsTrigger>
           </TabsList>
 
           {/* Partners Tab */}
           <TabsContent value="partners">
             <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Partner Access Control</CardTitle>
-                </div>
-              </CardHeader>
+              <CardHeader><CardTitle className="text-base">Partner Access Control</CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                {/* Assign Partner */}
                 <div className="flex flex-col sm:flex-row gap-2 p-3 rounded-lg bg-muted/50 border border-border">
                   <Select value={assignUserId} onValueChange={setAssignUserId}>
-                    <SelectTrigger className="flex-1 text-xs">
-                      <SelectValue placeholder="Select User" />
-                    </SelectTrigger>
+                    <SelectTrigger className="flex-1 text-xs"><SelectValue placeholder="Select User" /></SelectTrigger>
                     <SelectContent>
-                      {users.map((u: any) => (
-                        <SelectItem key={u.id} value={u.id} className="text-xs">{u.email}</SelectItem>
-                      ))}
+                      {users.map((u: any) => <SelectItem key={u.id} value={u.id} className="text-xs">{u.email}</SelectItem>)}
                     </SelectContent>
                   </Select>
                   <Select value={assignSiloId} onValueChange={setAssignSiloId}>
-                    <SelectTrigger className="flex-1 text-xs">
-                      <SelectValue placeholder="Select Silo" />
-                    </SelectTrigger>
+                    <SelectTrigger className="flex-1 text-xs"><SelectValue placeholder="Select Silo" /></SelectTrigger>
                     <SelectContent>
-                      {silos.map((s: any) => (
-                        <SelectItem key={s.id} value={s.id} className="text-xs">{s.display_name}</SelectItem>
-                      ))}
+                      {silos.map((s: any) => <SelectItem key={s.id} value={s.id} className="text-xs">{s.display_name}</SelectItem>)}
                     </SelectContent>
                   </Select>
-                  <Button
-                    size="sm"
-                    variant="hero"
-                    className="text-xs"
-                    disabled={!assignUserId || !assignSiloId}
-                    onClick={() => {
-                      invokeAction("assign_partner", { user_id: assignUserId, silo_id: assignSiloId });
-                      setAssignUserId("");
-                      setAssignSiloId("");
-                    }}
-                  >
+                  <Button size="sm" className="text-xs" disabled={!assignUserId || !assignSiloId} onClick={() => {
+                    invokeAction("assign_partner", { user_id: assignUserId, silo_id: assignSiloId });
+                    setAssignUserId(""); setAssignSiloId("");
+                  }}>
                     <UserPlus className="h-3 w-3 mr-1" /> Assign
                   </Button>
                 </div>
-
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -325,14 +356,12 @@ const Master = () => {
                       <TableRow key={p.id}>
                         <TableCell className="text-xs font-mono">{p.email}</TableCell>
                         <TableCell>
-                          <Badge style={{ backgroundColor: `${p.silo_color}20`, color: p.silo_color }} className="text-[10px]">
-                            {p.silo_name}
-                          </Badge>
+                          <Badge style={{ backgroundColor: `${p.silo_color}20`, color: p.silo_color }} className="text-[10px]">{p.silo_name}</Badge>
                         </TableCell>
                         <TableCell className="text-xs">{p.access_level}</TableCell>
                         <TableCell>
                           {p.is_active ? (
-                            <Badge className="bg-compliant/20 text-compliant text-[10px]"><Eye className="h-2.5 w-2.5 mr-1" /> Active</Badge>
+                            <Badge className="bg-primary/20 text-primary text-[10px]"><Eye className="h-2.5 w-2.5 mr-1" /> Active</Badge>
                           ) : (
                             <Badge className="bg-destructive/20 text-destructive text-[10px]"><EyeOff className="h-2.5 w-2.5 mr-1" /> Revoked</Badge>
                           )}
@@ -350,11 +379,7 @@ const Master = () => {
                       </TableRow>
                     ))}
                     {partners.length === 0 && (
-                      <TableRow>
-                        <TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">
-                          No partners assigned. Use the panel above to assign a user to a silo.
-                        </TableCell>
-                      </TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No partners assigned.</TableCell></TableRow>
                     )}
                   </TableBody>
                 </Table>
@@ -362,11 +387,43 @@ const Master = () => {
             </Card>
           </TabsContent>
 
-          {/* Revenue Ledger Tab */}
+          {/* Revenue Tab */}
           <TabsContent value="revenue">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">50/50 Revenue Ledger</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">50/50 Revenue Ledger</CardTitle>
+                  <Dialog open={showAddRevenue} onOpenChange={setShowAddRevenue}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" className="text-xs"><Plus className="h-3 w-3 mr-1" /> Add Deal</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader><DialogTitle>Record Revenue Split</DialogTitle></DialogHeader>
+                      <div className="space-y-3">
+                        <Input placeholder="Deal Name" value={revDealName} onChange={e => setRevDealName(e.target.value)} />
+                        <Input placeholder="Total Amount" type="number" value={revAmount} onChange={e => setRevAmount(e.target.value)} />
+                        <Select value={revSiloId} onValueChange={setRevSiloId}>
+                          <SelectTrigger><SelectValue placeholder="Select Silo" /></SelectTrigger>
+                          <SelectContent>{silos.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.display_name}</SelectItem>)}</SelectContent>
+                        </Select>
+                        <Select value={revPartnerId} onValueChange={setRevPartnerId}>
+                          <SelectTrigger><SelectValue placeholder="Select Partner" /></SelectTrigger>
+                          <SelectContent>{users.map((u: any) => <SelectItem key={u.id} value={u.id}>{u.email}</SelectItem>)}</SelectContent>
+                        </Select>
+                        <div className="flex gap-2">
+                          <Input placeholder="Master %" type="number" value={revMasterShare} onChange={e => { setRevMasterShare(e.target.value); setRevPartnerShare(String(100 - Number(e.target.value))); }} />
+                          <Input placeholder="Partner %" type="number" value={revPartnerShare} disabled />
+                        </div>
+                        <Button className="w-full" disabled={!revDealName || !revAmount || !revSiloId || !revPartnerId} onClick={() => {
+                          invokeAction("add_revenue_split", { silo_id: revSiloId, partner_user_id: revPartnerId, deal_name: revDealName, total_amount: Number(revAmount), master_share: Number(revMasterShare), partner_share: Number(revPartnerShare) });
+                          setRevDealName(""); setRevAmount(""); setRevSiloId(""); setRevPartnerId(""); setShowAddRevenue(false);
+                        }}>
+                          <Plus className="h-4 w-4 mr-1" /> Record Deal
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </CardHeader>
               <CardContent>
                 {stats && (
@@ -376,11 +433,11 @@ const Master = () => {
                       <div className="text-[10px] text-muted-foreground">Total Revenue</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-gold">${stats.master_share?.toLocaleString()}</div>
+                      <div className="text-lg font-bold text-primary">${stats.master_share?.toLocaleString()}</div>
                       <div className="text-[10px] text-muted-foreground">Master Share</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-primary">${stats.partner_share?.toLocaleString()}</div>
+                      <div className="text-lg font-bold text-foreground">${stats.partner_share?.toLocaleString()}</div>
                       <div className="text-[10px] text-muted-foreground">Partner Share</div>
                     </div>
                   </div>
@@ -400,21 +457,86 @@ const Master = () => {
                       <TableRow key={r.id}>
                         <TableCell className="text-xs font-medium">{r.deal_name}</TableCell>
                         <TableCell className="text-xs font-mono">${Number(r.total_amount).toLocaleString()}</TableCell>
-                        <TableCell className="text-xs text-gold">{r.master_share}%</TableCell>
-                        <TableCell className="text-xs text-primary">{r.partner_share}%</TableCell>
+                        <TableCell className="text-xs text-primary">{r.master_share}%</TableCell>
+                        <TableCell className="text-xs">{r.partner_share}%</TableCell>
                         <TableCell>
-                          <Badge className={r.status === "paid" ? "bg-compliant/20 text-compliant text-[10px]" : "bg-muted text-muted-foreground text-[10px]"}>
-                            {r.status}
-                          </Badge>
+                          <Badge className={r.status === "paid" ? "bg-primary/20 text-primary text-[10px]" : "bg-muted text-muted-foreground text-[10px]"}>{r.status}</Badge>
                         </TableCell>
                       </TableRow>
                     ))}
                     {revenue.length === 0 && (
-                      <TableRow>
-                        <TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">
-                          No revenue splits recorded yet.
-                        </TableCell>
-                      </TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No revenue splits recorded.</TableCell></TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Silo Data Tab */}
+          <TabsContent value="data">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">Silo Records</CardTitle>
+                  <Dialog open={showAddData} onOpenChange={setShowAddData}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" className="text-xs"><Plus className="h-3 w-3 mr-1" /> Add Record</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader><DialogTitle>Add Silo Record</DialogTitle></DialogHeader>
+                      <div className="space-y-3">
+                        <Select value={dataSiloId} onValueChange={setDataSiloId}>
+                          <SelectTrigger><SelectValue placeholder="Select Silo" /></SelectTrigger>
+                          <SelectContent>{silos.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.display_name}</SelectItem>)}</SelectContent>
+                        </Select>
+                        <Input placeholder="Title" value={dataTitle} onChange={e => setDataTitle(e.target.value)} />
+                        <Input placeholder="Record Type (e.g. audit, report)" value={dataType} onChange={e => setDataType(e.target.value)} />
+                        <Input placeholder="Description" value={dataDesc} onChange={e => setDataDesc(e.target.value)} />
+                        <Input placeholder="Compliance Score (0-100)" type="number" value={dataScore} onChange={e => setDataScore(e.target.value)} />
+                        <Button className="w-full" disabled={!dataSiloId || !dataTitle || !dataType} onClick={() => {
+                          invokeAction("add_silo_data", { silo_id: dataSiloId, title: dataTitle, record_type: dataType, description: dataDesc, compliance_score: Number(dataScore) });
+                          setDataTitle(""); setDataType(""); setDataDesc(""); setShowAddData(false);
+                        }}>
+                          <Plus className="h-4 w-4 mr-1" /> Add Record
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Silo</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Score</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {(data?.silo_data || []).slice(0, 50).map((d: any) => {
+                      const silo = silos.find((s: any) => s.id === d.silo_id);
+                      return (
+                        <TableRow key={d.id}>
+                          <TableCell className="text-xs font-medium">{d.title}</TableCell>
+                          <TableCell>
+                            <Badge style={{ backgroundColor: `${silo?.color || "#888"}20`, color: silo?.color || "#888" }} className="text-[10px]">{silo?.display_name || "?"}</Badge>
+                          </TableCell>
+                          <TableCell><Badge variant="outline" className="text-[10px]">{d.record_type}</Badge></TableCell>
+                          <TableCell className="text-xs">{d.compliance_score}%</TableCell>
+                          <TableCell>
+                            <Badge className={d.status === "active" ? "bg-primary/20 text-primary text-[10px]" : d.status === "halted" ? "bg-destructive/20 text-destructive text-[10px]" : "bg-muted text-muted-foreground text-[10px]"}>
+                              {d.status}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                    {(data?.silo_data || []).length === 0 && (
+                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No silo records.</TableCell></TableRow>
                     )}
                   </TableBody>
                 </Table>
@@ -425,9 +547,7 @@ const Master = () => {
           {/* Kill Switch Log */}
           <TabsContent value="kills">
             <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Kill Switch Audit Trail</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle className="text-base">Kill Switch Audit Trail</CardTitle></CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
@@ -445,15 +565,11 @@ const Master = () => {
                       return (
                         <TableRow key={k.id}>
                           <TableCell>
-                            <Badge style={{ backgroundColor: `${silo?.color || "#888"}20`, color: silo?.color || "#888" }} className="text-[10px]">
-                              {silo?.display_name || "Unknown"}
-                            </Badge>
+                            <Badge style={{ backgroundColor: `${silo?.color || "#888"}20`, color: silo?.color || "#888" }} className="text-[10px]">{silo?.display_name || "?"}</Badge>
                           </TableCell>
                           <TableCell className="text-xs max-w-[200px] truncate">{k.reason}</TableCell>
                           <TableCell>
-                            <Badge className={k.severity === "critical" ? "bg-destructive/20 text-destructive text-[10px]" : "bg-accent/20 text-accent-foreground text-[10px]"}>
-                              {k.severity}
-                            </Badge>
+                            <Badge className={k.severity === "critical" ? "bg-destructive/20 text-destructive text-[10px]" : "bg-accent/20 text-accent-foreground text-[10px]"}>{k.severity}</Badge>
                           </TableCell>
                           <TableCell className="text-xs">{new Date(k.created_at).toLocaleString()}</TableCell>
                           <TableCell className="text-xs">
@@ -465,11 +581,7 @@ const Master = () => {
                       );
                     })}
                     {killLogs.length === 0 && (
-                      <TableRow>
-                        <TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">
-                          No kill switch events recorded.
-                        </TableCell>
-                      </TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No kill switch events.</TableCell></TableRow>
                     )}
                   </TableBody>
                 </Table>
