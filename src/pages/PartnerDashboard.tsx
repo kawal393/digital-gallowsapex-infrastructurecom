@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Copy, LogOut, Save } from "lucide-react";
-import { Link } from "react-router-dom";
+
 import { useToast } from "@/hooks/use-toast";
 import apexLogo from "@/assets/apex-logo.png";
 import PartnerEarnings from "@/components/partner/PartnerEarnings";
