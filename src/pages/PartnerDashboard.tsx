@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import apexLogo from "@/assets/apex-logo.png";
 import PartnerEarnings from "@/components/partner/PartnerEarnings";
 import PartnerReferralTable from "@/components/partner/PartnerReferralTable";
+import WhiteLabelSettings from "@/components/partner/WhiteLabelSettings";
 
 const PartnerDashboard = () => {
   const { user, signOut } = useAuth();
@@ -129,6 +130,12 @@ const PartnerDashboard = () => {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">Enter the email where you'd like to receive payouts.</p>
+        </div>
+
+        {/* White-Label Settings */}
+        <div>
+          <h3 className="text-sm font-semibold mb-3">White-Label Portal</h3>
+          <WhiteLabelSettings />
         </div>
       </main>
     </div>
