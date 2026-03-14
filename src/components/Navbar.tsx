@@ -128,6 +128,12 @@ const Navbar = () => {
           <div className="flex items-center gap-2 shrink-0">
             <ThemeToggle />
             <LanguageSelector />
+            {isAdmin && (
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="border-gold/40 text-gold hover:bg-gold/10">
+                <Bot className="h-4 w-4 mr-1.5" />
+                Admin
+              </Button>
+            )}
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
                 <LayoutDashboard className="h-4 w-4 mr-1.5" />
