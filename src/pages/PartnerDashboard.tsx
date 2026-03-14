@@ -131,6 +131,12 @@ const PartnerDashboard = () => {
           </div>
           <p className="text-xs text-muted-foreground">Enter the email where you'd like to receive payouts.</p>
         </div>
+
+        {/* White-Label Settings */}
+        <div>
+          <h3 className="text-sm font-semibold mb-3">White-Label Portal</h3>
+          <WhiteLabelSettings />
+        </div>
       </main>
     </div>
   );
