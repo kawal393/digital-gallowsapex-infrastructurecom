@@ -214,6 +214,11 @@ const Dashboard = () => {
           </a>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground hidden sm:block">{user?.email}</span>
+            {isAdmin && (
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="text-xs border-gold/40 text-gold hover:bg-gold/10">
+                <Shield className="h-3 w-3 mr-1" /> Admin Panel
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={() => navigate("/silo")} className="text-xs hidden sm:inline-flex">
               <Shield className="h-3 w-3 mr-1" /> Silos
             </Button>
