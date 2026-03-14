@@ -180,8 +180,11 @@ const Admin = () => {
           </div>
         )}
 
-        <Tabs defaultValue="customers" className="w-full">
-          <TabsList className="mb-6 bg-muted">
+        <Tabs defaultValue="ai" className="w-full">
+          <TabsList className="mb-6 bg-muted flex-wrap">
+            <TabsTrigger value="ai" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Shield className="h-3.5 w-3.5 mr-1.5" /> Sovereign AI
+            </TabsTrigger>
             <TabsTrigger value="customers" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Users className="h-3.5 w-3.5 mr-1.5" /> Customers
             </TabsTrigger>
@@ -191,7 +194,14 @@ const Admin = () => {
             <TabsTrigger value="ledger" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Shield className="h-3.5 w-3.5 mr-1.5" /> Gallows Ledger
             </TabsTrigger>
+            <TabsTrigger value="blockchain" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Anchor className="h-3.5 w-3.5 mr-1.5" /> Blockchain
+            </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="ai">
+            <AdminAIChat />
+          </TabsContent>
 
           <TabsContent value="customers">
             <Card>
