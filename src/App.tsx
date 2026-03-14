@@ -33,6 +33,8 @@ import Admin from "./pages/Admin";
 import Master from "./pages/Master";
 import SiloDashboard from "./pages/SiloDashboard";
 import Protocol from "./pages/Protocol";
+import Registry from "./pages/Registry";
+import SubmissionKit from "./pages/SubmissionKit";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
