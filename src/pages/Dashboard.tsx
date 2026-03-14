@@ -56,6 +56,14 @@ const Dashboard = () => {
   const [verifying, setVerifying] = useState(false);
   const [showRetake, setShowRetake] = useState(false);
   const [upgradeReason, setUpgradeReason] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      setIsAdmin(!!data);
+    });
+  }, [user]);
   const [usageInfo, setUsageInfo] = useState<{ used: number; limit: number } | null>(null);
 
   const tier = subscription.subscribed ? (subscription.tier || "startup") : "free";
