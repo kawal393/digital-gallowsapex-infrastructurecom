@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import { toast } from "sonner";
+import RemediationPanel from "@/components/silo/RemediationPanel";
 
 const SILO_ICONS: Record<string, any> = { Heart, Mountain, Pill, Brain, Shield, Factory, Landmark, Crosshair };
 
