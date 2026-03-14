@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap } from "lucide-react";
+import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, Pill, FileCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PharmaVerifier from "@/components/verify/PharmaVerifier";
+import NDISVerifier from "@/components/verify/NDISVerifier";
 import { toast } from "sonner";
 import { verifyEd25519Signature, type PSIProofBundle } from "@/lib/psi-signatures";
 import { jcsHash } from "@/lib/psi-canonicalize";
@@ -227,9 +229,11 @@ const Verify = () => {
         <section className="px-4 -mt-8">
           <div className="container mx-auto max-w-3xl">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="w-full grid grid-cols-2 mb-6">
-                <TabsTrigger value="hash" className="text-sm">Hash Lookup</TabsTrigger>
-                <TabsTrigger value="proof" className="text-sm">Proof Verification</TabsTrigger>
+              <TabsList className="w-full grid grid-cols-4 mb-6">
+                <TabsTrigger value="hash" className="text-xs sm:text-sm">Hash Lookup</TabsTrigger>
+                <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
+                <TabsTrigger value="pharma" className="text-xs sm:text-sm">Pharma</TabsTrigger>
+                <TabsTrigger value="ndis" className="text-xs sm:text-sm">NDIS</TabsTrigger>
               </TabsList>
 
               {/* Tab 1: Hash Lookup */}
@@ -323,6 +327,13 @@ const Verify = () => {
 
               {/* Tab 2: Proof Bundle Verification */}
               <TabsContent value="proof">
+                {/* Privacy Badge */}
+                <div className="flex items-center gap-2 mb-4 rounded-lg border border-compliant/20 bg-compliant/5 px-4 py-2.5">
+                  <Lock className="h-4 w-4 text-compliant shrink-0" />
+                  <p className="text-xs text-compliant font-medium">
+                    No data is sent to Apex servers. All cryptographic verification is performed locally in your browser.
+                  </p>
+                </div>
                 <div
                   onDrop={handleDrop}
                   onDragOver={(e) => e.preventDefault()}
@@ -421,6 +432,16 @@ const Verify = () => {
                     </div>
                   </motion.div>
                 )}
+              </TabsContent>
+
+              {/* Tab 3: Pharma Sniper */}
+              <TabsContent value="pharma">
+                <PharmaVerifier />
+              </TabsContent>
+
+              {/* Tab 4: NDIS Integrity */}
+              <TabsContent value="ndis">
+                <NDISVerifier />
               </TabsContent>
             </Tabs>
 

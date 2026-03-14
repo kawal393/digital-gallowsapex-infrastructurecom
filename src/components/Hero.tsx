@@ -34,13 +34,16 @@ const Hero = () => {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-6 tracking-tight leading-[0.95]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
             <span className="text-gold-gradient">The Open Standard for</span>
             <br />
             <span className="text-gold-gradient">Verifiable AI Governance.</span>
           </h1>
+          <p className="text-xs sm:text-sm font-mono text-primary/80 tracking-widest uppercase mb-4 sm:mb-5">
+            The Protocol Intervention &amp; Verification Engine
+          </p>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
             <span className="text-foreground font-semibold">Cryptographically proving AI compliance with the EU AI Act</span>

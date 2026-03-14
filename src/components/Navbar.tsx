@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Users, Bot } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Users, Bot, ExternalLink } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
@@ -36,10 +36,10 @@ const Navbar = () => {
   }, [user]);
 
   const navLinks = [
-    { label: "Protocol", href: "/protocol", isRoute: true },
-    { label: "Verification Portal", href: "/verify", isRoute: true },
-    { label: "Digital Gallows", href: "/gallows", isRoute: true },
-    { label: "Sovereign Partners", href: "/partner", isRoute: true },
+    { label: "Engine", href: "/gallows", isRoute: true },
+    { label: "Verify Portal", href: "/verify", isRoute: true },
+    { label: "LDSL Specs", href: "/protocol", isRoute: true },
+    { label: "Open Source", href: "https://github.com/apex-digital-gallows", isRoute: false, external: true },
   ];
 
   useEffect(() => {
@@ -86,15 +86,28 @@ const Navbar = () => {
           </button>
 
           <div className="flex items-center gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href, link.isRoute)}
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
-              >
-                {link.label}
-              </button>
-            ))}
+            {navLinks.map((link) =>
+              (link as any).external ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
+                >
+                  {link.label}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <button
+                  key={link.label}
+                  onClick={() => handleNavClick(link.href, link.isRoute)}
+                  className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
+                >
+                  {link.label}
+                </button>
+              )
+            )}
 
             {/* Infrastructure Dropdown */}
             <div ref={infraRef} className="relative">
@@ -212,15 +225,29 @@ const Navbar = () => {
       {open && (
         <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-xl">
           <div className="container mx-auto max-w-6xl px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href, link.isRoute)}
-                className="block w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer"
-              >
-                {link.label}
-              </button>
-            ))}
+            {navLinks.map((link) =>
+              (link as any).external ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="block w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors flex items-center gap-1"
+                >
+                  {link.label}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <button
+                  key={link.label}
+                  onClick={() => handleNavClick(link.href, link.isRoute)}
+                  className="block w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer"
+                >
+                  {link.label}
+                </button>
+              )
+            )}
             <div className="pt-2 pb-1">
               <p className="px-3 text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Infrastructure</p>
             </div>
