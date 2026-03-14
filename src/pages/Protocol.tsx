@@ -3,6 +3,7 @@ import { Shield, FileText, Lock, Eye, Server, Hash, Key, Clock, GitBranch, Check
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OpenSourceGateway from "@/components/OpenSourceGateway";
 
 const protocolVersion = "1.0";
 
