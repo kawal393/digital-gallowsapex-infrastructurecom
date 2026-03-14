@@ -83,3 +83,12 @@ verify_jwt = false
 
 [functions.silo-auto-monitor]
 verify_jwt = false
+
+[functions.ai-remediation]
+verify_jwt = false
+
+[functions.blockchain-anchor]
+verify_jwt = false
+
+[functions.admin-ai]
+verify_jwt = false

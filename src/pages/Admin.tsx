@@ -300,6 +300,10 @@ const Admin = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="blockchain">
+            <BlockchainAnchorPanel />
+          </TabsContent>
         </Tabs>
       </main>
     </div>
