@@ -433,6 +433,16 @@ const Verify = () => {
                   </motion.div>
                 )}
               </TabsContent>
+
+              {/* Tab 3: Pharma Sniper */}
+              <TabsContent value="pharma">
+                <PharmaVerifier />
+              </TabsContent>
+
+              {/* Tab 4: NDIS Integrity */}
+              <TabsContent value="ndis">
+                <NDISVerifier />
+              </TabsContent>
             </Tabs>
 
             {/* API Access */}
