@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Users } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Users, Bot } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
+import { supabase } from "@/integrations/supabase/client";
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import apexLogo from "@/assets/apex-logo.png";
@@ -20,11 +21,19 @@ const infraLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [infraOpen, setInfraOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const infraRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      setIsAdmin(!!data);
+    });
+  }, [user]);
 
   const navLinks = [
     { label: "Protocol", href: "/protocol", isRoute: true },
@@ -119,6 +128,12 @@ const Navbar = () => {
           <div className="flex items-center gap-2 shrink-0">
             <ThemeToggle />
             <LanguageSelector />
+            {isAdmin && (
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="border-gold/40 text-gold hover:bg-gold/10">
+                <Bot className="h-4 w-4 mr-1.5" />
+                Admin
+              </Button>
+            )}
             {user ? (
               <Button variant="heroOutline" size="sm" onClick={() => navigate("/dashboard")}>
                 <LayoutDashboard className="h-4 w-4 mr-1.5" />

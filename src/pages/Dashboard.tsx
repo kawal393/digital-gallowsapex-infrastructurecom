@@ -56,6 +56,14 @@ const Dashboard = () => {
   const [verifying, setVerifying] = useState(false);
   const [showRetake, setShowRetake] = useState(false);
   const [upgradeReason, setUpgradeReason] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      setIsAdmin(!!data);
+    });
+  }, [user]);
   const [usageInfo, setUsageInfo] = useState<{ used: number; limit: number } | null>(null);
 
   const tier = subscription.subscribed ? (subscription.tier || "startup") : "free";
@@ -206,6 +214,11 @@ const Dashboard = () => {
           </a>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground hidden sm:block">{user?.email}</span>
+            {isAdmin && (
+              <Button variant="outline" size="sm" onClick={() => navigate("/admin")} className="text-xs border-gold/40 text-gold hover:bg-gold/10">
+                <Shield className="h-3 w-3 mr-1" /> Admin Panel
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={() => navigate("/silo")} className="text-xs hidden sm:inline-flex">
               <Shield className="h-3 w-3 mr-1" /> Silos
             </Button>
