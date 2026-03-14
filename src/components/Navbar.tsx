@@ -40,6 +40,7 @@ const Navbar = () => {
   const navLinks = [
     { label: "Engine", href: "/gallows", isRoute: true },
     { label: "Verify Portal", href: "/verify", isRoute: true },
+    { label: "Registry", href: "/registry", isRoute: true },
     { label: "LDSL Specs", href: "/protocol", isRoute: true },
     { label: "Open Source", href: "https://github.com/apex-digital-gallows", isRoute: false, external: true },
   ];
