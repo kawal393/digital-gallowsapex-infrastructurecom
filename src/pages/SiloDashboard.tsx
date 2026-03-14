@@ -262,6 +262,11 @@ const SiloDashboard = () => {
           </Card>
         )}
 
+        {/* AI Remediation Panel — shows when score is below 70 */}
+        {currentSilo && avgScore < 70 && (
+          <RemediationPanel siloId={currentSilo.id} siloName={currentSilo.display_name} currentScore={avgScore} />
+        )}
+
         {/* Live Oracle Feed */}
         {oracleData && (
           <Card className="border-primary/30">
