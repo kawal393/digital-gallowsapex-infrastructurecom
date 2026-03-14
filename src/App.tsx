@@ -99,6 +99,8 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route path="/registry" element={<Registry />} />
+              <Route path="/submission-kit" element={<SubmissionKit />} />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
