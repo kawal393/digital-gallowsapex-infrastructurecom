@@ -21,11 +21,19 @@ const infraLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [infraOpen, setInfraOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const infraRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
+      setIsAdmin(!!data);
+    });
+  }, [user]);
 
   const navLinks = [
     { label: "Protocol", href: "/protocol", isRoute: true },
