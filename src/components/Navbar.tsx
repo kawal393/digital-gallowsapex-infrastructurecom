@@ -86,15 +86,28 @@ const Navbar = () => {
           </button>
 
           <div className="flex items-center gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href, link.isRoute)}
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
-              >
-                {link.label}
-              </button>
-            ))}
+            {navLinks.map((link) =>
+              (link as any).external ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
+                >
+                  {link.label}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <button
+                  key={link.label}
+                  onClick={() => handleNavClick(link.href, link.isRoute)}
+                  className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
+                >
+                  {link.label}
+                </button>
+              )
+            )}
 
             {/* Infrastructure Dropdown */}
             <div ref={infraRef} className="relative">
