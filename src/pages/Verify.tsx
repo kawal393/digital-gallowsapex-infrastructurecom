@@ -327,6 +327,13 @@ const Verify = () => {
 
               {/* Tab 2: Proof Bundle Verification */}
               <TabsContent value="proof">
+                {/* Privacy Badge */}
+                <div className="flex items-center gap-2 mb-4 rounded-lg border border-compliant/20 bg-compliant/5 px-4 py-2.5">
+                  <Lock className="h-4 w-4 text-compliant shrink-0" />
+                  <p className="text-xs text-compliant font-medium">
+                    No data is sent to Apex servers. All cryptographic verification is performed locally in your browser.
+                  </p>
+                </div>
                 <div
                   onDrop={handleDrop}
                   onDragOver={(e) => e.preventDefault()}

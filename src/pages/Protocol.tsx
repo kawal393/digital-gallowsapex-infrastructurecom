@@ -248,6 +248,7 @@ const Protocol = () => {
             </motion.div>
           </div>
         </section>
+        <OpenSourceGateway />
       </div>
       <Footer />
     </div>

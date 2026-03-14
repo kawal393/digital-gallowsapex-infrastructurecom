@@ -22,6 +22,7 @@ import FAQ from "@/components/FAQ";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
+import OpenSourceGateway from "@/components/OpenSourceGateway";
 
 const Index = () => {
   return (
@@ -32,6 +33,7 @@ const Index = () => {
       <Hero />
       <CountdownBanner />
       <SocialProofBar />
+      <OpenSourceGateway />
       <ProblemSection />
       <FreeToolsCTA />
       <VisionSection />
