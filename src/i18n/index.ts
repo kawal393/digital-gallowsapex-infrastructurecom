@@ -116,6 +116,9 @@ i18n
       en: { translation: en },
     },
     fallbackLng: 'en',
+    supportedLngs: ['en', ...Object.keys(LANGUAGES).filter(k => k !== 'en')],
+    nonExplicitSupportedLngs: true,
+    load: 'languageOnly',
     interpolation: { escapeValue: false },
     detection: {
       order: ['localStorage', 'navigator'],
