@@ -36,10 +36,10 @@ const Navbar = () => {
   }, [user]);
 
   const navLinks = [
-    { label: "Protocol", href: "/protocol", isRoute: true },
-    { label: "Verification Portal", href: "/verify", isRoute: true },
-    { label: "Digital Gallows", href: "/gallows", isRoute: true },
-    { label: "Sovereign Partners", href: "/partner", isRoute: true },
+    { label: "Engine", href: "/gallows", isRoute: true },
+    { label: "Verify Portal", href: "/verify", isRoute: true },
+    { label: "LDSL Specs", href: "/protocol", isRoute: true },
+    { label: "Open Source", href: "https://github.com/apex-digital-gallows", isRoute: false, external: true },
   ];
 
   useEffect(() => {
