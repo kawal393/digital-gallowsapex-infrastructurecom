@@ -16,6 +16,7 @@ interface RegistryEntry {
   overall_score: number;
   trio_mode: string;
   updated_at: string;
+  region?: string;
 }
 
 const statusConfig: Record<string, { label: string; color: string; icon: typeof ShieldCheck }> = {
