@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, GitBranch, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const GITHUB_URL = "https://github.com/apex-digital-gallows";
+const GITHUB_URL = "https://github.com/kawal393/-apex-digital-gallows";
 
 const OpenSourceGateway = () => {
   return (
