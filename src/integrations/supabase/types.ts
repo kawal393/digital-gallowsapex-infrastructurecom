@@ -794,6 +794,54 @@ export type Database = {
           },
         ]
       }
+      site_visits: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          id: string
+          language: string | null
+          page_path: string
+          referrer: string | null
+          screen_height: number | null
+          screen_width: number | null
+          session_id: string | null
+          user_agent: string | null
+          user_id: string | null
+          visitor_id: string
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          language?: string | null
+          page_path: string
+          referrer?: string | null
+          screen_height?: number | null
+          screen_width?: number | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+          visitor_id: string
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          language?: string | null
+          page_path?: string
+          referrer?: string | null
+          screen_height?: number | null
+          screen_width?: number | null
+          session_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           created_at: string
