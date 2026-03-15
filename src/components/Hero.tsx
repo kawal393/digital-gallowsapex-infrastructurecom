@@ -37,9 +37,9 @@ const Hero = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
-            <span className="text-gold-gradient">The Open Standard for</span>
+            <span className="text-gold-gradient">The Sovereign Standard</span>
             <br />
-            <span className="text-gold-gradient">Verifiable AI Governance.</span>
+            <span className="text-gold-gradient">for Verifiable AI Governance.</span>
           </h1>
           <p className="text-xs sm:text-sm font-mono text-primary/80 tracking-widest uppercase mb-4 sm:mb-5">
             The Protocol Intervention &amp; Verification Engine
