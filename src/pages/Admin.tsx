@@ -76,6 +76,7 @@ const Admin = () => {
       setCustomers(data.customers || []);
       setRecentVerifications(data.recent_verifications || []);
       setRecentLedger(data.recent_ledger || []);
+      setSiteIntelligence(data.site_intelligence || null);
     } catch (e: any) {
       toast.error(e.message || "Failed to load admin data");
       setForbidden(true);
