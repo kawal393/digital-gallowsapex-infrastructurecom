@@ -38,8 +38,14 @@ import SubmissionKit from "./pages/SubmissionKit";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
+import { usePageTracker } from "@/hooks/use-page-tracker";
 
 const queryClient = new QueryClient();
+
+function PageTracker() {
+  usePageTracker();
+  return null;
+}
 
 const App = () => (
   <HelmetProvider>
@@ -50,6 +56,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <PageTracker />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
