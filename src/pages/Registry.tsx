@@ -159,7 +159,7 @@ const Registry = () => {
                 <p className="text-xs text-muted-foreground">Fully Verified</p>
               </div>
               <div className="rounded-lg border border-border bg-card/60 p-4 text-center">
-                <p className="text-2xl font-black text-foreground">{stats.modes.SWORD + stats.modes.JUDGE}</p>
+                <p className="text-2xl font-black text-foreground">{stats.audits}</p>
                 <p className="text-xs text-muted-foreground">Public Audits</p>
               </div>
               <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-center">
