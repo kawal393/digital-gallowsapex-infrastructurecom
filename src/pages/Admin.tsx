@@ -205,6 +205,10 @@ const Admin = () => {
             </TabsTrigger>
           </TabsList>
 
+          <TabsContent value="intelligence">
+            <SovereignIntelligence data={siteIntelligence} />
+          </TabsContent>
+
           <TabsContent value="ai">
             <AdminAIChat />
           </TabsContent>
