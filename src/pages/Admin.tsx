@@ -183,8 +183,11 @@ const Admin = () => {
           </div>
         )}
 
-        <Tabs defaultValue="ai" className="w-full">
+        <Tabs defaultValue="intelligence" className="w-full">
           <TabsList className="mb-6 bg-muted flex-wrap">
+            <TabsTrigger value="intelligence" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Radar className="h-3.5 w-3.5 mr-1.5" /> Sovereign Intelligence
+            </TabsTrigger>
             <TabsTrigger value="ai" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Shield className="h-3.5 w-3.5 mr-1.5" /> Sovereign AI
             </TabsTrigger>
