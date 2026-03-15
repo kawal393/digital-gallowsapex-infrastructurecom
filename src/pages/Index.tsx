@@ -36,6 +36,7 @@ const Index = () => {
       <SocialProofBar />
       <OpenSourceGateway />
       <ProblemSection />
+      <NDISComplianceSection />
       <FreeToolsCTA />
       <VisionSection />
       <SolutionSection />
