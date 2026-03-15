@@ -4,6 +4,7 @@ import CountdownBanner from "@/components/CountdownBanner";
 import SocialProofBar from "@/components/SocialProofBar";
 import ProblemSection from "@/components/ProblemSection";
 import VisionSection from "@/components/VisionSection";
+import NDISComplianceSection from "@/components/NDISComplianceSection";
 import SolutionSection from "@/components/SolutionSection";
 import TrioSection from "@/components/TrioSection";
 import TrustSection from "@/components/TrustSection";
