@@ -42,7 +42,7 @@ const Hero = () => {
             <span className="text-gold-gradient">for Verifiable AI Governance.</span>
           </h1>
           <p className="text-xs sm:text-sm font-mono text-primary/80 tracking-widest uppercase mb-4 sm:mb-5">
-            The Protocol Intervention &amp; Verification Engine
+            Prescriptive Enforcement · Not Descriptive Governance
           </p>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
