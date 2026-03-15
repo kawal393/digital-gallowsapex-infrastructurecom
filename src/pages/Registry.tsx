@@ -203,19 +203,29 @@ const Registry = () => {
                   filtered.map((entry, i) => {
                     const cfg = statusConfig[entry.status] || statusConfig.non_compliant;
                     const StatusIcon = cfg.icon;
+                    const isSimulated = entry.id.startsWith("sim-");
                     return (
                       <motion.div
                         key={entry.id}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.03 }}
+                        transition={{ delay: Math.min(i * 0.03, 0.6) }}
                         className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 px-6 py-4 border-b border-border/50 hover:bg-muted/20 transition-colors group"
                       >
                         <div className="col-span-4 flex items-center gap-3">
                           <StatusIcon className={`h-5 w-5 shrink-0 ${entry.status === "compliant" ? "text-compliant" : "text-muted-foreground"}`} />
                           <div>
-                            <p className="font-bold text-sm text-foreground">{entry.company_name}</p>
-                            <p className="text-[10px] text-muted-foreground font-mono">{entry.id.slice(0, 8)}...</p>
+                            {isSimulated ? (
+                              <>
+                                <p className="font-bold text-sm text-foreground select-none blur-[5px]">{entry.company_name}</p>
+                                <p className="text-[10px] text-muted-foreground/50 italic">NDA-protected entity</p>
+                              </>
+                            ) : (
+                              <>
+                                <p className="font-bold text-sm text-foreground">{entry.company_name}</p>
+                                <p className="text-[10px] text-muted-foreground font-mono">{entry.id.slice(0, 8)}...</p>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="col-span-2 flex items-center justify-center">
@@ -237,13 +247,15 @@ const Registry = () => {
                           <span className="text-xs text-muted-foreground">
                             {new Date(entry.updated_at).toLocaleDateString()}
                           </span>
-                          <button
-                            onClick={() => copyProofLink(entry.id)}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity bg-transparent border-none cursor-pointer p-1"
-                            title="Copy verification link"
-                          >
-                            <Copy className="h-3 w-3 text-muted-foreground hover:text-primary" />
-                          </button>
+                          {!isSimulated && (
+                            <button
+                              onClick={() => copyProofLink(entry.id)}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity bg-transparent border-none cursor-pointer p-1"
+                              title="Copy verification link"
+                            >
+                              <Copy className="h-3 w-3 text-muted-foreground hover:text-primary" />
+                            </button>
+                          )}
                         </div>
                       </motion.div>
                     );
