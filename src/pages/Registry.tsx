@@ -177,6 +177,9 @@ const Registry = () => {
                 onChange={(e) => setSearch(e.target.value)}
                 className="pl-10 bg-card/60 border-border"
               />
+              <p className="text-[10px] text-muted-foreground/50 mt-2 text-center">
+                Some entity names are redacted under NDA. Scores, verification modes, and cryptographic proofs remain publicly auditable.
+              </p>
             </div>
 
             {/* Registry Table */}
