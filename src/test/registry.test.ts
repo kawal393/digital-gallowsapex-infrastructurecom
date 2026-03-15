@@ -81,8 +81,7 @@ describe("Scoring logic", () => {
       right_to_explanation: "partially",
       ai_content_labeled: "somewhat",
     });
-    expect(score).toBe(54); // 20+10+10+8+8+8 = 64... let me recalculate
-    // Actually: 20 + 10 + 10 + 8 + 8 + 8 = 64
+    expect(score).toBe(64); // 20+10+10+8+8+8 = 64
   });
 });
 
