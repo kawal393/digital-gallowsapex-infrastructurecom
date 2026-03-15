@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, CreditCard, Shield, Activity, ArrowLeft, RefreshCw, Anchor } from "lucide-react";
+import { Users, CreditCard, Shield, Activity, ArrowLeft, RefreshCw, Anchor, Radar } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import { toast } from "sonner";
 import AdminAIChat from "@/components/admin/AdminAIChat";
 import BlockchainAnchorPanel from "@/components/admin/BlockchainAnchorPanel";
+import SovereignIntelligence from "@/components/admin/SovereignIntelligence";
 
 interface AdminStats {
   total_users: number;
@@ -51,6 +52,7 @@ const Admin = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [recentVerifications, setRecentVerifications] = useState<any[]>([]);
   const [recentLedger, setRecentLedger] = useState<any[]>([]);
+  const [siteIntelligence, setSiteIntelligence] = useState<any>(null);
 
   const fetchAdminData = async () => {
     setLoading(true);
@@ -74,6 +76,7 @@ const Admin = () => {
       setCustomers(data.customers || []);
       setRecentVerifications(data.recent_verifications || []);
       setRecentLedger(data.recent_ledger || []);
+      setSiteIntelligence(data.site_intelligence || null);
     } catch (e: any) {
       toast.error(e.message || "Failed to load admin data");
       setForbidden(true);
@@ -180,8 +183,11 @@ const Admin = () => {
           </div>
         )}
 
-        <Tabs defaultValue="ai" className="w-full">
+        <Tabs defaultValue="intelligence" className="w-full">
           <TabsList className="mb-6 bg-muted flex-wrap">
+            <TabsTrigger value="intelligence" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Radar className="h-3.5 w-3.5 mr-1.5" /> Sovereign Intelligence
+            </TabsTrigger>
             <TabsTrigger value="ai" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Shield className="h-3.5 w-3.5 mr-1.5" /> Sovereign AI
             </TabsTrigger>
@@ -198,6 +204,10 @@ const Admin = () => {
               <Anchor className="h-3.5 w-3.5 mr-1.5" /> Blockchain
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="intelligence">
+            <SovereignIntelligence data={siteIntelligence} />
+          </TabsContent>
 
           <TabsContent value="ai">
             <AdminAIChat />

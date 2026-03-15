@@ -16,7 +16,6 @@ serve(async (req) => {
   );
 
   try {
-    // Verify admin role
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header");
     const token = authHeader.replace("Bearer ", "");
@@ -37,13 +36,22 @@ serve(async (req) => {
       });
     }
 
-    // Fetch aggregated data using service role (bypasses RLS)
-    const [subsRes, compRes, vhRes, gallowsRes, usersRes] = await Promise.all([
+    // Fetch all data in parallel including site_visits
+    const now = new Date();
+    const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+    const last7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const last30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+
+    const [subsRes, compRes, vhRes, gallowsRes, usersRes, visits24hRes, visits7dRes, visits30dRes, visitsRecentRes] = await Promise.all([
       supabase.from("subscriptions").select("*").order("created_at", { ascending: false }),
       supabase.from("compliance_results").select("*").order("updated_at", { ascending: false }),
       supabase.from("verification_history").select("*").order("created_at", { ascending: false }).limit(100),
       supabase.from("gallows_ledger").select("*").order("created_at", { ascending: false }).limit(50),
       supabase.auth.admin.listUsers({ perPage: 500 }),
+      supabase.from("site_visits").select("visitor_id, page_path, referrer, created_at, user_agent, language, session_id").gte("created_at", last24h).order("created_at", { ascending: false }).limit(1000),
+      supabase.from("site_visits").select("visitor_id, page_path, referrer, created_at, user_agent").gte("created_at", last7d).order("created_at", { ascending: false }).limit(1000),
+      supabase.from("site_visits").select("visitor_id, page_path, referrer, created_at").gte("created_at", last30d).order("created_at", { ascending: false }).limit(1000),
+      supabase.from("site_visits").select("visitor_id, page_path, referrer, created_at, user_agent, language, session_id, screen_width, screen_height").order("created_at", { ascending: false }).limit(50),
     ]);
 
     const subscriptions = subsRes.data || [];
@@ -51,6 +59,10 @@ serve(async (req) => {
     const recentVerifications = vhRes.data || [];
     const recentLedger = gallowsRes.data || [];
     const users = usersRes.data?.users || [];
+    const visits24h = visits24hRes.data || [];
+    const visits7d = visits7dRes.data || [];
+    const visits30d = visits30dRes.data || [];
+    const visitsRecent = visitsRecentRes.data || [];
 
     // Calculate stats
     const totalUsers = users.length;
@@ -60,22 +72,47 @@ serve(async (req) => {
       const t = s.tier || "free";
       tierCounts[t] = (tierCounts[t] || 0) + 1;
     });
-
     const totalVerifications = subscriptions.reduce((sum, s) => sum + (s.verifications_used || 0), 0);
     const avgScore = complianceResults.length > 0
       ? Math.round(complianceResults.reduce((sum, c) => sum + c.overall_score, 0) / complianceResults.length)
       : 0;
 
-    // Build customer list with user info
+    // Site visit analytics
+    const uniqueVisitors24h = new Set(visits24h.map(v => v.visitor_id)).size;
+    const uniqueVisitors7d = new Set(visits7d.map(v => v.visitor_id)).size;
+    const uniqueVisitors30d = new Set(visits30d.map(v => v.visitor_id)).size;
+    const sessions24h = new Set(visits24h.map(v => v.session_id).filter(Boolean)).size;
+
+    // Top pages
+    const pageCount: Record<string, number> = {};
+    visits7d.forEach(v => { pageCount[v.page_path] = (pageCount[v.page_path] || 0) + 1; });
+    const topPages = Object.entries(pageCount).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([path, count]) => ({ path, count }));
+
+    // Top referrers
+    const refCount: Record<string, number> = {};
+    visits7d.forEach(v => {
+      if (v.referrer) {
+        try { const u = new URL(v.referrer); refCount[u.hostname] = (refCount[u.hostname] || 0) + 1; } catch { refCount[v.referrer] = (refCount[v.referrer] || 0) + 1; }
+      }
+    });
+    const topReferrers = Object.entries(refCount).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([source, count]) => ({ source, count }));
+
+    // Daily visits (last 7 days)
+    const dailyVisits: Record<string, { views: number; visitors: Set<string> }> = {};
+    visits7d.forEach(v => {
+      const day = v.created_at.slice(0, 10);
+      if (!dailyVisits[day]) dailyVisits[day] = { views: 0, visitors: new Set() };
+      dailyVisits[day].views++;
+      dailyVisits[day].visitors.add(v.visitor_id);
+    });
+    const dailyChart = Object.entries(dailyVisits).sort((a, b) => a[0].localeCompare(b[0])).map(([date, d]) => ({ date, views: d.views, visitors: d.visitors.size }));
+
     const customers = users.map(u => {
       const sub = subscriptions.find(s => s.user_id === u.id);
       const comp = complianceResults.find(c => c.user_id === u.id);
       return {
-        id: u.id,
-        email: u.email,
-        created_at: u.created_at,
-        tier: sub?.tier || "free",
-        status: sub?.status || "none",
+        id: u.id, email: u.email, created_at: u.created_at,
+        tier: sub?.tier || "free", status: sub?.status || "none",
         verifications_used: sub?.verifications_used || 0,
         compliance_score: comp?.overall_score ?? null,
         compliance_status: comp?.status ?? null,
@@ -86,11 +123,21 @@ serve(async (req) => {
 
     return new Response(JSON.stringify({
       stats: {
-        total_users: totalUsers,
-        paid_users: paidUsers,
-        tier_counts: tierCounts,
-        total_verifications: totalVerifications,
-        avg_compliance_score: avgScore,
+        total_users: totalUsers, paid_users: paidUsers, tier_counts: tierCounts,
+        total_verifications: totalVerifications, avg_compliance_score: avgScore,
+      },
+      site_intelligence: {
+        pageviews_24h: visits24h.length,
+        unique_visitors_24h: uniqueVisitors24h,
+        sessions_24h: sessions24h,
+        pageviews_7d: visits7d.length,
+        unique_visitors_7d: uniqueVisitors7d,
+        pageviews_30d: visits30d.length,
+        unique_visitors_30d: uniqueVisitors30d,
+        top_pages: topPages,
+        top_referrers: topReferrers,
+        daily_chart: dailyChart,
+        recent_visits: visitsRecent,
       },
       customers,
       recent_verifications: recentVerifications.slice(0, 50),
