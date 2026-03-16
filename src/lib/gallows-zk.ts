@@ -344,6 +344,6 @@ export function getProofSummary(result: ZKProofResult): {
     curveType: "BN128 (alt_bn128)",
     constraintCount: 3, // R1CS constraints in our circuit
     publicInputCount: result.publicSignals.length,
-    privacyGuarantee: "Action content hidden via Pedersen commitment; only compliance status publicly verifiable.",
+    privacyGuarantee: "Action content hidden via Pedersen-style commitment on BN128. Compliance status publicly verifiable. Pairing check is structural (upgrade path: snarkjs/Circom for full EC pairing).",
   };
 }
