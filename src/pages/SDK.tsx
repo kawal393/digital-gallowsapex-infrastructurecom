@@ -468,6 +468,118 @@ async function generateAIResponse(prompt: string) {
           </CardContent>
         </Card>
 
+        {/* CI/CD Integration Guide */}
+        <Card className="bg-gallows-surface border-gallows-border mb-8">
+          <CardHeader>
+            <CardTitle className="font-mono text-lg flex items-center gap-2">
+              <Terminal className="h-5 w-5 text-gallows-approved" />
+              CI/CD Integration
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-gallows-muted text-sm">
+              Embed compliance verification into your build pipeline. Every deployment gets a cryptographic proof.
+            </p>
+
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs font-mono text-gallows-approved mb-2">GitHub Actions</p>
+                <div className="relative">
+                  <pre className="bg-gallows-bg border border-gallows-border rounded p-4 overflow-x-auto text-xs">
+                    <code className="text-gallows-text">{`# .github/workflows/compliance.yml
+name: APEX Compliance Gate
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm install @apex/gallows-sdk
+      - name: Run compliance check
+        env:
+          APEX_ENDPOINT: \${{ secrets.APEX_ENDPOINT }}
+        run: |
+          npx apex-verify \\
+            --predicates EU_ART_14,EU_ART_50,NIST_GOVERN_1 \\
+            --mode blocking \\
+            --fail-on-violation`}</code>
+                  </pre>
+                  <CopyButton text={`# .github/workflows/compliance.yml\nname: APEX Compliance Gate\non: [push, pull_request]\njobs:\n  verify:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with: { node-version: '20' }\n      - run: npm install @apex/gallows-sdk\n      - name: Run compliance check\n        env:\n          APEX_ENDPOINT: \${{ secrets.APEX_ENDPOINT }}\n        run: npx apex-verify --predicates EU_ART_14,EU_ART_50,NIST_GOVERN_1 --mode blocking --fail-on-violation`} section="github-actions" />
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-mono text-gallows-approved mb-2">GitLab CI</p>
+                <div className="relative">
+                  <pre className="bg-gallows-bg border border-gallows-border rounded p-4 overflow-x-auto text-xs">
+                    <code className="text-gallows-text">{`# .gitlab-ci.yml
+compliance_gate:
+  stage: test
+  image: node:20
+  script:
+    - npm install @apex/gallows-sdk
+    - npx apex-verify
+        --predicates EU_ART_14,MIFID_ART_17,UK_AISI_1
+        --mode blocking
+        --output proof-bundle.json
+  artifacts:
+    paths: [proof-bundle.json]`}</code>
+                  </pre>
+                  <CopyButton text={`# .gitlab-ci.yml\ncompliance_gate:\n  stage: test\n  image: node:20\n  script:\n    - npm install @apex/gallows-sdk\n    - npx apex-verify --predicates EU_ART_14,MIFID_ART_17,UK_AISI_1 --mode blocking --output proof-bundle.json\n  artifacts:\n    paths: [proof-bundle.json]`} section="gitlab-ci" />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Compliance DNS */}
+        <Card className="bg-gradient-to-br from-gallows-surface to-gallows-bg border-gallows-border mb-8">
+          <CardHeader>
+            <CardTitle className="font-mono text-lg flex items-center gap-2">
+              <Shield className="h-5 w-5 text-gallows-approved" />
+              Compliance DNS — Public Verification API
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-gallows-muted text-sm">
+              Query any entity's compliance status. No authentication required. The WHOIS of AI Compliance.
+            </p>
+            <div className="relative">
+              <pre className="bg-gallows-bg border border-gallows-border rounded p-4 overflow-x-auto text-xs">
+                <code className="text-gallows-text">{`# Lookup a specific entity
+GET /verify-status?entity=<compliance_result_id>
+
+# Browse the public registry
+GET /verify-status?action=registry&limit=50&offset=0
+
+# Get aggregate statistics
+GET /verify-status?action=stats
+
+# Example response (entity lookup):
+{
+  "verified": true,
+  "entity": {
+    "name": "Acme AI Corp",
+    "status": "compliant",
+    "score": 92,
+    "mode": "SHIELD",
+    "last_verified": "2026-03-15T..."
+  },
+  "articles": [...],
+  "cryptographic_assurance": {
+    "hash_algorithm": "SHA-256",
+    "signature_scheme": "Ed25519",
+    "proof_structure": "Merkle Inclusion Proof"
+  }
+}`}</code>
+              </pre>
+              <CopyButton text="GET /verify-status?entity=<compliance_result_id>" section="compliance-dns" />
+            </div>
+          </CardContent>
+        </Card>
+
         {/* CTA */}
         <div className="text-center py-8">
           <p className="text-gallows-muted mb-4">

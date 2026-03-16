@@ -74,6 +74,20 @@ const PATTERN_CACHE: Record<string, string[]> = {
   DORA_ART_11: ["no backup", "no disaster recovery", "untested recovery"],
   DORA_ART_17: ["unreported incident", "delayed reporting", "hidden breach"],
   DORA_ART_26: ["no vendor assessment", "unvetted third party", "no exit strategy"],
+  // NIST AI RMF (United States)
+  NIST_MAP_1: ["no intended purpose", "undefined use case", "missing context", "no stakeholder analysis"],
+  NIST_MEASURE_2: ["no bias testing", "untested fairness", "no performance metric", "unvalidated model"],
+  NIST_MANAGE_3: ["no risk treatment", "unmitigated risk", "no incident response", "ignored risk"],
+  NIST_GOVERN_1: ["no ai governance", "no accountability", "no responsible ai policy", "ungoverned ai"],
+  // UK AI Safety Institute
+  UK_AISI_1: ["unsafe deployment", "no safety testing", "untested capability", "no red teaming"],
+  UK_AISI_2: ["no eval framework", "missing safety eval", "no capability assessment", "unassessed risk"],
+  UK_AISI_3: ["deceptive ai", "misaligned objective", "no alignment testing", "goal misalignment"],
+  // Canada Bill C-27 / AIDA
+  CA_AIDA_5: ["no impact assessment", "unassessed ai system", "no high impact review"],
+  CA_AIDA_6: ["no mitigation measures", "unmitigated harm", "no bias mitigation"],
+  CA_AIDA_7: ["no transparency report", "undisclosed ai use", "no public disclosure"],
+  CA_AIDA_11: ["no record keeping", "deleted records", "no audit records"],
 };
 
 /**
