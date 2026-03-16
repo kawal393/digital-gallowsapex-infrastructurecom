@@ -145,7 +145,17 @@ const ComplianceQuestionnaire = ({ onComplete, existingData }: Props) => {
     if (!user) return;
     setSaving(true);
     try {
-      const { score, status } = calculateScore(data);
+      // Boost score if evidence is provided
+      const evidenceBonus = Object.keys(evidenceHashes).length * 2; // up to 10 extra points
+      const { score: rawScore, status: rawStatus } = calculateScore(data);
+      const score = Math.min(100, rawScore + evidenceBonus);
+      const status = score >= 90 ? "compliant" : score >= 70 ? "mostly_compliant" : score >= 50 ? "partially_compliant" : "non_compliant";
+
+      // Build evidence hashes JSONB
+      const evidenceData: Record<string, any> = {};
+      for (const [key, val] of Object.entries(evidenceHashes)) {
+        evidenceData[key] = { sha256: val.hash, file_name: val.fileName, attested_at: new Date().toISOString() };
+      }
 
       // Upsert questionnaire
       const { error: qErr } = await supabase
@@ -154,7 +164,8 @@ const ComplianceQuestionnaire = ({ onComplete, existingData }: Props) => {
           user_id: user.id,
           ...data,
           completed: true,
-        }, { onConflict: "user_id" });
+          evidence_hashes: evidenceData,
+        } as any, { onConflict: "user_id" });
       if (qErr) throw qErr;
 
       // Update compliance_results
