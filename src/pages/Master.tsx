@@ -604,7 +604,7 @@ const Master = () => {
                       );
                     })}
                     {killLogs.length === 0 && (
-                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No kill switch events.</TableCell></TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No protocol intervention events.</TableCell></TableRow>
                     )}
                   </TableBody>
                 </Table>

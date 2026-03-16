@@ -21,7 +21,7 @@ const features = [
     items: [
       { name: "3-Node MPC Consensus (2-of-3 Threshold)", apex: true, veritaschain: false, ethicshield: false },
       { name: "Server-Side Hash Recomputation", apex: true, veritaschain: true, ethicshield: false },
-      { name: "Sovereign Pause Kill Switch (Art. 14)", apex: true, veritaschain: false, ethicshield: "partial" as const },
+      { name: "Sovereign Pause — Protocol Intervention Layer (Art. 14)", apex: true, veritaschain: false, ethicshield: "partial" as const },
       { name: "Visual 4-Stage Pipeline", apex: true, veritaschain: false, ethicshield: false },
       { name: "QR Code Verification Certificates", apex: true, veritaschain: true, ethicshield: false },
     ],

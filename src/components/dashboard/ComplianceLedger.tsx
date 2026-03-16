@@ -26,7 +26,7 @@ const statusBadge: Record<string, string> = {
 
 const legalMathMap: Record<string, string> = {
   "Article 12": "Immutable event stream active. RFC 8785 Canonicalization applied.",
-  "Article 14": "Gallows Protocol Intervention Layer (5s Kill-Switch) enabled.",
+  "Article 14": "Gallows Protocol Intervention Layer (PIL) — 5s sovereign pause enabled.",
   "Article 15": "ZK-SNARK Integrity Proof generated for session.",
 };
 
