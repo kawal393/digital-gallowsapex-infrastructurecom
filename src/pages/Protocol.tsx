@@ -41,7 +41,7 @@ const legalMapping = [
     psiSolution: [
       "MPC (Multi-Party Computation) 3-node consensus with 2/3 threshold verification",
       "Ed25519 digital signatures on every Merkle root for non-repudiation",
-      "ZK-SNARK privacy proofs (Groth16/BN128) prevent IP disclosure during verification",
+      "Groth16-compatible ZK privacy commitments (BN128 field arithmetic) prevent IP disclosure during verification",
       "Distributed verification prevents single-point-of-failure attacks",
     ],
     icon: Lock,
