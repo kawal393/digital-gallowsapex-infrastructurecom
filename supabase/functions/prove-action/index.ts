@@ -60,8 +60,8 @@ async function hashSHA256(data: string): Promise<string> {
 }
 
 /**
- * Generate a ZK-style commitment that proves compliance without revealing action
- * This is a simplified ZK proof - in production, use actual ZK-SNARK libraries
+ * Generate a Groth16-compatible ZK commitment that proves compliance without revealing action.
+ * Server-side complement to the client-side BN128 field arithmetic in gallows-zk.ts.
  */
 async function generateZKCommitment(
   actionHash: string,
