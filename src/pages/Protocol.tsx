@@ -59,8 +59,22 @@ const cryptoSpecs = [
 
 const changelog = [
   {
+    version: "1.1",
+    date: "2026-03-16",
+    status: "CURRENT",
+    changes: [
+      "Public Verification API — verify-status endpoint (Compliance DNS)",
+      "Cross-jurisdictional predicate expansion: NIST AI RMF, UK AI Safety Institute, Canada Bill C-27",
+      "Protocol versioning with RFC-style changelog (this document)",
+      "SDK CI/CD integration guide with GitHub Actions / GitLab CI examples",
+      "Compliance DNS: canonical JSON lookup for any entity's verification status",
+      "Registry API with pagination, statistics, and entity lookup endpoints",
+    ],
+  },
+  {
     version: "1.0",
     date: "2026-03-10",
+    status: "SUPERSEDED",
     changes: [
       "Initial PSI Protocol specification",
       "RFC 8785 JSON Canonicalization Scheme integration",
@@ -72,6 +86,27 @@ const changelog = [
       "Independent regulator verification portal",
       "Proof bundle export format specification",
     ],
+  },
+];
+
+const proposedChanges = [
+  {
+    id: "PSI-RFC-001",
+    title: "Bitcoin Timestamp Anchoring",
+    status: "DRAFT",
+    description: "Anchor every Merkle root to the Bitcoin blockchain via OpenTimestamps for immutable third-party proof of existence.",
+  },
+  {
+    id: "PSI-RFC-002",
+    title: "Formal Verification of Predicate Logic",
+    status: "PROPOSED",
+    description: "Machine-verifiable proofs that predicate patterns correctly implement regulatory text using Coq/Lean theorem provers.",
+  },
+  {
+    id: "PSI-RFC-003",
+    title: "Cross-Protocol Interoperability",
+    status: "PROPOSED",
+    description: "Define a bridge protocol allowing third-party compliance systems to submit proofs to the PSI ledger.",
   },
 ];
 
