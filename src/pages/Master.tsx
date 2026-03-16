@@ -567,10 +567,10 @@ const Master = () => {
             </Card>
           </TabsContent>
 
-          {/* Kill Switch Log */}
+          {/* Protocol Intervention Layer Log */}
           <TabsContent value="kills">
             <Card>
-              <CardHeader><CardTitle className="text-base">Kill Switch Audit Trail</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">Protocol Intervention Layer (PIL) — Audit Trail</CardTitle></CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
