@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { ShieldOff, ShieldCheck } from "lucide-react";
 
 const stats = [
-  { label: "Predicates", value: "31" },
-  { label: "Jurisdictions", value: "6" },
+  { label: "Predicates", value: "35" },
+  { label: "Jurisdictions", value: "7" },
   { label: "Sovereign Nodes", value: "3" },
   { label: "Status", value: "Live" },
 ];
