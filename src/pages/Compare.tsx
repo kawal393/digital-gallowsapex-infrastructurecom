@@ -55,7 +55,7 @@ const CellIcon = ({ value }: { value: boolean | "partial" }) => {
 };
 
 const pillars = [
-  { icon: Lock, title: "ZK-SNARK Proofs", desc: "Groth16 protocol on BN128 curve. Prove compliance without revealing proprietary AI logic." },
+  { icon: Lock, title: "ZK Privacy Proofs", desc: "Groth16-compatible commitments on BN128 curve. Prove compliance without revealing proprietary AI logic." },
   { icon: Network, title: "MPC Consensus", desc: "3 independent nodes verify every action. 2-of-3 threshold prevents single point of failure." },
   { icon: Zap, title: "Runtime SDK", desc: "Block non-compliant AI responses in <15ms. Express middleware drops in with one line." },
   { icon: Globe, title: "Bitcoin Anchoring", desc: "Every Merkle root timestamped via OpenTimestamps. Immutable external proof of existence." },
