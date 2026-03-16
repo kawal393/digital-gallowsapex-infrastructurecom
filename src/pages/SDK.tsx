@@ -227,7 +227,7 @@ async function generateAIResponse(prompt: string) {
               <Lock className="h-3 w-3 text-gallows-approved" /> ZK proof mode
             </Badge>
             <Badge className="bg-gallows-surface border-gallows-border text-gallows-text gap-1.5 px-3 py-1">
-              <Shield className="h-3 w-3 text-blue-400" /> 31 predicates · 6 jurisdictions
+              <Shield className="h-3 w-3 text-blue-400" /> 35 predicates · 7 jurisdictions
             </Badge>
           </div>
         </motion.div>

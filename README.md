@@ -195,6 +195,6 @@ MCowBQYDK2VwAyEA... (published on /protocol)
 
 <p align="center">
   <strong>APEX Intelligence Empire</strong><br/>
-  <em>31 Predicates · 6 Jurisdictions · 3 Sovereign Nodes · Live</em><br/><br/>
+  <em>35 Predicates · 7 Jurisdictions · 3 Sovereign Nodes · Live</em><br/><br/>
   <code>Trust is not earned. It is verified.</code>
 </p>
