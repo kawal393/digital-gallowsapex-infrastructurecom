@@ -87,9 +87,10 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 | `EU_ART_10` | Data Governance | HIGH |
 | `EU_ART_11` | Technical Documentation | HIGH |
 | `EU_ART_12` | Record-Keeping | HIGH |
+| `EU_ART_13` | Transparency to Users | HIGH |
 | `EU_ART_14` | Human Oversight | HIGH |
 | `EU_ART_15` | Accuracy & Robustness | HIGH |
-| `EU_ART_50` | Transparency | LIMITED |
+| `EU_ART_50` | Transparency Obligations | LIMITED |
 | `EU_ART_52` | Disclosure Obligations | LIMITED |
 | `EU_ANNEX_III` | High-Risk Classification | HIGH |
 
