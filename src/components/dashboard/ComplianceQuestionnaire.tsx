@@ -424,6 +424,32 @@ const ComplianceQuestionnaire = ({ onComplete, existingData }: Props) => {
           </div>
         )}
 
+        {step === 6 && (
+          <div className="space-y-4">
+            <h3 className="font-semibold text-foreground">Evidence-Based Attestation</h3>
+            <p className="text-xs text-muted-foreground">
+              Upload supporting policy documents for each article. Files are hashed client-side using SHA-256 — 
+              <span className="text-compliant font-medium"> no sensitive document data leaves your browser.</span>
+            </p>
+            {EVIDENCE_ARTICLES.map((article) => (
+              <EvidenceUpload
+                key={article.key}
+                articleKey={article.key}
+                articleLabel={article.label}
+                existingHash={evidenceHashes[article.key]?.hash}
+                onHashGenerated={handleEvidenceHash}
+              />
+            ))}
+            {Object.keys(evidenceHashes).length > 0 && (
+              <div className="rounded-lg border border-compliant/20 bg-compliant/5 px-3 py-2">
+                <p className="text-xs text-compliant font-medium">
+                  {Object.keys(evidenceHashes).length} document(s) attested — evidence hashes committed to immutable ledger
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex justify-between pt-4">
           <Button variant="ghost" size="sm" onClick={() => setStep(s => s - 1)} disabled={step === 1}>
             <ArrowLeft className="h-4 w-4 mr-1" /> Back
