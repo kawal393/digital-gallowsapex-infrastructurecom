@@ -307,7 +307,7 @@ const Master = () => {
                             severity: "critical"
                           })}
                         >
-                          <PowerOff className="h-3 w-3 mr-1" /> Kill Switch
+                          <PowerOff className="h-3 w-3 mr-1" /> PIL Halt
                         </Button>
                       ) : (
                         <Button
