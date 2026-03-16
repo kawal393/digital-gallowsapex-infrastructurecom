@@ -52,7 +52,7 @@ const legalMapping = [
 const cryptoSpecs = [
   { algorithm: "SHA-256", purpose: "Commit hashing & Merkle tree", standard: "FIPS 180-4", strength: "256-bit" },
   { algorithm: "Ed25519", purpose: "Merkle root digital signatures", standard: "RFC 8032", strength: "~128-bit equivalent" },
-  { algorithm: "Groth16 / BN128", purpose: "ZK-SNARK privacy proofs", standard: "EIP-197 (Ethereum)", strength: "128-bit" },
+  { algorithm: "Groth16 / BN128", purpose: "ZK privacy commitments (structural pairing)", standard: "EIP-197 compatible", strength: "128-bit field" },
   { algorithm: "JCS", purpose: "JSON canonicalization for deterministic hashing", standard: "RFC 8785", strength: "N/A (format)" },
   { algorithm: "MPC (Shamir)", purpose: "Distributed threshold verification", standard: "Shamir's Secret Sharing", strength: "2/3 threshold" },
 ];
