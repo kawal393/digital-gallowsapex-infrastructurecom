@@ -172,6 +172,9 @@ async function generateAIResponse(prompt: string) {
     { category: 'EU AI Act', count: 10, examples: ['EU_ART_5', 'EU_ART_14', 'EU_ART_50'] },
     { category: 'MiFID II', count: 4, examples: ['MIFID_ART_16', 'MIFID_ART_17', 'MIFID_ART_27'] },
     { category: 'DORA', count: 6, examples: ['DORA_ART_5', 'DORA_ART_11', 'DORA_ART_26'] },
+    { category: 'NIST AI RMF', count: 4, examples: ['NIST_MAP_1', 'NIST_MEASURE_2', 'NIST_GOVERN_1'] },
+    { category: 'UK AI Safety', count: 3, examples: ['UK_AISI_1', 'UK_AISI_2', 'UK_AISI_3'] },
+    { category: 'Canada AIDA', count: 4, examples: ['CA_AIDA_5', 'CA_AIDA_7', 'CA_AIDA_11'] },
   ];
 
   return (
