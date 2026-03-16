@@ -10,6 +10,7 @@ import { ClipboardCheck, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import EvidenceUpload from "./EvidenceUpload";
 
 interface QuestionnaireData {
   company_name: string;
