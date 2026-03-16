@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, Pill, FileCheck } from "lucide-react";
+import SovereignShield from "@/components/verify/SovereignShield";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -394,19 +395,23 @@ const Verify = () => {
                       ))}
                     </div>
 
-                    {/* Final verdict */}
-                    <div className={`mt-4 p-4 rounded-lg border text-center ${
-                      bundleResult.valid ? "border-compliant/30 bg-compliant/5" : "border-destructive/30 bg-destructive/5"
-                    }`}>
-                      <span className={`font-mono text-lg font-bold tracking-wider ${
-                        bundleResult.valid ? "text-compliant" : "text-destructive"
-                      }`}>
-                        {bundleResult.valid ? "✓ PROOF BUNDLE VERIFIED" : "✗ VERIFICATION FAILED"}
-                      </span>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        All verification performed locally in your browser. No data sent to any server.
-                      </p>
-                    </div>
+                    {/* Final verdict — Sovereign Shield for full pass, inline for failures */}
+                    {bundleResult.valid ? (
+                      <SovereignShield
+                        allPassed={true}
+                        passCount={bundleResult.steps.filter(s => s.status === "pass").length}
+                        totalCount={bundleResult.steps.length}
+                      />
+                    ) : (
+                      <div className="mt-4 p-4 rounded-lg border border-destructive/30 bg-destructive/5 text-center">
+                        <span className="font-mono text-lg font-bold tracking-wider text-destructive">
+                          ✗ VERIFICATION FAILED
+                        </span>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          All verification performed locally in your browser. No data sent to any server.
+                        </p>
+                      </div>
+                    )}
                   </motion.div>
                 )}
 

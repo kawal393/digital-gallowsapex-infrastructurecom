@@ -600,6 +600,7 @@ export type Database = {
           compliance_officer: string
           created_at: string
           eu_presence: string
+          evidence_hashes: Json | null
           governance_policy: string
           high_risk_uses: string[]
           id: string
@@ -624,6 +625,7 @@ export type Database = {
           compliance_officer?: string
           created_at?: string
           eu_presence?: string
+          evidence_hashes?: Json | null
           governance_policy?: string
           high_risk_uses?: string[]
           id?: string
@@ -648,6 +650,7 @@ export type Database = {
           compliance_officer?: string
           created_at?: string
           eu_presence?: string
+          evidence_hashes?: Json | null
           governance_policy?: string
           high_risk_uses?: string[]
           id?: string

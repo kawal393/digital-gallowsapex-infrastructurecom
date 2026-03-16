@@ -102,7 +102,7 @@ const Master = () => {
       if (error) throw error;
       const triggered = result?.kill_switches_triggered || 0;
       if (triggered > 0) {
-        toast.warning(`Auto-monitor triggered ${triggered} kill switch(es)!`);
+        toast.warning(`Auto-monitor triggered ${triggered} Protocol Intervention(s)!`);
       } else {
         toast.success(`All ${result?.silos_scanned || 0} silos passed compliance check`);
       }
@@ -191,7 +191,7 @@ const Master = () => {
               { icon: Shield, value: stats.total_silos, label: "Active Silos", color: "text-primary" },
               { icon: DollarSign, value: `$${stats.total_revenue?.toLocaleString()}`, label: "Total Revenue", color: "text-primary" },
               { icon: DollarSign, value: `$${stats.master_share?.toLocaleString()}`, label: "Master Share", color: "text-primary" },
-              { icon: AlertTriangle, value: stats.active_kills, label: "Kill Switches", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
+              { icon: AlertTriangle, value: stats.active_kills, label: "Active PILs", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
             ].map((s, i) => (
               <Card key={i} className={`border-border ${i === 4 && stats.active_kills > 0 ? "border-destructive" : ""}`}>
                 <CardContent className="pt-3 pb-2 sm:pt-4 sm:pb-3 text-center">
@@ -307,7 +307,7 @@ const Master = () => {
                             severity: "critical"
                           })}
                         >
-                          <PowerOff className="h-3 w-3 mr-1" /> Kill Switch
+                          <PowerOff className="h-3 w-3 mr-1" /> PIL Halt
                         </Button>
                       ) : (
                         <Button
@@ -567,10 +567,10 @@ const Master = () => {
             </Card>
           </TabsContent>
 
-          {/* Kill Switch Log */}
+          {/* Protocol Intervention Layer Log */}
           <TabsContent value="kills">
             <Card>
-              <CardHeader><CardTitle className="text-base">Kill Switch Audit Trail</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">Protocol Intervention Layer (PIL) — Audit Trail</CardTitle></CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
@@ -604,7 +604,7 @@ const Master = () => {
                       );
                     })}
                     {killLogs.length === 0 && (
-                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No kill switch events.</TableCell></TableRow>
+                      <TableRow><TableCell colSpan={5} className="text-center text-xs text-muted-foreground py-8">No protocol intervention events.</TableCell></TableRow>
                     )}
                   </TableBody>
                 </Table>

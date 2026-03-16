@@ -30,7 +30,7 @@ const articles = [
     icon: Users,
     article: "Article 14",
     title: "Human Oversight",
-    tech: "Sovereign Pause / Kill Switch",
+    tech: "Sovereign Pause — Protocol Intervention Layer (PIL)",
     description: "Full human override mechanism for all automated decisions. Real-time intervention capability with complete audit logging.",
     reference: "\"High-risk AI systems shall be designed and developed in such a way...that they can be effectively overseen by natural persons...\"",
   },

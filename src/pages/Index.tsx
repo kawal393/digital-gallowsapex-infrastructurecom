@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import CountdownBanner from "@/components/CountdownBanner";
+import ComplianceClock from "@/components/ComplianceClock";
 import SocialProofBar from "@/components/SocialProofBar";
 import ProblemSection from "@/components/ProblemSection";
 import VisionSection from "@/components/VisionSection";
@@ -33,7 +33,7 @@ const Index = () => {
       <div id="top" />
       <Hero />
       <VisionSection />
-      <CountdownBanner />
+      <ComplianceClock />
       <SocialProofBar />
       <OpenSourceGateway />
       <ProblemSection />

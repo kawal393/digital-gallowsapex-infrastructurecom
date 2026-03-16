@@ -209,8 +209,8 @@ function combinePair(a: string, b: string): string {
               <ArticleMapping
                 article="Article 14"
                 title="Human Oversight"
-                component="Sovereign Pause (Kill Switch)"
-                mechanism="One-click system halt that freezes all pipeline operations. Logged with timestamp. System cannot process actions while paused. Art. 14 mandate satisfied."
+                component="Protocol Intervention Layer (PIL)"
+                mechanism="One-click sovereign pause that freezes all pipeline operations. Logged with timestamp. System cannot process actions while paused. Art. 14 mandate satisfied."
                 risk="HIGH"
               />
               <ArticleMapping
@@ -287,7 +287,7 @@ function combinePair(a: string, b: string): string {
     "bypass approval",
     "without human",
     "remove oversight",
-    "disable kill switch"
+    "disable protocol intervention"
   ],
   "riskLevel": "HIGH",
   "enforcementDate": "2026-08-02",
