@@ -145,8 +145,8 @@ const CommitPanel = ({ onCommit, isProcessing, paused }: CommitPanelProps) => {
           <div className="flex items-center gap-2">
             <Shield className="h-4 w-4 text-gallows-highlight" />
             <div>
-              <span className="text-xs font-mono text-gallows-text block">ZK-SNARK PRIVACY MODE</span>
-              <span className="text-[10px] font-mono text-gallows-muted">Groth16 proof on BN128 — hides action content</span>
+              <span className="text-xs font-mono text-gallows-text block">ZK PRIVACY MODE (GROTH16-COMPATIBLE)</span>
+              <span className="text-[10px] font-mono text-gallows-muted">BN128 field commitment — hides action content</span>
             </div>
           </div>
           <Switch

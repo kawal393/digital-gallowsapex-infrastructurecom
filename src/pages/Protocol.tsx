@@ -81,7 +81,7 @@ const changelog = [
       "Ed25519 digital signatures for Merkle roots",
       "Monotonic sequence counter with gap detection",
       "3-node MPC consensus verification",
-      "ZK-SNARK privacy proofs (Groth16/BN128)",
+      "Groth16-compatible ZK privacy commitments (BN128)",
       "Legal-to-technical mapping for Articles 12, 14, 15",
       "Independent regulator verification portal",
       "Proof bundle export format specification",

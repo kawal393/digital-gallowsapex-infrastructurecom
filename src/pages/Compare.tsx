@@ -105,7 +105,7 @@ const Compare = () => {
             <span className="text-foreground">Compliance Engine</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            The only platform combining ZK-SNARK privacy proofs, MPC distributed verification,
+            The only platform combining Groth16-compatible ZK privacy proofs, MPC distributed verification,
             and Bitcoin-anchored audit trails with a live visual pipeline.
           </p>
         </motion.section>

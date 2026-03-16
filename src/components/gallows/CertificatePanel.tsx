@@ -124,7 +124,7 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
           {/* ZK Proof */}
           {certificate.zkProof && (
             <div className="p-2 rounded bg-gallows-bg border border-gallows-border">
-              <span className="text-[10px] font-mono text-gallows-muted block mb-1">ZK-SNARK PRIVACY PROOF</span>
+              <span className="text-[10px] font-mono text-gallows-muted block mb-1">ZK PRIVACY PROOF (GROTH16-COMPATIBLE)</span>
               <div className="text-[11px] font-mono text-gallows-text space-y-0.5">
                 <div>Protocol: <span className="text-gallows-approved">Groth16</span> • Curve: <span className="text-gallows-approved">BN128</span></div>
                 <div>Privacy: <span className="text-gallows-approved">Action content hidden</span></div>
