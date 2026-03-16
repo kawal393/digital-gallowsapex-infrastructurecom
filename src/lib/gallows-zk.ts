@@ -1,7 +1,27 @@
 // ═══════════════════════════════════════════════════════════════════════
-// APEX DIGITAL GALLOWS — Zero-Knowledge Proof System
-// Real ZK-SNARK-style proofs using Groth16-compatible commitments
+// APEX DIGITAL GALLOWS — Zero-Knowledge Commitment System
+// Groth16-Compatible Commitment Scheme on BN128 Curve
 // Browser-native implementation via Web Crypto API
+//
+// INTEGRITY NOTICE: This implementation performs REAL finite field
+// arithmetic over the BN128 prime field (alt_bn128). Proof elements
+// (π_A, π_B, π_C) are computed using genuine modular operations.
+// The bilinear pairing check (e(A,B) = e(α,β)·e(vk_x,γ)·e(C,δ))
+// is structurally verified rather than computed via an elliptic curve
+// pairing library. For full snarkjs/Circom pairing verification,
+// integrate compiled .wasm/.zkey circuit artifacts.
+//
+// What IS real:
+//   ✓ BN128 prime field arithmetic (mod 21888...617)
+//   ✓ Groth16-structured proof generation (3 G1/G2 elements)
+//   ✓ Extended Euclidean modular inverse
+//   ✓ Witness computation with private/public signal separation
+//   ✓ Verification key structure matching snarkjs format
+//
+// What is SIMPLIFIED:
+//   △ Bilinear pairing → structural consistency check
+//   △ Trusted setup → per-proof random generation
+//   △ Poseidon hash → SHA-256 commitment
 // ═══════════════════════════════════════════════════════════════════════
 
 import { hashSHA256 } from "./gallows-engine";
