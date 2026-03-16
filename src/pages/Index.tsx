@@ -32,13 +32,13 @@ const Index = () => {
       <Navbar />
       <div id="top" />
       <Hero />
+      <VisionSection />
       <CountdownBanner />
       <SocialProofBar />
       <OpenSourceGateway />
       <ProblemSection />
       <NDISComplianceSection />
       <FreeToolsCTA />
-      <VisionSection />
       <SolutionSection />
       <TrioSection />
       <TrustSection />
