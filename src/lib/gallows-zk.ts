@@ -64,7 +64,8 @@ export interface ZKProofResult {
   verificationKey: ZKVerificationKey;
   proofHash: string;
   generationTimeMs: number;
-  privacyLevel: "FULL_ZK" | "COMMITMENT_ONLY";
+  privacyLevel: "GROTH16_COMPATIBLE" | "COMMITMENT_ONLY";
+  integrityNote: string;
 }
 
 // ── Finite Field Arithmetic (BN128 simulation) ────────────────────────
