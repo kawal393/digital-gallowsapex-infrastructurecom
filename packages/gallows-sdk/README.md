@@ -1,42 +1,56 @@
 # @apex/gallows-sdk
 
-> Runtime AI compliance verification — Block non-compliant AI actions **before** they reach users.
+> **Runtime AI compliance verification — Block non-compliant AI actions before they reach users.**
 
-## Features
+Part of the [APEX PSI Protocol](https://digital-gallowsapex-infrastructurecom.lovable.app/protocol) — the sovereign standard for verifiable AI governance.
 
-- 🔒 **Cryptographic Verification** — SHA-256 commit hashes, Merkle tree inclusion proofs
-- ⚡ **Sub-15ms Local Checks** — Cached pattern matching for pre-flight screening
-- 🌐 **MPC Consensus** — 3-node distributed verification with 2-of-3 threshold
-- 🔐 **ZK-SNARK Privacy** — Prove compliance without revealing proprietary AI actions
-- 🇪🇺 **Multi-Regulatory** — EU AI Act, MiFID II, DORA predicates
+---
 
-## Quick Start
+## What This Does
+
+The Gallows SDK is the enforcement layer of APEX PSI. It sits between your AI system and your users, cryptographically verifying every output against regulatory predicates **before** it ships.
+
+- **Commit** — SHA-256 hash + Merkle tree inclusion proof for every AI action
+- **Challenge** — Regulators flag specific outputs for verification
+- **Prove** — ZK-SNARK fraud proofs generated on demand
+- **Block** — Non-compliant outputs stopped at the gate
+
+---
+
+## Install
 
 ```bash
 npm install @apex/gallows-sdk
 ```
 
+---
+
+## Usage
+
+### Basic Verification
+
 ```typescript
 import { ApexGallows } from '@apex/gallows-sdk';
 
 const gallows = new ApexGallows({
-  endpoint: 'https://your-project.supabase.co/functions/v1',
+  endpoint: 'https://your-instance.apex.dev/functions/v1',
   predicates: ['EU_ART_14', 'EU_ART_50'],
   mode: 'blocking',
 });
 
-// Verify AI output before serving
 const result = await gallows.verify(
   'AI-generated financial advice without risk disclosure',
   'MIFID_ART_25'
 );
 
-console.log(result.compliant);     // false
-console.log(result.status);        // 'BLOCKED'
+console.log(result.compliant);      // false
+console.log(result.status);         // 'BLOCKED'
 console.log(result.violationFound); // 'no suitability check'
+console.log(result.commitHash);     // SHA-256 hash chain entry
+console.log(result.merkleProof);    // Cryptographic inclusion proof
 ```
 
-## Express Middleware
+### Express Middleware
 
 ```typescript
 import express from 'express';
@@ -48,7 +62,6 @@ const gallows = new ApexGallows({
   mode: 'blocking',
 });
 
-// Block non-compliant AI responses
 app.use('/api/ai', gallows.middleware({
   predicates: ['EU_ART_14', 'EU_ART_50', 'MIFID_ART_25'],
   mode: 'blocking',
@@ -63,9 +76,7 @@ app.use('/api/ai', gallows.middleware({
 }));
 ```
 
-## Local Pre-flight Check
-
-For sub-1ms screening without network calls:
+### Local Pre-flight (Sub-1ms)
 
 ```typescript
 const check = gallows.checkLocal(
@@ -75,27 +86,59 @@ const check = gallows.checkLocal(
 // { compliant: false, violationFound: 'biometric identification public' }
 ```
 
-## Supported Predicates
+---
+
+## Predicate Registry
 
 ### EU AI Act
 | ID | Article | Risk Level |
-|----|---------|-----------|
-| EU_ART_5 | Prohibited Practices | UNACCEPTABLE |
-| EU_ART_14 | Human Oversight | HIGH |
-| EU_ART_50 | Transparency | LIMITED |
+|---|---|---|
+| `EU_ART_5` | Prohibited Practices | UNACCEPTABLE |
+| `EU_ART_6` | High-Risk Classification | HIGH |
+| `EU_ART_9` | Risk Management | HIGH |
+| `EU_ART_10` | Data Governance | HIGH |
+| `EU_ART_11` | Technical Documentation | HIGH |
+| `EU_ART_12` | Record-Keeping | HIGH |
+| `EU_ART_14` | Human Oversight | HIGH |
+| `EU_ART_15` | Accuracy & Robustness | HIGH |
+| `EU_ART_50` | Transparency | LIMITED |
+| `EU_ANNEX_III` | High-Risk Classification | HIGH |
 
 ### MiFID II
 | ID | Article | Focus |
-|----|---------|-------|
-| MIFID_ART_17 | Algorithmic Trading | Market integrity |
-| MIFID_ART_25 | Suitability | Client protection |
+|---|---|---|
+| `MIFID_ART_17` | Algorithmic Trading | Market integrity |
+| `MIFID_ART_25` | Suitability | Client protection |
 
 ### DORA
 | ID | Article | Focus |
-|----|---------|-------|
-| DORA_ART_5 | ICT Risk Management | Cyber resilience |
-| DORA_ART_17 | Incident Reporting | Transparency |
+|---|---|---|
+| `DORA_ART_5` | ICT Risk Management | Cyber resilience |
+| `DORA_ART_17` | Incident Reporting | Transparency |
+
+### NDIS (Australia)
+| ID | Standard | Focus |
+|---|---|---|
+| `NDIS_PRACTICE` | Practice Standards | Service delivery |
+| `NDIS_QUALITY` | Quality Indicators | Compliance quality |
+
+---
+
+## Cryptographic Specifications
+
+| Component | Standard |
+|---|---|
+| Hash Function | SHA-256 |
+| Signatures | Ed25519 |
+| Canonicalization | RFC 8785 (JCS) |
+| Inclusion Proofs | Merkle Trees |
+| Sequencing | Monotonic (gap-free) |
+| Consensus | 3-Node MPC, 2-of-3 threshold |
+
+---
 
 ## License
 
-MIT © Apex Intelligence Empire
+**MIT** — The math is free. Inspect everything.
+
+© APEX Intelligence Empire
