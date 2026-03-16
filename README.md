@@ -70,7 +70,7 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 │  └─────────┘  └─────────┘  └─────────┘         │
 │           MPC Consensus (2-of-3)                 │
 ├─────────────────────────────────────────────────┤
-│  31 Predicates · 6 Jurisdictions · 3 Nodes      │
+│  35 Predicates · 7 Jurisdictions · 3 Nodes      │
 └─────────────────────────────────────────────────┘
 ```
 
