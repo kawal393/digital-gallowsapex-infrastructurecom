@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OpenSourceGateway from "@/components/OpenSourceGateway";
 
-const protocolVersion = "1.0";
+const protocolVersion = "1.1";
 
 const legalMapping = [
   {
@@ -59,8 +59,22 @@ const cryptoSpecs = [
 
 const changelog = [
   {
+    version: "1.1",
+    date: "2026-03-16",
+    status: "CURRENT",
+    changes: [
+      "Public Verification API — verify-status endpoint (Compliance DNS)",
+      "Cross-jurisdictional predicate expansion: NIST AI RMF, UK AI Safety Institute, Canada Bill C-27",
+      "Protocol versioning with RFC-style changelog (this document)",
+      "SDK CI/CD integration guide with GitHub Actions / GitLab CI examples",
+      "Compliance DNS: canonical JSON lookup for any entity's verification status",
+      "Registry API with pagination, statistics, and entity lookup endpoints",
+    ],
+  },
+  {
     version: "1.0",
     date: "2026-03-10",
+    status: "SUPERSEDED",
     changes: [
       "Initial PSI Protocol specification",
       "RFC 8785 JSON Canonicalization Scheme integration",
@@ -72,6 +86,27 @@ const changelog = [
       "Independent regulator verification portal",
       "Proof bundle export format specification",
     ],
+  },
+];
+
+const proposedChanges = [
+  {
+    id: "PSI-RFC-001",
+    title: "Bitcoin Timestamp Anchoring",
+    status: "DRAFT",
+    description: "Anchor every Merkle root to the Bitcoin blockchain via OpenTimestamps for immutable third-party proof of existence.",
+  },
+  {
+    id: "PSI-RFC-002",
+    title: "Formal Verification of Predicate Logic",
+    status: "PROPOSED",
+    description: "Machine-verifiable proofs that predicate patterns correctly implement regulatory text using Coq/Lean theorem provers.",
+  },
+  {
+    id: "PSI-RFC-003",
+    title: "Cross-Protocol Interoperability",
+    status: "PROPOSED",
+    description: "Define a bridge protocol allowing third-party compliance systems to submit proofs to the PSI ledger.",
   },
 ];
 
@@ -226,25 +261,64 @@ const Protocol = () => {
                 <span className="text-gold-gradient">Changelog</span>
               </h2>
 
-              {changelog.map((entry) => (
-                <div key={entry.version} className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <GitBranch className="h-5 w-5 text-primary" />
-                    <div>
-                      <span className="font-bold text-foreground">v{entry.version}</span>
-                      <span className="text-muted-foreground text-sm ml-3">{entry.date}</span>
+              <div className="space-y-4">
+                {changelog.map((entry) => (
+                  <div key={entry.version} className={`rounded-xl border bg-card/80 backdrop-blur-sm p-6 ${entry.status === "CURRENT" ? "border-primary/40" : "border-border"}`}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <GitBranch className="h-5 w-5 text-primary" />
+                      <div className="flex items-center gap-3">
+                        <span className="font-bold text-foreground">v{entry.version}</span>
+                        <Badge variant="outline" className={entry.status === "CURRENT" ? "border-primary/30 text-primary text-[10px]" : "border-border text-muted-foreground text-[10px]"}>
+                          {entry.status}
+                        </Badge>
+                        <span className="text-muted-foreground text-sm">{entry.date}</span>
+                      </div>
+                    </div>
+                    <ul className="space-y-2 ml-8">
+                      {entry.changes.map((change, ci) => (
+                        <li key={ci} className="flex items-start gap-2 text-sm">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-compliant shrink-0 mt-0.5" />
+                          <span className="text-foreground/80">{change}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Proposed Changes (RFC) */}
+        <section className="px-4 py-12 sm:py-16">
+          <div className="container mx-auto max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <h2 className="text-2xl font-black mb-2 text-center">
+                <span className="text-chrome-gradient">Proposed</span>{" "}
+                <span className="text-gold-gradient">Changes (RFC)</span>
+              </h2>
+              <p className="text-muted-foreground text-center mb-8 text-sm">
+                Open proposals for PSI Protocol evolution. Submit feedback via the Protocol Working Group.
+              </p>
+
+              <div className="space-y-3">
+                {proposedChanges.map((rfc) => (
+                  <div key={rfc.id} className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <code className="text-xs text-primary font-mono">{rfc.id}</code>
+                          <Badge variant="outline" className={`text-[10px] ${rfc.status === "DRAFT" ? "border-amber-500/30 text-amber-400" : "border-blue-500/30 text-blue-400"}`}>
+                            {rfc.status}
+                          </Badge>
+                        </div>
+                        <h4 className="font-bold text-foreground text-sm">{rfc.title}</h4>
+                        <p className="text-muted-foreground text-xs mt-1">{rfc.description}</p>
+                      </div>
                     </div>
                   </div>
-                  <ul className="space-y-2 ml-8">
-                    {entry.changes.map((change, ci) => (
-                      <li key={ci} className="flex items-start gap-2 text-sm">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-compliant shrink-0 mt-0.5" />
-                        <span className="text-foreground/80">{change}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                ))}
+              </div>
             </motion.div>
           </div>
         </section>
