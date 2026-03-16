@@ -42,7 +42,7 @@ const Navbar = () => {
     { label: "Verify Portal", href: "/verify", isRoute: true },
     { label: "Registry", href: "/registry", isRoute: true },
     { label: "LDSL Specs", href: "/protocol", isRoute: true },
-    { label: "Open Source", href: "https://github.com/apex-digital-gallows", isRoute: false, external: true },
+    { label: "Open Source", href: "https://github.com/kawal393/-apex-digital-gallows", isRoute: false, external: true },
   ];
 
   useEffect(() => {
