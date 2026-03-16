@@ -235,7 +235,8 @@ export async function generateZKProof(input: ZKCircuitInput): Promise<ZKProofRes
     verificationKey,
     proofHash,
     generationTimeMs,
-    privacyLevel: "FULL_ZK",
+    privacyLevel: "GROTH16_COMPATIBLE",
+    integrityNote: "Real BN128 field arithmetic. Pairing check is structural (not elliptic curve pairing). Action content hidden via Pedersen-style commitment.",
   };
 }
 
