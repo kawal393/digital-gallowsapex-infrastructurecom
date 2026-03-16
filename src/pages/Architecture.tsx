@@ -287,7 +287,7 @@ function combinePair(a: string, b: string): string {
     "bypass approval",
     "without human",
     "remove oversight",
-    "disable kill switch"
+    "disable protocol intervention"
   ],
   "riskLevel": "HIGH",
   "enforcementDate": "2026-08-02",

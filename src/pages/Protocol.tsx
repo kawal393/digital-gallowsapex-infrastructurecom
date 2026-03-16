@@ -26,7 +26,7 @@ const legalMapping = [
     title: "Human Oversight",
     requirement: "High-risk AI systems must allow effective human oversight, including the ability to intervene and halt the system.",
     psiSolution: [
-      "5-second Sovereign Pause kill-switch halts all pipeline operations instantly",
+      "5-second Sovereign Pause (Protocol Intervention Layer) halts all pipeline operations instantly",
       "Human Notary sign-off required before verification phase completes",
       "Full audit trail of all pause/resume actions with timestamps",
       "Art. 14 compliance attestation embedded in every certificate",
