@@ -99,22 +99,53 @@ const check = gallows.checkLocal(
 | `EU_ART_10` | Data Governance | HIGH |
 | `EU_ART_11` | Technical Documentation | HIGH |
 | `EU_ART_12` | Record-Keeping | HIGH |
+| `EU_ART_13` | Transparency to Users | HIGH |
 | `EU_ART_14` | Human Oversight | HIGH |
 | `EU_ART_15` | Accuracy & Robustness | HIGH |
-| `EU_ART_50` | Transparency | LIMITED |
+| `EU_ART_50` | Transparency Obligations | LIMITED |
+| `EU_ART_52` | Disclosure Obligations | LIMITED |
 | `EU_ANNEX_III` | High-Risk Classification | HIGH |
 
 ### MiFID II
 | ID | Article | Focus |
 |---|---|---|
+| `MIFID_ART_16` | Organisational Requirements | Algo controls |
 | `MIFID_ART_17` | Algorithmic Trading | Market integrity |
 | `MIFID_ART_25` | Suitability | Client protection |
+| `MIFID_ART_27` | Best Execution | Order handling |
 
 ### DORA
 | ID | Article | Focus |
 |---|---|---|
 | `DORA_ART_5` | ICT Risk Management | Cyber resilience |
+| `DORA_ART_6` | ICT Systems | System maintenance |
+| `DORA_ART_9` | Detection | Threat monitoring |
+| `DORA_ART_11` | Response & Recovery | Disaster recovery |
 | `DORA_ART_17` | Incident Reporting | Transparency |
+| `DORA_ART_26` | Third-Party Risk | Vendor assessment |
+
+### NIST AI RMF (United States)
+| ID | Function | Focus |
+|---|---|---|
+| `NIST_MAP_1` | Map | Context & stakeholders |
+| `NIST_MEASURE_2` | Measure | Bias & fairness testing |
+| `NIST_MANAGE_3` | Manage | Risk treatment |
+| `NIST_GOVERN_1` | Govern | AI governance policy |
+
+### UK AI Safety Institute
+| ID | Standard | Focus |
+|---|---|---|
+| `UK_AISI_1` | Safety Testing | Deployment safety |
+| `UK_AISI_2` | Evaluation Framework | Capability assessment |
+| `UK_AISI_3` | Alignment | Goal alignment |
+
+### Canada Bill C-27 (AIDA)
+| ID | Section | Focus |
+|---|---|---|
+| `CA_AIDA_5` | Impact Assessment | High-impact review |
+| `CA_AIDA_6` | Mitigation | Harm mitigation |
+| `CA_AIDA_7` | Transparency | Public disclosure |
+| `CA_AIDA_11` | Record-Keeping | Audit records |
 
 ### NDIS (Australia)
 | ID | Standard | Focus |

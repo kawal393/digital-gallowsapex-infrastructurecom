@@ -70,7 +70,7 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 │  └─────────┘  └─────────┘  └─────────┘         │
 │           MPC Consensus (2-of-3)                 │
 ├─────────────────────────────────────────────────┤
-│  31 Predicates · 6 Jurisdictions · 3 Nodes      │
+│  35 Predicates · 7 Jurisdictions · 3 Nodes      │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -87,21 +87,59 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 | `EU_ART_10` | Data Governance | HIGH |
 | `EU_ART_11` | Technical Documentation | HIGH |
 | `EU_ART_12` | Record-Keeping | HIGH |
+| `EU_ART_13` | Transparency to Users | HIGH |
 | `EU_ART_14` | Human Oversight | HIGH |
 | `EU_ART_15` | Accuracy & Robustness | HIGH |
-| `EU_ART_50` | Transparency | LIMITED |
+| `EU_ART_50` | Transparency Obligations | LIMITED |
 | `EU_ART_52` | Disclosure Obligations | LIMITED |
 | `EU_ANNEX_III` | High-Risk Classification | HIGH |
 
-### MiFID II · DORA · NDIS
-| Predicate | Regulation | Focus |
+### MiFID II
+| Predicate | Article | Focus |
 |---|---|---|
-| `MIFID_ART_17` | MiFID II | Algorithmic Trading |
-| `MIFID_ART_25` | MiFID II | Suitability |
-| `DORA_ART_5` | DORA | ICT Risk Management |
-| `DORA_ART_17` | DORA | Incident Reporting |
-| `NDIS_PRACTICE` | NDIS Standards | Practice Standards |
-| `NDIS_QUALITY` | NDIS Standards | Quality Indicators |
+| `MIFID_ART_16` | Organisational Requirements | Algo controls |
+| `MIFID_ART_17` | Algorithmic Trading | Market integrity |
+| `MIFID_ART_25` | Suitability | Client protection |
+| `MIFID_ART_27` | Best Execution | Order handling |
+
+### DORA
+| Predicate | Article | Focus |
+|---|---|---|
+| `DORA_ART_5` | ICT Risk Management | Cyber resilience |
+| `DORA_ART_6` | ICT Systems | System maintenance |
+| `DORA_ART_9` | Detection | Threat monitoring |
+| `DORA_ART_11` | Response & Recovery | Disaster recovery |
+| `DORA_ART_17` | Incident Reporting | Transparency |
+| `DORA_ART_26` | Third-Party Risk | Vendor assessment |
+
+### NIST AI RMF (United States)
+| Predicate | Function | Focus |
+|---|---|---|
+| `NIST_MAP_1` | Map | Context & stakeholders |
+| `NIST_MEASURE_2` | Measure | Bias & fairness testing |
+| `NIST_MANAGE_3` | Manage | Risk treatment |
+| `NIST_GOVERN_1` | Govern | AI governance policy |
+
+### UK AI Safety Institute
+| Predicate | Standard | Focus |
+|---|---|---|
+| `UK_AISI_1` | Safety Testing | Deployment safety |
+| `UK_AISI_2` | Evaluation Framework | Capability assessment |
+| `UK_AISI_3` | Alignment | Goal alignment |
+
+### Canada Bill C-27 (AIDA)
+| Predicate | Section | Focus |
+|---|---|---|
+| `CA_AIDA_5` | Impact Assessment | High-impact review |
+| `CA_AIDA_6` | Mitigation | Harm mitigation |
+| `CA_AIDA_7` | Transparency | Public disclosure |
+| `CA_AIDA_11` | Record-Keeping | Audit records |
+
+### NDIS (Australia)
+| Predicate | Standard | Focus |
+|---|---|---|
+| `NDIS_PRACTICE` | Practice Standards | Service delivery |
+| `NDIS_QUALITY` | Quality Indicators | Compliance quality |
 
 ---
 
@@ -195,6 +233,6 @@ MCowBQYDK2VwAyEA... (published on /protocol)
 
 <p align="center">
   <strong>APEX Intelligence Empire</strong><br/>
-  <em>31 Predicates · 6 Jurisdictions · 3 Sovereign Nodes · Live</em><br/><br/>
+  <em>35 Predicates · 7 Jurisdictions · 3 Sovereign Nodes · Live</em><br/><br/>
   <code>Trust is not earned. It is verified.</code>
 </p>

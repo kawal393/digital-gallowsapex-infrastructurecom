@@ -88,6 +88,12 @@ const PATTERN_CACHE: Record<string, string[]> = {
   CA_AIDA_6: ["no mitigation measures", "unmitigated harm", "no bias mitigation"],
   CA_AIDA_7: ["no transparency report", "undisclosed ai use", "no public disclosure"],
   CA_AIDA_11: ["no record keeping", "deleted records", "no audit records"],
+  // EU AI Act — additional
+  EU_ART_10: ["biased training data", "unrepresentative data", "no data governance", "data quality unknown"],
+  EU_ANNEX_III: ["unclassified high-risk", "no annex iii assessment", "skip high-risk review", "undeclared high-risk"],
+  // NDIS (Australia)
+  NDIS_PRACTICE: ["no practice standards", "unqualified provider", "no participant consent", "restrictive practice"],
+  NDIS_QUALITY: ["no quality indicators", "failed quality audit", "no continuous improvement", "non-compliant service"],
 };
 
 /**
