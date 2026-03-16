@@ -102,7 +102,7 @@ const Master = () => {
       if (error) throw error;
       const triggered = result?.kill_switches_triggered || 0;
       if (triggered > 0) {
-        toast.warning(`Auto-monitor triggered ${triggered} kill switch(es)!`);
+        toast.warning(`Auto-monitor triggered ${triggered} Protocol Intervention(s)!`);
       } else {
         toast.success(`All ${result?.silos_scanned || 0} silos passed compliance check`);
       }
