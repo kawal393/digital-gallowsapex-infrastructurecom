@@ -107,13 +107,26 @@ interface Props {
   existingData?: QuestionnaireData | null;
 }
 
+const EVIDENCE_ARTICLES = [
+  { key: "article_5", label: "Article 5 — Prohibited Practices" },
+  { key: "article_6", label: "Article 6 — Risk Classification" },
+  { key: "article_9", label: "Article 9 — Risk Management" },
+  { key: "article_13", label: "Article 13 — Transparency" },
+  { key: "article_14", label: "Article 14 — Human Oversight" },
+];
+
 const ComplianceQuestionnaire = ({ onComplete, existingData }: Props) => {
   const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [data, setData] = useState<QuestionnaireData>(existingData || defaultData);
   const [saving, setSaving] = useState(false);
+  const [evidenceHashes, setEvidenceHashes] = useState<Record<string, { hash: string; fileName: string }>>({});
 
-  const totalSteps = 5;
+  const totalSteps = 6;
+
+  const handleEvidenceHash = (articleKey: string, hash: string, fileName: string) => {
+    setEvidenceHashes((prev) => ({ ...prev, [articleKey]: { hash, fileName } }));
+  };
 
   const update = (field: keyof QuestionnaireData, value: any) => {
     setData(prev => ({ ...prev, [field]: value }));
