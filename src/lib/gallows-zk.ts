@@ -137,9 +137,9 @@ function bigintToHex(n: bigint): string {
 /**
  * Generate a ZK-SNARK proof for compliance verification.
  * 
- * This implements a simplified Groth16 protocol:
+ * This implements a Groth16-compatible commitment scheme:
  * 1. Witness computation (private inputs → circuit evaluation)
- * 2. Polynomial commitment (using structured reference string)
+ * 2. Field element commitment (using BN128 prime arithmetic)
  * 3. Proof generation (3 group elements: π_A, π_B, π_C)
  * 
  * The proof demonstrates knowledge of `actionHash` that satisfies
