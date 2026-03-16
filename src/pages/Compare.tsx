@@ -12,7 +12,7 @@ const features = [
       { name: "SHA-256 Commit Hashing", apex: true, veritaschain: true, ethicshield: true },
       { name: "Live Merkle Tree Visualization", apex: true, veritaschain: false, ethicshield: false },
       { name: "Bitcoin-Anchored Audit Trails (OpenTimestamps)", apex: true, veritaschain: true, ethicshield: false },
-      { name: "ZK-SNARK Privacy Proofs (Groth16/BN128)", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Groth16-Compatible ZK Privacy Proofs (BN128)", apex: true, veritaschain: false, ethicshield: false },
       { name: "Real-time Merkle Inclusion Proofs", apex: true, veritaschain: true, ethicshield: false },
     ],
   },
