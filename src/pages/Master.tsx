@@ -191,7 +191,7 @@ const Master = () => {
               { icon: Shield, value: stats.total_silos, label: "Active Silos", color: "text-primary" },
               { icon: DollarSign, value: `$${stats.total_revenue?.toLocaleString()}`, label: "Total Revenue", color: "text-primary" },
               { icon: DollarSign, value: `$${stats.master_share?.toLocaleString()}`, label: "Master Share", color: "text-primary" },
-              { icon: AlertTriangle, value: stats.active_kills, label: "Kill Switches", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
+              { icon: AlertTriangle, value: stats.active_kills, label: "Active PILs", color: stats.active_kills > 0 ? "text-destructive" : "text-muted-foreground" },
             ].map((s, i) => (
               <Card key={i} className={`border-border ${i === 4 && stats.active_kills > 0 ? "border-destructive" : ""}`}>
                 <CardContent className="pt-3 pb-2 sm:pt-4 sm:pb-3 text-center">
