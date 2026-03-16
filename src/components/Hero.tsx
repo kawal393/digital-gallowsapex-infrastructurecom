@@ -50,7 +50,7 @@ const Hero = () => {
           </p>
           <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="text-muted-foreground">through</span>{" "}
-            <span className="text-gold-gradient font-bold">ZK-SNARKs</span>{" "}
+            <span className="text-gold-gradient font-bold">Zero-Knowledge Proofs</span>{" "}
             <span className="text-muted-foreground">and</span>{" "}
             <span className="text-gold-gradient font-bold">MPC Consensus</span>
           </p>

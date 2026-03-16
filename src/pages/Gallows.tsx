@@ -113,8 +113,8 @@ const Gallows = () => {
             timestamp: Date.now(),
           });
           setZkResult(zkProofResult);
-          toast.success("ZK-SNARK proof generated", {
-            description: `Groth16/BN128 • ${zkProofResult.generationTimeMs}ms • ${zkProofResult.privacyLevel}`,
+          toast.success("ZK proof generated (Groth16-compatible)", {
+            description: `BN128 field arithmetic • ${zkProofResult.generationTimeMs}ms • ${zkProofResult.privacyLevel}`,
           });
         } catch (e: any) {
           console.warn("[Gallows] ZK proof generation failed:", e.message);

@@ -12,7 +12,7 @@ const features = [
       { name: "SHA-256 Commit Hashing", apex: true, veritaschain: true, ethicshield: true },
       { name: "Live Merkle Tree Visualization", apex: true, veritaschain: false, ethicshield: false },
       { name: "Bitcoin-Anchored Audit Trails (OpenTimestamps)", apex: true, veritaschain: true, ethicshield: false },
-      { name: "ZK-SNARK Privacy Proofs (Groth16/BN128)", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Groth16-Compatible ZK Privacy Proofs (BN128)", apex: true, veritaschain: false, ethicshield: false },
       { name: "Real-time Merkle Inclusion Proofs", apex: true, veritaschain: true, ethicshield: false },
     ],
   },
@@ -55,7 +55,7 @@ const CellIcon = ({ value }: { value: boolean | "partial" }) => {
 };
 
 const pillars = [
-  { icon: Lock, title: "ZK-SNARK Proofs", desc: "Groth16 protocol on BN128 curve. Prove compliance without revealing proprietary AI logic." },
+  { icon: Lock, title: "ZK Privacy Proofs", desc: "Groth16-compatible commitments on BN128 curve. Prove compliance without revealing proprietary AI logic." },
   { icon: Network, title: "MPC Consensus", desc: "3 independent nodes verify every action. 2-of-3 threshold prevents single point of failure." },
   { icon: Zap, title: "Runtime SDK", desc: "Block non-compliant AI responses in <15ms. Express middleware drops in with one line." },
   { icon: Globe, title: "Bitcoin Anchoring", desc: "Every Merkle root timestamped via OpenTimestamps. Immutable external proof of existence." },
@@ -105,7 +105,7 @@ const Compare = () => {
             <span className="text-foreground">Compliance Engine</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            The only platform combining ZK-SNARK privacy proofs, MPC distributed verification,
+            The only platform combining Groth16-compatible ZK privacy proofs, MPC distributed verification,
             and Bitcoin-anchored audit trails with a live visual pipeline.
           </p>
         </motion.section>

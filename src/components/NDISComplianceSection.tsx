@@ -120,7 +120,7 @@ const NDISComplianceSection = () => {
             </div>
 
             <p className="text-[10px] text-muted-foreground/50 text-center max-w-xs">
-              APEX PSI is the only protocol providing ZK-SNARK integrity proofs accepted under the proposed NDIS AI governance framework.
+              APEX PSI is the only protocol providing Groth16-compatible ZK integrity proofs accepted under the proposed NDIS AI governance framework.
             </p>
           </div>
         </div>

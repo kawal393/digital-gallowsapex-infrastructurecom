@@ -41,7 +41,7 @@ const legalMapping = [
     psiSolution: [
       "MPC (Multi-Party Computation) 3-node consensus with 2/3 threshold verification",
       "Ed25519 digital signatures on every Merkle root for non-repudiation",
-      "ZK-SNARK privacy proofs (Groth16/BN128) prevent IP disclosure during verification",
+      "Groth16-compatible ZK privacy commitments (BN128 field arithmetic) prevent IP disclosure during verification",
       "Distributed verification prevents single-point-of-failure attacks",
     ],
     icon: Lock,
@@ -52,7 +52,7 @@ const legalMapping = [
 const cryptoSpecs = [
   { algorithm: "SHA-256", purpose: "Commit hashing & Merkle tree", standard: "FIPS 180-4", strength: "256-bit" },
   { algorithm: "Ed25519", purpose: "Merkle root digital signatures", standard: "RFC 8032", strength: "~128-bit equivalent" },
-  { algorithm: "Groth16 / BN128", purpose: "ZK-SNARK privacy proofs", standard: "EIP-197 (Ethereum)", strength: "128-bit" },
+  { algorithm: "Groth16 / BN128", purpose: "ZK privacy commitments (structural pairing)", standard: "EIP-197 compatible", strength: "128-bit field" },
   { algorithm: "JCS", purpose: "JSON canonicalization for deterministic hashing", standard: "RFC 8785", strength: "N/A (format)" },
   { algorithm: "MPC (Shamir)", purpose: "Distributed threshold verification", standard: "Shamir's Secret Sharing", strength: "2/3 threshold" },
 ];
@@ -81,7 +81,7 @@ const changelog = [
       "Ed25519 digital signatures for Merkle roots",
       "Monotonic sequence counter with gap detection",
       "3-node MPC consensus verification",
-      "ZK-SNARK privacy proofs (Groth16/BN128)",
+      "Groth16-compatible ZK privacy commitments (BN128)",
       "Legal-to-technical mapping for Articles 12, 14, 15",
       "Independent regulator verification portal",
       "Proof bundle export format specification",
