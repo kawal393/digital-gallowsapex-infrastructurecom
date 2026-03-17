@@ -9,7 +9,7 @@ import * as ed from "@noble/ed25519";
 // This is the public half of the Ed25519 keypair used to sign Merkle roots.
 // The private key is stored server-side as an edge function secret.
 // Anyone can verify signatures using this public key.
-export const PSI_PUBLIC_KEY = "PENDING_DEPLOYMENT";
+export const PSI_PUBLIC_KEY = "59304685328b3cfa6ec712d66250d0f964bb9f92161e65e2e5835a873f104724";
 
 /**
  * Verify an Ed25519 signature against a message and the PSI public key.
