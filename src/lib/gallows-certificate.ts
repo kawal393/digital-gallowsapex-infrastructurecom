@@ -60,6 +60,16 @@ export interface ComplianceCertificate {
     proofHash: string;
     privacyLevel: string;
   };
+
+  // Sovereign Tribunal (optional)
+  tribunal?: {
+    approvals: number;
+    rejections: number;
+    threshold: string;
+    ratified: boolean;
+    ratificationHash: string | null;
+    ratifiedAt: string | null;
+  };
 }
 
 const PREDICATE_NAMES: Record<string, string> = {
