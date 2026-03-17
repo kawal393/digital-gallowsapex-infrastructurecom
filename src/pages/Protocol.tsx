@@ -61,9 +61,21 @@ const cryptoSpecs = [
 
 const changelog = [
   {
+    version: "1.2",
+    date: "2026-03-17",
+    status: "CURRENT",
+    changes: [
+      "DETERMINISTIC MODE — UNACCEPTABLE/HIGH-risk predicates blocked before commit (Optimistic Flaw eliminated)",
+      "Sovereign Tribunal — 5-party human auditor ratification layer (3-of-5 threshold, Ed25519 signed verdicts)",
+      "48-hour SLA auto-escalation — MPC verdict stands with TRIBUNAL_TIMEOUT flag if quorum not met",
+      "Deterministic pre-flight check exports for SDK integration",
+      "Protocol hardened against false-negative attack vector",
+    ],
+  },
+  {
     version: "1.1",
     date: "2026-03-16",
-    status: "CURRENT",
+    status: "SUPERSEDED",
     changes: [
       "Public Verification API — verify-status endpoint (Compliance DNS)",
       "Cross-jurisdictional predicate expansion: NIST AI RMF, UK AI Safety Institute, Canada Bill C-27",
