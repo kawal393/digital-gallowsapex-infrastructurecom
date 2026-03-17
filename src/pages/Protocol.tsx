@@ -122,6 +122,12 @@ const proposedChanges = [
     status: "PROPOSED",
     description: "Define a bridge protocol allowing third-party compliance systems to submit proofs to the PSI ledger.",
   },
+  {
+    id: "PSI-RFC-004",
+    title: "Decentralized Gallows Node Federation",
+    status: "DRAFT",
+    description: "Self-hosting specification enabling any organization to run an independent Gallows node that federates with the sovereign ledger, preventing single-entity nationalization.",
+  },
 ];
 
 const Protocol = () => {
