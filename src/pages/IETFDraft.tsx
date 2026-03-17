@@ -704,7 +704,7 @@ Table of Contents
 
 17. References
 
-16.1. Normative References
+17.1. Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
