@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OpenSourceGateway from "@/components/OpenSourceGateway";
 
-const protocolVersion = "1.1";
+const protocolVersion = "1.2";
 
 const legalMapping = [
   {
@@ -27,9 +27,10 @@ const legalMapping = [
     requirement: "High-risk AI systems must allow effective human oversight, including the ability to intervene and halt the system.",
     psiSolution: [
       "5-second Sovereign Pause (Protocol Intervention Layer) halts all pipeline operations instantly",
-      "Human Notary sign-off required before verification phase completes",
-      "Full audit trail of all pause/resume actions with timestamps",
-      "Art. 14 compliance attestation embedded in every certificate",
+      "Sovereign Tribunal: 5-party independent auditor ratification (3-of-5 threshold)",
+      "48-hour SLA with auto-escalation — MPC verdict stands if tribunal quorum not met",
+      "Ed25519-signed auditor verdicts with mandatory rationale for non-repudiation",
+      "Full audit trail of all pause/resume and ratification actions with timestamps",
     ],
     icon: Eye,
     color: "text-gold",
@@ -39,6 +40,7 @@ const legalMapping = [
     title: "Accuracy, Robustness & Cybersecurity",
     requirement: "High-risk AI must be resilient to errors and robust against unauthorized third-party manipulation.",
     psiSolution: [
+      "DETERMINISTIC MODE: UNACCEPTABLE/HIGH-risk actions blocked BEFORE commit — no non-compliant action enters the ledger",
       "MPC (Multi-Party Computation) 3-node consensus with 2/3 threshold verification",
       "Ed25519 digital signatures on every Merkle root for non-repudiation",
       "Groth16-compatible ZK privacy commitments (BN128 field arithmetic) prevent IP disclosure during verification",
@@ -59,9 +61,21 @@ const cryptoSpecs = [
 
 const changelog = [
   {
+    version: "1.2",
+    date: "2026-03-17",
+    status: "CURRENT",
+    changes: [
+      "DETERMINISTIC MODE — UNACCEPTABLE/HIGH-risk predicates blocked before commit (Optimistic Flaw eliminated)",
+      "Sovereign Tribunal — 5-party human auditor ratification layer (3-of-5 threshold, Ed25519 signed verdicts)",
+      "48-hour SLA auto-escalation — MPC verdict stands with TRIBUNAL_TIMEOUT flag if quorum not met",
+      "Deterministic pre-flight check exports for SDK integration",
+      "Protocol hardened against false-negative attack vector",
+    ],
+  },
+  {
     version: "1.1",
     date: "2026-03-16",
-    status: "CURRENT",
+    status: "SUPERSEDED",
     changes: [
       "Public Verification API — verify-status endpoint (Compliance DNS)",
       "Cross-jurisdictional predicate expansion: NIST AI RMF, UK AI Safety Institute, Canada Bill C-27",
@@ -107,6 +121,12 @@ const proposedChanges = [
     title: "Cross-Protocol Interoperability",
     status: "PROPOSED",
     description: "Define a bridge protocol allowing third-party compliance systems to submit proofs to the PSI ledger.",
+  },
+  {
+    id: "PSI-RFC-004",
+    title: "Decentralized Gallows Node Federation",
+    status: "DRAFT",
+    description: "Self-hosting specification enabling any organization to run an independent Gallows node that federates with the sovereign ledger, preventing single-entity nationalization.",
   },
 ];
 

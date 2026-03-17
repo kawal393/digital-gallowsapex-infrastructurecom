@@ -112,12 +112,32 @@ Deno.serve(async (req) => {
     // Check if ratification threshold is met (3-of-5)
     const { data: reviews } = await serviceClient
       .from("tribunal_reviews")
-      .select("verdict, auditor_signature")
+      .select("verdict, auditor_signature, created_at")
       .eq("commit_id", commit_id);
 
     const approvals = (reviews || []).filter((r) => r.verdict === "approve");
     const rejections = (reviews || []).filter((r) => r.verdict === "reject");
     const totalVotes = (reviews || []).length;
+
+    // ── SLA CHECK: 48h auto-escalation ──
+    // If the commit has been in VERIFIED state for >48h without 3 votes,
+    // the MPC verdict stands with a TRIBUNAL_TIMEOUT flag.
+    let slaTimeout = false;
+    if (commit) {
+      const { data: ledgerEntry } = await serviceClient
+        .from("gallows_ledger")
+        .select("created_at, ratification_hash")
+        .eq("commit_id", commit_id)
+        .single();
+      
+      if (ledgerEntry && !ledgerEntry.ratification_hash) {
+        const commitAge = Date.now() - new Date(ledgerEntry.created_at).getTime();
+        const FORTY_EIGHT_HOURS = 48 * 60 * 60 * 1000;
+        if (commitAge > FORTY_EIGHT_HOURS && totalVotes < 3) {
+          slaTimeout = true;
+        }
+      }
+    }
 
     let ratified = false;
     let ratificationHash: string | null = null;
@@ -135,6 +155,26 @@ Deno.serve(async (req) => {
         .join("");
 
       // Update ledger with ratification
+      await serviceClient
+        .from("gallows_ledger")
+        .update({
+          ratification_hash: ratificationHash,
+          ratified_at: new Date().toISOString(),
+          tribunal_votes_approve: approvals.length,
+          tribunal_votes_reject: rejections.length,
+        })
+        .eq("commit_id", commit_id);
+
+      ratified = true;
+    } else if (slaTimeout) {
+      // SLA TIMEOUT: MPC verdict stands, mark as auto-escalated
+      const timeoutSig = `TRIBUNAL_TIMEOUT|${commit_id}|${new Date().toISOString()}`;
+      const encoder = new TextEncoder();
+      const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(timeoutSig));
+      ratificationHash = "TIMEOUT_" + Array.from(new Uint8Array(hashBuffer))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+
       await serviceClient
         .from("gallows_ledger")
         .update({
@@ -167,7 +207,9 @@ Deno.serve(async (req) => {
       rejections: rejections.length,
       ratified,
       ratificationHash,
+      slaTimeout,
       threshold: "3-of-5",
+      slaPolicy: "48h auto-escalation: MPC verdict stands if <3 votes within 48 hours",
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

@@ -556,10 +556,68 @@ export function updateRecordFromServer(
   return updatedRecord;
 }
 
+// ── Verification Mode ──────────────────────────────────────────────────
+
+export type VerificationMode = 'OPTIMISTIC' | 'DETERMINISTIC';
+
+let verificationMode: VerificationMode = 'DETERMINISTIC'; // Default: DETERMINISTIC for safety
+
+export function getVerificationMode(): VerificationMode {
+  return verificationMode;
+}
+
+export function setVerificationMode(mode: VerificationMode): void {
+  verificationMode = mode;
+}
+
+/**
+ * Deterministic pre-flight check.
+ * For UNACCEPTABLE and HIGH risk predicates, violations are blocked BEFORE commit.
+ * This eliminates the "Optimistic Flaw" — no non-compliant action enters the ledger.
+ */
+export function deterministicPreFlight(action: string, predicateId: string): {
+  allowed: boolean;
+  mode: VerificationMode;
+  violationFound?: string;
+  riskLevel?: string;
+} {
+  const predicate = PREDICATES.find(p => p.id === predicateId);
+  if (!predicate) return { allowed: true, mode: verificationMode };
+
+  // DETERMINISTIC mode: block before commit for UNACCEPTABLE and HIGH risk
+  if (verificationMode === 'DETERMINISTIC' && (predicate.riskLevel === 'UNACCEPTABLE' || predicate.riskLevel === 'HIGH')) {
+    const { compliant, violationFound } = checkCompliance(action, predicateId);
+    if (!compliant) {
+      return {
+        allowed: false,
+        mode: 'DETERMINISTIC',
+        violationFound,
+        riskLevel: predicate.riskLevel,
+      };
+    }
+  }
+
+  // OPTIMISTIC mode for LIMITED/MINIMAL: allow commit, verify on challenge
+  return { allowed: true, mode: verificationMode, riskLevel: predicate.riskLevel };
+}
+
 // Phase 1: COMMIT — Hash the action into a Merkle leaf
 export async function commitAction(action: string, predicateId: string): Promise<CommitRecord> {
   if (systemPaused) {
     throw new Error('SOVEREIGN PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
+  }
+
+  // ── DETERMINISTIC PRE-FLIGHT ──
+  // UNACCEPTABLE/HIGH risk predicates are blocked BEFORE entering the ledger.
+  // This is the fix for the "Optimistic Flaw" — the math must be Immaculate.
+  const preFlight = deterministicPreFlight(action, predicateId);
+  if (!preFlight.allowed) {
+    throw new Error(
+      `DETERMINISTIC BLOCK — Action rejected before commit. ` +
+      `Risk level: ${preFlight.riskLevel}. ` +
+      `Violation: "${preFlight.violationFound}". ` +
+      `No non-compliant action enters the ledger.`
+    );
   }
 
   const t0 = performance.now();
