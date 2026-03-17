@@ -30,9 +30,20 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
             <Shield className="h-3.5 w-3.5 text-gold" />
             <span className="text-[10px] sm:text-xs font-semibold text-gold tracking-widest uppercase">
-              PSI Protocol v1.0
+              PSI Protocol v1.1 · Sovereign Tribunal Active
             </span>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="mb-5 sm:mb-6"
+          >
+            <p className="text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-primary">
+              The World's First & Only
+            </p>
+          </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
@@ -41,6 +52,20 @@ const Hero = () => {
             <br />
             <span className="text-gold-gradient">for Verifiable AI Governance.</span>
           </h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="rounded-lg border border-primary/20 bg-primary/5 px-4 sm:px-6 py-3 mb-5 sm:mb-6 max-w-2xl mx-auto"
+          >
+            <p className="text-xs sm:text-sm md:text-base font-black uppercase tracking-widest text-primary leading-relaxed">
+              Mathematically Verified · 5-Party Human Tribunal Ratified
+              <br />
+              <span className="text-gold">Zero-Knowledge · Non-Repudiable · Open Source</span>
+            </p>
+          </motion.div>
+
           <p className="text-xs sm:text-sm font-mono text-primary/80 tracking-widest uppercase mb-4 sm:mb-5">
             Prescriptive Enforcement · Not Descriptive Governance
           </p>
@@ -50,9 +75,11 @@ const Hero = () => {
           </p>
           <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="text-muted-foreground">through</span>{" "}
-            <span className="text-gold-gradient font-bold">Zero-Knowledge Proofs</span>{" "}
-            <span className="text-muted-foreground">and</span>{" "}
+            <span className="text-gold-gradient font-bold">Zero-Knowledge Proofs</span>
+            <span className="text-muted-foreground">,</span>{" "}
             <span className="text-gold-gradient font-bold">MPC Consensus</span>
+            <span className="text-muted-foreground"> & </span>
+            <span className="text-gold-gradient font-bold">Sovereign Tribunal (3-of-5)</span>
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-6 max-w-xl mx-auto">
             RFC 8785 (JCS) · Ed25519 Signatures · Monotonic Sequencing · EU AI Act Articles 12, 14, 15
