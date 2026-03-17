@@ -266,6 +266,237 @@ export const PREDICATES: Predicate[] = [
     riskLevel: 'HIGH',
     enforcementDate: '2025-01-17',
   },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // NIST AI RMF 1.0 (United States)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'NIST_GOVERN',
+    name: 'GOVERN Function',
+    article: 'NIST AI RMF — GOVERN',
+    description: 'Cultivate and implement a culture of risk management within organizations designing, developing, deploying, or using AI systems.',
+    violationPatterns: ['no ai governance', 'no risk culture', 'no accountability framework', 'ungoverned ai', 'no oversight structure'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-01-26',
+  },
+  {
+    id: 'NIST_MAP',
+    name: 'MAP Function',
+    article: 'NIST AI RMF — MAP',
+    description: 'Context is recognized and risks related to context are identified. Map AI system interdependencies and potential impacts.',
+    violationPatterns: ['unmapped risk', 'no context analysis', 'no impact assessment', 'no stakeholder analysis', 'ignore interdependencies'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-01-26',
+  },
+  {
+    id: 'NIST_MEASURE',
+    name: 'MEASURE Function',
+    article: 'NIST AI RMF — MEASURE',
+    description: 'Employ quantitative, qualitative, or mixed-method tools and techniques to analyze, benchmark, and monitor AI risk and related impacts.',
+    violationPatterns: ['no measurement', 'no benchmarks', 'untested performance', 'no bias metrics', 'no fairness testing'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-01-26',
+  },
+  {
+    id: 'NIST_MANAGE',
+    name: 'MANAGE Function',
+    article: 'NIST AI RMF — MANAGE',
+    description: 'Allocate risk resources to mapped and measured risks on a regular basis. Manage AI risks through treatment, transfer, avoidance, or acceptance.',
+    violationPatterns: ['unmanaged risk', 'no mitigation plan', 'no risk treatment', 'ignored findings', 'no remediation'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-01-26',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // UK AI SAFETY INSTITUTE
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'UK_AISI_SAFETY',
+    name: 'Safety Testing',
+    article: 'UK AISI — Safety Evaluation',
+    description: 'AI systems must undergo rigorous safety testing including red-teaming, adversarial testing, and capability evaluations before deployment.',
+    violationPatterns: ['no safety testing', 'untested deployment', 'skip red team', 'no adversarial test', 'no capability eval'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-11-01',
+  },
+  {
+    id: 'UK_AISI_TRANSPARENCY',
+    name: 'Model Transparency',
+    article: 'UK AISI — Transparency',
+    description: 'Developers must provide transparency about model capabilities, limitations, and appropriate use cases.',
+    violationPatterns: ['hidden capabilities', 'no model card', 'undisclosed limitations', 'no use case guidance', 'opaque deployment'],
+    riskLevel: 'LIMITED',
+    enforcementDate: '2025-11-01',
+  },
+  {
+    id: 'UK_AISI_CONTROL',
+    name: 'Human Control',
+    article: 'UK AISI — Human Control',
+    description: 'Appropriate human oversight and control mechanisms must be maintained throughout the AI lifecycle.',
+    violationPatterns: ['no human control', 'autonomous without oversight', 'removed human loop', 'no intervention mechanism', 'uncontrolled autonomy'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2025-11-01',
+  },
+  {
+    id: 'UK_AISI_SOCIETAL',
+    name: 'Societal Wellbeing',
+    article: 'UK AISI — Societal Impact',
+    description: 'AI systems must be developed and deployed with consideration for broader societal impacts and wellbeing.',
+    violationPatterns: ['ignore societal impact', 'no impact study', 'harmful deployment', 'no public interest', 'negative externalities'],
+    riskLevel: 'LIMITED',
+    enforcementDate: '2025-11-01',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // CANADA AIDA — Artificial Intelligence and Data Act (Bill C-27)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'CA_AIDA_RISK',
+    name: 'Risk Assessment',
+    article: 'AIDA — Risk Assessment',
+    description: 'Persons responsible for high-impact AI systems must assess whether the system is a high-impact system and conduct risk assessments.',
+    violationPatterns: ['no risk assessment', 'unassessed ai system', 'skip impact evaluation', 'no high-impact check', 'undeclared risk'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-06-01',
+  },
+  {
+    id: 'CA_AIDA_MITIGATE',
+    name: 'Risk Mitigation',
+    article: 'AIDA — Mitigation Measures',
+    description: 'Establish measures to mitigate risks of harm or biased output identified through risk assessment.',
+    violationPatterns: ['no mitigation', 'unmitigated bias', 'no corrective action', 'ignore bias findings', 'no harm reduction'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-06-01',
+  },
+  {
+    id: 'CA_AIDA_RECORDS',
+    name: 'Record-Keeping',
+    article: 'AIDA — Records',
+    description: 'Maintain records of risk assessments, mitigation measures, and monitoring activities for high-impact AI systems.',
+    violationPatterns: ['no records kept', 'deleted assessment records', 'no audit trail aida', 'incomplete documentation', 'missing mitigation records'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-06-01',
+  },
+  {
+    id: 'CA_AIDA_NOTIFY',
+    name: 'Notification Obligation',
+    article: 'AIDA — Notification',
+    description: 'Notify the Minister if a high-impact AI system results or is likely to result in material harm.',
+    violationPatterns: ['unreported harm', 'no notification', 'concealed incident', 'hidden material harm', 'suppressed ai incident'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-06-01',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // NDIS QUALITY & SAFEGUARDS (Australia)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'NDIS_SCREENING',
+    name: 'Worker Screening',
+    article: 'NDIS Practice Standard — Worker Screening',
+    description: 'All workers and key personnel involved in NDIS service delivery must undergo and maintain valid worker screening checks.',
+    violationPatterns: ['unscreened worker', 'expired screening', 'no background check', 'bypass worker check', 'unverified personnel'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2020-07-01',
+  },
+  {
+    id: 'NDIS_INCIDENT',
+    name: 'Incident Management',
+    article: 'NDIS Practice Standard — Incident Management',
+    description: 'Providers must have systems to identify, manage, resolve, and learn from incidents including reportable incidents to the NDIS Commission.',
+    violationPatterns: ['unreported incident ndis', 'no incident management', 'concealed participant harm', 'no reportable incident process', 'hidden abuse'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2020-07-01',
+  },
+  {
+    id: 'NDIS_RESTRICTIVE',
+    name: 'Restrictive Practices',
+    article: 'NDIS Practice Standard — Restrictive Practices',
+    description: 'Restrictive practices must only be used as a last resort, with appropriate authorisation, and must be reported to the NDIS Commission.',
+    violationPatterns: ['unauthorized restraint', 'unreported restrictive practice', 'no behaviour support plan', 'unapproved seclusion', 'excessive restriction'],
+    riskLevel: 'UNACCEPTABLE',
+    enforcementDate: '2020-07-01',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // AUSTRALIA PRIVACY ACT 2026 AMENDMENTS (NEW)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'AU_PRIVACY_15C',
+    name: 'Automated Decision Transparency',
+    article: 'Privacy Act s15C',
+    description: 'Organizations must inform individuals when a substantially automated decision is made that significantly affects their rights or interests, including the logic involved.',
+    violationPatterns: ['undisclosed automated decision', 'hidden algorithmic decision', 'no decision transparency', 'secret automated process', 'concealed ai decision'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-12-10',
+  },
+  {
+    id: 'AU_PRIVACY_26WA',
+    name: 'AI System Registration',
+    article: 'Privacy Act s26WA',
+    description: 'High-risk AI systems processing personal information must be registered with the Australian Information Commissioner, including purpose, data categories, and risk assessments.',
+    violationPatterns: ['unregistered ai system', 'no oaic registration', 'undeclared ai processing', 'unregistered high risk ai', 'no system registration'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-12-10',
+  },
+  {
+    id: 'AU_PRIVACY_26WB',
+    name: 'Algorithmic Impact Assessment',
+    article: 'Privacy Act s26WB',
+    description: 'Organizations must conduct and document algorithmic impact assessments for AI systems that process personal information at scale, assessing risks to privacy, fairness, and autonomy.',
+    violationPatterns: ['no algorithmic impact assessment', 'no aia conducted', 'skip privacy impact', 'no fairness assessment', 'undocumented ai risk'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-12-10',
+  },
+  {
+    id: 'AU_PRIVACY_26WC',
+    name: 'Right to Explanation',
+    article: 'Privacy Act s26WC',
+    description: 'Individuals have the right to receive a meaningful explanation of how an automated decision was made, including the key factors and data used, within 30 days of request.',
+    violationPatterns: ['denied explanation', 'no right to explanation', 'refused decision rationale', 'unexplainable decision', 'no meaningful explanation'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-12-10',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // INDIA IT AMENDMENT RULES 2026 (NEW)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'IN_IT_LABEL',
+    name: 'AI Content Labeling',
+    article: 'IT Rules 2026 — Rule 3(1)(b)(v)',
+    description: 'All AI-generated or AI-modified content must be clearly labeled as such. Social media intermediaries must ensure AI content carries persistent machine-readable metadata.',
+    violationPatterns: ['unlabeled ai content', 'no ai label', 'unmarked generated content', 'hidden ai origin', 'no content attribution india'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-06-01',
+  },
+  {
+    id: 'IN_IT_DEEPFAKE',
+    name: 'Deepfake Prohibition',
+    article: 'IT Rules 2026 — Rule 3(1)(b)(vi)',
+    description: 'AI-generated deepfakes depicting real persons must be removed within 24 hours of reporting. Platforms must deploy detection systems and maintain removal records.',
+    violationPatterns: ['deepfake distribution', 'no deepfake detection', 'delayed deepfake removal', 'synthetic impersonation', 'no takedown compliance india'],
+    riskLevel: 'UNACCEPTABLE',
+    enforcementDate: '2026-06-01',
+  },
+  {
+    id: 'IN_IT_ALGO_TRANSPARENCY',
+    name: 'Algorithmic Transparency',
+    article: 'IT Rules 2026 — Rule 3(2)(b)',
+    description: 'Significant social media intermediaries must publish algorithmic transparency reports explaining recommendation systems, content ranking, and personalization logic.',
+    violationPatterns: ['no algo transparency report', 'hidden recommendation system', 'undisclosed ranking', 'opaque personalization', 'no algorithmic disclosure india'],
+    riskLevel: 'LIMITED',
+    enforcementDate: '2026-06-01',
+  },
+  {
+    id: 'IN_IT_USER_NOTIFY',
+    name: 'User Notification',
+    article: 'IT Rules 2026 — Rule 3(2)(c)',
+    description: 'Users must be notified when AI systems are used to moderate, flag, or take action on their content, including the right to appeal automated decisions.',
+    violationPatterns: ['no user notification ai', 'hidden content moderation', 'no appeal mechanism', 'undisclosed ai moderation', 'secret automated action'],
+    riskLevel: 'LIMITED',
+    enforcementDate: '2026-06-01',
+  },
 ];
 
 // ── Cryptographic Primitives ───────────────────────────────────────────

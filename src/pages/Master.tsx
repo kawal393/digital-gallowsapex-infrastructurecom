@@ -17,6 +17,7 @@ import {
   Pill, Brain, Power, PowerOff, Plus, UserPlus, Globe, Factory, Landmark, Crosshair
 } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
+import TribunalAuditorPanel from "@/components/master/TribunalAuditorPanel";
 import { toast } from "sonner";
 
 const SILO_ICONS: Record<string, any> = { Heart, Mountain, Pill, Brain, Shield, Factory, Landmark, Crosshair };
