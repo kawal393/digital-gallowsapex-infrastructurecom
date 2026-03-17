@@ -79,8 +79,8 @@ describe("PSI Protocol Pipeline", () => {
     expect(verifyData.found).toBe(true);
   });
 
-  it("verify-status should return entity status", async () => {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-status?entity=test-entity`, {
+  it("verify-status should respond to registry action", async () => {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-status?action=stats`, {
       method: "GET",
       headers: {
         "apikey": SUPABASE_ANON_KEY,
@@ -89,7 +89,7 @@ describe("PSI Protocol Pipeline", () => {
 
     expect(res.status).toBe(200);
     const data = await res.json();
-    expect(data).toHaveProperty("entity");
+    expect(data).toHaveProperty("total_entities");
   });
 });
 
