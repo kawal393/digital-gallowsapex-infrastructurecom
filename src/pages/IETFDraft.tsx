@@ -80,8 +80,9 @@ Table of Contents
   13.  Legal-to-Technical Mapping . . . . . . . . . . . . . . . .  22
   14.  Security Considerations . . . . . . . . . . . . . . . . . . 24
   15.  IANA Considerations . . . . . . . . . . . . . . . . . . . . 25
-  16.  References  . . . . . . . . . . . . . . . . . . . . . . . . 26
-  Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . 27
+  16.  Orbital Integrity Protocol (OIP) . . . . . . . . . . . . .  26
+  17.  References  . . . . . . . . . . . . . . . . . . . . . . . . 30
+  Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . 31
 
 1.  Introduction
 

@@ -95,3 +95,6 @@ verify_jwt = false
 
 [functions.verify-status]
 verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false

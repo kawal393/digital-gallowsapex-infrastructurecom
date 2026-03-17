@@ -122,6 +122,7 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route path="/governance" element={<Governance />} />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
