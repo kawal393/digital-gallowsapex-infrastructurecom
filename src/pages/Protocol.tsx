@@ -27,9 +27,10 @@ const legalMapping = [
     requirement: "High-risk AI systems must allow effective human oversight, including the ability to intervene and halt the system.",
     psiSolution: [
       "5-second Sovereign Pause (Protocol Intervention Layer) halts all pipeline operations instantly",
-      "Human Notary sign-off required before verification phase completes",
-      "Full audit trail of all pause/resume actions with timestamps",
-      "Art. 14 compliance attestation embedded in every certificate",
+      "Sovereign Tribunal: 5-party independent auditor ratification (3-of-5 threshold)",
+      "48-hour SLA with auto-escalation — MPC verdict stands if tribunal quorum not met",
+      "Ed25519-signed auditor verdicts with mandatory rationale for non-repudiation",
+      "Full audit trail of all pause/resume and ratification actions with timestamps",
     ],
     icon: Eye,
     color: "text-gold",
@@ -39,6 +40,7 @@ const legalMapping = [
     title: "Accuracy, Robustness & Cybersecurity",
     requirement: "High-risk AI must be resilient to errors and robust against unauthorized third-party manipulation.",
     psiSolution: [
+      "DETERMINISTIC MODE: UNACCEPTABLE/HIGH-risk actions blocked BEFORE commit — no non-compliant action enters the ledger",
       "MPC (Multi-Party Computation) 3-node consensus with 2/3 threshold verification",
       "Ed25519 digital signatures on every Merkle root for non-repudiation",
       "Groth16-compatible ZK privacy commitments (BN128 field arithmetic) prevent IP disclosure during verification",
