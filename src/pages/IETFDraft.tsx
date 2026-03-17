@@ -512,39 +512,196 @@ Table of Contents
    attack vectors:
 
    14.1. Log Tampering
-     Mitigated by: SHA-256 hash chaining, monotonic sequence
-     counter, Merkle inclusion proofs.
+      Mitigated by: SHA-256 hash chaining, monotonic sequence
+      counter, Merkle inclusion proofs.
 
    14.2. False-Negative Attacks
-     Mitigated by: Deterministic pre-flight blocking.
-     Non-compliant actions never enter the ledger.
+      Mitigated by: Deterministic pre-flight blocking.
+      Non-compliant actions never enter the ledger.
 
    14.3. Single-Point-of-Failure
-     Mitigated by: 3-node MPC distributed verification.
-     No single node can produce a valid verification.
+      Mitigated by: 3-node MPC distributed verification.
+      No single node can produce a valid verification.
 
    14.4. Auditor Compromise
-     Mitigated by: 3-of-5 tribunal threshold.
-     Compromising 1-2 auditors insufficient for ratification.
+      Mitigated by: 3-of-5 tribunal threshold.
+      Compromising 1-2 auditors insufficient for ratification.
 
    14.5. IP Disclosure
-     Mitigated by: ZK commitments. Verification occurs
-     on hashed representations; source data never leaves
-     the submitting entity's environment.
+      Mitigated by: ZK commitments. Verification occurs
+      on hashed representations; source data never leaves
+      the submitting entity's environment.
 
    14.6. Nationalization / Capture
-     Mitigated by: Proposed PSI-RFC-004 (Decentralized
-     Gallows Node Federation) enabling self-hosted nodes.
+      Mitigated by: Proposed PSI-RFC-004 (Decentralized
+      Gallows Node Federation) enabling self-hosted nodes.
+
+   14.7. Orbital Attack Vectors
+      Space-based PSI nodes face additional threats:
+      (a) Single Event Upsets (SEU) from cosmic radiation
+          corrupting proof state — mitigated by TMR
+          (Triple Modular Redundancy) on critical registers
+      (b) Ground station spoofing — mitigated by Ed25519
+          mutual authentication between orbital and
+          terrestrial nodes
+      (c) Telemetry replay attacks — mitigated by monotonic
+          sequence counter with orbital epoch binding
 
 15. IANA Considerations
 
-   This document has no IANA actions at this time.
+   This document requests registration of:
 
-   Future versions may request registration of:
-   - Media type: application/psi-proof+json
-   - URI scheme: psi://
+   Media types:
+   - application/psi-proof+json
+     (PSI proof bundle format)
+   - application/psi-orbital+json
+     (Orbital telemetry attestation format)
 
-16. References
+   URI schemes:
+   - psi://    (terrestrial PSI resource identifier)
+   - psi-orbit:// (orbital PSI resource identifier)
+
+16. Orbital Integrity Protocol (OIP)
+
+   The Orbital Integrity Protocol extends PSI to space-based
+   compute environments where AI systems process, relay, or
+   generate data subject to terrestrial regulatory frameworks.
+
+16.1. Scope
+
+   Any satellite, orbital platform, or space-based compute
+   node that transmits data into a jurisdiction covered by
+   PSI predicates (EU, UK, Australia, India, US, Canada)
+   MUST be capable of attesting data integrity at the point
+   of origin.
+
+   OIP defines how PSI verification operates under the
+   constraints of:
+   (a) Limited computational resources (ARM Cortex-M class)
+   (b) High-radiation environments causing bit-flip errors
+   (c) Intermittent ground station connectivity
+   (d) Propagation delays (LEO: 4-40ms, GEO: 240-280ms)
+
+16.2. Radiation-Tolerant Proof Generation
+
+   Standard Groth16 field operations over BN128 require
+   computational resources exceeding typical satellite
+   onboard processors. OIP defines a "Lightweight Attestation
+   Mode" (LAM) for constrained environments:
+
+   LAM Level 1 (Minimum — ARM Cortex-M4 class):
+     - SHA-256 hash chain only (no ZK)
+     - Ed25519 signature on each telemetry frame
+     - Pre-computed witness tables uploaded during pass
+
+   LAM Level 2 (Standard — ARM Cortex-A class):
+     - Full SHA-256 hash chain
+     - Merkle tree with depth limit of 16 levels
+     - Ed25519 signatures on Merkle roots
+     - Reduced BN128 field operations (pre-computed bases)
+
+   LAM Level 3 (Full — x86/RISC-V class):
+     - Complete PSI pipeline including ZK commitments
+     - Real-time Merkle tree construction
+     - On-board MPC node capability
+
+   Radiation mitigation:
+     - Triple Modular Redundancy (TMR) on hash registers
+     - ECC (Error Correcting Code) memory for witness tables
+     - Checkpoint-and-rollback after SEU detection
+
+16.3. Telemetry Attestation
+
+   Satellite telemetry frames are committed to the PSI
+   ledger using the following flow:
+
+   1. Sensor data captured on orbital platform
+   2. Canonical JSON frame constructed:
+      JCS({satellite_id, epoch, sensor_type,
+           data_hash, sequence_number})
+   3. Frame hash: SHA-256(canonical_frame)
+   4. Ed25519 signature applied with satellite private key
+   5. Signed frame queued for next ground station pass
+   6. Ground station relays to PSI terrestrial node
+   7. Terrestrial node integrates into Merkle tree
+
+   The signed telemetry frame format:
+
+   {
+     "oip_version": "1.0",
+     "satellite_id": "<Ed25519_public_key_hex>",
+     "epoch": "<GPS_epoch_seconds>",
+     "frame_sequence": <monotonic_integer>,
+     "data_hash": "<SHA-256_of_sensor_payload>",
+     "lam_level": 1|2|3,
+     "signature": "<Ed25519_signature_hex>"
+   }
+
+16.4. Ground Station Federation
+
+   OIP leverages existing open ground station networks as
+   PSI relay infrastructure:
+
+   Compatible networks:
+   - TinyGS (https://tinygs.com) — 1000+ stations globally
+   - SatNOGS (https://satnogs.org) — 400+ stations
+   - Custom stations with PSI relay software
+
+   Ground station requirements:
+   - Internet connectivity for PSI node relay
+   - Ability to verify Ed25519 signatures on received frames
+   - Forward authenticated frames to designated PSI node
+   - Maintain local sequence counter for gap detection
+
+   Incentive mechanism:
+   - Stations that relay PSI-attested frames receive a
+     "Sovereign Relay Certificate" (Ed25519-signed)
+   - Certificate includes: station_id, frames_relayed,
+     uptime_percentage, jurisdictions_served
+
+16.5. Sovereign Satellite Registry
+
+   The Sovereign Satellite Registry is a PSI-native identity
+   system for orbital assets:
+
+   Registration:
+   1. Satellite operator generates Ed25519 keypair
+   2. Public key submitted to Registry with metadata:
+      {norad_id, operator, orbit_type, launch_date,
+       jurisdictions_served, lam_level}
+   3. Registry entry signed by Apex Sovereign Key
+   4. Entry hash anchored to terrestrial Merkle tree
+
+   Registered satellites receive a Sovereign Orbital ID:
+     SOV-{NORAD_ID}-{Ed25519_pubkey_prefix_8chars}
+
+   Example: SOV-58234-a3f7c921
+
+16.6. Insurance Verification Interface
+
+   Insurance companies and underwriters can query the
+   compliance status of registered orbital assets:
+
+   GET /api/v1/orbital/{sovereign_orbital_id}/status
+
+   Response:
+   {
+     "satellite_id": "SOV-58234-a3f7c921",
+     "compliance_status": "ATTESTED|LAPSED|UNREGISTERED",
+     "last_attestation": "<ISO-8601>",
+     "lam_level": 2,
+     "frames_attested": 14832,
+     "merkle_root": "<SHA-256>",
+     "jurisdictions": ["EU", "AU", "IN"],
+     "insurance_grade": "A|B|C|UNRATED"
+   }
+
+   Insurance grade is computed from:
+   - Attestation recency (last 24h = A, 7d = B, >7d = C)
+   - LAM level (Level 3 = +1 grade, Level 1 = -1 grade)
+   - Ground station coverage (>3 stations = +1 grade)
+
+17. References
 
 16.1. Normative References
 
