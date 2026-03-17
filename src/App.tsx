@@ -35,6 +35,7 @@ import SiloDashboard from "./pages/SiloDashboard";
 import Protocol from "./pages/Protocol";
 import Registry from "./pages/Registry";
 import SubmissionKit from "./pages/SubmissionKit";
+import Tribunal from "./pages/Tribunal";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
