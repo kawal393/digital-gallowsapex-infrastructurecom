@@ -1,5 +1,4 @@
 // Derives the Ed25519 public key from the same signing key used in commit-action
-// This is a one-time utility to publish the verification key
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,65 +13,88 @@ async function hashSHA256(data: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+function bytesToHex(bytes: Uint8Array): string {
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    // Same key derivation as commit-action
+    // Same key derivation as commit-action (lines 144-152)
     const signingSecret = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
     const keyMaterial = await hashSHA256(`APEX-SIGNING-KEY-${signingSecret}`);
 
-    const keyBytes = new Uint8Array(32);
+    const seed = new Uint8Array(32);
     for (let i = 0; i < 32; i++) {
-      keyBytes[i] = parseInt(keyMaterial.substring(i * 2, i * 2 + 2), 16);
+      seed[i] = parseInt(keyMaterial.substring(i * 2, i * 2 + 2), 16);
     }
 
-    // Import as Ed25519 private key, then export public key
+    // Build Ed25519 PKCS8 wrapper around the 32-byte seed
+    // Ed25519 PKCS8 DER structure:
+    // 30 2e (SEQUENCE, 46 bytes)
+    //   02 01 00 (INTEGER, version 0)
+    //   30 05 (SEQUENCE, 5 bytes - AlgorithmIdentifier)
+    //     06 03 2b6570 (OID 1.3.101.112 = Ed25519)
+    //   04 22 (OCTET STRING, 34 bytes)
+    //     04 20 (OCTET STRING, 32 bytes - the seed)
+    //       <32 bytes of seed>
+    const pkcs8Header = new Uint8Array([
+      0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06,
+      0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20
+    ]);
+    const pkcs8 = new Uint8Array(48);
+    pkcs8.set(pkcs8Header);
+    pkcs8.set(seed, 16);
+
     const privateKey = await crypto.subtle.importKey(
-      "raw", keyBytes, { name: "Ed25519" }, true, ["sign"]
+      "pkcs8", pkcs8, { name: "Ed25519" }, false, ["sign"]
     );
 
-    // Export the private key as PKCS8 to derive the public key
-    const pkcs8 = await crypto.subtle.exportKey("pkcs8", privateKey);
-    const pkcs8Bytes = new Uint8Array(pkcs8);
-    
-    // Ed25519 PKCS8 format: the last 32 bytes of the 48-byte structure are the private key seed
-    // The public key must be derived by importing as keypair
-    // Alternative: generate a keypair from the seed material
-    
-    // Sign a known message and verify approach: extract public from JWK
-    const jwk = await crypto.subtle.exportKey("jwk", privateKey);
-    
-    // JWK 'x' parameter is the public key (base64url encoded)
-    const publicKeyB64 = jwk.x;
-    if (!publicKeyB64) {
-      throw new Error("Could not extract public key from JWK");
-    }
-    
-    // Decode base64url to bytes
-    const b64 = publicKeyB64.replace(/-/g, '+').replace(/_/g, '/');
-    const binaryStr = atob(b64);
+    // Sign a known message, then import as verify key to extract public
+    const testMessage = new TextEncoder().encode("APEX-PUBLIC-KEY-DERIVATION");
+    const signature = await crypto.subtle.sign("Ed25519", privateKey, testMessage);
+
+    // Now try importing with extractable to get JWK
+    const privateKeyExportable = await crypto.subtle.importKey(
+      "pkcs8", pkcs8, { name: "Ed25519" }, true, ["sign"]
+    );
+    const jwk = await crypto.subtle.exportKey("jwk", privateKeyExportable);
+
+    // JWK 'x' is the public key in base64url
+    const pubB64 = jwk.x!;
+    const b64 = pubB64.replace(/-/g, '+').replace(/_/g, '/');
+    const pad = b64.length % 4 === 0 ? '' : '='.repeat(4 - (b64.length % 4));
+    const binaryStr = atob(b64 + pad);
     const publicKeyBytes = new Uint8Array(binaryStr.length);
     for (let i = 0; i < binaryStr.length; i++) {
       publicKeyBytes[i] = binaryStr.charCodeAt(i);
     }
     
-    const publicKeyHex = Array.from(publicKeyBytes).map(b => b.toString(16).padStart(2, "0")).join("");
+    const publicKeyHex = bytesToHex(publicKeyBytes);
+
+    // Verify the signature with the derived public key to confirm correctness
+    const pubJwk = { kty: "OKP", crv: "Ed25519", x: pubB64 };
+    const verifyKey = await crypto.subtle.importKey(
+      "jwk", pubJwk, { name: "Ed25519" }, false, ["verify"]
+    );
+    const isValid = await crypto.subtle.verify("Ed25519", verifyKey, signature, testMessage);
 
     return new Response(
       JSON.stringify({
         public_key_hex: publicKeyHex,
-        algorithm: "Ed25519",
+        verified: isValid,
+        algorithm: "Ed25519 (RFC 8032)",
+        curve: "Curve25519",
         key_size_bits: 256,
-        derivation: "SHA-256(APEX-SIGNING-KEY-${SERVICE_ROLE_KEY}) → Ed25519 seed → public key",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: String(err), note: "Ed25519 key derivation failed" }),
+      JSON.stringify({ error: String(err) }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
