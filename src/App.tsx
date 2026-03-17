@@ -38,6 +38,7 @@ import SubmissionKit from "./pages/SubmissionKit";
 import IETFDraft from "./pages/IETFDraft";
 import Paper from "./pages/Paper";
 import Tribunal from "./pages/Tribunal";
+import Governance from "./pages/Governance";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
