@@ -111,6 +111,8 @@ const App = () => (
               />
               <Route path="/registry" element={<Registry />} />
               <Route path="/submission-kit" element={<SubmissionKit />} />
+              <Route path="/draft" element={<IETFDraft />} />
+              <Route path="/paper" element={<Paper />} />
               <Route
                 path="/tribunal"
                 element={
