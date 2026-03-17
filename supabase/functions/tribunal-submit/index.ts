@@ -207,7 +207,9 @@ Deno.serve(async (req) => {
       rejections: rejections.length,
       ratified,
       ratificationHash,
+      slaTimeout,
       threshold: "3-of-5",
+      slaPolicy: "48h auto-escalation: MPC verdict stands if <3 votes within 48 hours",
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
