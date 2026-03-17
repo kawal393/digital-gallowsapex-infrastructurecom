@@ -248,7 +248,37 @@ Signing: Web Crypto API (Ed25519, PKCS8 DER)
 
 ════════════════════════════════════════════════════════════════
 
-8. CONCLUSION
+8. FUTURE WORK: ORBITAL EXTENSIONS
+
+The proliferation of Software-Defined Radio (SDR) satellites
+and on-orbit compute platforms creates a new compliance domain:
+AI systems that generate, process, or relay data in space before
+it reaches terrestrial jurisdictions.
+
+We propose the Orbital Integrity Protocol (OIP), an extension
+to PSI that addresses three space-specific constraints:
+
+  (a) Radiation-tolerant proof generation using pre-computed
+      witness tables and Triple Modular Redundancy (TMR) on
+      hash registers, enabling SHA-256 + Ed25519 attestation
+      on ARM Cortex-M class satellite processors.
+
+  (b) Intermittent connectivity via ground station federation,
+      leveraging open networks (TinyGS, SatNOGS) as PSI relay
+      nodes with Ed25519 mutual authentication.
+
+  (c) Sovereign Satellite Registry — an on-chain identity
+      system for orbital assets using Ed25519 keypairs, enabling
+      insurance companies to query compliance status of
+      registered satellites via a standardized API.
+
+The OIP is specified in Section 16 of draft-singh-psi-00
+(IETF Internet-Draft) and defines three Lightweight Attestation
+Mode (LAM) levels for varying compute capabilities.
+
+════════════════════════════════════════════════════════════════
+
+9. CONCLUSION
 
 The PSI Protocol demonstrates that cryptographic verification
 can satisfy AI regulatory requirements without requiring IP
@@ -261,7 +291,10 @@ attacks.
 As AI regulation expands globally — with Australia mandating
 obligations by December 2026, India by June 2026, and the full
 EU AI Act by August 2026 — protocol-level compliance verification
-will become infrastructure, not optional tooling.
+will become infrastructure, not optional tooling. The Orbital
+Integrity Protocol further extends this principle: when satellites
+beam data into the EU, the compliance verification must begin in
+orbit, not at the border.
 
 ════════════════════════════════════════════════════════════════
 

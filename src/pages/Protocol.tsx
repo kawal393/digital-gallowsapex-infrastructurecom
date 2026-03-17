@@ -128,6 +128,12 @@ const proposedChanges = [
     status: "DRAFT",
     description: "Self-hosting specification enabling any organization to run an independent Gallows node that federates with the sovereign ledger, preventing single-entity nationalization.",
   },
+  {
+    id: "PSI-RFC-005",
+    title: "Orbital Integrity Protocol (OIP)",
+    status: "DRAFT",
+    description: "Extends PSI to space-based compute nodes with radiation-tolerant ZK proofs, telemetry attestation via TinyGS/SatNOGS ground stations, a Sovereign Satellite Registry with Ed25519 orbital identity, and an Insurance Verification Interface for underwriters.",
+  },
 ];
 
 const Protocol = () => {
