@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OpenSourceGateway from "@/components/OpenSourceGateway";
 
-const protocolVersion = "1.1";
+const protocolVersion = "1.2";
 
 const legalMapping = [
   {
