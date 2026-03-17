@@ -411,6 +411,11 @@ const Master = () => {
             </Card>
           </TabsContent>
 
+          {/* Tribunal Tab */}
+          <TabsContent value="tribunal">
+            <TribunalAuditorPanel />
+          </TabsContent>
+
           {/* Revenue Tab */}
           <TabsContent value="revenue">
             <Card>
