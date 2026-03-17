@@ -145,29 +145,36 @@ Deno.serve(async (req) => {
       const signingSecret = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
       const keyMaterial = await hashSHA256(`APEX-SIGNING-KEY-${signingSecret}`);
       
-      // Import Ed25519 key
-      const keyBytes = new Uint8Array(32);
+      const seed = new Uint8Array(32);
       for (let i = 0; i < 32; i++) {
-        keyBytes[i] = parseInt(keyMaterial.substring(i * 2, i * 2 + 2), 16);
+        seed[i] = parseInt(keyMaterial.substring(i * 2, i * 2 + 2), 16);
       }
       
-      const cryptoKey = await crypto.subtle.importKey(
-        "raw", keyBytes, { name: "Ed25519" }, false, ["sign"]
-      ).catch(() => null);
+      // Build Ed25519 PKCS8 DER wrapper around 32-byte seed
+      const pkcs8Header = new Uint8Array([
+        0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06,
+        0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20
+      ]);
+      const pkcs8 = new Uint8Array(48);
+      pkcs8.set(pkcs8Header);
+      pkcs8.set(seed, 16);
 
-      if (cryptoKey) {
-        const dataToSign = new TextEncoder().encode(merkleLeafHash);
-        const signatureBuffer = await crypto.subtle.sign("Ed25519", cryptoKey, dataToSign);
-        ed25519Signature = Array.from(new Uint8Array(signatureBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
-      }
+      const cryptoKey = await crypto.subtle.importKey(
+        "pkcs8", pkcs8, { name: "Ed25519" }, false, ["sign"]
+      );
+
+      const dataToSign = new TextEncoder().encode(merkleLeafHash);
+      const signatureBuffer = await crypto.subtle.sign("Ed25519", cryptoKey, dataToSign);
+      ed25519Signature = Array.from(new Uint8Array(signatureBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
       
       // Compute Merkle root from all existing leaves + new leaf
       merkleRoot = await hashSHA256(`${merkleLeafHash}|${timestamp}`);
     } catch (sigErr) {
-      console.warn("[Gallows] Ed25519 signing unavailable, continuing without signature:", sigErr);
+      console.warn("[Gallows] Ed25519 signing unavailable:", sigErr);
       // Fallback: HMAC-based signature
       const hmacData = `${merkleLeafHash}|${timestamp}|${commitId}`;
       ed25519Signature = await hashSHA256(hmacData);
+      merkleRoot = await hashSHA256(`${merkleLeafHash}|${timestamp}`);
     }
 
     // Optional: Verify client-provided hashes match (if provided)
