@@ -17,6 +17,7 @@ import {
   Pill, Brain, Power, PowerOff, Plus, UserPlus, Globe, Factory, Landmark, Crosshair
 } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
+import TribunalAuditorPanel from "@/components/master/TribunalAuditorPanel";
 import { toast } from "sonner";
 
 const SILO_ICONS: Record<string, any> = { Heart, Mountain, Pill, Brain, Shield, Factory, Landmark, Crosshair };
@@ -334,6 +335,7 @@ const Master = () => {
         <Tabs defaultValue="partners" className="w-full">
           <TabsList className="mb-3 sm:mb-4 bg-muted w-full sm:w-auto flex-wrap">
             <TabsTrigger value="partners" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Partners</TabsTrigger>
+            <TabsTrigger value="tribunal" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Tribunal</TabsTrigger>
             <TabsTrigger value="revenue" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><DollarSign className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Revenue</TabsTrigger>
             <TabsTrigger value="data" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><Activity className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Data</TabsTrigger>
             <TabsTrigger value="kills" className="text-[10px] sm:text-xs flex-1 sm:flex-none"><AlertTriangle className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Kills</TabsTrigger>
@@ -408,6 +410,11 @@ const Master = () => {
                 </Table>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Tribunal Tab */}
+          <TabsContent value="tribunal">
+            <TribunalAuditorPanel />
           </TabsContent>
 
           {/* Revenue Tab */}
