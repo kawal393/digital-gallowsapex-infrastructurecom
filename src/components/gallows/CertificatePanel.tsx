@@ -132,6 +132,27 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
             </div>
           )}
 
+          {/* Sovereign Tribunal */}
+          {certificate.tribunal && (
+            <div className={`p-2 rounded bg-gallows-bg border ${certificate.tribunal.ratified ? 'border-gallows-approved/20' : 'border-gallows-border'}`}>
+              <span className="text-[10px] font-mono text-gallows-muted block mb-1">SOVEREIGN TRIBUNAL (ARTICLE 14)</span>
+              <div className="flex items-center gap-3 text-[11px] font-mono">
+                <span className="text-gallows-approved">✓ {certificate.tribunal.approvals} approve</span>
+                <span className="text-gallows-blocked">✗ {certificate.tribunal.rejections} reject</span>
+                <span className="text-gallows-muted">• {certificate.tribunal.threshold}</span>
+              </div>
+              {certificate.tribunal.ratified && certificate.tribunal.ratificationHash && (
+                <span className="text-[9px] font-mono text-gallows-approved/60 break-all block mt-1">
+                  Ratified: {certificate.tribunal.ratificationHash.substring(0, 32)}...
+                </span>
+              )}
+              {!certificate.tribunal.ratified && (
+                <span className="text-[9px] font-mono text-yellow-500/60 block mt-1">
+                  ⏳ Awaiting {3 - certificate.tribunal.approvals} more approval(s)
+                </span>
+              )}
+            </div>
+          )}
           {/* Signature */}
           <div className="pt-2 border-t border-gallows-border">
             <span className="text-[10px] font-mono text-gallows-muted block mb-1">CERTIFICATE SIGNATURE</span>

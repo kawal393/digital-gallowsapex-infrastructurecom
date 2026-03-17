@@ -342,8 +342,12 @@ export type Database = {
           predicate_id: string
           proof_hash: string | null
           proven_at: string | null
+          ratification_hash: string | null
+          ratified_at: string | null
           sequence_number: number | null
           status: string | null
+          tribunal_votes_approve: number | null
+          tribunal_votes_reject: number | null
           user_id: string | null
           verification_time_ms: number | null
           violation_found: string | null
@@ -364,8 +368,12 @@ export type Database = {
           predicate_id: string
           proof_hash?: string | null
           proven_at?: string | null
+          ratification_hash?: string | null
+          ratified_at?: string | null
           sequence_number?: number | null
           status?: string | null
+          tribunal_votes_approve?: number | null
+          tribunal_votes_reject?: number | null
           user_id?: string | null
           verification_time_ms?: number | null
           violation_found?: string | null
@@ -386,8 +394,12 @@ export type Database = {
           predicate_id?: string
           proof_hash?: string | null
           proven_at?: string | null
+          ratification_hash?: string | null
+          ratified_at?: string | null
           sequence_number?: number | null
           status?: string | null
+          tribunal_votes_approve?: number | null
+          tribunal_votes_reject?: number | null
           user_id?: string | null
           verification_time_ms?: number | null
           violation_found?: string | null
@@ -911,6 +923,80 @@ export type Database = {
         }
         Relationships: []
       }
+      tribunal_auditors: {
+        Row: {
+          appointed_by: string | null
+          auditor_name: string
+          created_at: string
+          id: string
+          jurisdiction: string
+          organization: string
+          public_key: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          appointed_by?: string | null
+          auditor_name: string
+          created_at?: string
+          id?: string
+          jurisdiction?: string
+          organization: string
+          public_key?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          appointed_by?: string | null
+          auditor_name?: string
+          created_at?: string
+          id?: string
+          jurisdiction?: string
+          organization?: string
+          public_key?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tribunal_reviews: {
+        Row: {
+          auditor_id: string
+          auditor_signature: string | null
+          commit_id: string
+          created_at: string
+          id: string
+          rationale: string | null
+          verdict: string
+        }
+        Insert: {
+          auditor_id: string
+          auditor_signature?: string | null
+          commit_id: string
+          created_at?: string
+          id?: string
+          rationale?: string | null
+          verdict?: string
+        }
+        Update: {
+          auditor_id?: string
+          auditor_signature?: string | null
+          commit_id?: string
+          created_at?: string
+          id?: string
+          rationale?: string | null
+          verdict?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tribunal_reviews_auditor_id_fkey"
+            columns: ["auditor_id"]
+            isOneToOne: false
+            referencedRelation: "tribunal_auditors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -1125,7 +1211,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "auditor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1253,7 +1339,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "auditor"],
     },
   },
 } as const

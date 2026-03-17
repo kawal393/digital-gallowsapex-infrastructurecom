@@ -35,6 +35,7 @@ import SiloDashboard from "./pages/SiloDashboard";
 import Protocol from "./pages/Protocol";
 import Registry from "./pages/Registry";
 import SubmissionKit from "./pages/SubmissionKit";
+import Tribunal from "./pages/Tribunal";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
@@ -108,6 +109,14 @@ const App = () => (
               />
               <Route path="/registry" element={<Registry />} />
               <Route path="/submission-kit" element={<SubmissionKit />} />
+              <Route
+                path="/tribunal"
+                element={
+                  <ProtectedRoute>
+                    <Tribunal />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
