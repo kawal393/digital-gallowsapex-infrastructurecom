@@ -59,14 +59,14 @@ const ComparisonTable = () => (
         viewport={{ once: true }}
         className="text-center mb-12"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Why PSI Wins</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">The Only Verifiable Choice</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
           <span className="text-gold-gradient">99.9% Cost Reduction.</span>{" "}
           <span className="text-chrome-gradient">Deployable Today.</span>
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
           EU AI Act compliance market projected at{" "}
-          <span className="text-foreground font-semibold">€7–17 billion</span>. Every existing approach fails on cost, feasibility, or IP protection.
+          <span className="text-foreground font-semibold">€7–17 billion</span>. Every alternative fails on cost, feasibility, or IP protection. There is no second option.
         </p>
       </motion.div>
 
@@ -98,7 +98,7 @@ const ComparisonTable = () => (
                   {r.approach}
                   {r.highlight && (
                     <span className="ml-2 text-[10px] font-black tracking-widest uppercase bg-gold/10 text-gold px-2 py-0.5 rounded-full">
-                      Ours
+                      THE STANDARD
                     </span>
                   )}
                 </td>

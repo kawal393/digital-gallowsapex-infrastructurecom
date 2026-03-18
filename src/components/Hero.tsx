@@ -46,14 +46,14 @@ const Hero = () => {
             className="mb-5 sm:mb-6"
           >
             <p className="text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-primary">
-              The World's First & Only
+              The Only Mathematically Verifiable
             </p>
           </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
-            <span className="text-gold-gradient">The Sovereign Standard</span>
+            <span className="text-gold-gradient">The Definitive Standard</span>
             <br />
             <span className="text-gold-gradient">for Verifiable AI Governance.</span>
           </h1>
