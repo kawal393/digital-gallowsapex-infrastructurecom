@@ -13,8 +13,8 @@ const EXPIRY_DATE = "September 2026";
 const draftText = `
 Internet Engineering Task Force (IETF)                         K. Singh
 Internet-Draft                                    Apex Intelligence Empire
-Intended status: Standards Track                         Rockyfilms888 Pty Ltd
-Expires: ${EXPIRY_DATE}                                         ${DRAFT_DATE}
+Intended status: Standards Track                              ${DRAFT_DATE}
+Expires: ${EXPIRY_DATE}
 
 
         Proof of Sovereign Integrity (PSI): A Cryptographic Protocol
