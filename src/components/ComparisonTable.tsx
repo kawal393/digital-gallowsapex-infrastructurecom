@@ -59,7 +59,7 @@ const ComparisonTable = () => (
         viewport={{ once: true }}
         className="text-center mb-12"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Why PSI Wins</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">The Only Verifiable Choice</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
           <span className="text-gold-gradient">99.9% Cost Reduction.</span>{" "}
           <span className="text-chrome-gradient">Deployable Today.</span>
