@@ -1,15 +1,45 @@
 import { motion } from "framer-motion";
-import { Shield, Users, Clock, Key, FileText, CheckCircle2, Scale, Globe } from "lucide-react";
+import { Shield, Users, Clock, Key, FileText, CheckCircle2, Scale, Globe, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const tribunalRoles = [
-  { jurisdiction: "European Union", focus: "EU AI Act (2024/1689), GDPR, DORA", seat: "Seat 1" },
-  { jurisdiction: "Asia-Pacific", focus: "Australia Privacy Act 2026, India IT Rules 2026, NDIS", seat: "Seat 2" },
-  { jurisdiction: "Americas", focus: "NIST AI RMF, Canada AIDA (Bill C-27)", seat: "Seat 3" },
-  { jurisdiction: "United Kingdom", focus: "UK AI Safety Institute Guidelines", seat: "Seat 4" },
-  { jurisdiction: "MENA / Global", focus: "Cross-jurisdictional & emerging frameworks", seat: "Seat 5" },
+const tribunalSeats = [
+  {
+    seat: "Seat 1",
+    title: "Lead Cryptographer",
+    jurisdiction: "Global",
+    focus: "ZK-proof architecture, Ed25519 signature integrity, MPC consensus validation",
+    status: "Appointment in Progress",
+  },
+  {
+    seat: "Seat 2",
+    title: "Regulatory Liaison",
+    jurisdiction: "European Union",
+    focus: "EU AI Act (2024/1689), GDPR, DORA, CEN-CENELEC harmonised standards",
+    status: "Appointment in Progress",
+  },
+  {
+    seat: "Seat 3",
+    title: "Industry Representative",
+    jurisdiction: "Asia-Pacific / Americas",
+    focus: "Enterprise AI deployment, NIST AI RMF, Australia Privacy Act 2026, India IT Rules",
+    status: "Appointment in Progress",
+  },
+  {
+    seat: "Seat 4",
+    title: "Medical Ethics Lead",
+    jurisdiction: "United Kingdom / EU",
+    focus: "Healthcare AI governance, TGA compliance, NDIS regulatory frameworks, clinical AI oversight",
+    status: "Appointment in Progress",
+  },
+  {
+    seat: "Seat 5",
+    title: "Sovereign Anchor",
+    jurisdiction: "MENA / Global",
+    focus: "Cross-jurisdictional enforcement, emerging AI frameworks, Orbital Registry integrity",
+    status: "Appointment in Progress",
+  },
 ];
 
 const processSteps = [
@@ -66,7 +96,7 @@ const Governance = () => {
           <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <Badge variant="outline" className="border-primary/30 text-primary mb-4">
-                GOVERNANCE MODEL
+                FOUNDING TRIBUNAL — GOVERNANCE MODEL
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
                 <span className="text-chrome-gradient">Sovereign</span>{" "}
@@ -76,6 +106,28 @@ const Governance = () => {
                 A 5-party independent auditor ratification layer providing human oversight
                 of automated compliance verdicts — satisfying EU AI Act Article 14 requirements
                 through cryptographically signed, transparent governance.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Vetting Phase Notice */}
+        <section className="px-4 pb-8">
+          <div className="container mx-auto max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-xl border border-gold/30 bg-gold/5 p-6 text-center"
+            >
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Lock className="h-5 w-5 text-gold" />
+                <h3 className="text-sm font-black tracking-widest text-gold uppercase">Confidential Vetting Phase</h3>
+              </div>
+              <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+                The Apex Sovereign Tribunal is currently in a <span className="text-foreground font-semibold">Confidential Vetting Phase</span> to
+                ensure institutional credibility and jurisdictional diversity. All 5 seats are undergoing rigorous credential
+                verification to guarantee <span className="text-foreground font-semibold">3-of-5 consensus integrity</span> for
+                all Sovereign Audits beginning <span className="text-gold font-bold">July 2026</span>.
               </p>
             </motion.div>
           </div>
@@ -92,7 +144,7 @@ const Governance = () => {
                 </h3>
                 <ul className="space-y-2 text-sm text-foreground/80">
                   <li>• A governance mechanism for human oversight of automated verdicts</li>
-                  <li>• 5 independent professionals with jurisdictional diversity</li>
+                  <li>• 5 independent credentialed professionals with jurisdictional diversity</li>
                   <li>• Ed25519-signed verdicts with mandatory written rationale</li>
                   <li>• A 3-of-5 consensus threshold preventing single-auditor compromise</li>
                   <li>• Compliant with EU AI Act Article 14 (Human Oversight)</li>
@@ -117,27 +169,33 @@ const Governance = () => {
           </div>
         </section>
 
-        {/* Jurisdictional Seats */}
+        {/* 5 Named Seats */}
         <section className="px-4 py-12 bg-card/30">
           <div className="container mx-auto max-w-4xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2 className="text-2xl font-black mb-2 text-center">
-                <span className="text-chrome-gradient">5 Jurisdictional</span>{" "}
-                <span className="text-gold-gradient">Seats</span>
+                <span className="text-chrome-gradient">Founding Tribunal</span>{" "}
+                <span className="text-gold-gradient">— 5 Seats</span>
               </h2>
               <p className="text-muted-foreground text-center mb-8 text-sm">
-                Each seat represents a major regulatory jurisdiction. No single geography controls the outcome.
+                Each seat represents a critical domain of expertise. No single discipline or geography controls the outcome.
               </p>
             </motion.div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tribunalRoles.map((role, idx) => (
+              {tribunalSeats.map((role, idx) => (
                 <motion.div key={role.seat} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + idx * 0.05 }}
                   className="rounded-xl border border-border bg-card/80 p-5">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Globe className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-bold text-primary uppercase tracking-widest">{role.seat}</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <Globe className="h-4 w-4 text-primary" />
+                      <span className="text-xs font-bold text-primary uppercase tracking-widest">{role.seat}</span>
+                    </div>
+                    <Badge variant="outline" className="text-[9px] border-gold/40 text-gold font-bold">
+                      {role.status.toUpperCase()}
+                    </Badge>
                   </div>
-                  <h4 className="font-bold text-foreground mb-1">{role.jurisdiction}</h4>
+                  <h4 className="font-bold text-foreground mb-1">{role.title}</h4>
+                  <p className="text-[11px] text-muted-foreground mb-1 font-medium">{role.jurisdiction}</p>
                   <p className="text-xs text-muted-foreground">{role.focus}</p>
                 </motion.div>
               ))}
@@ -203,10 +261,10 @@ const Governance = () => {
               </div>
 
               <div className="mt-6 rounded-xl border border-primary/20 bg-primary/5 p-6 text-center">
-                <h4 className="font-bold text-foreground mb-2">Interested in becoming a Tribunal Auditor?</h4>
+                <h4 className="font-bold text-foreground mb-2">Expressions of Interest</h4>
                 <p className="text-sm text-muted-foreground mb-4">
-                  The founding cohort of 5 auditors is currently being constituted.
-                  Expressions of interest from qualified professionals are welcome.
+                  The Founding Tribunal is in a Confidential Vetting Phase.
+                  Expressions of interest from qualified professionals with relevant credentials are welcome.
                 </p>
                 <p className="text-sm text-primary font-mono">contact@apex-infrastructure.com</p>
               </div>
@@ -231,7 +289,7 @@ const Governance = () => {
                 <div className="space-y-2 ml-4">
                   {[
                     "Human-in-the-loop: Every MPC verdict is reviewed by natural persons before ratification",
-                    "Diversity: 5 auditors across 5 jurisdictions prevent monocultural oversight",
+                    "Diversity: 5 auditors across 5 domains prevent monocultural oversight",
                     "Non-repudiation: Ed25519 signatures ensure auditors cannot deny their verdicts",
                     "Accountability: Mandatory rationale creates an auditable decision trail",
                     "Timeliness: 48-hour SLA prevents indefinite delays in compliance certification",
@@ -242,6 +300,31 @@ const Governance = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Timeline */}
+        <section className="px-4 py-12 bg-card/30">
+          <div className="container mx-auto max-w-3xl text-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <h2 className="text-2xl font-black mb-6">
+                <span className="text-chrome-gradient">Institutional</span>{" "}
+                <span className="text-gold-gradient">Timeline</span>
+              </h2>
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  { date: "Q2 2026", label: "Vetting Phase Concludes", desc: "All 5 seats credentialed and enshrined" },
+                  { date: "July 2026", label: "Tribunal Operational", desc: "3-of-5 Sovereign Audits begin" },
+                  { date: "Aug 2, 2026", label: "EU AI Act Enforcement", desc: "Full regulatory compliance required" },
+                ].map((m) => (
+                  <div key={m.date} className="rounded-lg border border-border bg-card/60 p-4">
+                    <p className="text-lg font-black text-gold-gradient">{m.date}</p>
+                    <p className="text-xs font-bold text-foreground mt-1">{m.label}</p>
+                    <p className="text-[11px] text-muted-foreground mt-1">{m.desc}</p>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>

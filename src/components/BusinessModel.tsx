@@ -1,39 +1,35 @@
 import { motion } from "framer-motion";
-import { Handshake, Users, TrendingUp, Shield, Lock } from "lucide-react";
+import { Handshake, Shield, TrendingUp, FileText, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const pillars = [
   {
     icon: Shield,
-    title: "Infrastructure Partner",
-    subtitle: "Aligned Incentives",
-    desc: "We deploy our full PSI compliance stack into your AI company. We don't sell software licences — we become your compliance infrastructure partner with skin in the game.",
+    title: "Sovereign Certification Partner",
+    subtitle: "Systemic Risk Mitigation",
+    desc: "We deploy our full PSI compliance infrastructure into your enterprise. The protocol is free; the certification, Tribunal ratification, and managed MPC infrastructure are engagement-based.",
     details: [
-      "Full PSI deployment and integration",
-      "Ongoing compliance monitoring",
-      "Regulatory updates and adaptation",
+      "Full PSI Protocol deployment and integration",
+      "Tribunal-ratified compliance certificates",
+      "Orbital Registry entry for global proof anchoring",
       "Terms discussed under NDA",
     ],
-    cta: "Discuss Partnership",
+    cta: "Discuss Certification",
     ctaHref: "#contact",
-    variant: "hero" as const,
   },
   {
-    icon: Users,
-    title: "Revenue Partner Program",
-    subtitle: "Industry-Leading Commission",
-    desc: "Introduce AI companies trapped by the compliance paradox to our solution. Earn recurring revenue from every company you bring in.",
+    icon: Globe,
+    title: "Institutional Licensing",
+    subtitle: "Standard-Essential Access",
+    desc: "For enterprises, standards bodies, and government agencies requiring white-label deployment or jurisdictional customization of the PSI Protocol infrastructure.",
     details: [
-      "No technical work required",
-      "Recurring commission structure",
-      "Full marketing and sales support",
-      "Apply to learn terms",
+      "White-label sovereign infrastructure",
+      "Custom jurisdictional predicate mapping",
+      "Dedicated MPC node cluster",
+      "SLA-backed compliance monitoring",
     ],
-    cta: "Apply as Revenue Partner",
-    ctaHref: "/partner",
-    variant: "heroOutline" as const,
-    isRoute: true,
+    cta: "Apply for Licensing",
+    ctaHref: "#contact",
   },
 ];
 
@@ -46,12 +42,13 @@ const BusinessModel = () => (
         viewport={{ once: true }}
         className="text-center mb-16"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Partnership</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Institutional Engagement</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          We Are the <span className="text-gold-gradient">Partner</span>, Not the Vendor
+          The Protocol is <span className="text-gold-gradient">Free</span>. The Certification is Sovereign.
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          The PSI Protocol is open-source. We deploy sovereign compliance infrastructure and share in the value we create. All partnership terms are discussed privately.
+          The PSI Protocol (<span className="font-mono text-primary">draft-singh-psi-00</span>) is open-source and free forever.
+          Revenue is generated through Sovereign Certification, managed infrastructure, and Tribunal ratification services.
         </p>
       </motion.div>
 
@@ -79,12 +76,8 @@ const BusinessModel = () => (
                 </li>
               ))}
             </ul>
-            <Button variant={p.variant} className="w-full sm:w-auto" asChild>
-              {p.isRoute ? (
-                <Link to={p.ctaHref}>{p.cta}</Link>
-              ) : (
-                <a href={p.ctaHref}>{p.cta}</a>
-              )}
+            <Button variant="hero" className="w-full sm:w-auto" asChild>
+              <a href={p.ctaHref}>{p.cta}</a>
             </Button>
           </motion.div>
         ))}
