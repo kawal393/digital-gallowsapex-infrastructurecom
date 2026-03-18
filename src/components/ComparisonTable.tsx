@@ -98,7 +98,7 @@ const ComparisonTable = () => (
                   {r.approach}
                   {r.highlight && (
                     <span className="ml-2 text-[10px] font-black tracking-widest uppercase bg-gold/10 text-gold px-2 py-0.5 rounded-full">
-                      Ours
+                      THE STANDARD
                     </span>
                   )}
                 </td>

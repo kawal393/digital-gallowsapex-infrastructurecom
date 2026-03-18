@@ -53,7 +53,7 @@ const Hero = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
             <span className="text-chrome-gradient">APEX PSI:</span>
             <br />
-            <span className="text-gold-gradient">The Sovereign Standard</span>
+            <span className="text-gold-gradient">The Definitive Standard</span>
             <br />
             <span className="text-gold-gradient">for Verifiable AI Governance.</span>
           </h1>
