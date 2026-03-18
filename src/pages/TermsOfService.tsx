@@ -6,8 +6,8 @@ const TermsOfService = () => (
       <h2>1. Agreement to Terms</h2>
       <p>
         These Terms of Service ("Terms") constitute a legally binding agreement between you and
-        ROCKYFILMS888 PTY LTD (ABN 71 672 237 795, ACN 672 237 795), trading as
-        <strong> APEX DIGITAL GALLOWS</strong>, a division of APEX INTELLIGENCE EMPIRE
+        APEX INTELLIGENCE EMPIRE, trading as
+        <strong> APEX DIGITAL GALLOWS</strong>
         ("Company", "we", "us", "our"), headquartered in Melbourne, Victoria, Australia.
       </p>
       <p>
