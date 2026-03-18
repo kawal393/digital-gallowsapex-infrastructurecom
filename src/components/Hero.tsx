@@ -27,10 +27,15 @@ const Hero = () => {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 border-glow">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-3 sm:mb-4 border-glow">
             <Shield className="h-3.5 w-3.5 text-gold" />
             <span className="text-[10px] sm:text-xs font-semibold text-gold tracking-widest uppercase">
-              PSI Protocol v1.1 · Sovereign Tribunal Active
+              Reference Implementation of draft-singh-psi-00
+            </span>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 sm:px-4 py-1 mb-6 sm:mb-8">
+            <span className="text-[9px] sm:text-[10px] font-bold text-primary tracking-widest uppercase">
+              Founding Tribunal — Appointment in Progress · Sovereign Audits Begin July 2026
             </span>
           </div>
 
