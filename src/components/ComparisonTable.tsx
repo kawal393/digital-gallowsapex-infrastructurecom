@@ -66,7 +66,7 @@ const ComparisonTable = () => (
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
           EU AI Act compliance market projected at{" "}
-          <span className="text-foreground font-semibold">€7–17 billion</span>. Every existing approach fails on cost, feasibility, or IP protection.
+          <span className="text-foreground font-semibold">€7–17 billion</span>. Every alternative fails on cost, feasibility, or IP protection. There is no second option.
         </p>
       </motion.div>
 
