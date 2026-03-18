@@ -88,6 +88,16 @@ const Navbar = () => {
             <span className="text-chrome-gradient">PSI</span>
           </button>
 
+          {/* IETF Status Badge */}
+          <a
+            href="/protocol"
+            onClick={(e) => { e.preventDefault(); handleNavClick("/protocol", true); }}
+            className="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[10px] font-bold text-primary tracking-widest uppercase hover:bg-primary/10 transition-colors cursor-pointer"
+          >
+            <FileText className="h-3 w-3" />
+            IETF draft-singh-psi-00
+          </a>
+
           <div className="flex items-center gap-1">
             {navLinks.map((link) =>
               (link as any).external ? (
