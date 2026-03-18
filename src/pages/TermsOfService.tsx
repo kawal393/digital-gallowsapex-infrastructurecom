@@ -6,8 +6,8 @@ const TermsOfService = () => (
       <h2>1. Agreement to Terms</h2>
       <p>
         These Terms of Service ("Terms") constitute a legally binding agreement between you and
-        ROCKYFILMS888 PTY LTD (ABN 71 672 237 795, ACN 672 237 795), trading as
-        <strong> APEX DIGITAL GALLOWS</strong>, a division of APEX INTELLIGENCE EMPIRE
+        APEX INTELLIGENCE EMPIRE, trading as
+        <strong> APEX DIGITAL GALLOWS</strong>
         ("Company", "we", "us", "our"), headquartered in Melbourne, Victoria, Australia.
       </p>
       <p>
@@ -62,7 +62,7 @@ const TermsOfService = () => (
       <h2>6. Intellectual Property</h2>
       <p>
         All content, branding, technology, and materials on this platform are the exclusive
-        property of ROCKYFILMS888 PTY LTD and APEX INTELLIGENCE EMPIRE.
+        property of APEX INTELLIGENCE EMPIRE.
         You may not reproduce, distribute, or create derivative works without express written permission.
       </p>
       <p>
@@ -150,8 +150,8 @@ const TermsOfService = () => (
     <section>
       <h2>14. Contact</h2>
       <ul>
-        <li><strong>ROCKYFILMS888 PTY LTD</strong></li>
-        <li>A division of APEX INTELLIGENCE EMPIRE</li>
+        <li><strong>APEX INTELLIGENCE EMPIRE</strong></li>
+        <li>Melbourne, Victoria, Australia</li>
         <li>Melbourne, Victoria, Australia</li>
         <li>Email: legal@apexdigitalgallows.com</li>
       </ul>
