@@ -46,7 +46,7 @@ const Hero = () => {
             className="mb-5 sm:mb-6"
           >
             <p className="text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-primary">
-              The World's First & Only
+              The Only Mathematically Verifiable
             </p>
           </motion.div>
 
