@@ -13,8 +13,8 @@ const EXPIRY_DATE = "September 2026";
 const draftText = `
 Internet Engineering Task Force (IETF)                         K. Singh
 Internet-Draft                                    Apex Intelligence Empire
-Intended status: Standards Track                         Rockyfilms888 Pty Ltd
-Expires: ${EXPIRY_DATE}                                         ${DRAFT_DATE}
+Intended status: Standards Track                              ${DRAFT_DATE}
+Expires: ${EXPIRY_DATE}
 
 
         Proof of Sovereign Integrity (PSI): A Cryptographic Protocol
@@ -755,7 +755,6 @@ Authors' Addresses
 
    Kawaljeet Singh
    Apex Intelligence Empire
-   Rockyfilms888 Pty Ltd (ABN 71 672 237 795)
    Melbourne, Victoria, Australia
 
    Email: contact@apex-infrastructure.com
@@ -866,7 +865,7 @@ const IETFDraft = () => {
                 <li>Download the draft using the button above</li>
                 <li>Navigate to <a href="https://datatracker.ietf.org/submit/" target="_blank" rel="noopener noreferrer" className="text-primary underline">datatracker.ietf.org/submit</a></li>
                 <li>Upload the .txt file — the filename MUST be <code className="text-primary">{DRAFT_NAME}.txt</code></li>
-                <li>Author: Kawaljeet Singh, Apex Intelligence Empire, Rockyfilms888 Pty Ltd</li>
+                <li>Author: Kawaljeet Singh, Apex Intelligence Empire</li>
                 <li>Once submitted, the draft receives a permanent, timestamped, publicly archived record</li>
               </ol>
               <div className="mt-4 p-3 rounded-lg bg-background border border-border">
