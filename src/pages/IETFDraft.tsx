@@ -768,12 +768,16 @@ const IETFDraft = () => {
   };
 
   const downloadDraft = () => {
-    const blob = new Blob([draftText], { type: "text/plain" });
+    // IETF datatracker requires proper plain-text with CRLF line endings
+    const crlfText = draftText.replace(/\r?\n/g, "\r\n");
+    const blob = new Blob([crlfText], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = `${DRAFT_NAME}.txt`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
