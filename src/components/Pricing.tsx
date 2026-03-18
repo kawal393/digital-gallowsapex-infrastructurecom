@@ -1,152 +1,36 @@
-import { Check, X, Sparkles, Zap } from "lucide-react";
+import { Shield, FileText, Globe, Zap, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const tiers = [
-  {
-    name: "SOVEREIGN ENTRY",
-    key: "free",
-    price: "$0",
-    period: "forever",
-    description: "Full PSI Protocol. Zero cost. No tricks.",
-    features: [
-      { text: "Full compliance assessment", included: true },
-      { text: "Compliance score + status", included: true },
-      { text: "Embeddable trust badge (SHIELD)", included: true },
-      { text: "Public hash verification", included: true },
-      { text: "3 TRIO verifications/month", included: true },
-      { text: "1 certificate/month", included: true },
-      { text: "Community support", included: true },
-      { text: "SWORD + JUDGE modes", included: false },
-      { text: "Regulator-ready audit export", included: false },
-      { text: "Continuous automated monitoring", included: false },
-    ],
-    featured: false,
-    isFree: true,
-  },
-  {
-    name: "STARTUP",
-    key: "startup",
-    price: "$499",
-    period: "/month",
-    description: "Managed verification infrastructure.",
-    features: [
-      { text: "Everything in Free", included: true },
-      { text: "100 verifications/month", included: true },
-      { text: "SHIELD mode (full)", included: true },
-      { text: "Regulator-ready certificates", included: true },
-      { text: "Merkle audit trail export", included: true },
-      { text: "Email support (24h SLA)", included: true },
-      { text: "SDK access (basic)", included: true },
-      { text: "SWORD + JUDGE modes", included: false },
-      { text: "Continuous monitoring", included: false },
-    ],
-    featured: false,
-    isFree: false,
-  },
-  {
-    name: "GROWTH",
-    key: "growth",
-    price: "$2,499",
-    period: "/month",
-    description: "Full managed compliance arsenal.",
-    features: [
-      { text: "Everything in Startup", included: true },
-      { text: "Unlimited verifications", included: true },
-      { text: "SHIELD + SWORD modes", included: true },
-      { text: "Public audit trail", included: true },
-      { text: "API access + webhooks", included: true },
-      { text: "Priority support (4h SLA)", included: true },
-      { text: "SDK (full ZK + runtime)", included: true },
-      { text: "Continuous monitoring", included: true },
-      { text: "JUDGE mode", included: false },
-    ],
-    featured: true,
-    isFree: false,
-  },
-  {
-    name: "ENTERPRISE",
-    key: "enterprise",
-    price: "$9,999",
-    period: "/month",
-    description: "Dedicated sovereign infrastructure.",
-    features: [
-      { text: "Everything in Growth", included: true },
-      { text: "All 3 modes (SHIELD/SWORD/JUDGE)", included: true },
-      { text: "Dedicated MPC nodes", included: true },
-      { text: "24/7 SLA support", included: true },
-      { text: "Custom integrations", included: true },
-      { text: "White-label options", included: true },
-      { text: "Dedicated compliance advisor", included: true },
-      { text: "Automated continuous monitoring", included: true },
-    ],
-    featured: false,
-    isFree: false,
-  },
-  {
-    name: "GOLIATH",
-    key: "goliath",
-    price: "Custom",
-    period: "",
-    description: "Your rules. Your nodes. Your fortress.",
-    features: [
-      { text: "Everything in Enterprise", included: true },
-      { text: "Sovereign infrastructure", included: true },
-      { text: "Judge mode licensing", included: true },
-      { text: "White-label platform", included: true },
-      { text: "Custom SLA + legal guarantee", included: true },
-      { text: "Dedicated account manager", included: true },
-      { text: "On-premise deployment option", included: true },
-    ],
-    featured: false,
-    isFree: false,
-  },
+const openAccessFeatures = [
+  "Full PSI Protocol verification engine",
+  "Digital Gallows SDK — complete source",
+  "SHA-256 hash chain + Merkle audit trails",
+  "Ed25519 signature verification",
+  "3-node MPC consensus logic",
+  "Embeddable SHIELD trust badge",
+  "Public hash verification portal",
+  "RFC 8785 (JCS) canonicalization",
+  "EU AI Act predicate mapping (Articles 11–15, 52)",
+  "Community documentation & IETF draft access",
+];
+
+const certificationIncludes = [
+  "Sovereign Tribunal ratification (3-of-5 human consensus)",
+  "Regulator-ready compliance certificate with Merkle proof",
+  "Orbital Registry entry for global proof anchoring",
+  "Continuous automated compliance monitoring",
+  "Dedicated MPC node infrastructure",
+  "24/7 SLA-backed support",
+  "Insurance underwriting eligibility",
+  "White-label deployment options",
 ];
 
 const Pricing = () => {
-  const { user, subscription } = useAuth();
-  const navigate = useNavigate();
-  const [loadingTier, setLoadingTier] = useState<string | null>(null);
-
-  const handleSubscribe = async (tierKey: string) => {
-    if (tierKey === "free") {
-      navigate("/auth");
-      return;
-    }
-    if (tierKey === "goliath") {
-      const el = document.getElementById("contact");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
-    setLoadingTier(tierKey);
-    try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { tier: tierKey },
-      });
-      if (error) throw error;
-      if (data?.url) window.open(data.url, "_blank");
-    } catch (e: any) {
-      toast.error(e.message || "Failed to create checkout session");
-    } finally {
-      setLoadingTier(null);
-    }
-  };
-
-  const currentTier = subscription.subscribed ? subscription.tier : "free";
-
   return (
     <section className="relative py-24 px-4" id="pricing">
-      <div className="container mx-auto max-w-7xl">
+      <div className="container mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -154,13 +38,15 @@ const Pricing = () => {
           className="text-center mb-6"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Open Standard · Managed Infrastructure
+            Public-Good Infrastructure
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            The Standard is Free. The Fortress is Paid.
+            The Standard is <span className="text-gold-gradient">Free</span>. Forever.
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            The PSI Protocol is open and free forever. Paid tiers are for managed infrastructure — dedicated MPC nodes, 24/7 monitoring, and regulator-ready SLA guarantees.
+            The PSI Protocol (<span className="font-mono text-primary">draft-singh-psi-00</span>) is public-good infrastructure.
+            Access to the Digital Gallows SDK and core verification logic is <span className="font-bold text-foreground">$0 / Open Access</span> for
+            all developers, AI research labs, and enterprises.
           </p>
         </motion.div>
 
@@ -178,91 +64,92 @@ const Pricing = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
-          {tiers.map((tier, i) => {
-            const isCurrentPlan = currentTier === tier.key;
-
-            return (
-              <motion.div
-                key={tier.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className={`relative rounded-xl border p-5 flex flex-col ${
-                  isCurrentPlan
-                    ? "border-compliant/60 bg-card shadow-[0_0_20px_rgba(34,197,94,0.12)]"
-                    : tier.featured
-                    ? "border-gold/60 bg-card shadow-gold"
-                    : tier.isFree
-                    ? "border-gold/30 bg-card"
-                    : "border-border bg-card"
-                }`}
-              >
-                {isCurrentPlan && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-compliant text-white text-[10px] font-bold px-3 py-1 rounded-full whitespace-nowrap">
-                      YOUR PLAN
-                    </span>
-                  </div>
-                )}
-                {!isCurrentPlan && tier.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-gold-gradient text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-full">
-                      MOST POPULAR
-                    </span>
-                  </div>
-                )}
-                {!isCurrentPlan && tier.isFree && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="border border-gold/50 bg-card text-gold text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                      <Sparkles className="h-3 w-3" /> FREE FOREVER
-                    </span>
-                  </div>
-                )}
-
-                <h3 className="text-xs font-bold tracking-widest text-gold mb-2 mt-1">{tier.name}</h3>
-                <div className="mb-1">
-                  <span className="text-2xl font-bold text-foreground">{tier.price}</span>
-                  {tier.period && <span className="text-muted-foreground text-xs">{tier.period}</span>}
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Open Access — Free */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-xl border border-gold/30 bg-card p-8 flex flex-col"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center">
+                <Globe className="h-6 w-6 text-gold" />
+              </div>
+              <div>
+                <h3 className="text-xs font-bold tracking-widest text-gold uppercase">Open Access</h3>
+                <div>
+                  <span className="text-3xl font-black text-foreground">$0</span>
+                  <span className="text-muted-foreground text-sm ml-1">/ forever</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-4">{tier.description}</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground mb-6">
+              The complete PSI Protocol — verification engine, SDK, and cryptographic primitives — available to every developer and research lab on Earth.
+            </p>
 
-                <ul className="space-y-2 mb-6 flex-1">
-                  {tier.features.map((f) => (
-                    <li key={f.text} className={`flex items-start gap-2 text-xs ${f.included ? "text-foreground/80" : "text-muted-foreground/40"}`}>
-                      {f.included ? (
-                        <Check className="h-3.5 w-3.5 text-gold flex-shrink-0 mt-0.5" />
-                      ) : (
-                        <X className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
-                      )}
-                      {f.text}
-                    </li>
-                  ))}
-                </ul>
+            <ul className="space-y-2.5 mb-8 flex-1">
+              {openAccessFeatures.map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-foreground/80">
+                  <CheckCircle2 className="h-4 w-4 text-gold flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
 
-                <Button
-                  variant={isCurrentPlan ? "outline" : tier.featured ? "hero" : tier.isFree ? "hero" : "heroOutline"}
-                  className="w-full"
-                  size="sm"
-                  disabled={isCurrentPlan || loadingTier === tier.key}
-                  onClick={() => handleSubscribe(tier.key)}
-                >
-                  {loadingTier === tier.key
-                    ? "Loading..."
-                    : isCurrentPlan
-                    ? "Current Plan"
-                    : tier.isFree
-                    ? "Get Started Free"
-                    : tier.key === "goliath"
-                    ? "Contact Sales"
-                    : user
-                    ? "Upgrade Now"
-                    : "Sign In to Subscribe"}
-                </Button>
-              </motion.div>
-            );
-          })}
+            <Button variant="hero" className="w-full" size="lg" asChild>
+              <Link to="/gallows">
+                Access the Protocol <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
+          </motion.div>
+
+          {/* Sovereign Certification — Paid */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="rounded-xl border border-primary/40 bg-card p-8 flex flex-col relative"
+          >
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="bg-primary text-primary-foreground text-[10px] font-bold px-4 py-1 rounded-full whitespace-nowrap">
+                COMMERCIAL REGULATORY FILINGS
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 mb-4 mt-2">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Shield className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xs font-bold tracking-widest text-primary uppercase">Apex Sovereign Certification</h3>
+                <div>
+                  <span className="text-3xl font-black text-foreground">Custom</span>
+                  <span className="text-muted-foreground text-sm ml-1">/ per engagement</span>
+                </div>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground mb-6">
+              For enterprises requiring regulator-ready compliance filings, Tribunal-ratified certificates, and managed sovereign infrastructure. Certification and insurance underwriting fees apply.
+            </p>
+
+            <ul className="space-y-2.5 mb-8 flex-1">
+              {certificationIncludes.map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-foreground/80">
+                  <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <Button variant="heroOutline" className="w-full" size="lg" asChild>
+              <Link to="/#contact">
+                <FileText className="h-4 w-4 mr-1" />
+                Apply for Apex Sovereign Certification
+              </Link>
+            </Button>
+          </motion.div>
         </div>
 
         {/* Bottom reassurance */}
@@ -270,9 +157,10 @@ const Pricing = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-xs text-muted-foreground mt-8"
+          className="text-center text-xs text-muted-foreground mt-10 max-w-2xl mx-auto"
         >
-          The math is free. The fortress is paid. All managed tiers include a 14-day money-back guarantee. Cancel anytime. Prices in USD.
+          The PSI Protocol is a public-good standard. The math is free, the code is open-source, and the specification (<span className="font-mono">draft-singh-psi-00</span>) is submitted to the IETF.
+          Certification fees apply only to commercial entities requiring Tribunal-ratified, regulator-ready compliance filings.
         </motion.p>
       </div>
     </section>

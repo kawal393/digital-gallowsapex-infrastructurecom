@@ -50,6 +50,21 @@ const VerificationResult = ({ result }: VerificationResultProps) => {
             </p>
           </div>
 
+          <div>
+            <span className="text-gallows-muted">Orbital Registry ID:</span>
+            <p className="text-gallows-text text-xs break-all mt-1 bg-gallows-bg p-2 rounded border border-gallows-border font-mono">
+              {isApproved
+                ? `ORB-${result.auditHash.slice(0, 12).toUpperCase()}`
+                : "— (proof rejected — no registry entry)"
+              }
+            </p>
+            {isApproved && (
+              <p className="text-[10px] text-gallows-muted mt-1">
+                Valid proofs require an entry in the Apex Orbital Registry for global anchoring.
+              </p>
+            )}
+          </div>
+
           <div className={`p-3 rounded border ${isApproved ? 'border-gallows-approved/20 bg-gallows-approved/5' : 'border-gallows-blocked/20 bg-gallows-blocked/5'}`}>
             <p className={`text-xs ${isApproved ? 'text-gallows-approved' : 'text-gallows-blocked'}`}>
               {isApproved
