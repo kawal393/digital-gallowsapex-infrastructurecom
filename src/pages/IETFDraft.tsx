@@ -755,7 +755,6 @@ Authors' Addresses
 
    Kawaljeet Singh
    Apex Intelligence Empire
-   Rockyfilms888 Pty Ltd (ABN 71 672 237 795)
    Melbourne, Victoria, Australia
 
    Email: contact@apex-infrastructure.com
