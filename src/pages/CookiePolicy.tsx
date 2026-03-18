@@ -7,7 +7,7 @@ const CookiePolicy = () => (
       <p>
         Cookies are small text files placed on your device when you visit a website. They are
         widely used to make websites work efficiently and provide information to website owners.
-        This policy explains how ROCKYFILMS888 PTY LTD (ABN 71 672 237 795),
+        This policy explains how APEX INTELLIGENCE EMPIRE,
         trading as <strong>APEX DIGITAL GALLOWS</strong>, uses cookies and similar technologies.
       </p>
     </section>
