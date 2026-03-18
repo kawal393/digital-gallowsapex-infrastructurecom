@@ -150,8 +150,8 @@ const TermsOfService = () => (
     <section>
       <h2>14. Contact</h2>
       <ul>
-        <li><strong>ROCKYFILMS888 PTY LTD</strong></li>
-        <li>A division of APEX INTELLIGENCE EMPIRE</li>
+        <li><strong>APEX INTELLIGENCE EMPIRE</strong></li>
+        <li>Melbourne, Victoria, Australia</li>
         <li>Melbourne, Victoria, Australia</li>
         <li>Email: legal@apexdigitalgallows.com</li>
       </ul>

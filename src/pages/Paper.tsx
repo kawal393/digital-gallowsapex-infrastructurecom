@@ -11,7 +11,7 @@ PSI: Proof of Sovereign Integrity — A Cryptographic Protocol
 for Verifiable AI Regulatory Compliance Without IP Disclosure
 
 Kawaljeet Singh
-Apex Intelligence Empire, Rockyfilms888 Pty Ltd
+Apex Intelligence Empire
 Melbourne, Victoria, Australia
 contact@apex-infrastructure.com
 

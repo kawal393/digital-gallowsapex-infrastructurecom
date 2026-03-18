@@ -95,8 +95,8 @@ const CookiePolicy = () => (
     <section>
       <h2>8. Contact</h2>
       <ul>
-        <li><strong>ROCKYFILMS888 PTY LTD</strong></li>
-        <li>A division of APEX INTELLIGENCE EMPIRE</li>
+        <li><strong>APEX INTELLIGENCE EMPIRE</strong></li>
+        <li>Melbourne, Victoria, Australia</li>
         <li>Melbourne, Victoria, Australia</li>
         <li>Email: privacy@apexdigitalgallows.com</li>
       </ul>

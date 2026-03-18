@@ -73,7 +73,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
 
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
-            © 2026 ROCKYFILMS888 PTY LTD (ABN: 71 672 237 795). All rights reserved.
+            © 2026 Apex Intelligence Empire. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
             Proof of Sovereign Integrity™

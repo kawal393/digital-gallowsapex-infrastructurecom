@@ -45,7 +45,7 @@ const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) => {
       <footer className="border-t border-border py-8 px-4">
         <div className="container mx-auto max-w-3xl text-center">
           <p className="text-xs text-muted-foreground">
-            © 2026 ROCKYFILMS888 PTY LTD. All rights reserved.
+            © 2026 Apex Intelligence Empire. All rights reserved.
           </p>
         </div>
       </footer>
