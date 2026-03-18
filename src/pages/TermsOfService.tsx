@@ -62,7 +62,7 @@ const TermsOfService = () => (
       <h2>6. Intellectual Property</h2>
       <p>
         All content, branding, technology, and materials on this platform are the exclusive
-        property of ROCKYFILMS888 PTY LTD and APEX INTELLIGENCE EMPIRE.
+        property of APEX INTELLIGENCE EMPIRE.
         You may not reproduce, distribute, or create derivative works without express written permission.
       </p>
       <p>
