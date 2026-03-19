@@ -204,6 +204,9 @@ const Admin = () => {
             <TabsTrigger value="blockchain" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Anchor className="h-3.5 w-3.5 mr-1.5" /> Blockchain
             </TabsTrigger>
+            <TabsTrigger value="social-proof" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Social Proof
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="intelligence">
