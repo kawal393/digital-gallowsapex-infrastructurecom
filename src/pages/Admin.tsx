@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import AdminAIChat from "@/components/admin/AdminAIChat";
 import BlockchainAnchorPanel from "@/components/admin/BlockchainAnchorPanel";
 import SovereignIntelligence from "@/components/admin/SovereignIntelligence";
+import SocialProofManager from "@/components/admin/SocialProofManager";
 
 interface AdminStats {
   total_users: number;
