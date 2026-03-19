@@ -23,7 +23,7 @@ const sourceColors: Record<string, string> = {
 };
 
 const SocialProofWall = () => {
-  const [entries, setEntries] = useState<ProofEntry[]>(fallbackEntries);
+  const [entries, setEntries] = useState<ProofEntry[]>([]);
 
   useEffect(() => {
     const fetchProof = async () => {
@@ -33,12 +33,14 @@ const SocialProofWall = () => {
         .eq("approved", true)
         .order("created_at", { ascending: false })
         .limit(6);
-      if (data && data.length > 0) {
+      if (data) {
         setEntries(data as ProofEntry[]);
       }
     };
     fetchProof();
   }, []);
+
+  if (entries.length === 0) return null;
 
   return (
     <section className="relative py-20 px-4 overflow-hidden">

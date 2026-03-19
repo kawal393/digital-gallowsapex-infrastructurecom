@@ -53,7 +53,7 @@ const SocialProofManager = () => {
     setLoading(true);
     const [proofRes, logRes] = await Promise.all([
       supabase.from("social_proof").select("*").order("created_at", { ascending: false }),
-      supabase.from("harvest_log" as any).select("*").order("started_at", { ascending: false }).limit(10),
+      supabase.from("harvest_log" as any).select("*").order("started_at", { ascending: false }).limit(10) as any,
     ]);
     setEntries((proofRes.data as SocialProofEntry[]) || []);
     setLogs((logRes.data as HarvestLog[]) || []);
