@@ -8,6 +8,8 @@ import NDISComplianceSection from "@/components/NDISComplianceSection";
 import SolutionSection from "@/components/SolutionSection";
 import TrioSection from "@/components/TrioSection";
 import TrustSection from "@/components/TrustSection";
+import SocialProofWall from "@/components/SocialProofWall";
+import RegulatoryAlignment from "@/components/RegulatoryAlignment";
 import OptimisticModel from "@/components/OptimisticModel";
 import HowItWorks from "@/components/HowItWorks";
 import LiveCaseStudy from "@/components/LiveCaseStudy";
