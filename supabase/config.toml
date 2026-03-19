@@ -98,3 +98,6 @@ verify_jwt = false
 
 [functions.stripe-webhook]
 verify_jwt = false
+
+[functions.harvest-social-proof]
+verify_jwt = false
