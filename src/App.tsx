@@ -39,6 +39,7 @@ import IETFDraft from "./pages/IETFDraft";
 import Paper from "./pages/Paper";
 import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
+import Research from "./pages/Research";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
