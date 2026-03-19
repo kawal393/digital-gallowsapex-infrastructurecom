@@ -406,6 +406,42 @@ export type Database = {
         }
         Relationships: []
       }
+      harvest_log: {
+        Row: {
+          completed_at: string | null
+          entries_inserted: number
+          entries_qualified: number
+          errors: string[] | null
+          id: string
+          queries_run: number
+          results_found: number
+          started_at: string
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          entries_inserted?: number
+          entries_qualified?: number
+          errors?: string[] | null
+          id?: string
+          queries_run?: number
+          results_found?: number
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          entries_inserted?: number
+          entries_qualified?: number
+          errors?: string[] | null
+          id?: string
+          queries_run?: number
+          results_found?: number
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       industry_silos: {
         Row: {
           color: string | null

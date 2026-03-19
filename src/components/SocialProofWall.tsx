@@ -13,35 +13,7 @@ interface ProofEntry {
   source_type: string;
 }
 
-const fallbackEntries: ProofEntry[] = [
-  {
-    id: "1",
-    quote: "For those interested in structural governance vs. post-hoc verification… Deterministic invariant enforcement, authority constraints, and non-bypass guarantees are defined there. This is not a monitoring model.",
-    author_name: "Ondřej Škultety",
-    author_title: "Founder & Chief Architect",
-    author_affiliation: "Living AI / Synthetic Mind Architecture",
-    source_url: "",
-    source_type: "linkedin",
-  },
-  {
-    id: "2",
-    quote: "PSI Protocol represents the first credible attempt to make AI compliance mathematically verifiable rather than self-reported.",
-    author_name: "Independent Researcher",
-    author_title: "AI Governance",
-    author_affiliation: "arXiv Commentary",
-    source_url: "",
-    source_type: "citation",
-  },
-  {
-    id: "3",
-    quote: "The IETF draft submission signals institutional intent — this isn't a startup pitch, it's a standards play.",
-    author_name: "Protocol Observer",
-    author_title: "Standards Analyst",
-    author_affiliation: "Industry Commentary",
-    source_url: "",
-    source_type: "commentary",
-  },
-];
+// No fake fallback entries — only real, approved DB entries are shown
 
 const sourceColors: Record<string, string> = {
   linkedin: "bg-psi-blue/10 text-psi-blue border-psi-blue/20",
@@ -51,7 +23,7 @@ const sourceColors: Record<string, string> = {
 };
 
 const SocialProofWall = () => {
-  const [entries, setEntries] = useState<ProofEntry[]>(fallbackEntries);
+  const [entries, setEntries] = useState<ProofEntry[]>([]);
 
   useEffect(() => {
     const fetchProof = async () => {
@@ -61,12 +33,14 @@ const SocialProofWall = () => {
         .eq("approved", true)
         .order("created_at", { ascending: false })
         .limit(6);
-      if (data && data.length > 0) {
+      if (data) {
         setEntries(data as ProofEntry[]);
       }
     };
     fetchProof();
   }, []);
+
+  if (entries.length === 0) return null;
 
   return (
     <section className="relative py-20 px-4 overflow-hidden">

@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, CreditCard, Shield, Activity, ArrowLeft, RefreshCw, Anchor, Radar } from "lucide-react";
+import { Users, CreditCard, Shield, Activity, ArrowLeft, RefreshCw, Anchor, Radar, Sparkles } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import { toast } from "sonner";
 import AdminAIChat from "@/components/admin/AdminAIChat";
 import BlockchainAnchorPanel from "@/components/admin/BlockchainAnchorPanel";
 import SovereignIntelligence from "@/components/admin/SovereignIntelligence";
+import SocialProofManager from "@/components/admin/SocialProofManager";
 
 interface AdminStats {
   total_users: number;
@@ -203,6 +204,9 @@ const Admin = () => {
             <TabsTrigger value="blockchain" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Anchor className="h-3.5 w-3.5 mr-1.5" /> Blockchain
             </TabsTrigger>
+            <TabsTrigger value="social-proof" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Social Proof
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="intelligence">
@@ -313,6 +317,10 @@ const Admin = () => {
 
           <TabsContent value="blockchain">
             <BlockchainAnchorPanel />
+          </TabsContent>
+
+          <TabsContent value="social-proof">
+            <SocialProofManager />
           </TabsContent>
         </Tabs>
       </main>
