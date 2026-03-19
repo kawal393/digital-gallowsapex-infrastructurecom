@@ -677,6 +677,51 @@ export type Database = {
         }
         Relationships: []
       }
+      research_publications: {
+        Row: {
+          authors: string
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          is_own: boolean
+          pub_type: string
+          publication_date: string | null
+          sort_order: number
+          source_name: string | null
+          title: string
+          url: string
+        }
+        Insert: {
+          authors?: string
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          is_own?: boolean
+          pub_type?: string
+          publication_date?: string | null
+          sort_order?: number
+          source_name?: string | null
+          title: string
+          url: string
+        }
+        Update: {
+          authors?: string
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          is_own?: boolean
+          pub_type?: string
+          publication_date?: string | null
+          sort_order?: number
+          source_name?: string | null
+          title?: string
+          url?: string
+        }
+        Relationships: []
+      }
       revenue_splits: {
         Row: {
           created_at: string
@@ -854,6 +899,45 @@ export type Database = {
           user_agent?: string | null
           user_id?: string | null
           visitor_id?: string
+        }
+        Relationships: []
+      }
+      social_proof: {
+        Row: {
+          approved: boolean
+          author_affiliation: string | null
+          author_name: string
+          author_title: string | null
+          created_at: string
+          featured: boolean
+          id: string
+          quote: string
+          source_type: string
+          source_url: string | null
+        }
+        Insert: {
+          approved?: boolean
+          author_affiliation?: string | null
+          author_name: string
+          author_title?: string | null
+          created_at?: string
+          featured?: boolean
+          id?: string
+          quote: string
+          source_type?: string
+          source_url?: string | null
+        }
+        Update: {
+          approved?: boolean
+          author_affiliation?: string | null
+          author_name?: string
+          author_title?: string | null
+          created_at?: string
+          featured?: boolean
+          id?: string
+          quote?: string
+          source_type?: string
+          source_url?: string | null
         }
         Relationships: []
       }
