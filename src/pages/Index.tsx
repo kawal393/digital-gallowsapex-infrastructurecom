@@ -44,6 +44,8 @@ const Index = () => {
       <SolutionSection />
       <TrioSection />
       <TrustSection />
+      <SocialProofWall />
+      <RegulatoryAlignment />
       <OptimisticModel />
       <HowItWorks />
       <LiveCaseStudy />
