@@ -318,6 +318,10 @@ const Admin = () => {
           <TabsContent value="blockchain">
             <BlockchainAnchorPanel />
           </TabsContent>
+
+          <TabsContent value="social-proof">
+            <SocialProofManager />
+          </TabsContent>
         </Tabs>
       </main>
     </div>
