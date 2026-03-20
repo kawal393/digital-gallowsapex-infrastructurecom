@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import NotaryCTA from "@/components/notary/NotaryCTA";
 import ComplianceClock from "@/components/ComplianceClock";
 import SocialProofBar from "@/components/SocialProofBar";
 import ProblemSection from "@/components/ProblemSection";
