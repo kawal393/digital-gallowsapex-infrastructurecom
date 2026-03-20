@@ -37,6 +37,7 @@ import Registry from "./pages/Registry";
 import SubmissionKit from "./pages/SubmissionKit";
 import IETFDraft from "./pages/IETFDraft";
 import Paper from "./pages/Paper";
+import Notary from "./pages/Notary";
 import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
 import Research from "./pages/Research";
@@ -76,6 +77,7 @@ const App = () => (
               />
               <Route path="/protocol" element={<Protocol />} />
               <Route path="/gallows" element={<Gallows />} />
+              <Route path="/notary" element={<Notary />} />
               <Route path="/architecture" element={<Architecture />} />
               <Route path="/sdk" element={<SDK />} />
               <Route path="/compare" element={<Compare />} />

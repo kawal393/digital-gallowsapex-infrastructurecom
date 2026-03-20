@@ -37,7 +37,7 @@ const tribunalSeats = [
     seat: "Seat 5",
     title: "Sovereign Anchor",
     jurisdiction: "MENA / Global",
-    focus: "Cross-jurisdictional enforcement, emerging AI frameworks, Orbital Registry integrity",
+    focus: "Cross-jurisdictional enforcement, emerging AI frameworks, global Merkle root integrity",
     status: "Appointment in Progress",
   },
 ];

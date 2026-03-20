@@ -19,7 +19,7 @@ const openAccessFeatures = [
 const certificationIncludes = [
   "Sovereign Tribunal ratification (3-of-5 human consensus)",
   "Regulator-ready compliance certificate with Merkle proof",
-  "Orbital Registry entry for global proof anchoring",
+  "Global Merkle root anchoring for proof persistence",
   "Continuous automated compliance monitoring",
   "Dedicated MPC node infrastructure",
   "24/7 SLA-backed support",
