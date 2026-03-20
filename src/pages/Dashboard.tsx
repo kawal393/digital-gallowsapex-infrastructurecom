@@ -370,6 +370,10 @@ const Dashboard = () => {
             )}
           </TabsContent>
 
+          <TabsContent value="notary">
+            <NotaryApiKeys />
+          </TabsContent>
+
           <TabsContent value="analytics">
             <ChatAnalytics />
           </TabsContent>
