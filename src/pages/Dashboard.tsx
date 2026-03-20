@@ -303,10 +303,13 @@ const Dashboard = () => {
         )}
 
         {/* Tabs: Compliance + Analytics */}
-        <Tabs defaultValue="compliance" className="w-full">
+        <Tabs defaultValue={searchParams.get("tab") === "notary" ? "notary" : "compliance"} className="w-full">
           <TabsList className="mb-6 bg-muted">
             <TabsTrigger value="compliance" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Shield className="h-3.5 w-3.5 mr-1.5" /> Compliance
+            </TabsTrigger>
+            <TabsTrigger value="notary" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Key className="h-3.5 w-3.5 mr-1.5" /> Notary API
             </TabsTrigger>
             <TabsTrigger value="analytics" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <BarChart3 className="h-3.5 w-3.5 mr-1.5" /> Chat Analytics
