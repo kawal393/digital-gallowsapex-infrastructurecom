@@ -17,6 +17,7 @@ import OnboardingTour from "@/components/dashboard/OnboardingTour";
 import UpgradePrompt from "@/components/dashboard/UpgradePrompt";
 import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
 import WebhookConfig from "@/components/dashboard/WebhookConfig";
+import NotaryApiKeys from "@/components/dashboard/NotaryApiKeys";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
