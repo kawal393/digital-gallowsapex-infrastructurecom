@@ -53,7 +53,7 @@ const defaultPubs: Publication[] = [
     pub_type: "github",
     source_name: "GitHub",
     url: "https://github.com/",
-    description: "Open-source reference implementation featuring the Digital Gallows verification engine, Sovereign Lattice MPC layer, and Orbital Registry.",
+    description: "Open-source reference implementation featuring the Digital Gallows verification engine, Sovereign Lattice MPC layer, and public verification portal.",
     is_own: true,
     featured: true,
   },

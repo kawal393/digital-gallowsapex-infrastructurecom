@@ -61,14 +61,6 @@ const GatewayInput = ({ onExecute, isProcessing }: GatewayInputProps) => {
             </SelectContent>
           </Select>
         </div>
-        <div>
-          <label className="text-xs font-mono text-gallows-muted mb-1.5 block">ORBITAL REGISTRY ID <span className="text-gallows-muted/50">(auto-assigned on verification)</span></label>
-          <input
-            readOnly
-            value="Pending verification…"
-            className="w-full bg-gallows-bg border border-gallows-border text-gallows-muted font-mono text-sm px-3 py-2 rounded-md"
-          />
-        </div>
         <Button
           onClick={handleExecute}
           disabled={isProcessing || !action.trim()}
