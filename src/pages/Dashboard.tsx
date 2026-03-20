@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles } from "lucide-react";
+import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles, Key } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
