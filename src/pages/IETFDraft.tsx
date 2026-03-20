@@ -606,19 +606,6 @@ Table of Contents
    [GROTH16]  Groth, J., "On the Size of Pairing-Based
               Non-interactive Arguments", EUROCRYPT 2016.
 
-   [ITU-RR]   International Telecommunication Union, "Radio
-              Regulations", Edition of 2024.
-
-   [CCSDS-350] Consultative Committee for Space Data Systems,
-               "CCSDS Cryptographic Algorithms", CCSDS 350.9-G-1,
-               November 2022.
-
-   [TinyGS]   TinyGS Project, "Open-source Global Satellite
-              Ground Station Network", https://tinygs.com, 2024.
-
-   [SatNOGS]  Libre Space Foundation, "SatNOGS: Open Source
-              Global Network of Satellite Ground Stations",
-              https://satnogs.org, 2024.
 
 Authors' Addresses
 
