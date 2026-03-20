@@ -564,6 +564,42 @@ export type Database = {
         }
         Relationships: []
       }
+      notary_api_keys: {
+        Row: {
+          api_key_hash: string
+          created_at: string
+          daily_limit: number
+          daily_used: number
+          id: string
+          last_reset: string
+          name: string
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          api_key_hash: string
+          created_at?: string
+          daily_limit?: number
+          daily_used?: number
+          id?: string
+          last_reset?: string
+          name?: string
+          tier?: string
+          user_id: string
+        }
+        Update: {
+          api_key_hash?: string
+          created_at?: string
+          daily_limit?: number
+          daily_used?: number
+          id?: string
+          last_reset?: string
+          name?: string
+          tier?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       partner_referrals: {
         Row: {
           commission_amount: number
