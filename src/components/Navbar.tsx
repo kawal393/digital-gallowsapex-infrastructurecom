@@ -39,6 +39,7 @@ const Navbar = () => {
 
   const navLinks = [
     { label: "Engine", href: "/gallows", isRoute: true },
+    { label: "Notary API", href: "/notary", isRoute: true },
     { label: "Verify Portal", href: "/verify", isRoute: true },
     { label: "Registry", href: "/registry", isRoute: true },
     { label: "LDSL Specs", href: "/protocol", isRoute: true },

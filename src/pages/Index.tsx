@@ -53,6 +53,7 @@ const Index = () => {
       <ComparisonTable />
       <BusinessModel />
       <TechSpecs />
+      <NotaryCTA />
       <FeaturedResearch />
       <ArticlesSection />
       <ResearchReferences />
