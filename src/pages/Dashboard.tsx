@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles } from "lucide-react";
+import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles, Key } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
@@ -17,6 +17,7 @@ import OnboardingTour from "@/components/dashboard/OnboardingTour";
 import UpgradePrompt from "@/components/dashboard/UpgradePrompt";
 import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
 import WebhookConfig from "@/components/dashboard/WebhookConfig";
+import NotaryApiKeys from "@/components/dashboard/NotaryApiKeys";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
@@ -302,10 +303,13 @@ const Dashboard = () => {
         )}
 
         {/* Tabs: Compliance + Analytics */}
-        <Tabs defaultValue="compliance" className="w-full">
+        <Tabs defaultValue={searchParams.get("tab") === "notary" ? "notary" : "compliance"} className="w-full">
           <TabsList className="mb-6 bg-muted">
             <TabsTrigger value="compliance" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Shield className="h-3.5 w-3.5 mr-1.5" /> Compliance
+            </TabsTrigger>
+            <TabsTrigger value="notary" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Key className="h-3.5 w-3.5 mr-1.5" /> Notary API
             </TabsTrigger>
             <TabsTrigger value="analytics" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <BarChart3 className="h-3.5 w-3.5 mr-1.5" /> Chat Analytics
@@ -364,6 +368,10 @@ const Dashboard = () => {
                 <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               </div>
             )}
+          </TabsContent>
+
+          <TabsContent value="notary">
+            <NotaryApiKeys />
           </TabsContent>
 
           <TabsContent value="analytics">

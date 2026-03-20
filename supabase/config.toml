@@ -101,3 +101,15 @@ verify_jwt = false
 
 [functions.harvest-social-proof]
 verify_jwt = false
+
+[functions.notarize]
+verify_jwt = false
+
+[functions.tribunal-submit]
+verify_jwt = false
+
+[functions.tribunal-status]
+verify_jwt = false
+
+[functions.master-data]
+verify_jwt = false

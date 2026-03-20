@@ -38,7 +38,7 @@ const tiers = [
     ],
     cta: "Get API Key",
     ctaVariant: "hero" as const,
-    href: "/auth",
+    href: "/dashboard?tab=notary",
   },
   {
     name: "Enterprise",
