@@ -537,17 +537,6 @@ Table of Contents
       Mitigated by: Proposed PSI-RFC-004 (Decentralized
       Gallows Node Federation) enabling self-hosted nodes.
 
-   14.7. Orbital Attack Vectors
-      Space-based PSI nodes face additional threats:
-      (a) Single Event Upsets (SEU) from cosmic radiation
-          corrupting proof state — mitigated by TMR
-          (Triple Modular Redundancy) on critical registers
-      (b) Ground station spoofing — mitigated by Ed25519
-          mutual authentication between orbital and
-          terrestrial nodes
-      (c) Telemetry replay attacks — mitigated by monotonic
-          sequence counter with orbital epoch binding
-
 15. IANA Considerations
 
    This document requests registration of:
@@ -555,12 +544,9 @@ Table of Contents
    Media types:
    - application/psi-proof+json
      (PSI proof bundle format)
-   - application/psi-orbital+json
-     (Orbital telemetry attestation format)
 
    URI schemes:
-   - psi://    (terrestrial PSI resource identifier)
-   - psi-orbit:// (orbital PSI resource identifier)
+   - psi://    (PSI resource identifier)
 
 16. Orbital Integrity Protocol (OIP)
 
