@@ -40,7 +40,7 @@ interface VerificationResult {
   sequence_number?: number;
 }
 
-const VERIFY_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/verify-hash`;
+const VERIFY_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/verify-hash`;
 
 // ZK Visualization steps
 const zkSteps = [
