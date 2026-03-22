@@ -113,3 +113,9 @@ verify_jwt = false
 
 [functions.master-data]
 verify_jwt = false
+
+[functions.notarize-batch]
+verify_jwt = false
+
+[functions.generate-receipt-pdf]
+verify_jwt = false
