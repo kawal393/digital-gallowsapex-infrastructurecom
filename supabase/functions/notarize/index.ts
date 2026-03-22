@@ -203,6 +203,44 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Fire webhooks asynchronously (don't block response)
+    const webhookPayload = {
+      receipt_id: receiptId, timestamp, decision_hash: `sha256:${decisionHash}`,
+      merkle_leaf: `sha256:${merkleLeaf}`, merkle_root: `sha256:${merkleRoot}`,
+      predicate_applied: predicateId, receipt_version: "PSI-1.2",
+    };
+
+    if (userId) {
+      // Non-blocking webhook delivery
+      (async () => {
+        try {
+          const { data: webhooks } = await supabase
+            .from("webhook_endpoints")
+            .select("url, secret, events")
+            .eq("user_id", userId)
+            .eq("enabled", true);
+
+          if (webhooks && webhooks.length > 0) {
+            for (const wh of webhooks) {
+              if (wh.events?.includes("notarization.created") || wh.events?.includes("verification.completed")) {
+                try {
+                  await fetch(wh.url, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "X-Apex-Signature": await hashSHA256(`${JSON.stringify(webhookPayload)}${wh.secret}`),
+                      "X-Apex-Event": "notarization.created",
+                    },
+                    body: JSON.stringify(webhookPayload),
+                  });
+                } catch (e) { console.error("[Webhook] Delivery failed:", e); }
+              }
+            }
+          }
+        } catch (e) { console.error("[Webhook] Query failed:", e); }
+      })();
+    }
+
     const projectId = Deno.env.get("SUPABASE_URL")?.match(/\/\/([^.]+)/)?.[1] || "";
 
     return new Response(JSON.stringify({
@@ -213,6 +251,7 @@ Deno.serve(async (req) => {
       merkle_root: `sha256:${merkleRoot}`,
       ed25519_signature: signature,
       verify_url: `https://${projectId}.supabase.co/functions/v1/verify-hash`,
+      pdf_url: `https://${projectId}.supabase.co/functions/v1/generate-receipt-pdf`,
       predicate_applied: predicateId,
       receipt_version: "PSI-1.2",
       tier,
