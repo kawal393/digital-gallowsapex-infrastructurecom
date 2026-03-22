@@ -5,8 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Check, Terminal } from "lucide-react";
 
+const BASE_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1`;
+
 const curlExample = `curl -X POST \\
-  https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/notarize \\
+  ${BASE_URL}/notarize \\
   -H "Content-Type: application/json" \\
   -d '{
     "decision": "Model approved loan #4521",
@@ -18,7 +20,7 @@ const curlExample = `curl -X POST \\
 const pythonExample = `import requests
 
 response = requests.post(
-    "https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/notarize",
+    "${BASE_URL}/notarize",
     json={
         "decision": "Model approved loan #4521",
         "model_id": "gpt-4-turbo",
@@ -32,7 +34,7 @@ print(f"Receipt: {receipt['receipt_id']}")
 print(f"Signature: {receipt['ed25519_signature'][:32]}...")`;
 
 const nodeExample = `const response = await fetch(
-  "https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/notarize",
+  "${BASE_URL}/notarize",
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -66,7 +68,7 @@ func main() {
   })
   
   resp, _ := http.Post(
-    "https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/notarize",
+    "${BASE_URL}/notarize",
     "application/json",
     bytes.NewBuffer(payload),
   )

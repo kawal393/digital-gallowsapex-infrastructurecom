@@ -55,6 +55,24 @@ async function signEd25519(data: string, serviceKey: string): Promise<string> {
   }
 }
 
+async function computeBinaryMerkleRoot(leaves: string[]): Promise<string> {
+  if (leaves.length === 0) return await hashSHA256("EMPTY_TREE");
+  if (leaves.length === 1) return leaves[0];
+
+  // Pad to power of 2
+  let level = [...leaves];
+  while (level.length > 1) {
+    const next: string[] = [];
+    for (let i = 0; i < level.length; i += 2) {
+      const left = level[i];
+      const right = i + 1 < level.length ? level[i + 1] : left;
+      next.push(await hashSHA256(`${left}|${right}`));
+    }
+    level = next;
+  }
+  return level[0];
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   if (req.method !== "POST") {
@@ -145,7 +163,22 @@ Deno.serve(async (req) => {
     const decisionHash = await hashSHA256(canonicalPayload);
     const commitHash = await hashSHA256(`${decision.trim()}|${predicateId}|${timestamp}`);
     const merkleLeaf = await hashSHA256(`${receiptId}|${commitHash}`);
-    const merkleRoot = await hashSHA256(`${merkleLeaf}|${timestamp}`);
+
+    // Compute real cumulative Merkle root from existing ledger leaves
+    let merkleRoot: string;
+    try {
+      const { data: recentLeaves } = await supabase
+        .from("gallows_ledger")
+        .select("merkle_leaf_hash")
+        .order("created_at", { ascending: false })
+        .limit(255);
+
+      const leaves = [merkleLeaf, ...(recentLeaves?.map(r => r.merkle_leaf_hash) || [])];
+      merkleRoot = await computeBinaryMerkleRoot(leaves);
+    } catch {
+      // Fallback: single-leaf root if query fails
+      merkleRoot = await hashSHA256(`${merkleLeaf}|${timestamp}`);
+    }
 
     const signature = await signEd25519(merkleLeaf, supabaseKey);
 

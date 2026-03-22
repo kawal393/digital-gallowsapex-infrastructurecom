@@ -40,7 +40,7 @@ interface VerificationResult {
   sequence_number?: number;
 }
 
-const VERIFY_URL = `https://qhtntebpcribjiwrdtdd.supabase.co/functions/v1/verify-hash`;
+const VERIFY_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/verify-hash`;
 
 // ZK Visualization steps
 const zkSteps = [
@@ -54,8 +54,11 @@ const zkSteps = [
 
 const Verify = () => {
   const [hash, setHash] = useState("");
+  const [receiptId, setReceiptId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [receiptLoading, setReceiptLoading] = useState(false);
   const [result, setResult] = useState<VerificationResult | null>(null);
+  const [receiptResult, setReceiptResult] = useState<VerificationResult | null>(null);
   const [searched, setSearched] = useState(false);
   const [activeTab, setActiveTab] = useState("hash");
 
@@ -88,6 +91,50 @@ const Verify = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleReceiptVerify = async () => {
+    const id = receiptId.trim();
+    if (!id) { toast.error("Enter a receipt ID (APEX-NTR-...)"); return; }
+    setReceiptLoading(true);
+    setReceiptResult(null);
+    try {
+      const LEDGER_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/rest/v1/gallows_public_ledger?commit_id=eq.${encodeURIComponent(id)}&select=*&limit=1`;
+      const res = await fetch(LEDGER_URL, {
+        headers: {
+          "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const entry = data[0];
+        setReceiptResult({
+          verified: true, found: true,
+          merkle_verified: !!entry.merkle_root,
+          commit_id: entry.commit_id,
+          predicate_id: entry.predicate_id,
+          phase: entry.phase, status: entry.status,
+          merkle_root: entry.merkle_root,
+          action_summary: entry.action?.length > 100 ? entry.action.substring(0, 97) + "..." : entry.action,
+          created_at: entry.created_at,
+          queried_hash: entry.commit_hash,
+          queried_at: new Date().toISOString(),
+          engine: "APEX NOTARY Receipt Verification",
+          algorithm: "SHA-256 + Ed25519",
+          eu_ai_act_compliance: entry.status === "APPROVED",
+          sequence_number: entry.sequence_number,
+        });
+      } else {
+        setReceiptResult({
+          verified: false, found: false,
+          queried_hash: id, queried_at: new Date().toISOString(),
+          engine: "APEX NOTARY Receipt Verification",
+          message: "Receipt ID not found in the ledger",
+        });
+      }
+    } catch { toast.error("Receipt lookup failed"); }
+    finally { setReceiptLoading(false); }
   };
 
   const handleBundleVerify = useCallback(async () => {
@@ -230,8 +277,9 @@ const Verify = () => {
         <section className="px-4 -mt-8">
           <div className="container mx-auto max-w-3xl">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="w-full grid grid-cols-4 mb-6">
+              <TabsList className="w-full grid grid-cols-5 mb-6">
                 <TabsTrigger value="hash" className="text-xs sm:text-sm">Hash Lookup</TabsTrigger>
+                <TabsTrigger value="receipt" className="text-xs sm:text-sm">Receipt ID</TabsTrigger>
                 <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
                 <TabsTrigger value="pharma" className="text-xs sm:text-sm">Pharma</TabsTrigger>
                 <TabsTrigger value="ndis" className="text-xs sm:text-sm">NDIS</TabsTrigger>
@@ -321,6 +369,75 @@ const Verify = () => {
                       <div className="rounded-lg bg-background/60 border border-border p-3 font-mono text-xs text-muted-foreground break-all max-w-lg mx-auto">
                         {result.queried_hash}
                       </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </TabsContent>
+
+              {/* Tab: Receipt ID Verification */}
+              <TabsContent value="receipt">
+                <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-6">
+                  <div className="relative flex-1">
+                    <FileCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={receiptId}
+                      onChange={(e) => setReceiptId(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleReceiptVerify()}
+                      placeholder="APEX-NTR-XXXXXXXXXXXXXXXX"
+                      className="pl-9 h-12 bg-card border-border text-foreground font-mono text-sm placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  <Button variant="hero" size="lg" onClick={handleReceiptVerify} disabled={receiptLoading} className="h-12 px-6 shrink-0">
+                    {receiptLoading ? (
+                      <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <><Search className="h-4 w-4 mr-2" />Verify Receipt</>
+                    )}
+                  </Button>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {receiptResult && receiptResult.found && (
+                    <motion.div key="receipt-found" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-compliant/30 bg-card/80 backdrop-blur-sm overflow-hidden">
+                      <div className="border-b border-border px-6 py-4 flex items-center justify-between flex-wrap gap-3"
+                        style={{ background: "linear-gradient(135deg, hsl(142 76% 36% / 0.08), transparent)" }}>
+                        <div className="flex items-center gap-3">
+                          <ShieldCheck className="h-6 w-6 text-compliant" />
+                          <div>
+                            <p className="font-black text-compliant text-sm">RECEIPT VERIFIED</p>
+                            <p className="text-xs text-muted-foreground">Found in APEX NOTARY immutable ledger</p>
+                          </div>
+                        </div>
+                        <Badge className="bg-compliant/10 text-compliant border-compliant/30">{receiptResult.phase}</Badge>
+                      </div>
+                      <div className="px-6 py-5 space-y-3">
+                        {[
+                          { label: "Receipt ID", value: receiptResult.commit_id },
+                          { label: "Predicate", value: receiptResult.predicate_id },
+                          { label: "Status", value: receiptResult.status },
+                          { label: "Merkle Root", value: receiptResult.merkle_root, mono: true },
+                          { label: "Action", value: receiptResult.action_summary },
+                          { label: "Created", value: receiptResult.created_at ? new Date(receiptResult.created_at).toLocaleString() : null },
+                          { label: "EU AI Act Compliant", value: receiptResult.eu_ai_act_compliance ? "YES" : "PENDING" },
+                        ].filter(r => r.value).map((row) => (
+                          <div key={row.label} className="flex items-start justify-between gap-4 text-sm">
+                            <span className="text-muted-foreground shrink-0">{row.label}</span>
+                            <span className={`text-foreground text-right ${row.mono ? 'font-mono text-xs' : ''} break-all`}>{row.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="border-t border-border px-6 py-3">
+                        <span className="text-[10px] text-muted-foreground font-mono">{receiptResult.engine}</span>
+                      </div>
+                    </motion.div>
+                  )}
+                  {receiptResult && !receiptResult.found && (
+                    <motion.div key="receipt-notfound" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-destructive/30 bg-card/80 backdrop-blur-sm p-8 text-center">
+                      <ShieldX className="h-10 w-10 text-destructive mx-auto mb-3" />
+                      <p className="font-bold text-destructive mb-2">RECEIPT NOT FOUND</p>
+                      <p className="text-sm text-muted-foreground">No entry with ID <code className="font-mono text-xs">{receiptResult.queried_hash}</code> exists in the ledger.</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
