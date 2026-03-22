@@ -70,9 +70,9 @@ const PharmaVerifier = () => {
             <h3 className="text-sm font-bold text-foreground">Pharma Sniper — Generic Bioequivalence Proof</h3>
             <p className="text-[10px] text-muted-foreground">Prove regulatory compliance without revealing formulation</p>
           </div>
-          <Badge variant="outline" className="ml-auto border-warning/30 text-warning text-[10px]">
-            <Clock className="h-3 w-3 mr-1" />
-            Target: March 16
+          <Badge variant="outline" className="ml-auto border-[hsl(var(--compliant))]/30 text-[hsl(var(--compliant))] text-[10px]">
+            <Shield className="h-3 w-3 mr-1" />
+            TGA / FDA Ready
           </Badge>
         </div>
 
