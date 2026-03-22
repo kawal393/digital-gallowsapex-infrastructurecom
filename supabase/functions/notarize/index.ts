@@ -145,7 +145,22 @@ Deno.serve(async (req) => {
     const decisionHash = await hashSHA256(canonicalPayload);
     const commitHash = await hashSHA256(`${decision.trim()}|${predicateId}|${timestamp}`);
     const merkleLeaf = await hashSHA256(`${receiptId}|${commitHash}`);
-    const merkleRoot = await hashSHA256(`${merkleLeaf}|${timestamp}`);
+
+    // Compute real cumulative Merkle root from existing ledger leaves
+    let merkleRoot: string;
+    try {
+      const { data: recentLeaves } = await supabase
+        .from("gallows_ledger")
+        .select("merkle_leaf_hash")
+        .order("created_at", { ascending: false })
+        .limit(255);
+
+      const leaves = [merkleLeaf, ...(recentLeaves?.map(r => r.merkle_leaf_hash) || [])];
+      merkleRoot = await computeBinaryMerkleRoot(leaves);
+    } catch {
+      // Fallback: single-leaf root if query fails
+      merkleRoot = await hashSHA256(`${merkleLeaf}|${timestamp}`);
+    }
 
     const signature = await signEd25519(merkleLeaf, supabaseKey);
 
