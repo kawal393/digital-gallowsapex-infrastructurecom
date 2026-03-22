@@ -374,6 +374,75 @@ const Verify = () => {
                 </AnimatePresence>
               </TabsContent>
 
+              {/* Tab: Receipt ID Verification */}
+              <TabsContent value="receipt">
+                <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-6">
+                  <div className="relative flex-1">
+                    <FileCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={receiptId}
+                      onChange={(e) => setReceiptId(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleReceiptVerify()}
+                      placeholder="APEX-NTR-XXXXXXXXXXXXXXXX"
+                      className="pl-9 h-12 bg-card border-border text-foreground font-mono text-sm placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  <Button variant="hero" size="lg" onClick={handleReceiptVerify} disabled={receiptLoading} className="h-12 px-6 shrink-0">
+                    {receiptLoading ? (
+                      <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <><Search className="h-4 w-4 mr-2" />Verify Receipt</>
+                    )}
+                  </Button>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {receiptResult && receiptResult.found && (
+                    <motion.div key="receipt-found" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-compliant/30 bg-card/80 backdrop-blur-sm overflow-hidden">
+                      <div className="border-b border-border px-6 py-4 flex items-center justify-between flex-wrap gap-3"
+                        style={{ background: "linear-gradient(135deg, hsl(142 76% 36% / 0.08), transparent)" }}>
+                        <div className="flex items-center gap-3">
+                          <ShieldCheck className="h-6 w-6 text-compliant" />
+                          <div>
+                            <p className="font-black text-compliant text-sm">RECEIPT VERIFIED</p>
+                            <p className="text-xs text-muted-foreground">Found in APEX NOTARY immutable ledger</p>
+                          </div>
+                        </div>
+                        <Badge className="bg-compliant/10 text-compliant border-compliant/30">{receiptResult.phase}</Badge>
+                      </div>
+                      <div className="px-6 py-5 space-y-3">
+                        {[
+                          { label: "Receipt ID", value: receiptResult.commit_id },
+                          { label: "Predicate", value: receiptResult.predicate_id },
+                          { label: "Status", value: receiptResult.status },
+                          { label: "Merkle Root", value: receiptResult.merkle_root, mono: true },
+                          { label: "Action", value: receiptResult.action_summary },
+                          { label: "Created", value: receiptResult.created_at ? new Date(receiptResult.created_at).toLocaleString() : null },
+                          { label: "EU AI Act Compliant", value: receiptResult.eu_ai_act_compliance ? "YES" : "PENDING" },
+                        ].filter(r => r.value).map((row) => (
+                          <div key={row.label} className="flex items-start justify-between gap-4 text-sm">
+                            <span className="text-muted-foreground shrink-0">{row.label}</span>
+                            <span className={`text-foreground text-right ${row.mono ? 'font-mono text-xs' : ''} break-all`}>{row.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="border-t border-border px-6 py-3">
+                        <span className="text-[10px] text-muted-foreground font-mono">{receiptResult.engine}</span>
+                      </div>
+                    </motion.div>
+                  )}
+                  {receiptResult && !receiptResult.found && (
+                    <motion.div key="receipt-notfound" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-destructive/30 bg-card/80 backdrop-blur-sm p-8 text-center">
+                      <ShieldX className="h-10 w-10 text-destructive mx-auto mb-3" />
+                      <p className="font-bold text-destructive mb-2">RECEIPT NOT FOUND</p>
+                      <p className="text-sm text-muted-foreground">No entry with ID <code className="font-mono text-xs">{receiptResult.queried_hash}</code> exists in the ledger.</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </TabsContent>
+
               {/* Tab 2: Proof Bundle Verification */}
               <TabsContent value="proof">
                 {/* Privacy Badge */}

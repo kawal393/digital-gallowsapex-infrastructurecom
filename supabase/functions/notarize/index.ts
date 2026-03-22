@@ -55,6 +55,24 @@ async function signEd25519(data: string, serviceKey: string): Promise<string> {
   }
 }
 
+async function computeBinaryMerkleRoot(leaves: string[]): Promise<string> {
+  if (leaves.length === 0) return await hashSHA256("EMPTY_TREE");
+  if (leaves.length === 1) return leaves[0];
+
+  // Pad to power of 2
+  let level = [...leaves];
+  while (level.length > 1) {
+    const next: string[] = [];
+    for (let i = 0; i < level.length; i += 2) {
+      const left = level[i];
+      const right = i + 1 < level.length ? level[i + 1] : left;
+      next.push(await hashSHA256(`${left}|${right}`));
+    }
+    level = next;
+  }
+  return level[0];
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   if (req.method !== "POST") {
