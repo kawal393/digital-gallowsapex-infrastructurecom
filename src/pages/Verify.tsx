@@ -93,6 +93,50 @@ const Verify = () => {
     }
   };
 
+  const handleReceiptVerify = async () => {
+    const id = receiptId.trim();
+    if (!id) { toast.error("Enter a receipt ID (APEX-NTR-...)"); return; }
+    setReceiptLoading(true);
+    setReceiptResult(null);
+    try {
+      const LEDGER_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/rest/v1/gallows_public_ledger?commit_id=eq.${encodeURIComponent(id)}&select=*&limit=1`;
+      const res = await fetch(LEDGER_URL, {
+        headers: {
+          "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const entry = data[0];
+        setReceiptResult({
+          verified: true, found: true,
+          merkle_verified: !!entry.merkle_root,
+          commit_id: entry.commit_id,
+          predicate_id: entry.predicate_id,
+          phase: entry.phase, status: entry.status,
+          merkle_root: entry.merkle_root,
+          action_summary: entry.action?.length > 100 ? entry.action.substring(0, 97) + "..." : entry.action,
+          created_at: entry.created_at,
+          queried_hash: entry.commit_hash,
+          queried_at: new Date().toISOString(),
+          engine: "APEX NOTARY Receipt Verification",
+          algorithm: "SHA-256 + Ed25519",
+          eu_ai_act_compliance: entry.status === "APPROVED",
+          sequence_number: entry.sequence_number,
+        });
+      } else {
+        setReceiptResult({
+          verified: false, found: false,
+          queried_hash: id, queried_at: new Date().toISOString(),
+          engine: "APEX NOTARY Receipt Verification",
+          message: "Receipt ID not found in the ledger",
+        });
+      }
+    } catch { toast.error("Receipt lookup failed"); }
+    finally { setReceiptLoading(false); }
+  };
+
   const handleBundleVerify = useCallback(async () => {
     if (!bundleJson.trim()) {
       toast.error("Please paste a proof bundle JSON");
