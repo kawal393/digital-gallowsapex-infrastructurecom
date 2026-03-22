@@ -42,6 +42,7 @@ import Explorer from "./pages/Explorer";
 import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
 import Research from "./pages/Research";
+import NDIS from "./pages/NDIS";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
@@ -129,6 +130,7 @@ const App = () => (
               />
               <Route path="/governance" element={<Governance />} />
               <Route path="/research" element={<Research />} />
+              <Route path="/ndis" element={<NDIS />} />
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"

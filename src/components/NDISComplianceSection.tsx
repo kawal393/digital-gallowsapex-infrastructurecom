@@ -62,15 +62,15 @@ const NDISComplianceSection = () => {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Button variant="hero" size="sm" asChild>
-                <Link to="/assess" className="inline-flex items-center gap-1.5">
+                <Link to="/ndis" className="inline-flex items-center gap-1.5">
                   <Shield className="h-3.5 w-3.5" />
-                  Free NDIS Assessment
+                  NDIS Compliance Portal
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </Button>
               <Button variant="heroOutline" size="sm" asChild>
-                <Link to="/gallows" className="inline-flex items-center gap-1.5">
-                  View Digital Gallows
+                <Link to="/notary" className="inline-flex items-center gap-1.5">
+                  Start Notarizing — Free
                 </Link>
               </Button>
             </div>
