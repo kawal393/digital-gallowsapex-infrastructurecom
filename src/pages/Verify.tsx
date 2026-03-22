@@ -54,8 +54,11 @@ const zkSteps = [
 
 const Verify = () => {
   const [hash, setHash] = useState("");
+  const [receiptId, setReceiptId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [receiptLoading, setReceiptLoading] = useState(false);
   const [result, setResult] = useState<VerificationResult | null>(null);
+  const [receiptResult, setReceiptResult] = useState<VerificationResult | null>(null);
   const [searched, setSearched] = useState(false);
   const [activeTab, setActiveTab] = useState("hash");
 
