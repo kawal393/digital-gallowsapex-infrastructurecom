@@ -38,6 +38,7 @@ import SubmissionKit from "./pages/SubmissionKit";
 import IETFDraft from "./pages/IETFDraft";
 import Paper from "./pages/Paper";
 import Notary from "./pages/Notary";
+import Explorer from "./pages/Explorer";
 import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
 import Research from "./pages/Research";
