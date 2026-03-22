@@ -43,6 +43,7 @@ import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
 import Research from "./pages/Research";
 import NDIS from "./pages/NDIS";
+import Pharma from "./pages/Pharma";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
