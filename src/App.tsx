@@ -79,6 +79,7 @@ const App = () => (
               <Route path="/protocol" element={<Protocol />} />
               <Route path="/gallows" element={<Gallows />} />
               <Route path="/notary" element={<Notary />} />
+              <Route path="/explorer" element={<Explorer />} />
               <Route path="/architecture" element={<Architecture />} />
               <Route path="/sdk" element={<SDK />} />
               <Route path="/compare" element={<Compare />} />

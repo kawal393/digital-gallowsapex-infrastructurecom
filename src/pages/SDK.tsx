@@ -253,14 +253,108 @@ async function generateAIResponse(prompt: string) {
         </Card>
 
         {/* API Reference */}
-        <Tabs defaultValue="commit" className="mb-12">
+        <Tabs defaultValue="notarize" className="mb-12">
           <TabsList className="bg-gallows-surface border border-gallows-border w-full justify-start overflow-x-auto">
-            <TabsTrigger value="commit" className="font-mono text-xs">1. Commit</TabsTrigger>
-            <TabsTrigger value="challenge" className="font-mono text-xs">2. Challenge</TabsTrigger>
-            <TabsTrigger value="prove" className="font-mono text-xs">3. Prove</TabsTrigger>
-            <TabsTrigger value="verify" className="font-mono text-xs">4. Verify</TabsTrigger>
-            <TabsTrigger value="sdk" className="font-mono text-xs">SDK Example</TabsTrigger>
+            <TabsTrigger value="notarize" className="font-mono text-xs">Notarize</TabsTrigger>
+            <TabsTrigger value="notarize-batch" className="font-mono text-xs">Batch</TabsTrigger>
+            <TabsTrigger value="commit" className="font-mono text-xs">Commit</TabsTrigger>
+            <TabsTrigger value="challenge" className="font-mono text-xs">Challenge</TabsTrigger>
+            <TabsTrigger value="prove" className="font-mono text-xs">Prove</TabsTrigger>
+            <TabsTrigger value="verify" className="font-mono text-xs">Verify</TabsTrigger>
+            <TabsTrigger value="sdk" className="font-mono text-xs">SDK</TabsTrigger>
           </TabsList>
+
+          {/* Notarize tab */}
+          <TabsContent value="notarize" className="mt-4">
+            <Card className="bg-gallows-surface border-gallows-border">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="font-mono text-base">POST /notarize</CardTitle>
+                  <Badge className="bg-gallows-approved/20 text-gallows-approved border-gallows-approved/30">Live</Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gallows-muted text-sm mb-4">
+                  Notarize any AI decision with a single API call. Returns a SHA-256 hashed, Ed25519 signed,
+                  Merkle-anchored receipt. No authentication required for the free tier (100/day).
+                </p>
+                <div className="relative">
+                  <pre className="bg-gallows-bg border border-gallows-border rounded p-4 overflow-x-auto text-xs">
+                    <code className="text-gallows-text">{`const response = await fetch(
+  "https://\${PROJECT_ID}.supabase.co/functions/v1/notarize",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      decision: "Model approved loan application #4521",
+      model_id: "gpt-4-turbo",
+      context: { applicant_risk: "low", amount: 50000 },
+      predicate: "EU_ART_12"
+    })
+  }
+);
+
+const receipt = await response.json();
+// {
+//   receipt_id: "APEX-NTR-A1B2C3D4E5F6G7H8",
+//   decision_hash: "sha256:...",
+//   merkle_leaf: "sha256:...",
+//   merkle_root: "sha256:...",   // cumulative binary Merkle root
+//   ed25519_signature: "...",     // RFC 8032 signature
+//   verify_url: "https://...",
+//   pdf_url: "https://...",       // downloadable PDF receipt
+//   predicate_applied: "EU_ART_12",
+//   receipt_version: "PSI-1.2"
+// }`}</code>
+                  </pre>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Batch Notarize tab */}
+          <TabsContent value="notarize-batch" className="mt-4">
+            <Card className="bg-gallows-surface border-gallows-border">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="font-mono text-base">POST /notarize-batch</CardTitle>
+                  <Badge className="bg-gallows-approved/20 text-gallows-approved border-gallows-approved/30">Live</Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gallows-muted text-sm mb-4">
+                  Notarize up to 100 AI decisions in a single API call. All decisions share a single
+                  cumulative Merkle root for batch integrity.
+                </p>
+                <div className="relative">
+                  <pre className="bg-gallows-bg border border-gallows-border rounded p-4 overflow-x-auto text-xs">
+                    <code className="text-gallows-text">{`const response = await fetch(
+  "https://\${PROJECT_ID}.supabase.co/functions/v1/notarize-batch",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      decisions: [
+        { decision: "Approved loan #4521", model_id: "gpt-4", predicate: "EU_ART_12" },
+        { decision: "Rejected claim #8832", model_id: "gpt-4", predicate: "EU_ART_14" },
+        { decision: "Flagged transaction #1290", predicate: "MIFID_ART_17" }
+      ]
+    })
+  }
+);
+
+const batch = await response.json();
+// {
+//   batch_size: 3,
+//   batch_merkle_root: "sha256:...",
+//   receipts: [ ... ],
+//   engine: "APEX NOTARY Batch v1.0"
+// }`}</code>
+                  </pre>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="commit" className="mt-4">
             <Card className="bg-gallows-surface border-gallows-border">
