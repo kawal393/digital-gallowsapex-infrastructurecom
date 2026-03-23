@@ -153,7 +153,7 @@ const pricingTiers = [
       "SLA guarantee",
       "Revenue-share model available",
     ],
-    cta: "Contact Us",
+    cta: "Book a Demo",
     href: "/#contact",
     highlight: false,
   },
