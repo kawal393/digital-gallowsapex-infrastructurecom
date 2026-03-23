@@ -146,7 +146,7 @@ const Pricing = () => {
             <Button variant="heroOutline" className="w-full" size="lg" asChild>
               <Link to="/#contact">
                 <FileText className="h-4 w-4 mr-1" />
-                Apply for Apex Sovereign Certification
+                Book a Demo
               </Link>
             </Button>
           </motion.div>

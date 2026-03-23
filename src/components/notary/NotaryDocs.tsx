@@ -186,6 +186,37 @@ const NotaryDocs = () => {
             </TabsContent>
           ))}
         </Tabs>
+
+        {/* Seed Your Ledger */}
+        <Card className="bg-card border-border">
+          <CardHeader>
+            <CardTitle className="text-lg">
+              <span className="text-gold-gradient">Seed Your Compliance Ledger</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm text-muted-foreground">
+            <p>
+              Start building your audit trail immediately by notarizing real compliance events:
+            </p>
+            <ul className="space-y-2">
+              {[
+                "Notarize your AI risk assessment results",
+                "Notarize your data protection impact assessment (DPIA)",
+                "Notarize your model deployment decisions",
+                "Notarize your human oversight review outcomes",
+                "Notarize your patent filings and regulatory submissions",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-muted-foreground/70 pt-2">
+              Every receipt anchors to the global Merkle tree. Once your audit trail has 100+ entries, switching costs become infinite — your compliance history is mathematically bound to APEX.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );
