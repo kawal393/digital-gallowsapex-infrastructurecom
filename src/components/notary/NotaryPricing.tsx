@@ -23,7 +23,7 @@ const tiers = [
   },
   {
     name: "Pro",
-    price: "$99",
+    price: "$499",
     period: "/ month",
     icon: Zap,
     color: "border-gold/40",
@@ -42,8 +42,8 @@ const tiers = [
   },
   {
     name: "Enterprise",
-    price: "Custom",
-    period: "per engagement",
+    price: "From $2,000",
+    period: "/ month",
     icon: Shield,
     color: "border-primary/40",
     features: [
@@ -55,7 +55,7 @@ const tiers = [
       "Custom predicate development",
       "White-label deployment",
     ],
-    cta: "Contact Sales",
+    cta: "Book a Demo",
     ctaVariant: "heroOutline" as const,
     href: "/#contact",
   },

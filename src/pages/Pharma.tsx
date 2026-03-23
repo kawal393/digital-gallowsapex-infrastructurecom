@@ -153,7 +153,7 @@ const pricingTiers = [
       "SLA guarantee",
       "Revenue-share model available",
     ],
-    cta: "Contact Us",
+    cta: "Book a Demo",
     href: "/#contact",
     highlight: false,
   },
@@ -538,7 +538,7 @@ const Pharma = () => {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button variant="hero" size="lg" asChild>
                 <Link to="/#contact">
-                  Discuss Equity Terms <ArrowRight className="ml-2 h-4 w-4" />
+                  Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="heroOutline" size="lg" asChild>

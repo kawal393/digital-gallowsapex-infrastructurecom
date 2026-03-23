@@ -71,13 +71,20 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           </div>
         </div>
 
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-muted-foreground">
-            © 2026 Apex Intelligence Empire. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Proof of Sovereign Integrity™
-          </p>
+        <div className="border-t border-border pt-8 space-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[10px] text-muted-foreground font-mono">
+            <span>Patent AMCZ-2615560564 — Filed</span>
+            <span className="hidden sm:inline text-border">|</span>
+            <span>IETF Internet-Draft draft-singh-psi-00 — Active</span>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-xs text-muted-foreground">
+              © 2026 Apex Intelligence Empire. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Proof of Sovereign Integrity™
+            </p>
+          </div>
         </div>
       </div>
     </footer>
