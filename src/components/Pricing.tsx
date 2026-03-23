@@ -125,8 +125,8 @@ const Pricing = () => {
               <div>
                 <h3 className="text-xs font-bold tracking-widest text-primary uppercase">Apex Sovereign Certification</h3>
                 <div>
-                  <span className="text-3xl font-black text-foreground">Custom</span>
-                  <span className="text-muted-foreground text-sm ml-1">/ per engagement</span>
+                  <span className="text-3xl font-black text-foreground">From $2,000</span>
+                  <span className="text-muted-foreground text-sm ml-1">/ month</span>
                 </div>
               </div>
             </div>
