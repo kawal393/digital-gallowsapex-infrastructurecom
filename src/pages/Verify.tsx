@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import PharmaVerifier from "@/components/verify/PharmaVerifier";
+
 
 import { toast } from "sonner";
 import { verifyEd25519Signature, type PSIProofBundle } from "@/lib/psi-signatures";
@@ -281,7 +281,7 @@ const Verify = () => {
                 <TabsTrigger value="hash" className="text-xs sm:text-sm">Hash Lookup</TabsTrigger>
                 <TabsTrigger value="receipt" className="text-xs sm:text-sm">Receipt ID</TabsTrigger>
                 <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
-                <TabsTrigger value="pharma" className="text-xs sm:text-sm">Pharma</TabsTrigger>
+                
                 
               </TabsList>
 
@@ -556,10 +556,6 @@ const Verify = () => {
                 )}
               </TabsContent>
 
-              {/* Tab 3: Pharma Sniper */}
-              <TabsContent value="pharma">
-                <PharmaVerifier />
-              </TabsContent>
 
             </Tabs>
 

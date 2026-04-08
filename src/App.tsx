@@ -43,7 +43,7 @@ import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
 import Research from "./pages/Research";
 
-import Pharma from "./pages/Pharma";
+
 import ChatWidget from "@/components/chat/ChatWidget";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FeedbackWidget from "@/components/FeedbackWidget";
@@ -132,7 +132,7 @@ const App = () => (
               <Route path="/governance" element={<Governance />} />
               <Route path="/research" element={<Research />} />
               
-              <Route path="/pharma" element={<Pharma />} />
+              
               <Route path="/partner" element={<Partner />} />
               <Route
                 path="/partner/dashboard"
