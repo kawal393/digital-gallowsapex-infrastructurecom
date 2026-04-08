@@ -5,7 +5,7 @@ import ComplianceClock from "@/components/ComplianceClock";
 import SocialProofBar from "@/components/SocialProofBar";
 import ProblemSection from "@/components/ProblemSection";
 import VisionSection from "@/components/VisionSection";
-import NDISComplianceSection from "@/components/NDISComplianceSection";
+
 import SolutionSection from "@/components/SolutionSection";
 import TrioSection from "@/components/TrioSection";
 import TrustSection from "@/components/TrustSection";
@@ -40,7 +40,7 @@ const Index = () => {
       <SocialProofBar />
       <OpenSourceGateway />
       <ProblemSection />
-      <NDISComplianceSection />
+      
       <FreeToolsCTA />
       <SolutionSection />
       <TrioSection />
