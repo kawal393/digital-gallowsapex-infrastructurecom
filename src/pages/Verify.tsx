@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, Pill, FileCheck } from "lucide-react";
+import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, FileCheck } from "lucide-react";
 import SovereignShield from "@/components/verify/SovereignShield";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
