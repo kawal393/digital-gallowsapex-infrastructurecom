@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PharmaVerifier from "@/components/verify/PharmaVerifier";
-import NDISVerifier from "@/components/verify/NDISVerifier";
+
 import { toast } from "sonner";
 import { verifyEd25519Signature, type PSIProofBundle } from "@/lib/psi-signatures";
 import { jcsHash } from "@/lib/psi-canonicalize";
@@ -282,7 +282,7 @@ const Verify = () => {
                 <TabsTrigger value="receipt" className="text-xs sm:text-sm">Receipt ID</TabsTrigger>
                 <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
                 <TabsTrigger value="pharma" className="text-xs sm:text-sm">Pharma</TabsTrigger>
-                <TabsTrigger value="ndis" className="text-xs sm:text-sm">NDIS</TabsTrigger>
+                
               </TabsList>
 
               {/* Tab 1: Hash Lookup */}
@@ -561,10 +561,6 @@ const Verify = () => {
                 <PharmaVerifier />
               </TabsContent>
 
-              {/* Tab 4: NDIS Integrity */}
-              <TabsContent value="ndis">
-                <NDISVerifier />
-              </TabsContent>
             </Tabs>
 
             {/* API Access */}
