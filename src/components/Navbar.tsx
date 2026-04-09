@@ -79,7 +79,7 @@ const navLinks = [
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/90 backdrop-blur-xl">
-      <div className="container mx-auto max-w-6xl px-4">
+      <div className="container mx-auto max-w-7xl px-4">
         {/* Desktop */}
         <div className="hidden lg:flex items-center justify-between h-16 gap-6">
           <button
@@ -96,13 +96,13 @@ const navLinks = [
           <a
             href="/protocol"
             onClick={(e) => { e.preventDefault(); handleNavClick("/protocol", true); }}
-            className="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[10px] font-bold text-primary tracking-widest uppercase hover:bg-primary/10 transition-colors cursor-pointer"
+            className="hidden xl:inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/5 px-2 py-0.5 text-[9px] font-bold text-primary tracking-widest uppercase hover:bg-primary/10 transition-colors cursor-pointer shrink-0"
           >
-            <FileText className="h-3 w-3" />
+            <FileText className="h-2.5 w-2.5" />
             IETF draft-singh-psi-00
           </a>
 
-          <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-0">
             {navLinks.map((link) =>
               (link as any).external ? (
                 <a
@@ -110,7 +110,7 @@ const navLinks = [
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
+                  className="px-1.5 py-1.5 text-[11px] text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
                 >
                   {link.label}
                   <ExternalLink className="h-3 w-3" />
@@ -119,7 +119,7 @@ const navLinks = [
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href, link.isRoute)}
-                  className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
+                  className="px-1.5 py-1.5 text-[11px] text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </button>
@@ -130,9 +130,9 @@ const navLinks = [
             <div ref={infraRef} className="relative">
               <button
                 onClick={() => setInfraOpen(!infraOpen)}
-                className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
+                className="px-1.5 py-1.5 text-[11px] text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
               >
-                Infrastructure
+                Infra
                 <ChevronDown className={`h-3 w-3 transition-transform ${infraOpen ? "rotate-180" : ""}`} />
               </button>
               {infraOpen && (
