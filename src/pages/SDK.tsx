@@ -254,14 +254,14 @@ async function generateAIResponse(prompt: string) {
 
         {/* API Reference */}
         <Tabs defaultValue="notarize" className="mb-12">
-          <TabsList className="bg-gallows-surface border border-gallows-border w-full justify-start overflow-x-auto">
-            <TabsTrigger value="notarize" className="font-mono text-xs">Notarize</TabsTrigger>
-            <TabsTrigger value="notarize-batch" className="font-mono text-xs">Batch</TabsTrigger>
-            <TabsTrigger value="commit" className="font-mono text-xs">Commit</TabsTrigger>
-            <TabsTrigger value="challenge" className="font-mono text-xs">Challenge</TabsTrigger>
-            <TabsTrigger value="prove" className="font-mono text-xs">Prove</TabsTrigger>
-            <TabsTrigger value="verify" className="font-mono text-xs">Verify</TabsTrigger>
-            <TabsTrigger value="sdk" className="font-mono text-xs">SDK</TabsTrigger>
+          <TabsList className="bg-gallows-surface border border-gallows-border w-full justify-start overflow-x-auto scrollbar-hide flex-nowrap">
+            <TabsTrigger value="notarize" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">Notarize</TabsTrigger>
+            <TabsTrigger value="notarize-batch" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">Batch</TabsTrigger>
+            <TabsTrigger value="commit" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">Commit</TabsTrigger>
+            <TabsTrigger value="challenge" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">Challenge</TabsTrigger>
+            <TabsTrigger value="prove" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">Prove</TabsTrigger>
+            <TabsTrigger value="verify" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">Verify</TabsTrigger>
+            <TabsTrigger value="sdk" className="font-mono text-[10px] sm:text-xs whitespace-nowrap">SDK</TabsTrigger>
           </TabsList>
 
           {/* Notarize tab */}
