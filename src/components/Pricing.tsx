@@ -17,7 +17,7 @@ const openAccessFeatures = [
 ];
 
 const certificationIncludes = [
-  "Sovereign Tribunal ratification (3-of-5 human consensus)",
+  "Sovereign Anchor ratification (enterprise-grade cryptographic seal)",
   "Regulator-ready compliance certificate with Merkle proof",
   "Global Merkle root anchoring for proof persistence",
   "Continuous automated compliance monitoring",

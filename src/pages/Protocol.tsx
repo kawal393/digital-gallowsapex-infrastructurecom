@@ -27,8 +27,8 @@ const legalMapping = [
     requirement: "High-risk AI systems must allow effective human oversight, including the ability to intervene and halt the system.",
     psiSolution: [
       "5-second Sovereign Pause (Protocol Intervention Layer) halts all pipeline operations instantly",
-      "Sovereign Tribunal: 5-party independent auditor ratification (3-of-5 threshold)",
-      "48-hour SLA with auto-escalation — MPC verdict stands if tribunal quorum not met",
+      "Open Global Tribunal: Permissionless public verification with cryptographic attestation consensus",
+      "Sovereign Anchors: Enterprise-grade 3-of-5 ratification for high-stakes commits",
       "Ed25519-signed auditor verdicts with mandatory rationale for non-repudiation",
       "Full audit trail of all pause/resume and ratification actions with timestamps",
     ],

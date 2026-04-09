@@ -13,7 +13,7 @@ const powerStatements: Record<string, string> = {
   "/gallows": "The Digital Gallows: where AI outputs face mathematical judgment. Every claim verified, every violation blocked.",
   "/verify": "Verify any AI system's compliance in real-time. No login required. This is the new standard.",
   "/research": "From IETF drafts to arXiv papers — the institutional architecture behind verifiable AI governance.",
-  "/governance": "5 seats. Sovereign Tribunal. Human-in-the-loop ratification with Ed25519 non-repudiation. The only governance model that can't be bypassed.",
+  "/governance": "Open Global Tribunal. Permissionless public verification with cryptographic consensus. The math is the authority.",
 };
 
 const ShareEngine = ({ variant = "inline", pageTitle, customMessage }: ShareEngineProps) => {

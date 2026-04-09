@@ -145,8 +145,8 @@ const Tribunal = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Sovereign Tribunal | APEX Digital Gallows</title>
-        <meta name="description" content="5-party human auditor verification layer for EU AI Act compliance ratification." />
+        <title>Sovereign Anchors | APEX Digital Gallows</title>
+        <meta name="description" content="Enterprise-grade Sovereign Anchor ratification layer for high-stakes compliance certification." />
       </Helmet>
       <Navbar />
 
@@ -157,11 +157,11 @@ const Tribunal = () => {
             <Gavel className="h-3.5 w-3.5" /> ARTICLE 14 — HUMAN OVERSIGHT
           </div>
           <h1 className="text-3xl md:text-4xl font-mono font-bold text-foreground mb-3">
-            Sovereign Tribunal
+            Sovereign Anchors
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
-            5-party independent auditor verification. Machine consensus from 3-node MPC is ratified by 
-            3-of-5 human auditors before certificates are institutionally valid.
+            Enterprise-grade ratification layer. Sovereign Anchors provide the final cryptographic seal 
+            on high-value commits that have achieved public consensus through the Open Global Tribunal.
           </p>
         </motion.div>
 
@@ -192,7 +192,7 @@ const Tribunal = () => {
             ) : (
               <div className="flex items-center gap-2 text-muted-foreground text-sm">
                 <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                <span className="font-mono">You are not a registered tribunal auditor. Contact the platform administrator to be appointed.</span>
+                <span className="font-mono">You are not a registered Sovereign Anchor. Contact the platform administrator for enterprise ratification access.</span>
               </div>
             )}
           </CardContent>
@@ -277,7 +277,7 @@ const Tribunal = () => {
                         <div className="flex items-center gap-4 text-xs font-mono">
                           <span className="text-green-400">✓ {approvals} approve</span>
                           <span className="text-destructive">✗ {rejections} reject</span>
-                          <span className="text-muted-foreground">threshold: 3-of-5</span>
+                          <span className="text-muted-foreground">sovereign seal: 3-of-5</span>
                         </div>
 
                         {/* Review UI */}
