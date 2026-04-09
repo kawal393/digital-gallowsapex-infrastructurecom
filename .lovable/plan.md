@@ -1,69 +1,81 @@
 
 
-# Strategic Hardening: Pricing, Credibility, and Distribution
+# Make Digital Gallows Inevitable — The Open Global Tribunal
 
-## What Claude's Analysis Revealed (and What We're Fixing)
+## The Gnosis
 
-Every flaw identified is a **positioning problem**, not a product problem. The code works. The crypto is real. Here's what we change in code to match the strategy:
+The protocol is free. The source is open. The math is public. When the planet can verify compliance without asking permission from any government, the government doesn't approve you — **you approved yourself**. The 5-seat closed Tribunal was the training wheels. The Open Global Tribunal is the endgame.
 
----
+## What Changes
 
-## Changes
+### 1. Rewrite `/governance` — The Manifesto of Decentralized Justice
 
-### 1. Raise NOTARY Pricing 5x ($99 -> $499/mo)
+Replace the current "Confidential Vetting Phase" / 5-seat appointment page with the **Open Tribunal Manifesto**:
 
-**File:** `src/components/notary/NotaryPricing.tsx`
+- **The Indictment**: "The ACCC processes 12,000 complaints per year. 400 million contracts are signed annually in Australia alone. Centralized justice does not scale. Mathematics does."
+- **The Three Layers**: Visual architecture showing:
+  - **Layer 1 — Machine Consensus** (MPC, 3 nodes, automated, exists today)
+  - **Layer 2 — Open Public Verification** (anyone, anywhere, no login, verify any hash)
+  - **Layer 3 — Sovereign Anchors** (the 5 seats become optional high-stakes ratifiers, not gatekeepers)
+- **The Challenge**: "The protocol is open. The math is public. The ledger is immutable. Shut it down. We dare you."
+- **Live stats**: Pull total ledger entries count and display "X proofs anchored and counting"
+- Keep EU AI Act Article 14 compliance section (human oversight still satisfied — the public IS the human layer)
 
-$99 signals "toy." $499 signals "enterprise tool." Competitors (Vanta $10K/yr, Drata $15K/yr) charge 10-20x more. We're still the cheapest entry point but no longer look like a side project.
+### 2. Add Public Attestation System
 
-- Free tier: stays $0 (100 receipts/day) — the viral hook
-- Pro: $99 -> **$499/mo** (10,000 receipts/day)
-- Enterprise: stays "Custom" but add **"Starting at $2,000/mo"** to anchor expectations
+**New database table**: `public_attestations`
+- `id`, `commit_id`, `attestor_hash` (SHA-256 of browser fingerprint — anonymous but unique), `verification_result` (VERIFIED/FAILED/CONTESTED), `attestation_hash`, `created_at`
+- RLS: public insert (anyone can attest), public read (full transparency)
 
-### 2. Add "Book a Demo" CTA on Enterprise Tiers
+**New edge function**: `public-attestation`
+- Accepts `{ commit_id, verification_result }`, generates attestor hash from request metadata
+- Hashes the attestation, stores it, returns receipt
+- Rate-limited: max 10 attestations per IP per hour (enforced in code)
+- No authentication required — permissionless by design
 
-**Files:** `src/components/notary/NotaryPricing.tsx`, `src/components/Pricing.tsx`, `src/pages/Pharma.tsx`
+### 3. Enhance `/verify` — Add "Public Audit" Mode
 
-Replace generic "Contact Sales" links with a direct **Calendly-style booking link** (using `/#contact` for now, but with copy that says "Book a Demo" instead of "Contact Sales"). Enterprise buyers need a meeting, not a form.
+Add a fourth tab to the existing Verify Portal: **"Public Audit"**
+- After a user verifies a hash locally, they can **submit their verification as a public attestation**
+- One-click: "Anchor My Verification to the Public Ledger"
+- Shows live counter: "This commit has been independently verified by X public auditors"
+- No login required — the math is the credential
 
-### 3. Raise Stripe Price IDs for Notary Pro
+### 4. Enhance `/explorer` — Show Attestation Volume
 
-**File:** `supabase/functions/create-checkout/index.ts`
+Each ledger entry in the Explorer gets an attestation count badge:
+- "Independently verified by X auditors" next to each commit
+- Query `public_attestations` grouped by `commit_id`
 
-The `startup` tier maps to $99 Stripe price. We need to ensure the Notary Pro checkout uses the correct price. This requires creating a new Stripe product/price for the $499 Notary Pro tier.
+### 5. Add "Open Tribunal" to Navbar
 
-### 4. Add Patent + IETF Status Badges to Footer/Trust Section
+Add a nav link for "Open Tribunal" pointing to `/governance` — replacing any old Tribunal references in public navigation. The authenticated `/tribunal` page stays for the 5 Sovereign Anchors (enterprise ratification).
 
-**File:** `src/components/TrustSection.tsx` or `src/components/Footer.tsx`
+### 6. Fix Runtime Crash
 
-Add clear status indicators:
-- "Australian Innovation Patent AMCZ-2615560564 — Filed"
-- "IETF Internet-Draft draft-singh-psi-00 — Active on Datatracker"
+Move `AuthProvider` inside `BrowserRouter` in `App.tsx` to fix the `useNavigate() outside Router` error that's currently breaking the site.
 
-Honest status. No overclaiming. Technical audiences respect transparency.
+## Technical Summary
 
-### 5. Add "Seed Your Ledger" Self-Notarization Guide
+```text
+OLD MODEL:
+  MPC (3 nodes) → Tribunal (5 humans) → Ratification
+  Bottleneck: 5 humans. Scale: limited. Government: can regulate 5 people.
 
-**File:** `src/components/notary/NotaryDocs.tsx`
+NEW MODEL:
+  MPC (3 nodes) → Public Attestation (unlimited, permissionless) → Sovereign Seal (optional)
+  Bottleneck: none. Scale: infinite. Government: cannot regulate mathematics.
+```
 
-Add a section showing companies how to notarize their own compliance assessments, patent filings, and regulatory submissions. This teaches users to seed their own ledger — solving the "empty ledger" problem through education rather than fake data.
+## Files Changed
 
----
-
-## Files Modified
-
-| File | Change |
-|------|--------|
-| `src/components/notary/NotaryPricing.tsx` | Pro: $99->$499, Enterprise: add "from $2,000/mo", CTAs updated |
-| `src/components/Pricing.tsx` | Add starting price anchor to Sovereign Certification |
-| `src/pages/Pharma.tsx` | Update enterprise CTA to "Book a Demo" |
-| `src/components/Footer.tsx` | Add patent + IETF draft status badges |
-| `src/components/notary/NotaryDocs.tsx` | Add "Seed Your Compliance Ledger" use-case section |
-
-## What This Does NOT Change
-
-- The free tier stays free (viral hook)
-- The crypto stays real (no mocks, confirmed)
-- The IETF language already says "draft" correctly throughout
-- No new edge functions needed
+| Action | File | Purpose |
+|--------|------|---------|
+| Fix | `src/App.tsx` | AuthProvider inside BrowserRouter |
+| Rewrite | `src/pages/Governance.tsx` | Open Tribunal manifesto with 3-layer architecture |
+| Enhance | `src/pages/Verify.tsx` | Add "Public Audit" tab for attestation submission |
+| Enhance | `src/pages/Explorer.tsx` | Attestation count per commit |
+| Update | `src/components/Navbar.tsx` | Add "Open Tribunal" nav link |
+| Create | `supabase/functions/public-attestation/index.ts` | Permissionless attestation endpoint |
+| Migration | New `public_attestations` table | Decentralized verification storage |
 
