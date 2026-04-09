@@ -497,7 +497,7 @@ Table of Contents
 
    Article 14 (Human Oversight):
      → 5-second Sovereign Pause (Protocol Intervention Layer)
-     → 5-party Sovereign Tribunal (3-of-5 threshold)
+     → Open Global Tribunal with Sovereign Anchor ratification (3-of-5 threshold)
      → 48-hour SLA with auto-escalation
      → Ed25519-signed auditor verdicts
 
