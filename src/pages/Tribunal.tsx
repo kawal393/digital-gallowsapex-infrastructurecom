@@ -277,7 +277,7 @@ const Tribunal = () => {
                         <div className="flex items-center gap-4 text-xs font-mono">
                           <span className="text-green-400">✓ {approvals} approve</span>
                           <span className="text-destructive">✗ {rejections} reject</span>
-                          <span className="text-muted-foreground">threshold: 3-of-5</span>
+                          <span className="text-muted-foreground">sovereign seal: 3-of-5</span>
                         </div>
 
                         {/* Review UI */}
