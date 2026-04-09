@@ -137,19 +137,36 @@ const navLinks = [
               </button>
               {infraOpen && (
                 <div className="absolute top-full left-0 mt-1 w-64 rounded-lg border border-border bg-background/95 backdrop-blur-xl shadow-xl py-2 z-50">
-                  {infraLinks.map((tool) => (
-                    <button
-                      key={tool.label}
-                      onClick={() => handleNavClick(tool.href, true)}
-                      className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer group"
-                    >
-                      <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{tool.label}</p>
-                        <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
-                      </div>
-                    </button>
-                  ))}
+                  {infraLinks.map((tool) =>
+                    (tool as any).external ? (
+                      <a
+                        key={tool.label}
+                        href={tool.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setInfraOpen(false)}
+                        className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors cursor-pointer group"
+                      >
+                        <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors flex items-center gap-1">{tool.label} <ExternalLink className="h-3 w-3" /></p>
+                          <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
+                        </div>
+                      </a>
+                    ) : (
+                      <button
+                        key={tool.label}
+                        onClick={() => handleNavClick(tool.href, true)}
+                        className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer group"
+                      >
+                        <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{tool.label}</p>
+                          <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
+                        </div>
+                      </button>
+                    )
+                  )}
                 </div>
               )}
             </div>
