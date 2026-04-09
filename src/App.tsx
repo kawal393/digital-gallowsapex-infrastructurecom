@@ -59,11 +59,11 @@ function PageTracker() {
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
             <ScrollToTop />
             <PageTracker />
             <Routes>
@@ -151,9 +151,9 @@ const App = () => (
             <ExitIntentPopup />
             <ChatWidget />
             <FeedbackWidget />
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );

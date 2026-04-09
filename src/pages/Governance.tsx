@@ -1,298 +1,288 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Shield, Users, Clock, Key, FileText, CheckCircle2, Scale, Globe, Lock } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import { Shield, Globe, Users, Zap, CheckCircle2, Scale, FileText, Activity, ArrowRight, Lock, Hash, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
-const tribunalSeats = [
+const layers = [
   {
-    seat: "Seat 1",
-    title: "Lead Cryptographer",
-    jurisdiction: "Global",
-    focus: "ZK-proof architecture, Ed25519 signature integrity, MPC consensus validation",
-    status: "Appointment in Progress",
+    number: "01",
+    title: "Machine Consensus",
+    subtitle: "MPC — 3-Node Automated Verification",
+    icon: Zap,
+    color: "text-primary",
+    borderColor: "border-primary/30",
+    bgColor: "bg-primary/5",
+    points: [
+      "3-node Multi-Party Computation cluster",
+      "2-of-3 consensus threshold — no single point of failure",
+      "SHA-256 hash chaining with monotonic sequence counters",
+      "Ed25519 root signatures for non-repudiation",
+      "Sub-second verification latency",
+    ],
+    status: "OPERATIONAL",
   },
   {
-    seat: "Seat 2",
-    title: "Regulatory Liaison",
-    jurisdiction: "European Union",
-    focus: "EU AI Act (2024/1689), GDPR, DORA, CEN-CENELEC harmonised standards",
-    status: "Appointment in Progress",
+    number: "02",
+    title: "Open Public Verification",
+    subtitle: "The Open Global Tribunal — Permissionless",
+    icon: Globe,
+    color: "text-gold",
+    borderColor: "border-gold/30",
+    bgColor: "bg-gold/5",
+    points: [
+      "Anyone, anywhere can independently verify any proof",
+      "No login required — the math is the credential",
+      "Public attestations anchored to the immutable ledger",
+      "Consensus emerges from volume, not authority",
+      "Every attestation is itself hashed and immutable",
+    ],
+    status: "LIVE",
   },
   {
-    seat: "Seat 3",
-    title: "Industry Representative",
-    jurisdiction: "Asia-Pacific / Americas",
-    focus: "Enterprise AI deployment, NIST AI RMF, Australia Privacy Act 2026, India IT Rules",
-    status: "Appointment in Progress",
-  },
-  {
-    seat: "Seat 4",
-    title: "Medical Ethics Lead",
-    jurisdiction: "United Kingdom / EU",
-    focus: "Healthcare AI governance, TGA compliance, NDIS regulatory frameworks, clinical AI oversight",
-    status: "Appointment in Progress",
-  },
-  {
-    seat: "Seat 5",
-    title: "Sovereign Anchor",
-    jurisdiction: "MENA / Global",
-    focus: "Cross-jurisdictional enforcement, emerging AI frameworks, global Merkle root integrity",
-    status: "Appointment in Progress",
-  },
-];
-
-const processSteps = [
-  {
-    step: "1",
-    title: "MPC Verification Completes",
-    description: "The 3-node MPC cluster produces a VERIFIED verdict with 2/3 consensus. The commit enters the Tribunal queue.",
+    number: "03",
+    title: "Sovereign Anchors",
+    subtitle: "High-Stakes Enterprise Ratification",
     icon: Shield,
+    color: "text-compliant",
+    borderColor: "border-compliant/30",
+    bgColor: "bg-compliant/5",
+    points: [
+      "5 credentialed professionals for enterprise-grade ratification",
+      "3-of-5 quorum with Ed25519-signed verdicts",
+      "48-hour SLA — machine verdict auto-ratifies on timeout",
+      "Optional layer — the protocol functions without them",
+      "Sovereign Anchors validate, they do not gatekeep",
+    ],
+    status: "ENTERPRISE",
   },
-  {
-    step: "2",
-    title: "Auditor Review",
-    description: "Each of the 5 independent auditors reviews the commit, its predicate mapping, and the MPC evidence. They submit an APPROVE or REJECT verdict with mandatory written rationale.",
-    icon: FileText,
-  },
-  {
-    step: "3",
-    title: "Ed25519 Signed Verdicts",
-    description: "Every auditor verdict is digitally signed with the auditor's Ed25519 private key, providing cryptographic non-repudiation. No verdict can be altered after signing.",
-    icon: Key,
-  },
-  {
-    step: "4",
-    title: "3-of-5 Ratification",
-    description: "When 3 or more auditors approve, the commit reaches RATIFIED status. A ratification_hash is computed: SHA-256(sorted(auditor_signatures).join('||')).",
-    icon: CheckCircle2,
-  },
-  {
-    step: "5",
-    title: "48-Hour SLA Enforcement",
-    description: "If the 3-of-5 quorum is not met within 48 hours, the MPC verdict stands automatically with a TRIBUNAL_TIMEOUT flag. This prevents governance bottlenecks.",
-    icon: Clock,
-  },
-];
-
-const qualifications = [
-  "Active professional certification in law, cybersecurity, AI ethics, or regulatory compliance",
-  "Minimum 5 years of experience in AI governance, data protection, or technology regulation",
-  "No active conflicts of interest with entities subject to PSI verification",
-  "Ability to commit to the 48-hour SLA review window",
-  "Willingness to sign verdicts with a personal Ed25519 key for non-repudiation",
 ];
 
 const Governance = () => {
+  const [totalProofs, setTotalProofs] = useState(0);
+  const [totalAttestations, setTotalAttestations] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const [ledgerRes, attestRes] = await Promise.all([
+        supabase.from("gallows_public_ledger").select("*", { count: "exact", head: true }),
+        supabase.from("public_attestations").select("*", { count: "exact", head: true }),
+      ]);
+      if (ledgerRes.count !== null) setTotalProofs(ledgerRes.count);
+      if (attestRes.count !== null) setTotalAttestations(attestRes.count);
+    };
+    fetchStats();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Helmet>
+        <title>Open Global Tribunal — Decentralized Justice Protocol</title>
+        <meta name="description" content="The APEX Open Global Tribunal replaces human bottlenecks with mathematical consensus. Anyone can verify. The math is the authority." />
+      </Helmet>
       <Navbar />
       <div className="pt-20 pb-16">
-        {/* Hero */}
+        {/* Hero — The Indictment */}
         <section className="relative py-16 sm:py-24 px-4 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, transparent 60%)" }}
           />
           <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <Badge variant="outline" className="border-primary/30 text-primary mb-4">
-                FOUNDING TRIBUNAL — GOVERNANCE MODEL
+              <Badge variant="outline" className="border-primary/30 text-primary mb-4 text-xs tracking-widest">
+                THE OPEN GLOBAL TRIBUNAL
               </Badge>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-                <span className="text-chrome-gradient">Sovereign</span>{" "}
-                <span className="text-gold-gradient">Tribunal</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-5 leading-tight">
+                <span className="text-chrome-gradient">Decentralized</span>{" "}
+                <span className="text-gold-gradient">Justice</span>
               </h1>
-              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
-                A 5-party independent auditor ratification layer providing human oversight
-                of automated compliance verdicts — satisfying EU AI Act Article 14 requirements
-                through cryptographically signed, transparent governance.
+              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base mb-8 leading-relaxed">
+                The ACCC processes 12,000 complaints per year. 400 million contracts are signed annually in Australia alone.
+                Centralized justice does not scale. <span className="text-foreground font-semibold">Mathematics does.</span>
               </p>
-            </motion.div>
-          </div>
-        </section>
 
-        {/* Vetting Phase Notice */}
-        <section className="px-4 pb-8">
-          <div className="container mx-auto max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-xl border border-gold/30 bg-gold/5 p-6 text-center"
-            >
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <Lock className="h-5 w-5 text-gold" />
-                <h3 className="text-sm font-black tracking-widest text-gold uppercase">Confidential Vetting Phase</h3>
-              </div>
-              <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-                The Apex Sovereign Tribunal is currently in a <span className="text-foreground font-semibold">Confidential Vetting Phase</span> to
-                ensure institutional credibility and jurisdictional diversity. All 5 seats are undergoing rigorous credential
-                verification to guarantee <span className="text-foreground font-semibold">3-of-5 consensus integrity</span> for
-                all Sovereign Audits beginning <span className="text-gold font-bold">July 2026</span>.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* What It Is / What It Is Not */}
-        <section className="px-4 py-12">
-          <div className="container mx-auto max-w-4xl">
-            <div className="grid md:grid-cols-2 gap-6">
-              <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
-                className="rounded-xl border border-compliant/30 bg-compliant/5 p-6">
-                <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-compliant" /> What the Tribunal IS
-                </h3>
-                <ul className="space-y-2 text-sm text-foreground/80">
-                  <li>• A governance mechanism for human oversight of automated verdicts</li>
-                  <li>• 5 independent credentialed professionals with jurisdictional diversity</li>
-                  <li>• Ed25519-signed verdicts with mandatory written rationale</li>
-                  <li>• A 3-of-5 consensus threshold preventing single-auditor compromise</li>
-                  <li>• Compliant with EU AI Act Article 14 (Human Oversight)</li>
-                  <li>• Transparent — all ratification hashes are publicly verifiable</li>
-                </ul>
-              </motion.div>
-
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}
-                className="rounded-xl border border-destructive/30 bg-destructive/5 p-6">
-                <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                  <Scale className="h-5 w-5 text-destructive" /> What the Tribunal is NOT
-                </h3>
-                <ul className="space-y-2 text-sm text-foreground/80">
-                  <li>• NOT a court of law or judicial body</li>
-                  <li>• NOT a regulatory authority or government agency</li>
-                  <li>• NOT a replacement for official conformity assessment</li>
-                  <li>• NOT binding on any third party — it is an internal governance layer</li>
-                  <li>• NOT a tribunal in the legal sense — the name reflects the gravity of the function</li>
-                </ul>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5 Named Seats */}
-        <section className="px-4 py-12 bg-card/30">
-          <div className="container mx-auto max-w-4xl">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h2 className="text-2xl font-black mb-2 text-center">
-                <span className="text-chrome-gradient">Founding Tribunal</span>{" "}
-                <span className="text-gold-gradient">— 5 Seats</span>
-              </h2>
-              <p className="text-muted-foreground text-center mb-8 text-sm">
-                Each seat represents a critical domain of expertise. No single discipline or geography controls the outcome.
-              </p>
-            </motion.div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tribunalSeats.map((role, idx) => (
-                <motion.div key={role.seat} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + idx * 0.05 }}
-                  className="rounded-xl border border-border bg-card/80 p-5">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <Globe className="h-4 w-4 text-primary" />
-                      <span className="text-xs font-bold text-primary uppercase tracking-widest">{role.seat}</span>
-                    </div>
-                    <Badge variant="outline" className="text-[9px] border-gold/40 text-gold font-bold">
-                      {role.status.toUpperCase()}
-                    </Badge>
+              {/* Live Stats */}
+              <div className="flex flex-wrap justify-center gap-8 mb-10">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2 mb-1">
+                    <Activity className="h-4 w-4 text-primary animate-pulse" />
+                    <span className="text-2xl sm:text-3xl font-black text-foreground">{totalProofs.toLocaleString()}</span>
                   </div>
-                  <h4 className="font-bold text-foreground mb-1">{role.title}</h4>
-                  <p className="text-[11px] text-muted-foreground mb-1 font-medium">{role.jurisdiction}</p>
-                  <p className="text-xs text-muted-foreground">{role.focus}</p>
-                </motion.div>
-              ))}
-            </div>
+                  <p className="text-xs text-muted-foreground tracking-widest uppercase">Proofs Anchored</p>
+                </div>
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2 mb-1">
+                    <Eye className="h-4 w-4 text-gold animate-pulse" />
+                    <span className="text-2xl sm:text-3xl font-black text-foreground">{totalAttestations.toLocaleString()}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground tracking-widest uppercase">Public Attestations</p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button variant="hero" size="lg" onClick={() => navigate("/verify")}>
+                  <Hash className="h-4 w-4 mr-2" />
+                  Verify a Proof
+                </Button>
+                <Button variant="heroOutline" size="lg" onClick={() => navigate("/explorer")}>
+                  <Globe className="h-4 w-4 mr-2" />
+                  View Public Ledger
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Ratification Process */}
+        {/* The Manifesto */}
+        <section className="px-4 pb-12">
+          <div className="container mx-auto max-w-4xl">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              className="rounded-xl border border-gold/30 bg-gold/5 p-8 text-center">
+              <Scale className="h-8 w-8 text-gold mx-auto mb-4" />
+              <h2 className="text-xl sm:text-2xl font-black mb-4">
+                <span className="text-gold-gradient">The Manifesto</span>
+              </h2>
+              <p className="text-foreground/80 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                True fairness cannot be centralized in a boardroom. It must be mathematically proven and publicly verifiable.
+                The protocol is open. The math is public. The ledger is immutable.
+                When 100,000 citizens verify a contract with mathematics, no regulator can dispute the result —
+                they can only adopt the protocol.
+              </p>
+              <p className="text-gold font-black text-sm mt-4 tracking-widest">
+                THE PROTOCOL IS THE REGULATOR.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Three-Layer Architecture */}
         <section className="px-4 py-12">
           <div className="container mx-auto max-w-4xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h2 className="text-2xl font-black mb-2 text-center">
-                <span className="text-chrome-gradient">Ratification</span>{" "}
-                <span className="text-gold-gradient">Process</span>
+              <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center">
+                <span className="text-chrome-gradient">Three-Layer</span>{" "}
+                <span className="text-gold-gradient">Architecture</span>
               </h2>
               <p className="text-muted-foreground text-center mb-10 text-sm">
-                How a machine verdict becomes a human-ratified compliance proof.
+                From machine consensus to public verification to sovereign ratification.
               </p>
             </motion.div>
 
-            <div className="space-y-4">
-              {processSteps.map((step, idx) => (
-                <motion.div key={step.step} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + idx * 0.08 }}
-                  className="rounded-xl border border-border bg-card/80 p-6 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <step.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground text-sm">{step.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">{step.description}</p>
+            <div className="space-y-6">
+              {layers.map((layer, idx) => (
+                <motion.div
+                  key={layer.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + idx * 0.1 }}
+                  className={`rounded-xl border ${layer.borderColor} ${layer.bgColor} p-6 sm:p-8`}
+                >
+                  <div className="flex items-start gap-4 sm:gap-6">
+                    <div className={`w-12 h-12 rounded-xl ${layer.bgColor} border ${layer.borderColor} flex items-center justify-center shrink-0`}>
+                      <layer.icon className={`h-6 w-6 ${layer.color}`} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1 flex-wrap">
+                        <span className={`text-xs font-black ${layer.color} tracking-widest`}>LAYER {layer.number}</span>
+                        <Badge variant="outline" className={`text-[9px] ${layer.borderColor} ${layer.color}`}>
+                          {layer.status}
+                        </Badge>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">{layer.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-4">{layer.subtitle}</p>
+                      <ul className="space-y-2">
+                        {layer.points.map((point, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm">
+                            <CheckCircle2 className={`h-4 w-4 ${layer.color} shrink-0 mt-0.5`} />
+                            <span className="text-foreground/80">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </div>
+
+            {/* Flow Diagram */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+              className="mt-8 rounded-xl border border-border bg-card/60 p-6">
+              <h3 className="text-sm font-bold text-foreground mb-4 text-center">Verification Flow</h3>
+              <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
+                {[
+                  { label: "MPC (3 nodes)", color: "text-primary", bg: "bg-primary/10 border-primary/30" },
+                  { label: "→", color: "text-muted-foreground", bg: "" },
+                  { label: "Public Attestation", color: "text-gold", bg: "bg-gold/10 border-gold/30" },
+                  { label: "→", color: "text-muted-foreground", bg: "" },
+                  { label: "Sovereign Seal", color: "text-compliant", bg: "bg-compliant/10 border-compliant/30" },
+                ].map((item, i) => (
+                  item.bg ? (
+                    <span key={i} className={`px-3 py-1.5 rounded-lg border ${item.bg} text-xs font-bold ${item.color}`}>
+                      {item.label}
+                    </span>
+                  ) : (
+                    <ArrowRight key={i} className="h-4 w-4 text-muted-foreground shrink-0" />
+                  )
+                ))}
+              </div>
+              <p className="text-[10px] text-muted-foreground text-center mt-3">
+                Sovereign Seal is optional — reserved for high-value enterprise commits
+              </p>
+            </motion.div>
           </div>
         </section>
 
-        {/* Auditor Qualifications */}
+        {/* The Challenge */}
         <section className="px-4 py-12 bg-card/30">
-          <div className="container mx-auto max-w-3xl">
+          <div className="container mx-auto max-w-3xl text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h2 className="text-2xl font-black mb-2 text-center">
-                <span className="text-chrome-gradient">Auditor</span>{" "}
-                <span className="text-gold-gradient">Qualifications</span>
+              <Lock className="h-10 w-10 text-gold mx-auto mb-4" />
+              <h2 className="text-2xl sm:text-3xl font-black mb-4">
+                <span className="text-gold-gradient">The Challenge</span>
               </h2>
-              <p className="text-muted-foreground text-center mb-8 text-sm">
-                Tribunal auditors are credentialed professionals, not anonymous validators.
+              <p className="text-foreground/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-6">
+                The protocol is open source. The cryptographic proofs are publicly verifiable.
+                The ledger is immutable and append-only. The attestations are permissionless.
               </p>
-
-              <div className="rounded-xl border border-border bg-card/80 p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Users className="h-5 w-5 text-primary" />
-                  <h3 className="font-bold text-foreground">Requirements</h3>
-                </div>
-                <ul className="space-y-3">
-                  {qualifications.map((q, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <CheckCircle2 className="h-4 w-4 text-compliant shrink-0 mt-0.5" />
-                      <span className="text-foreground/80">{q}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-6 rounded-xl border border-primary/20 bg-primary/5 p-6 text-center">
-                <h4 className="font-bold text-foreground mb-2">Expressions of Interest</h4>
-                <p className="text-sm text-muted-foreground mb-4">
-                  The Founding Tribunal is in a Confidential Vetting Phase.
-                  Expressions of interest from qualified professionals with relevant credentials are welcome.
+              <div className="rounded-xl border border-gold/30 bg-gold/5 p-6 max-w-lg mx-auto">
+                <p className="text-gold font-black text-lg tracking-wide">
+                  "Shut it down. We dare you."
                 </p>
-                <p className="text-sm text-primary font-mono">contact@apex-infrastructure.com</p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  You cannot regulate mathematics. You cannot censor a hash. You cannot silence a Merkle root.
+                </p>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Article 14 Compliance */}
+        {/* EU AI Act Article 14 Compliance */}
         <section className="px-4 py-12">
           <div className="container mx-auto max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div className="rounded-xl border border-primary/20 bg-card/80 p-6">
                 <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
-                  EU AI Act Article 14 Compliance
+                  EU AI Act Article 14 — Human Oversight
                 </h3>
                 <p className="text-sm text-muted-foreground mb-4">
                   Article 14 requires that high-risk AI systems "shall be designed and developed in such a way
-                  [...] that they can be effectively overseen by natural persons." The Sovereign Tribunal satisfies
+                  [...] that they can be effectively overseen by natural persons." The Open Global Tribunal satisfies
                   this through:
                 </p>
                 <div className="space-y-2 ml-4">
                   {[
-                    "Human-in-the-loop: Every MPC verdict is reviewed by natural persons before ratification",
-                    "Diversity: 5 auditors across 5 domains prevent monocultural oversight",
-                    "Non-repudiation: Ed25519 signatures ensure auditors cannot deny their verdicts",
-                    "Accountability: Mandatory rationale creates an auditable decision trail",
-                    "Timeliness: 48-hour SLA prevents indefinite delays in compliance certification",
+                    "Human-in-the-loop: The public IS the human oversight layer — unlimited, permissionless, global",
+                    "Diversity: Not 5 experts from one boardroom, but thousands of independent verifiers across jurisdictions",
+                    "Non-repudiation: Every attestation is hashed and immutable — verifiers cannot deny their results",
+                    "Accountability: Attestation volume creates mathematical consensus, not opinion-based governance",
+                    "Timeliness: Verification is instantaneous — no 48-hour wait, no bureaucratic bottleneck",
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-2 text-sm">
                       <CheckCircle2 className="h-4 w-4 text-compliant shrink-0 mt-0.5" />
@@ -305,26 +295,27 @@ const Governance = () => {
           </div>
         </section>
 
-        {/* Timeline */}
+        {/* CTA */}
         <section className="px-4 py-12 bg-card/30">
           <div className="container mx-auto max-w-3xl text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h2 className="text-2xl font-black mb-6">
-                <span className="text-chrome-gradient">Institutional</span>{" "}
-                <span className="text-gold-gradient">Timeline</span>
+              <h2 className="text-2xl font-black mb-4">
+                <span className="text-chrome-gradient">Join the</span>{" "}
+                <span className="text-gold-gradient">Tribunal</span>
               </h2>
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { date: "Q2 2026", label: "Vetting Phase Concludes", desc: "All 5 seats credentialed and enshrined" },
-                  { date: "July 2026", label: "Tribunal Operational", desc: "3-of-5 Sovereign Audits begin" },
-                  { date: "Aug 2, 2026", label: "EU AI Act Enforcement", desc: "Full regulatory compliance required" },
-                ].map((m) => (
-                  <div key={m.date} className="rounded-lg border border-border bg-card/60 p-4">
-                    <p className="text-lg font-black text-gold-gradient">{m.date}</p>
-                    <p className="text-xs font-bold text-foreground mt-1">{m.label}</p>
-                    <p className="text-[11px] text-muted-foreground mt-1">{m.desc}</p>
-                  </div>
-                ))}
+              <p className="text-muted-foreground text-sm mb-6 max-w-lg mx-auto">
+                No credentials required. No application process. Verify a proof. Submit your attestation.
+                The math is the only credential that matters.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button variant="hero" size="lg" onClick={() => navigate("/verify")}>
+                  <Shield className="h-4 w-4 mr-2" />
+                  Start Verifying
+                </Button>
+                <Button variant="heroOutline" size="lg" onClick={() => navigate("/explorer")}>
+                  <Activity className="h-4 w-4 mr-2" />
+                  Explore the Ledger
+                </Button>
               </div>
             </motion.div>
           </div>
