@@ -595,6 +595,88 @@ const Verify = () => {
                 )}
               </TabsContent>
 
+              {/* Tab 4: Public Audit */}
+              <TabsContent value="audit">
+                <div className="flex items-center gap-2 mb-4 rounded-lg border border-gold/20 bg-gold/5 px-4 py-2.5">
+                  <Globe className="h-4 w-4 text-gold shrink-0" />
+                  <p className="text-xs text-gold font-medium">
+                    Open Global Tribunal — Submit your independent verification as a public attestation. No login required.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border bg-card/80 p-6 space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1.5 block">Commit ID</label>
+                    <Input
+                      value={auditCommitId}
+                      onChange={(e) => { setAuditCommitId(e.target.value); setAuditSubmitted(false); }}
+                      onBlur={() => fetchAttestationCount(auditCommitId)}
+                      placeholder="APEX-NTR-XXXXXXXXXXXXXXXX or any commit ID"
+                      className="font-mono text-sm bg-background"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1.5 block">Your Verification Result</label>
+                    <div className="flex gap-2">
+                      {(["VERIFIED", "FAILED", "CONTESTED"] as const).map((r) => (
+                        <Button
+                          key={r}
+                          variant={auditResult === r ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setAuditResult(r)}
+                          className={auditResult === r ? (
+                            r === "VERIFIED" ? "bg-compliant text-compliant-foreground hover:bg-compliant/90" :
+                            r === "FAILED" ? "bg-destructive text-destructive-foreground" :
+                            "bg-primary"
+                          ) : ""}
+                        >
+                          {r === "VERIFIED" && <CheckCircle2 className="h-3 w-3 mr-1" />}
+                          {r === "FAILED" && <ShieldX className="h-3 w-3 mr-1" />}
+                          {r === "CONTESTED" && <AlertTriangle className="h-3 w-3 mr-1" />}
+                          {r}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Button
+                    variant="hero"
+                    onClick={handlePublicAttest}
+                    disabled={auditSubmitting || auditSubmitted}
+                    className="w-full"
+                  >
+                    {auditSubmitting ? (
+                      <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                    ) : auditSubmitted ? (
+                      <><CheckCircle2 className="h-4 w-4 mr-2" />Attestation Anchored</>
+                    ) : (
+                      <><Globe className="h-4 w-4 mr-2" />Anchor My Verification to the Public Ledger</>
+                    )}
+                  </Button>
+
+                  {auditCount > 0 && (
+                    <div className="flex items-center gap-2 rounded-lg border border-compliant/20 bg-compliant/5 px-4 py-3">
+                      <Eye className="h-4 w-4 text-compliant" />
+                      <p className="text-sm text-compliant font-medium">
+                        This commit has been independently verified by <span className="font-black">{auditCount}</span> public auditor{auditCount !== 1 ? "s" : ""}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {auditSubmitted && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 rounded-xl border border-compliant/30 bg-compliant/5 p-6 text-center">
+                    <Shield className="h-8 w-8 text-compliant mx-auto mb-3" />
+                    <p className="font-black text-compliant text-sm mb-1">ATTESTATION ANCHORED</p>
+                    <p className="text-xs text-muted-foreground">
+                      Your verification has been cryptographically hashed and recorded on the immutable public ledger.
+                      It can never be altered or deleted.
+                    </p>
+                  </motion.div>
+                )}
+              </TabsContent>
 
             </Tabs>
 
