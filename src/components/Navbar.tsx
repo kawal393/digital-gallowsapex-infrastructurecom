@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import apexLogo from "@/assets/apex-logo.png";
 
 const infraLinks = [
+  { label: "Open Source", href: "https://github.com/kawal393/-apex-digital-gallows", icon: GitBranch, desc: "Full protocol on GitHub", external: true },
   { label: "Verified Registry", href: "/registry", icon: Shield, desc: "Public verified entity ledger" },
   { label: "Verify Hash", href: "/verify", icon: Hash, desc: "Public SHA-256 verification" },
   { label: "Regulation Map", href: "/regulations", icon: Globe, desc: "AI laws in 25+ countries" },
