@@ -35,7 +35,7 @@ const Hero = () => {
           </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 sm:px-4 py-1 mb-6 sm:mb-8">
             <span className="text-[9px] sm:text-[10px] font-bold text-primary tracking-widest uppercase">
-              Founding Tribunal — Appointment in Progress · Sovereign Audits Begin July 2026
+              Open Global Tribunal — Permissionless Verification · Live Now
             </span>
           </div>
 
