@@ -84,12 +84,11 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center justify-between h-16 gap-6">
           <button
             onClick={() => handleNavClick("#top")}
-            className="flex items-center gap-1.5 bg-transparent border-none cursor-pointer shrink-0 group"
+            className="flex items-center gap-1.5 bg-transparent border-none cursor-pointer shrink-0"
           >
-            <img src={apexLogo} alt="APEX" className="h-7 w-7 object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
-            <span className="text-sm font-black tracking-[0.15em] uppercase">
-              <span className="text-gold-gradient">APEX</span>
-              <span className="text-chrome-gradient ml-0.5">PSI</span>
+            <span className="text-sm font-black tracking-tight">
+              <span className="text-gold-gradient">APEX</span>{" "}
+              <span className="text-chrome-gradient">PSI</span>
             </span>
           </button>
 

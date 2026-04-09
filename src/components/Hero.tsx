@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, Globe, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import apexLogo from "@/assets/apex-logo.png";
 import { useVisitorLocation, useLiveClock } from "@/hooks/use-visitor-info";
 
 const Hero = () => {
@@ -13,97 +14,83 @@ const Hero = () => {
   const cityDisplay = [location.city, location.country].filter(Boolean).join(", ");
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12 overflow-hidden">
-      {/* Subtle radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
+    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12 grid-bg overflow-hidden">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, hsl(35 80% 45% / 0.04) 40%, transparent 70%)" }}
       />
 
-      <div className="relative z-10 text-center max-w-5xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[400px] h-[400px] md:w-[600px] md:h-[600px] lg:w-[720px] lg:h-[720px] logo-emerge overflow-hidden rounded-full animate-breathe">
+          <img src={apexLogo} alt="" className="w-full h-full object-contain" style={{ opacity: 1, filter: "blur(0.5px)", transform: "scale(1.1)" }} />
+        </div>
+      </div>
 
-          {/* Status line */}
+      <div className="relative z-10 text-center max-w-4xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/5 px-3 sm:px-4 py-1.5 mb-3 sm:mb-4 border-glow">
+            <Shield className="h-3.5 w-3.5 text-gold" />
+            <span className="text-[10px] sm:text-xs font-semibold text-gold tracking-widest uppercase">
+              Reference Implementation of draft-singh-psi-00
+            </span>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 sm:px-4 py-1 mb-6 sm:mb-8">
+            <span className="text-[9px] sm:text-[10px] font-bold text-primary tracking-widest uppercase">
+              Open Global Tribunal — Permissionless Verification · Live Now
+            </span>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
-            className="mb-8"
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="mb-5 sm:mb-6"
           >
-            <span className="inline-block text-[10px] sm:text-xs font-bold text-primary tracking-[0.3em] uppercase border-b border-primary/30 pb-1">
-              Reference Implementation of draft-singh-psi-00
-            </span>
+            <p className="text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-primary">
+              The Only Mathematically Verifiable
+            </p>
           </motion.div>
 
-          {/* THE DECLARATION */}
-          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tight leading-[0.9] mb-6">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.5 }}
-              className="block text-chrome-gradient"
-            >
-              OPEN GLOBAL
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.5 }}
-              className="block text-gold-gradient"
-            >
-              TRIBUNAL.
-            </motion.span>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
+            <span className="text-chrome-gradient">APEX PSI:</span>
+            <br />
+            <span className="text-gold-gradient">The Definitive Standard</span>
+            <br />
+            <span className="text-gold-gradient">for Verifiable AI Governance.</span>
           </h1>
 
-          {/* Sub-declaration pillars */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8"
+            className="rounded-lg border border-primary/20 bg-primary/5 px-4 sm:px-6 py-3 mb-5 sm:mb-6 max-w-2xl mx-auto"
           >
-            {["OPEN SOURCE", "FREE FOREVER", "PERMISSIONLESS"].map((word, i) => (
-              <span key={word} className="text-sm sm:text-base md:text-lg font-black tracking-[0.2em] text-gold uppercase">
-                {word}
-                {i < 2 && <span className="text-border ml-6 hidden sm:inline">·</span>}
-              </span>
-            ))}
-          </motion.div>
-
-          {/* Core message */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="max-w-2xl mx-auto mb-6"
-          >
-            <p className="text-base sm:text-lg md:text-xl text-foreground font-semibold mb-3">
-              The definitive standard for verifiable AI governance.
-            </p>
-            <p className="text-sm sm:text-base text-muted-foreground">
-              Cryptographic compliance with the EU AI Act through{" "}
-              <span className="text-gold font-bold">Zero-Knowledge Proofs</span>,{" "}
-              <span className="text-gold font-bold">MPC Consensus</span> &{" "}
-              <span className="text-gold font-bold">Public Attestation</span>.
+            <p className="text-xs sm:text-sm md:text-base font-black uppercase tracking-widest text-primary leading-relaxed">
+              Mathematically Verified · Open Global Tribunal Ratified
+              <br />
+              <span className="text-gold">Zero-Knowledge · Non-Repudiable · Open Source</span>
             </p>
           </motion.div>
 
-          {/* Tech specs line */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-[10px] sm:text-xs text-muted-foreground font-mono tracking-widest uppercase mb-8"
-          >
-            RFC 8785 (JCS) · Ed25519 · Monotonic Sequencing · EU AI Act Art. 12, 14, 15
-          </motion.p>
+          <p className="text-xs sm:text-sm font-mono text-primary/80 tracking-widest uppercase mb-4 sm:mb-5">
+            Prescriptive Enforcement · Not Descriptive Governance
+          </p>
 
-          {/* Location + time bar */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.65 }}
-            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground mb-10"
-          >
+          <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
+            <span className="text-foreground font-semibold">Cryptographically proving AI compliance with the EU AI Act</span>
+          </p>
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
+            <span className="text-muted-foreground">through</span>{" "}
+            <span className="text-gold-gradient font-bold">Zero-Knowledge Proofs</span>
+            <span className="text-muted-foreground">,</span>{" "}
+            <span className="text-gold-gradient font-bold">MPC Consensus</span>
+            <span className="text-muted-foreground"> & </span>
+            <span className="text-gold-gradient font-bold">Public Attestation</span>
+          </p>
+          <p className="text-xs sm:text-sm text-muted-foreground mb-5 sm:mb-6 max-w-xl mx-auto">
+            RFC 8785 (JCS) · Ed25519 Signatures · Monotonic Sequencing · EU AI Act Articles 12, 14, 15
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground mb-8 sm:mb-10">
             <span className="inline-flex items-center gap-1.5">
               <Globe className="h-3 w-3 text-primary/70" />
               {cityDisplay}
@@ -115,22 +102,16 @@ const Hero = () => {
             </span>
             <span className="hidden sm:inline text-border">|</span>
             <span className="hidden sm:inline">{formattedDate}</span>
-          </motion.div>
+          </div>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
-          >
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
               <Link to="/gallows">Access the Protocol <ArrowRight className="ml-1 h-4 w-4" /></Link>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <Link to="/governance"><Shield className="mr-1 h-4 w-4" /> The Manifesto</Link>
+              <Link to="/protocol"><Shield className="mr-1 h-4 w-4" /> View Protocol Spec</Link>
             </Button>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
