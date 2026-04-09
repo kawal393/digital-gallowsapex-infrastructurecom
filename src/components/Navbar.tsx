@@ -285,16 +285,31 @@ const navLinks = [
             <div className="pt-2 pb-1">
               <p className="px-3 text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Infrastructure</p>
             </div>
-            {infraLinks.map((tool) => (
-              <button
-                key={tool.label}
-                onClick={() => handleNavClick(tool.href, true)}
-                className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
-              >
-                <tool.icon className="h-3.5 w-3.5 text-primary" />
-                {tool.label}
-              </button>
-            ))}
+            {infraLinks.map((tool) =>
+              (tool as any).external ? (
+                <a
+                  key={tool.label}
+                  href={tool.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors flex items-center gap-2"
+                >
+                  <tool.icon className="h-3.5 w-3.5 text-primary" />
+                  {tool.label}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <button
+                  key={tool.label}
+                  onClick={() => handleNavClick(tool.href, true)}
+                  className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
+                >
+                  <tool.icon className="h-3.5 w-3.5 text-primary" />
+                  {tool.label}
+                </button>
+              )
+            )}
             <div className="pt-3 border-t border-border/50 space-y-2">
               {user ? (
                 <Button variant="heroOutline" size="sm" className="w-full justify-center" onClick={() => { setOpen(false); navigate("/dashboard"); }}>
