@@ -138,8 +138,6 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-}
-
 
   .text-psi-gradient {
     @apply bg-clip-text text-transparent;
