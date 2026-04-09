@@ -102,7 +102,7 @@ const navLinks = [
             IETF draft-singh-psi-00
           </a>
 
-          <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-0">
             {navLinks.map((link) =>
               (link as any).external ? (
                 <a
@@ -110,7 +110,7 @@ const navLinks = [
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
+                  className="px-1.5 py-1.5 text-[11px] text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
                 >
                   {link.label}
                   <ExternalLink className="h-3 w-3" />
@@ -119,7 +119,7 @@ const navLinks = [
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href, link.isRoute)}
-                  className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
+                  className="px-1.5 py-1.5 text-[11px] text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </button>
@@ -130,9 +130,9 @@ const navLinks = [
             <div ref={infraRef} className="relative">
               <button
                 onClick={() => setInfraOpen(!infraOpen)}
-                className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
+                className="px-1.5 py-1.5 text-[11px] text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
               >
-                Infrastructure
+                Infra
                 <ChevronDown className={`h-3 w-3 transition-transform ${infraOpen ? "rotate-180" : ""}`} />
               </button>
               {infraOpen && (
