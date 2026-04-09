@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, FileCheck } from "lucide-react";
+import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, FileCheck, Globe, Eye } from "lucide-react";
 import SovereignShield from "@/components/verify/SovereignShield";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import { supabase } from "@/integrations/supabase/client";
 
 import { toast } from "sonner";
 import { verifyEd25519Signature, type PSIProofBundle } from "@/lib/psi-signatures";
@@ -61,6 +61,46 @@ const Verify = () => {
   const [receiptResult, setReceiptResult] = useState<VerificationResult | null>(null);
   const [searched, setSearched] = useState(false);
   const [activeTab, setActiveTab] = useState("hash");
+  
+  // Public Audit state
+  const [auditCommitId, setAuditCommitId] = useState("");
+  const [auditResult, setAuditResult] = useState<"VERIFIED" | "FAILED" | "CONTESTED">("VERIFIED");
+  const [auditSubmitting, setAuditSubmitting] = useState(false);
+  const [auditCount, setAuditCount] = useState(0);
+  const [auditSubmitted, setAuditSubmitted] = useState(false);
+
+  const fetchAttestationCount = async (commitId: string) => {
+    if (!commitId.trim()) return;
+    const { count } = await supabase
+      .from("public_attestations")
+      .select("*", { count: "exact", head: true })
+      .eq("commit_id", commitId.trim());
+    if (count !== null) setAuditCount(count);
+  };
+
+  const handlePublicAttest = async () => {
+    if (!auditCommitId.trim()) { toast.error("Enter a commit ID"); return; }
+    setAuditSubmitting(true);
+    try {
+      const res = await fetch(
+        `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/public-attestation`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ commit_id: auditCommitId.trim(), verification_result: auditResult }),
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Attestation anchored to the public ledger");
+        setAuditSubmitted(true);
+        fetchAttestationCount(auditCommitId.trim());
+      } else {
+        toast.error(data.error || "Attestation failed");
+      }
+    } catch { toast.error("Network error"); }
+    finally { setAuditSubmitting(false); }
+  };
 
   // Proof bundle verification state
   const [bundleJson, setBundleJson] = useState("");
@@ -277,12 +317,11 @@ const Verify = () => {
         <section className="px-4 -mt-8">
           <div className="container mx-auto max-w-3xl">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="w-full grid grid-cols-5 mb-6">
+              <TabsList className="w-full grid grid-cols-4 mb-6">
                 <TabsTrigger value="hash" className="text-xs sm:text-sm">Hash Lookup</TabsTrigger>
                 <TabsTrigger value="receipt" className="text-xs sm:text-sm">Receipt ID</TabsTrigger>
                 <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
-                
-                
+                <TabsTrigger value="audit" className="text-xs sm:text-sm">Public Audit</TabsTrigger>
               </TabsList>
 
               {/* Tab 1: Hash Lookup */}

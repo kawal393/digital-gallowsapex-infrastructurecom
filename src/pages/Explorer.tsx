@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import { Activity, Hash, Shield, Clock, RefreshCw, Search, ChevronDown, FileText } from "lucide-react";
+import { Activity, Hash, Shield, Clock, RefreshCw, Search, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,17 +30,32 @@ const Explorer = () => {
   const [search, setSearch] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [autoRefresh, setAutoRefresh] = useState(true);
+  const [attestationCounts, setAttestationCounts] = useState<Record<string, number>>({});
 
   const fetchEntries = async () => {
-    const query = supabase
+    const { data, error } = await supabase
       .from("gallows_public_ledger")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(50);
-
-    const { data, error } = await query;
     if (!error && data) {
-      setEntries(data as unknown as LedgerEntry[]);
+      const typed = data as unknown as LedgerEntry[];
+      setEntries(typed);
+      // Fetch attestation counts for visible entries
+      const commitIds = typed.map(e => e.commit_id).filter(Boolean);
+      if (commitIds.length > 0) {
+        const { data: attestations } = await supabase
+          .from("public_attestations")
+          .select("commit_id")
+          .in("commit_id", commitIds);
+        if (attestations) {
+          const counts: Record<string, number> = {};
+          attestations.forEach((a: any) => {
+            counts[a.commit_id] = (counts[a.commit_id] || 0) + 1;
+          });
+          setAttestationCounts(counts);
+        }
+      }
     }
     setLoading(false);
   };
@@ -52,33 +67,20 @@ const Explorer = () => {
     if (count !== null) setTotalCount(count);
   };
 
-  useEffect(() => {
-    fetchEntries();
-    fetchCount();
-  }, []);
+  useEffect(() => { fetchEntries(); fetchCount(); }, []);
 
-  // Auto-refresh every 15 seconds
   useEffect(() => {
     if (!autoRefresh) return;
-    const interval = setInterval(() => {
-      fetchEntries();
-      fetchCount();
-    }, 15000);
+    const interval = setInterval(() => { fetchEntries(); fetchCount(); }, 15000);
     return () => clearInterval(interval);
   }, [autoRefresh]);
 
-  // Realtime subscription
   useEffect(() => {
     const channel = supabase
       .channel("explorer-realtime")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "gallows_ledger" },
-        () => {
-          fetchEntries();
-          fetchCount();
-        }
-      )
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "gallows_ledger" }, () => {
+        fetchEntries(); fetchCount();
+      })
       .subscribe();
     return () => { supabase.removeChannel(channel); };
   }, []);
@@ -102,7 +104,6 @@ const Explorer = () => {
       </Helmet>
       <Navbar />
       <div className="pt-20 pb-16">
-        {/* Hero */}
         <section className="relative py-12 sm:py-16 px-4 overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
             style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
@@ -118,8 +119,6 @@ const Explorer = () => {
             <p className="text-muted-foreground max-w-xl mx-auto text-sm mb-6">
               Every notarization. Every hash. Every signature. Streaming in real-time from the immutable ledger.
             </p>
-
-            {/* Stats bar */}
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <div className="flex items-center gap-2">
                 <Activity className="h-4 w-4 text-primary animate-pulse" />
@@ -139,7 +138,6 @@ const Explorer = () => {
           </div>
         </section>
 
-        {/* Controls */}
         <section className="px-4 -mt-4">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -163,7 +161,6 @@ const Explorer = () => {
               </Button>
             </div>
 
-            {/* Entries */}
             {loading ? (
               <div className="text-center py-12">
                 <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
@@ -182,7 +179,6 @@ const Explorer = () => {
                       className="rounded-lg border border-border bg-card/60 hover:bg-card/90 transition-colors overflow-hidden"
                     >
                       <div className="px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                        {/* Left: Receipt info */}
                         <div className="flex items-center gap-3 flex-1 min-w-0">
                           <div className={`h-2 w-2 rounded-full shrink-0 ${
                             entry.status === "APPROVED" ? "bg-compliant" :
@@ -198,14 +194,18 @@ const Explorer = () => {
                                   "bg-muted text-muted-foreground border-border"
                                 }`}>{entry.phase}</Badge>
                               )}
+                              {attestationCounts[entry.commit_id] > 0 && (
+                                <Badge className="text-[9px] bg-gold/10 text-gold border-gold/20 flex items-center gap-1">
+                                  <Eye className="h-2.5 w-2.5" />
+                                  {attestationCounts[entry.commit_id]} auditor{attestationCounts[entry.commit_id] !== 1 ? "s" : ""}
+                                </Badge>
+                              )}
                             </div>
                             <p className="text-xs text-muted-foreground mt-0.5 truncate">
                               {truncate(entry.action, 100)}
                             </p>
                           </div>
                         </div>
-
-                        {/* Right: Hash + time */}
                         <div className="flex items-center gap-3 shrink-0 text-right">
                           <div className="hidden md:block">
                             <code className="text-[10px] font-mono text-muted-foreground">
@@ -220,8 +220,6 @@ const Explorer = () => {
                           </div>
                         </div>
                       </div>
-
-                      {/* Signature bar */}
                       {entry.ed25519_signature && (
                         <div className="px-4 py-1.5 border-t border-border/50 bg-muted/20 flex items-center gap-2">
                           <Shield className="h-3 w-3 text-primary shrink-0" />
