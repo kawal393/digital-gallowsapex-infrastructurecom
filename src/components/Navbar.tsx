@@ -96,9 +96,9 @@ const navLinks = [
           <a
             href="/protocol"
             onClick={(e) => { e.preventDefault(); handleNavClick("/protocol", true); }}
-            className="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[10px] font-bold text-primary tracking-widest uppercase hover:bg-primary/10 transition-colors cursor-pointer"
+            className="hidden xl:inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/5 px-2 py-0.5 text-[9px] font-bold text-primary tracking-widest uppercase hover:bg-primary/10 transition-colors cursor-pointer shrink-0"
           >
-            <FileText className="h-3 w-3" />
+            <FileText className="h-2.5 w-2.5" />
             IETF draft-singh-psi-00
           </a>
 
