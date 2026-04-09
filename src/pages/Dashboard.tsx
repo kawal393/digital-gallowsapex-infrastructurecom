@@ -304,15 +304,15 @@ const Dashboard = () => {
 
         {/* Tabs: Compliance + Analytics */}
         <Tabs defaultValue={searchParams.get("tab") === "notary" ? "notary" : "compliance"} className="w-full">
-          <TabsList className="mb-6 bg-muted">
-            <TabsTrigger value="compliance" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Shield className="h-3.5 w-3.5 mr-1.5" /> Compliance
+          <TabsList className="mb-6 bg-muted w-full sm:w-auto flex flex-wrap">
+            <TabsTrigger value="compliance" className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Shield className="h-3.5 w-3.5 mr-1" /> Compliance
             </TabsTrigger>
-            <TabsTrigger value="notary" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Key className="h-3.5 w-3.5 mr-1.5" /> Notary API
+            <TabsTrigger value="notary" className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Key className="h-3.5 w-3.5 mr-1" /> Notary
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <BarChart3 className="h-3.5 w-3.5 mr-1.5" /> Chat Analytics
+            <TabsTrigger value="analytics" className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <BarChart3 className="h-3.5 w-3.5 mr-1" /> Analytics
             </TabsTrigger>
           </TabsList>
 

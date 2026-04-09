@@ -37,14 +37,14 @@ const Navbar = () => {
     });
   }, [user]);
 
-  const navLinks = [
+const navLinks = [
     { label: "Engine", href: "/gallows", isRoute: true },
-    { label: "Notary API", href: "/notary", isRoute: true },
+    { label: "Notary", href: "/notary", isRoute: true },
     { label: "Explorer", href: "/explorer", isRoute: true },
-    { label: "Verify Portal", href: "/verify", isRoute: true },
-    { label: "Open Tribunal", href: "/governance", isRoute: true },
+    { label: "Verify", href: "/verify", isRoute: true },
+    { label: "Tribunal", href: "/governance", isRoute: true },
     { label: "Registry", href: "/registry", isRoute: true },
-    { label: "LDSL Specs", href: "/protocol", isRoute: true },
+    { label: "Protocol", href: "/protocol", isRoute: true },
     { label: "Open Source", href: "https://github.com/kawal393/-apex-digital-gallows", isRoute: false, external: true },
   ];
 
@@ -102,7 +102,7 @@ const Navbar = () => {
             IETF draft-singh-psi-00
           </a>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
             {navLinks.map((link) =>
               (link as any).external ? (
                 <a
@@ -110,7 +110,7 @@ const Navbar = () => {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
+                  className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors whitespace-nowrap flex items-center gap-1"
                 >
                   {link.label}
                   <ExternalLink className="h-3 w-3" />
@@ -119,7 +119,7 @@ const Navbar = () => {
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href, link.isRoute)}
-                  className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
+                  className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </button>
@@ -130,7 +130,7 @@ const Navbar = () => {
             <div ref={infraRef} className="relative">
               <button
                 onClick={() => setInfraOpen(!infraOpen)}
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
+                className="px-2 py-1.5 text-xs text-muted-foreground hover:text-primary rounded-md hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer whitespace-nowrap flex items-center gap-1"
               >
                 Infrastructure
                 <ChevronDown className={`h-3 w-3 transition-transform ${infraOpen ? "rotate-180" : ""}`} />

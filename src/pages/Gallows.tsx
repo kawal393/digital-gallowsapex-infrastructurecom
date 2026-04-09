@@ -344,7 +344,7 @@ const Gallows = () => {
 
       <main className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* Top row: Commit + Pipeline + Predicates */}
-        <div className="grid gap-4 md:gap-6 grid-cols-1 lg:grid-cols-[1fr_1fr_300px]">
+        <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_300px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -374,7 +374,7 @@ const Gallows = () => {
         </div>
 
         {/* Middle row: Merkle Tree + Hash Verifier + Certificate */}
-        <div className="grid gap-4 md:gap-6 grid-cols-1 lg:grid-cols-[1fr_400px]">
+        <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-[1fr_1fr] lg:grid-cols-[1fr_400px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
