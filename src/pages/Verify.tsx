@@ -317,11 +317,11 @@ const Verify = () => {
         <section className="px-4 -mt-8">
           <div className="container mx-auto max-w-3xl">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="w-full grid grid-cols-4 mb-6">
-                <TabsTrigger value="hash" className="text-xs sm:text-sm">Hash Lookup</TabsTrigger>
-                <TabsTrigger value="receipt" className="text-xs sm:text-sm">Receipt ID</TabsTrigger>
-                <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
-                <TabsTrigger value="audit" className="text-xs sm:text-sm">Public Audit</TabsTrigger>
+              <TabsList className="w-full grid grid-cols-2 sm:grid-cols-4 mb-6">
+                <TabsTrigger value="hash" className="text-[11px] sm:text-sm">Hash Lookup</TabsTrigger>
+                <TabsTrigger value="receipt" className="text-[11px] sm:text-sm">Receipt ID</TabsTrigger>
+                <TabsTrigger value="proof" className="text-[11px] sm:text-sm">Proof Verify</TabsTrigger>
+                <TabsTrigger value="audit" className="text-[11px] sm:text-sm">Public Audit</TabsTrigger>
               </TabsList>
 
               {/* Tab 1: Hash Lookup */}
