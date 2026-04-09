@@ -119,3 +119,6 @@ verify_jwt = false
 
 [functions.generate-receipt-pdf]
 verify_jwt = false
+
+[functions.public-attestation]
+verify_jwt = false
