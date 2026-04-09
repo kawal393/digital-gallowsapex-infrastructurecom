@@ -247,6 +247,40 @@ const references = [
     url: "https://veritaschain.org/blog/posts/2025-12-25-sec-rule-17a4/",
   },
 
+  // ── ADVERSARIAL / CRITIQUE SOURCES ──
+  {
+    icon: Scale,
+    category: "Regulation" as Category,
+    title: "EU AI Act Article 14: Human Oversight Requirements",
+    source: "EU AI Act Official Text",
+    desc: "Mandates human oversight to prevent risks to health and fundamental rights. The exact article critics cite against ZKP-only verification.",
+    url: "https://artificialintelligenceact.eu/article/14/",
+  },
+  {
+    icon: FileText,
+    category: "Research" as Category,
+    title: "The Impact of Zero-Knowledge Proofs on Policy & Regulation",
+    source: "Internet Policy Review",
+    desc: "Analysis of how ZKPs create higher technical complexity for regulators. The transparency tension APEX resolves with its dual-layer architecture.",
+    url: "https://policyreview.info/articles/analysis/impact-zero-knowledge-proofs",
+  },
+  {
+    icon: BookOpen,
+    category: "Technical" as Category,
+    title: "AI Act Technical Documentation: Standardization Gap Analysis",
+    source: "Springer — 2025",
+    desc: "Identifies the lack of precise certifiable standards for Art. 11 & 12. The standardization deadlock that first-mover IETF submission addresses.",
+    url: "https://link.springer.com/chapter/10.1007/978-3-031-94924-1_6",
+  },
+  {
+    icon: AlertTriangle,
+    category: "Enforcement" as Category,
+    title: "AI Liability & Decentralized Accountability Under EU Law",
+    source: "Taylor & Francis — 2025",
+    desc: "Examines how decentralized entities lack direct legally-binding liability. The gap that APEX Standards Foundation (ASF) fills as a registered provider.",
+    url: "https://www.tandfonline.com/doi/full/10.1080/19460171.2025.2496193",
+  },
+
   // ── TECHNICAL ──
   {
     icon: Shield,
