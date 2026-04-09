@@ -89,39 +89,42 @@ const Governance = () => {
       <Navbar />
       <div className="pt-20 pb-16">
         {/* Hero — The Indictment */}
-        <section className="relative py-16 sm:py-24 px-4 overflow-hidden">
+        <section className="relative py-20 sm:py-32 px-4 overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.06) 0%, transparent 60%)" }}
           />
           <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <Badge variant="outline" className="border-primary/30 text-primary mb-4 text-xs tracking-widest">
-                THE OPEN GLOBAL TRIBUNAL
-              </Badge>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-5 leading-tight">
-                <span className="text-chrome-gradient">Decentralized</span>{" "}
-                <span className="text-gold-gradient">Justice</span>
+              <span className="inline-block text-[10px] sm:text-xs font-bold text-primary tracking-[0.3em] uppercase border-b border-primary/30 pb-1 mb-8">
+                THE MANIFESTO OF DECENTRALIZED JUSTICE
+              </span>
+
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-[0.95] tracking-tight">
+                <span className="block text-chrome-gradient">CENTRALIZED JUSTICE</span>
+                <span className="block text-chrome-gradient">DOES NOT SCALE.</span>
+                <span className="block text-gold-gradient mt-2">MATHEMATICS DOES.</span>
               </h1>
-              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base mb-8 leading-relaxed">
+
+              <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base mb-10 leading-relaxed">
                 The ACCC processes 12,000 complaints per year. 400 million contracts are signed annually in Australia alone.
-                Centralized justice does not scale. <span className="text-foreground font-semibold">Mathematics does.</span>
+                The bottleneck is not technology. It is <span className="text-foreground font-semibold">institutional permission</span>.
               </p>
 
               {/* Live Stats */}
-              <div className="flex flex-wrap justify-center gap-8 mb-10">
+              <div className="flex flex-wrap justify-center gap-10 mb-12">
                 <div className="text-center">
                   <div className="flex items-center justify-center gap-2 mb-1">
                     <Activity className="h-4 w-4 text-primary animate-pulse" />
-                    <span className="text-2xl sm:text-3xl font-black text-foreground">{totalProofs.toLocaleString()}</span>
+                    <span className="text-3xl sm:text-4xl font-black text-foreground tabular-nums">{totalProofs.toLocaleString()}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground tracking-widest uppercase">Proofs Anchored</p>
+                  <p className="text-[10px] text-muted-foreground tracking-[0.2em] uppercase">Proofs Anchored</p>
                 </div>
                 <div className="text-center">
                   <div className="flex items-center justify-center gap-2 mb-1">
                     <Eye className="h-4 w-4 text-gold animate-pulse" />
-                    <span className="text-2xl sm:text-3xl font-black text-foreground">{totalAttestations.toLocaleString()}</span>
+                    <span className="text-3xl sm:text-4xl font-black text-foreground tabular-nums">{totalAttestations.toLocaleString()}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground tracking-widest uppercase">Public Attestations</p>
+                  <p className="text-[10px] text-muted-foreground tracking-[0.2em] uppercase">Public Attestations</p>
                 </div>
               </div>
 
@@ -140,21 +143,20 @@ const Governance = () => {
         </section>
 
         {/* The Manifesto */}
-        <section className="px-4 pb-12">
-          <div className="container mx-auto max-w-4xl">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              className="rounded-xl border border-gold/30 bg-gold/5 p-8 text-center">
-              <Scale className="h-8 w-8 text-gold mx-auto mb-4" />
-              <h2 className="text-xl sm:text-2xl font-black mb-4">
-                <span className="text-gold-gradient">The Manifesto</span>
-              </h2>
-              <p className="text-foreground/80 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+        <section className="px-4 py-16">
+          <div className="container mx-auto max-w-3xl">
+            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="rounded-xl border border-gold/20 bg-gold/5 p-8 sm:p-10 text-center">
+              <Scale className="h-8 w-8 text-gold mx-auto mb-5" />
+              <p className="text-foreground/90 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-5">
                 True fairness cannot be centralized in a boardroom. It must be mathematically proven and publicly verifiable.
                 The protocol is open. The math is public. The ledger is immutable.
+              </p>
+              <p className="text-foreground/90 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-6">
                 When 100,000 citizens verify a contract with mathematics, no regulator can dispute the result —
                 they can only adopt the protocol.
               </p>
-              <p className="text-gold font-black text-sm mt-4 tracking-widest">
+              <p className="text-gold font-black text-base sm:text-lg tracking-[0.15em]">
                 THE PROTOCOL IS THE REGULATOR.
               </p>
             </motion.div>
@@ -162,34 +164,35 @@ const Governance = () => {
         </section>
 
         {/* Three-Layer Architecture */}
-        <section className="px-4 py-12">
+        <section className="px-4 py-16">
           <div className="container mx-auto max-w-4xl">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h2 className="text-2xl sm:text-3xl font-black mb-2 text-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-3">
                 <span className="text-chrome-gradient">Three-Layer</span>{" "}
                 <span className="text-gold-gradient">Architecture</span>
               </h2>
-              <p className="text-muted-foreground text-center mb-10 text-sm">
+              <p className="text-muted-foreground text-sm max-w-md mx-auto">
                 From machine consensus to public verification to sovereign ratification.
               </p>
             </motion.div>
 
-            <div className="space-y-6">
+            <div className="space-y-5">
               {layers.map((layer, idx) => (
                 <motion.div
                   key={layer.number}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + idx * 0.1 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
                   className={`rounded-xl border ${layer.borderColor} ${layer.bgColor} p-6 sm:p-8`}
                 >
-                  <div className="flex items-start gap-4 sm:gap-6">
+                  <div className="flex items-start gap-5">
                     <div className={`w-12 h-12 rounded-xl ${layer.bgColor} border ${layer.borderColor} flex items-center justify-center shrink-0`}>
-                      <layer.icon className={`h-6 w-6 ${layer.color}`} />
+                      <layer.icon className={`h-5 w-5 ${layer.color}`} />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-1 flex-wrap">
-                        <span className={`text-xs font-black ${layer.color} tracking-widest`}>LAYER {layer.number}</span>
+                        <span className={`text-[10px] font-black ${layer.color} tracking-[0.2em]`}>LAYER {layer.number}</span>
                         <Badge variant="outline" className={`text-[9px] ${layer.borderColor} ${layer.color}`}>
                           {layer.status}
                         </Badge>
@@ -211,9 +214,9 @@ const Governance = () => {
             </div>
 
             {/* Flow Diagram */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="mt-8 rounded-xl border border-border bg-card/60 p-6">
-              <h3 className="text-sm font-bold text-foreground mb-4 text-center">Verification Flow</h3>
+              <h3 className="text-xs font-bold text-muted-foreground mb-4 text-center tracking-[0.15em] uppercase">Verification Flow</h3>
               <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
                 {[
                   { label: "MPC (3 nodes)", color: "text-primary", bg: "bg-primary/10 border-primary/30" },
@@ -239,22 +242,22 @@ const Governance = () => {
         </section>
 
         {/* The Challenge */}
-        <section className="px-4 py-12 bg-card/30">
+        <section className="px-4 py-16">
           <div className="container mx-auto max-w-3xl text-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <Lock className="h-10 w-10 text-gold mx-auto mb-4" />
-              <h2 className="text-2xl sm:text-3xl font-black mb-4">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <Lock className="h-10 w-10 text-gold mx-auto mb-5" />
+              <h2 className="text-2xl sm:text-3xl font-black mb-5">
                 <span className="text-gold-gradient">The Challenge</span>
               </h2>
-              <p className="text-foreground/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-6">
+              <p className="text-foreground/80 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
                 The protocol is open source. The cryptographic proofs are publicly verifiable.
                 The ledger is immutable and append-only. The attestations are permissionless.
               </p>
-              <div className="rounded-xl border border-gold/30 bg-gold/5 p-6 max-w-lg mx-auto">
-                <p className="text-gold font-black text-lg tracking-wide">
-                  "Shut it down. We dare you."
+              <div className="rounded-xl border border-gold/20 bg-gold/5 p-8 max-w-lg mx-auto">
+                <p className="text-gold font-black text-xl sm:text-2xl tracking-wide leading-snug">
+                  "Shut it down.<br />We dare you."
                 </p>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs text-muted-foreground mt-3">
                   You cannot regulate mathematics. You cannot censor a hash. You cannot silence a Merkle root.
                 </p>
               </div>
@@ -263,20 +266,20 @@ const Governance = () => {
         </section>
 
         {/* EU AI Act Article 14 Compliance */}
-        <section className="px-4 py-12">
+        <section className="px-4 py-16">
           <div className="container mx-auto max-w-3xl">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <div className="rounded-xl border border-primary/20 bg-card/80 p-6">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <div className="rounded-xl border border-primary/20 bg-card/80 p-6 sm:p-8">
                 <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
                   EU AI Act Article 14 — Human Oversight
                 </h3>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-muted-foreground mb-5">
                   Article 14 requires that high-risk AI systems "shall be designed and developed in such a way
                   [...] that they can be effectively overseen by natural persons." The Open Global Tribunal satisfies
                   this through:
                 </p>
-                <div className="space-y-2 ml-4">
+                <div className="space-y-2.5">
                   {[
                     "Human-in-the-loop: The public IS the human oversight layer — unlimited, permissionless, global",
                     "Diversity: Not 5 experts from one boardroom, but thousands of independent verifiers across jurisdictions",
@@ -296,14 +299,14 @@ const Governance = () => {
         </section>
 
         {/* CTA */}
-        <section className="px-4 py-12 bg-card/30">
+        <section className="px-4 py-16">
           <div className="container mx-auto max-w-3xl text-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h2 className="text-2xl font-black mb-4">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <h2 className="text-2xl sm:text-3xl font-black mb-5">
                 <span className="text-chrome-gradient">Join the</span>{" "}
                 <span className="text-gold-gradient">Tribunal</span>
               </h2>
-              <p className="text-muted-foreground text-sm mb-6 max-w-lg mx-auto">
+              <p className="text-muted-foreground text-sm mb-8 max-w-lg mx-auto">
                 No credentials required. No application process. Verify a proof. Submit your attestation.
                 The math is the only credential that matters.
               </p>
