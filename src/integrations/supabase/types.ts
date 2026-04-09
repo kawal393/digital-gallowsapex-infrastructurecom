@@ -671,6 +671,36 @@ export type Database = {
         }
         Relationships: []
       }
+      public_attestations: {
+        Row: {
+          attestation_hash: string
+          attestor_hash: string
+          commit_id: string
+          created_at: string
+          id: string
+          ip_country: string | null
+          verification_result: string
+        }
+        Insert: {
+          attestation_hash: string
+          attestor_hash: string
+          commit_id: string
+          created_at?: string
+          id?: string
+          ip_country?: string | null
+          verification_result: string
+        }
+        Update: {
+          attestation_hash?: string
+          attestor_hash?: string
+          commit_id?: string
+          created_at?: string
+          id?: string
+          ip_country?: string | null
+          verification_result?: string
+        }
+        Relationships: []
+      }
       questionnaire_responses: {
         Row: {
           ai_content_labeled: string

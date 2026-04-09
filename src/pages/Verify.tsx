@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, FileCheck } from "lucide-react";
+import { Search, Shield, ShieldCheck, ShieldX, Hash, Clock, AlertTriangle, Copy, CheckCircle2, ExternalLink, Upload, FileJson, ArrowRight, Zap, Lock, FileCheck, Globe, Eye } from "lucide-react";
 import SovereignShield from "@/components/verify/SovereignShield";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import { supabase } from "@/integrations/supabase/client";
 
 import { toast } from "sonner";
 import { verifyEd25519Signature, type PSIProofBundle } from "@/lib/psi-signatures";
@@ -61,6 +61,46 @@ const Verify = () => {
   const [receiptResult, setReceiptResult] = useState<VerificationResult | null>(null);
   const [searched, setSearched] = useState(false);
   const [activeTab, setActiveTab] = useState("hash");
+  
+  // Public Audit state
+  const [auditCommitId, setAuditCommitId] = useState("");
+  const [auditResult, setAuditResult] = useState<"VERIFIED" | "FAILED" | "CONTESTED">("VERIFIED");
+  const [auditSubmitting, setAuditSubmitting] = useState(false);
+  const [auditCount, setAuditCount] = useState(0);
+  const [auditSubmitted, setAuditSubmitted] = useState(false);
+
+  const fetchAttestationCount = async (commitId: string) => {
+    if (!commitId.trim()) return;
+    const { count } = await supabase
+      .from("public_attestations")
+      .select("*", { count: "exact", head: true })
+      .eq("commit_id", commitId.trim());
+    if (count !== null) setAuditCount(count);
+  };
+
+  const handlePublicAttest = async () => {
+    if (!auditCommitId.trim()) { toast.error("Enter a commit ID"); return; }
+    setAuditSubmitting(true);
+    try {
+      const res = await fetch(
+        `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/public-attestation`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ commit_id: auditCommitId.trim(), verification_result: auditResult }),
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Attestation anchored to the public ledger");
+        setAuditSubmitted(true);
+        fetchAttestationCount(auditCommitId.trim());
+      } else {
+        toast.error(data.error || "Attestation failed");
+      }
+    } catch { toast.error("Network error"); }
+    finally { setAuditSubmitting(false); }
+  };
 
   // Proof bundle verification state
   const [bundleJson, setBundleJson] = useState("");
@@ -277,12 +317,11 @@ const Verify = () => {
         <section className="px-4 -mt-8">
           <div className="container mx-auto max-w-3xl">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="w-full grid grid-cols-5 mb-6">
+              <TabsList className="w-full grid grid-cols-4 mb-6">
                 <TabsTrigger value="hash" className="text-xs sm:text-sm">Hash Lookup</TabsTrigger>
                 <TabsTrigger value="receipt" className="text-xs sm:text-sm">Receipt ID</TabsTrigger>
                 <TabsTrigger value="proof" className="text-xs sm:text-sm">Proof Verify</TabsTrigger>
-                
-                
+                <TabsTrigger value="audit" className="text-xs sm:text-sm">Public Audit</TabsTrigger>
               </TabsList>
 
               {/* Tab 1: Hash Lookup */}
@@ -556,6 +595,88 @@ const Verify = () => {
                 )}
               </TabsContent>
 
+              {/* Tab 4: Public Audit */}
+              <TabsContent value="audit">
+                <div className="flex items-center gap-2 mb-4 rounded-lg border border-gold/20 bg-gold/5 px-4 py-2.5">
+                  <Globe className="h-4 w-4 text-gold shrink-0" />
+                  <p className="text-xs text-gold font-medium">
+                    Open Global Tribunal — Submit your independent verification as a public attestation. No login required.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border bg-card/80 p-6 space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1.5 block">Commit ID</label>
+                    <Input
+                      value={auditCommitId}
+                      onChange={(e) => { setAuditCommitId(e.target.value); setAuditSubmitted(false); }}
+                      onBlur={() => fetchAttestationCount(auditCommitId)}
+                      placeholder="APEX-NTR-XXXXXXXXXXXXXXXX or any commit ID"
+                      className="font-mono text-sm bg-background"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-1.5 block">Your Verification Result</label>
+                    <div className="flex gap-2">
+                      {(["VERIFIED", "FAILED", "CONTESTED"] as const).map((r) => (
+                        <Button
+                          key={r}
+                          variant={auditResult === r ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setAuditResult(r)}
+                          className={auditResult === r ? (
+                            r === "VERIFIED" ? "bg-compliant text-compliant-foreground hover:bg-compliant/90" :
+                            r === "FAILED" ? "bg-destructive text-destructive-foreground" :
+                            "bg-primary"
+                          ) : ""}
+                        >
+                          {r === "VERIFIED" && <CheckCircle2 className="h-3 w-3 mr-1" />}
+                          {r === "FAILED" && <ShieldX className="h-3 w-3 mr-1" />}
+                          {r === "CONTESTED" && <AlertTriangle className="h-3 w-3 mr-1" />}
+                          {r}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Button
+                    variant="hero"
+                    onClick={handlePublicAttest}
+                    disabled={auditSubmitting || auditSubmitted}
+                    className="w-full"
+                  >
+                    {auditSubmitting ? (
+                      <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                    ) : auditSubmitted ? (
+                      <><CheckCircle2 className="h-4 w-4 mr-2" />Attestation Anchored</>
+                    ) : (
+                      <><Globe className="h-4 w-4 mr-2" />Anchor My Verification to the Public Ledger</>
+                    )}
+                  </Button>
+
+                  {auditCount > 0 && (
+                    <div className="flex items-center gap-2 rounded-lg border border-compliant/20 bg-compliant/5 px-4 py-3">
+                      <Eye className="h-4 w-4 text-compliant" />
+                      <p className="text-sm text-compliant font-medium">
+                        This commit has been independently verified by <span className="font-black">{auditCount}</span> public auditor{auditCount !== 1 ? "s" : ""}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {auditSubmitted && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 rounded-xl border border-compliant/30 bg-compliant/5 p-6 text-center">
+                    <Shield className="h-8 w-8 text-compliant mx-auto mb-3" />
+                    <p className="font-black text-compliant text-sm mb-1">ATTESTATION ANCHORED</p>
+                    <p className="text-xs text-muted-foreground">
+                      Your verification has been cryptographically hashed and recorded on the immutable public ledger.
+                      It can never be altered or deleted.
+                    </p>
+                  </motion.div>
+                )}
+              </TabsContent>
 
             </Tabs>
 
