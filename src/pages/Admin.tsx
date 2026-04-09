@@ -185,27 +185,27 @@ const Admin = () => {
         )}
 
         <Tabs defaultValue="intelligence" className="w-full">
-          <TabsList className="mb-6 bg-muted flex-wrap">
-            <TabsTrigger value="intelligence" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Radar className="h-3.5 w-3.5 mr-1.5" /> Sovereign Intelligence
+          <TabsList className="mb-6 bg-muted flex flex-wrap gap-1 h-auto p-1">
+            <TabsTrigger value="intelligence" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Radar className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Intelligence
             </TabsTrigger>
-            <TabsTrigger value="ai" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Shield className="h-3.5 w-3.5 mr-1.5" /> Sovereign AI
+            <TabsTrigger value="ai" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> AI
             </TabsTrigger>
-            <TabsTrigger value="customers" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Users className="h-3.5 w-3.5 mr-1.5" /> Customers
+            <TabsTrigger value="customers" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Customers
             </TabsTrigger>
-            <TabsTrigger value="verifications" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Activity className="h-3.5 w-3.5 mr-1.5" /> Verifications
+            <TabsTrigger value="verifications" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Activity className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Verifications
             </TabsTrigger>
-            <TabsTrigger value="ledger" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Shield className="h-3.5 w-3.5 mr-1.5" /> Gallows Ledger
+            <TabsTrigger value="ledger" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Ledger
             </TabsTrigger>
-            <TabsTrigger value="blockchain" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Anchor className="h-3.5 w-3.5 mr-1.5" /> Blockchain
+            <TabsTrigger value="blockchain" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Anchor className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Blockchain
             </TabsTrigger>
-            <TabsTrigger value="social-proof" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Social Proof
+            <TabsTrigger value="social-proof" className="text-[10px] sm:text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Social Proof
             </TabsTrigger>
           </TabsList>
 

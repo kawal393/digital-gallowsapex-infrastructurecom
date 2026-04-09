@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Bot, ExternalLink, ScrollText } from "lucide-react";
+import { Menu, X, LogIn, LayoutDashboard, ChevronDown, Hash, Globe, Shield, Award, Code, Layers, FileText, Bot, ExternalLink, ScrollText, GitBranch } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import apexLogo from "@/assets/apex-logo.png";
 
 const infraLinks = [
+  { label: "Open Source", href: "https://github.com/kawal393/-apex-digital-gallows", icon: GitBranch, desc: "Full protocol on GitHub", external: true },
   { label: "Verified Registry", href: "/registry", icon: Shield, desc: "Public verified entity ledger" },
   { label: "Verify Hash", href: "/verify", icon: Hash, desc: "Public SHA-256 verification" },
   { label: "Regulation Map", href: "/regulations", icon: Globe, desc: "AI laws in 25+ countries" },
@@ -45,7 +46,6 @@ const navLinks = [
     { label: "Tribunal", href: "/governance", isRoute: true },
     { label: "Registry", href: "/registry", isRoute: true },
     { label: "Protocol", href: "/protocol", isRoute: true },
-    { label: "Open Source", href: "https://github.com/kawal393/-apex-digital-gallows", isRoute: false, external: true },
   ];
 
   useEffect(() => {
@@ -137,19 +137,36 @@ const navLinks = [
               </button>
               {infraOpen && (
                 <div className="absolute top-full left-0 mt-1 w-64 rounded-lg border border-border bg-background/95 backdrop-blur-xl shadow-xl py-2 z-50">
-                  {infraLinks.map((tool) => (
-                    <button
-                      key={tool.label}
-                      onClick={() => handleNavClick(tool.href, true)}
-                      className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer group"
-                    >
-                      <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{tool.label}</p>
-                        <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
-                      </div>
-                    </button>
-                  ))}
+                  {infraLinks.map((tool) =>
+                    (tool as any).external ? (
+                      <a
+                        key={tool.label}
+                        href={tool.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setInfraOpen(false)}
+                        className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors cursor-pointer group"
+                      >
+                        <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors flex items-center gap-1">{tool.label} <ExternalLink className="h-3 w-3" /></p>
+                          <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
+                        </div>
+                      </a>
+                    ) : (
+                      <button
+                        key={tool.label}
+                        onClick={() => handleNavClick(tool.href, true)}
+                        className="w-full text-left px-3 py-2.5 flex items-start gap-3 hover:bg-muted/50 transition-colors bg-transparent border-none cursor-pointer group"
+                      >
+                        <tool.icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{tool.label}</p>
+                          <p className="text-[11px] text-muted-foreground">{tool.desc}</p>
+                        </div>
+                      </button>
+                    )
+                  )}
                 </div>
               )}
             </div>
@@ -268,16 +285,31 @@ const navLinks = [
             <div className="pt-2 pb-1">
               <p className="px-3 text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Infrastructure</p>
             </div>
-            {infraLinks.map((tool) => (
-              <button
-                key={tool.label}
-                onClick={() => handleNavClick(tool.href, true)}
-                className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
-              >
-                <tool.icon className="h-3.5 w-3.5 text-primary" />
-                {tool.label}
-              </button>
-            ))}
+            {infraLinks.map((tool) =>
+              (tool as any).external ? (
+                <a
+                  key={tool.label}
+                  href={tool.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors flex items-center gap-2"
+                >
+                  <tool.icon className="h-3.5 w-3.5 text-primary" />
+                  {tool.label}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <button
+                  key={tool.label}
+                  onClick={() => handleNavClick(tool.href, true)}
+                  className="w-full text-left px-3 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
+                >
+                  <tool.icon className="h-3.5 w-3.5 text-primary" />
+                  {tool.label}
+                </button>
+              )
+            )}
             <div className="pt-3 border-t border-border/50 space-y-2">
               {user ? (
                 <Button variant="heroOutline" size="sm" className="w-full justify-center" onClick={() => { setOpen(false); navigate("/dashboard"); }}>
