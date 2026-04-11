@@ -32,7 +32,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
               </h3>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mb-4">
-              Proof of Sovereign Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire.
+              Proof of Stateful Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire.
             </p>
             <div className="text-xs text-muted-foreground space-y-1">
               <p>A division of <span className="text-foreground/80">APEX INTELLIGENCE EMPIRE</span></p>
@@ -82,7 +82,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
               © 2026 Apex Intelligence Empire. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground">
-              Proof of Sovereign Integrity™
+              Proof of Stateful Integrity™
             </p>
           </div>
         </div>

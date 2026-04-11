@@ -6,7 +6,7 @@ const PrivacyPolicy = () => (
       <h2>1. Introduction</h2>
       <p>
         APEX INTELLIGENCE EMPIRE, trading as
-        <strong> APEX DIGITAL GALLOWS</strong>
+        <strong> APEX PSI</strong>
         ("we", "us", "our"), is committed to protecting your personal information. We are
         headquartered in Melbourne, Victoria, Australia and operate globally.
       </p>

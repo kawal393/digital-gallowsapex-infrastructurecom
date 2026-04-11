@@ -80,7 +80,7 @@ const LiveCaseStudy = () => {
             See PSI in <span className="text-gold-gradient">Action</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Experience how Proof of Sovereign Integrity processes a real compliance scenario.
+            Experience how the PSI Protocol processes a real compliance scenario.
             Click through each step — the SHA-256 hashes are generated live in your browser.
           </p>
         </motion.div>

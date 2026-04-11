@@ -34,7 +34,7 @@ const ComplianceCertificate = ({ companyName, score, status, date, merkleHash }:
   const handleDownloadTxt = () => {
     const certContent = `
 ═══════════════════════════════════════════════════════
-              APEX DIGITAL GALLOWS
+              APEX PSI
          EU AI ACT COMPLIANCE CERTIFICATE
 ═══════════════════════════════════════════════════════
 
@@ -46,7 +46,7 @@ ${merkleHash ? `Merkle Hash:    ${merkleHash}` : ""}
 
 This certificate confirms that the above company has
 undergone an EU AI Act compliance assessment via the
-APEX Digital Gallows verification platform.
+APEX PSI verification platform.
 
 Deadline: August 2, 2026
 
