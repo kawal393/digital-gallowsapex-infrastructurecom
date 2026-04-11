@@ -21,7 +21,7 @@ const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) => {
             <img src={apexLogo} alt="APEX" className="h-9 w-9 object-contain glow-gold" />
             <span>
               <span className="text-gold-gradient">APEX</span>{" "}
-              <span className="text-chrome-gradient hidden md:inline">DIGITAL GALLOWS</span>
+              <span className="text-chrome-gradient hidden md:inline">PSI</span>
             </span>
           </Link>
 

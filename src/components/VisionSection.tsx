@@ -4,7 +4,7 @@ import { ShieldOff, ShieldCheck } from "lucide-react";
 const stats = [
   { label: "Predicates", value: "35" },
   { label: "Jurisdictions", value: "7" },
-  { label: "Sovereign Nodes", value: "3" },
+  { label: "MPC Nodes", value: "3" },
   { label: "Status", value: "Live" },
 ];
 
@@ -108,7 +108,7 @@ const VisionSection = () => (
             We Already Fixed It
           </p>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-            We open-sourced the math. Built sovereign verification. Made
+            We open-sourced the math. Built cryptographic verification. Made
             compliance provable without disclosure.{" "}
             <span className="text-gold font-semibold">
               No committee. No permission. Just code.
