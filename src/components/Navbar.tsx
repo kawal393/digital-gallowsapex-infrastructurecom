@@ -43,7 +43,7 @@ const navLinks = [
     { label: "Notary", href: "/notary", isRoute: true },
     { label: "Explorer", href: "/explorer", isRoute: true },
     { label: "Verify", href: "/verify", isRoute: true },
-    { label: "Tribunal", href: "/governance", isRoute: true },
+    { label: "Evidence", href: "/governance", isRoute: true },
     { label: "Registry", href: "/registry", isRoute: true },
     { label: "Protocol", href: "/protocol", isRoute: true },
   ];
