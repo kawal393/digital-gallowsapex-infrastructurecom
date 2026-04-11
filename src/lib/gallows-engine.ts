@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// APEX DIGITAL GALLOWS — Sovereign Compliance Engine
+// APEX PSI — Compliance Engine
 // Real Web Crypto API • Real Merkle Trees • Real Predicate Verification
 // ═══════════════════════════════════════════════════════════════════════
 

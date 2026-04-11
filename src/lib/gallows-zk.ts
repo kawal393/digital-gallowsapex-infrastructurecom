@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// APEX DIGITAL GALLOWS — Zero-Knowledge Commitment System
+// APEX PSI — Zero-Knowledge Commitment System
 // Groth16-Compatible Commitment Scheme on BN128 Curve
 // Browser-native implementation via Web Crypto API
 //
