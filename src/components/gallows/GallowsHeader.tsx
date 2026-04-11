@@ -32,10 +32,10 @@ const GallowsHeader = ({ paused, onTogglePause, persistedCount = 0 }: GallowsHea
             >
               <span className="text-gold-gradient">APEX</span>
               <span className="text-gallows-muted mx-2">|</span>
-              <span className="text-gallows-text">DIGITAL GALLOWS</span>
+              <span className="text-gallows-text">PSI ENGINE</span>
             </motion.h1>
             <p className="text-xs md:text-sm font-mono text-gallows-muted mt-0.5">
-              Sovereign AI Compliance Gateway — EU AI Act Enforcement Layer
+              AI Compliance Gateway — EU AI Act Enforcement Layer
             </p>
           </div>
         </div>
@@ -49,7 +49,7 @@ const GallowsHeader = ({ paused, onTogglePause, persistedCount = 0 }: GallowsHea
             </Badge>
           )}
 
-          {/* Sovereign Pause / Protocol Intervention Layer (PIL) — Art. 14 */}
+          {/* Protocol Pause / Protocol Intervention Layer (PIL) — Art. 14 */}
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -72,7 +72,7 @@ const GallowsHeader = ({ paused, onTogglePause, persistedCount = 0 }: GallowsHea
               ) : (
                 <>
                   <Shield className="h-3.5 w-3.5" />
-                  SOVEREIGN PAUSE (Art. 14)
+                  PROTOCOL PAUSE (Art. 14)
                 </>
               )}
             </Button>

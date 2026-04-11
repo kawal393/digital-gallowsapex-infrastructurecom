@@ -8,7 +8,7 @@ const PartnerCTA = () => (
       <div className="rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 via-card to-primary/5 p-8 md:p-12 text-center">
         <Shield className="h-10 w-10 text-primary mx-auto mb-4" />
         <h2 className="text-2xl md:text-3xl font-bold mb-3">
-          Apply for <span className="text-gold-gradient">Apex Sovereign Certification</span>
+          Apply for <span className="text-gold-gradient">Apex Institutional Certification</span>
         </h2>
         <p className="text-muted-foreground mb-2 max-w-md mx-auto">
           The protocol is free. Certification and insurance underwriting fees apply for commercial regulatory filings.

@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "APEX Digital Gallows <onboarding@resend.dev>",
+          from: "APEX PSI <onboarding@resend.dev>",
           to: [TARGET_EMAIL],
           subject: `New Demo Request from ${name} (${company})`,
           html: `
@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
             <p><strong>Role:</strong> ${role || "Not specified"}</p>
             <p><strong>Message:</strong> ${message || "No message"}</p>
             <hr>
-            <p style="color:#888;font-size:12px;">Sent from APEX Digital Gallows contact form</p>
+            <p style="color:#888;font-size:12px;">Sent from APEX PSI contact form</p>
           `,
         }),
       });
@@ -76,9 +76,9 @@ Deno.serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "APEX Digital Gallows <onboarding@resend.dev>",
+          from: "APEX PSI <onboarding@resend.dev>",
           to: [email],
-          subject: "We received your request — APEX Digital Gallows",
+          subject: "We received your request — APEX PSI",
           html: `
             <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#ffffff;">
               <h2 style="color:#1a1a2e;">Thank you, ${name}!</h2>
@@ -90,9 +90,9 @@ Deno.serve(async (req) => {
                 ${message ? `<tr><td style="padding:8px;border-bottom:1px solid #eee;color:#666;">Message</td><td style="padding:8px;border-bottom:1px solid #eee;">${message}</td></tr>` : ""}
               </table>
               <p style="margin-top:24px;">In the meantime, the <strong>EU AI Act deadline is August 2, 2026</strong>. Start your compliance journey today:</p>
-              <a href="https://digital-gallows.apex-infrastructure.com/auth" style="display:inline-block;padding:12px 24px;background:#d4a017;color:#000;text-decoration:none;border-radius:6px;font-weight:bold;margin-top:8px;">Request Sovereign Compliance Audit →</a>
+              <a href="https://apex-psi.apex-infrastructure.com/auth" style="display:inline-block;padding:12px 24px;background:#d4a017;color:#000;text-decoration:none;border-radius:6px;font-weight:bold;margin-top:8px;">Request Compliance Audit →</a>
               <hr style="margin-top:32px;border:none;border-top:1px solid #eee;">
-              <p style="color:#888;font-size:12px;">APEX Digital Gallows — EU AI Act Compliance Platform</p>
+              <p style="color:#888;font-size:12px;">APEX PSI — EU AI Act Compliance Platform</p>
             </div>
           `,
         }),

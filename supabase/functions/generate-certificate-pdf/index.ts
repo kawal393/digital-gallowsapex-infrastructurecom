@@ -57,7 +57,7 @@ serve(async (req) => {
   <div style="max-width:800px;margin:0 auto;background:#0f1019;border:2px solid #d4a017;border-radius:16px;padding:48px;position:relative;">
     
     <div style="text-align:center;margin-bottom:32px;">
-      <div style="font-size:14px;letter-spacing:6px;color:#d4a017;margin-bottom:8px;">APEX DIGITAL GALLOWS</div>
+      <div style="font-size:14px;letter-spacing:6px;color:#d4a017;margin-bottom:8px;">APEX APEX PSI</div>
       <h1 style="font-size:28px;margin:0;color:#fff;letter-spacing:2px;">EU AI ACT COMPLIANCE CERTIFICATE</h1>
       <div style="width:60px;height:2px;background:#d4a017;margin:16px auto;"></div>
     </div>

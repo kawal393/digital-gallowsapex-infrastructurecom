@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
 const paperText = `
-PSI: Proof of Sovereign Integrity — A Cryptographic Protocol
+PSI: Proof of Stateful Integrity — A Cryptographic Protocol
 for Verifiable AI Regulatory Compliance Without IP Disclosure
 
 Kawaljeet Singh
@@ -21,7 +21,7 @@ March 2026
 
 ABSTRACT
 
-We present the Proof of Sovereign Integrity (PSI) Protocol, a
+We present the Proof of Stateful Integrity (PSI) Protocol, a
 cryptographic framework enabling organizations to prove compliance
 with AI regulations — including the EU AI Act (2024/1689), NIST
 AI RMF, and 7 additional jurisdictional frameworks — without
@@ -41,7 +41,7 @@ verification to eliminate single-point-of-failure attacks.
 Version 1.2 introduces two critical advances: Deterministic Mode,
 which blocks UNACCEPTABLE and HIGH-risk actions before they enter
 the immutable ledger (eliminating the "optimistic flaw" inherent
-in post-hoc fraud proof systems), and the Sovereign Tribunal, a
+in post-hoc fraud proof systems), and the Institutional Anchor Panel, a
 5-party human auditor ratification layer satisfying EU AI Act
 Article 14 (Human Oversight) requirements through Ed25519-signed
 verdicts with mandatory rationale.
@@ -117,7 +117,7 @@ This ensures the ledger contains ONLY verified, compliant states.
 2.3 Cryptographic Stack
 
   ┌─────────────────────────────────────────────┐
-  │  Layer 5: Sovereign Tribunal (Human Oversight)│
+  │  Layer 5: Institutional Anchor Panel (Human Oversight)│
   │  Layer 4: MPC Consensus (3-node, 2/3 threshold)│
   │  Layer 3: ZK Commitments (Groth16/BN128)      │
   │  Layer 2: Merkle Trees (inclusion proofs)      │
@@ -184,7 +184,7 @@ Consensus: 2/3 threshold (≥2 approvals required)
 
 4. SOVEREIGN TRIBUNAL
 
-The Sovereign Tribunal satisfies EU AI Act Article 14 (Human
+The Institutional Anchor Panel satisfies EU AI Act Article 14 (Human
 Oversight) through a 5-party auditor ratification layer:
 
   - 5 independent auditors with jurisdictional diversity
@@ -262,7 +262,7 @@ The PSI Protocol roadmap includes:
 
   (c) Decentralized Gallows Node Federation — enabling any
       organization to run an independent Gallows node that
-      federates with the sovereign ledger.
+      federates with the protocol ledger.
 
   (d) APEX NOTARY API — a public notarization endpoint
       enabling any AI system to obtain cryptographically
@@ -333,7 +333,7 @@ const Paper = () => {
                 TECHNICAL PREPRINT
               </Badge>
               <h1 className="text-xl sm:text-3xl font-black mb-4 leading-tight">
-                <span className="text-chrome-gradient">PSI: Proof of Sovereign Integrity</span>
+                <span className="text-chrome-gradient">PSI: Proof of Stateful Integrity</span>
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-2">
                 A Cryptographic Protocol for Verifiable AI Regulatory Compliance Without IP Disclosure

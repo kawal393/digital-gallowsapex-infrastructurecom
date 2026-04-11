@@ -17,13 +17,13 @@ Intended status: Standards Track                              ${DRAFT_DATE}
 Expires: ${EXPIRY_DATE}
 
 
-        Proof of Sovereign Integrity (PSI): A Cryptographic Protocol
+        Proof of Stateful Integrity (PSI): A Cryptographic Protocol
               for Verifiable AI Regulatory Compliance
                        ${DRAFT_NAME}
 
 Abstract
 
-   This document specifies the Proof of Sovereign Integrity (PSI)
+   This document specifies the Proof of Stateful Integrity (PSI)
    Protocol, version 1.2, a cryptographic framework enabling
    organizations to prove compliance with AI regulations (including
    the EU AI Act 2026, NIST AI RMF, UK AI Safety Institute guidelines,
@@ -38,7 +38,7 @@ Abstract
 
    The protocol introduces a Deterministic Mode that blocks
    UNACCEPTABLE and HIGH-risk actions before they enter the
-   immutable ledger, and a 5-party Sovereign Tribunal for human
+   immutable ledger, and a 5-party Institutional Anchor Panel for human
    auditor ratification of automated verdicts.
 
 Status of This Memo
@@ -74,7 +74,7 @@ Table of Contents
    7.  Merkle Tree Construction  . . . . . . . . . . . . . . . . . 10
    8.  MPC Consensus Layer . . . . . . . . . . . . . . . . . . . . 12
    9.  Zero-Knowledge Commitments  . . . . . . . . . . . . . . . . 14
-  10.  Sovereign Tribunal  . . . . . . . . . . . . . . . . . . . . 16
+  10.  Institutional Anchor Panel  . . . . . . . . . . . . . . . . . . . . 16
   11.  Predicate Registry  . . . . . . . . . . . . . . . . . . . . 18
   12.  Proof Bundle Format . . . . . . . . . . . . . . . . . . . . 20
   13.  Legal-to-Technical Mapping . . . . . . . . . . . . . . . .  22
@@ -110,7 +110,7 @@ Table of Contents
 
    This document specifies PSI Protocol v1.2, which introduces
    Deterministic Mode (blocking non-compliant actions before commit)
-   and the Sovereign Tribunal (5-party human ratification layer).
+   and the Institutional Anchor Panel (5-party human ratification layer).
 
 2.  Terminology
 
@@ -141,7 +141,7 @@ Table of Contents
                   all cryptographic artifacts necessary for
                   independent verification.
 
-   Sovereign Tribunal:  A panel of 5 independent auditors
+   Institutional Anchor Panel:  A panel of 5 independent auditors
                         providing human ratification of
                         automated MPC verdicts.
 
@@ -200,7 +200,7 @@ Table of Contents
      Consensus requires 2/3 agreement.  Upon consensus:
 
        merkle_root = compute_root(all_leaves)
-       ed25519_sig = sign(merkle_root, sovereign_private_key)
+       ed25519_sig = sign(merkle_root, protocol_private_key)
 
      The Ed25519 signature on the Merkle root provides
      non-repudiation for the entire verification state.
@@ -310,7 +310,7 @@ Table of Contents
    3. Collect verdicts (approve/reject)
    4. If 2/3 approve: VERIFIED
    5. Compute final Merkle root
-   6. Sign root with Ed25519 sovereign key
+   6. Sign root with Ed25519 protocol key
    7. Persist signature, verification_time_ms
 
 6.  Deterministic Pre-Flight
@@ -384,9 +384,9 @@ Table of Contents
      (Currently: algebraic consistency check;
       Upgrade path: full bilinear pairing via snarkjs)
 
-10. Sovereign Tribunal
+10. Institutional Anchor Panel
 
-   The Sovereign Tribunal provides Article 14 (Human Oversight)
+   The Institutional Anchor Panel provides Article 14 (Human Oversight)
    compliance through a 5-party auditor ratification layer.
 
    Composition:
@@ -496,8 +496,8 @@ Table of Contents
      → Real-time Merkle tree inclusion proofs
 
    Article 14 (Human Oversight):
-     → 5-second Sovereign Pause (Protocol Intervention Layer)
-     → Open Global Tribunal with Sovereign Anchor ratification (3-of-5 threshold)
+     → 5-second Protocol Pause (Protocol Intervention Layer)
+     → Open Evidence Protocol with Institutional Anchor ratification (3-of-5 threshold)
      → 48-hour SLA with auto-escalation
      → Ed25519-signed auditor verdicts
 
@@ -652,7 +652,7 @@ const IETFDraft = () => {
                 <span className="text-chrome-gradient">{DRAFT_NAME}</span>
               </h1>
               <p className="text-muted-foreground max-w-2xl mx-auto text-sm mb-6">
-                Proof of Sovereign Integrity (PSI): A Cryptographic Protocol for Verifiable AI Regulatory Compliance.
+                Proof of Stateful Integrity (PSI): A Cryptographic Protocol for Verifiable AI Regulatory Compliance.
                 Submitted in IETF Internet-Draft format per RFC 7322.
               </p>
               <div className="flex flex-wrap justify-center gap-3">

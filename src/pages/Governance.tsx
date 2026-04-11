@@ -30,7 +30,7 @@ const layers = [
   {
     number: "02",
     title: "Open Public Verification",
-    subtitle: "The Open Global Tribunal — Permissionless",
+    subtitle: "The Open Evidence Protocol — Permissionless",
     icon: Globe,
     color: "text-gold",
     borderColor: "border-gold/30",
@@ -46,7 +46,7 @@ const layers = [
   },
   {
     number: "03",
-    title: "Sovereign Anchors",
+    title: "Institutional Anchors",
     subtitle: "High-Stakes Enterprise Ratification",
     icon: Shield,
     color: "text-compliant",
@@ -57,7 +57,7 @@ const layers = [
       "3-of-5 quorum with Ed25519-signed verdicts",
       "48-hour SLA — machine verdict auto-ratifies on timeout",
       "Optional layer — the protocol functions without them",
-      "Sovereign Anchors validate, they do not gatekeep",
+      "Institutional Anchors validate, they do not gatekeep",
     ],
     status: "ENTERPRISE",
   },
@@ -83,8 +83,8 @@ const Governance = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>Open Global Tribunal — Decentralized Justice Protocol</title>
-        <meta name="description" content="The APEX Open Global Tribunal replaces human bottlenecks with mathematical consensus. Anyone can verify. The math is the authority." />
+        <title>Open Evidence Protocol — Decentralized Compliance Verification</title>
+        <meta name="description" content="The APEX Open Evidence Protocol replaces human bottlenecks with mathematical consensus. Anyone can verify. The math is the authority." />
       </Helmet>
       <Navbar />
       <div className="pt-20 pb-16">
@@ -96,11 +96,11 @@ const Governance = () => {
           <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <span className="inline-block text-[10px] sm:text-xs font-bold text-primary tracking-[0.3em] uppercase border-b border-primary/30 pb-1 mb-8">
-                THE MANIFESTO OF DECENTRALIZED JUSTICE
+                THE OPEN EVIDENCE PROTOCOL
               </span>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-[0.95] tracking-tight">
-                <span className="block text-chrome-gradient">CENTRALIZED JUSTICE</span>
+                <span className="block text-chrome-gradient">CENTRALIZED COMPLIANCE</span>
                 <span className="block text-chrome-gradient">DOES NOT SCALE.</span>
                 <span className="block text-gold-gradient mt-2">MATHEMATICS DOES.</span>
               </h1>
@@ -172,7 +172,7 @@ const Governance = () => {
                 <span className="text-gold-gradient">Architecture</span>
               </h2>
               <p className="text-muted-foreground text-sm max-w-md mx-auto">
-                From machine consensus to public verification to sovereign ratification.
+                From machine consensus to public verification to institutional ratification.
               </p>
             </motion.div>
 
@@ -223,7 +223,7 @@ const Governance = () => {
                   { label: "→", color: "text-muted-foreground", bg: "" },
                   { label: "Public Attestation", color: "text-gold", bg: "bg-gold/10 border-gold/30" },
                   { label: "→", color: "text-muted-foreground", bg: "" },
-                  { label: "Sovereign Seal", color: "text-compliant", bg: "bg-compliant/10 border-compliant/30" },
+                  { label: "Institutional Seal", color: "text-compliant", bg: "bg-compliant/10 border-compliant/30" },
                 ].map((item, i) => (
                   item.bg ? (
                     <span key={i} className={`px-3 py-1.5 rounded-lg border ${item.bg} text-xs font-bold ${item.color}`}>
@@ -235,7 +235,7 @@ const Governance = () => {
                 ))}
               </div>
               <p className="text-[10px] text-muted-foreground text-center mt-3">
-                Sovereign Seal is optional — reserved for high-value enterprise commits
+                Institutional Seal is optional — reserved for high-value enterprise commits
               </p>
             </motion.div>
           </div>
@@ -276,7 +276,7 @@ const Governance = () => {
                 </h3>
                 <p className="text-sm text-muted-foreground mb-5">
                   Article 14 requires that high-risk AI systems "shall be designed and developed in such a way
-                  [...] that they can be effectively overseen by natural persons." The Open Global Tribunal satisfies
+                  [...] that they can be effectively overseen by natural persons." The Open Evidence Protocol satisfies
                   this through:
                 </p>
                 <div className="space-y-2.5">
@@ -304,7 +304,7 @@ const Governance = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h2 className="text-2xl sm:text-3xl font-black mb-5">
                 <span className="text-chrome-gradient">Join the</span>{" "}
-                <span className="text-gold-gradient">Tribunal</span>
+                <span className="text-gold-gradient">Protocol</span>
               </h2>
               <p className="text-muted-foreground text-sm mb-8 max-w-lg mx-auto">
                 No credentials required. No application process. Verify a proof. Submit your attestation.

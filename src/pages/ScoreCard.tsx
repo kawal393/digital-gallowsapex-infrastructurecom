@@ -48,7 +48,7 @@ const ScoreCard = () => {
   else if (score >= 50) { color = "text-warning"; Icon = ShieldAlert; }
 
   const ogImageUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-score-card?id=${shareId}`;
-  const pageUrl = `https://digital-gallows.apex-infrastructure.com/score/${shareId}`;
+  const pageUrl = `https://apex-psi.apex-infrastructure.com/score/${shareId}`;
 
   const shareOnLinkedIn = () => {
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`, "_blank");
@@ -76,7 +76,7 @@ const ScoreCard = () => {
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4 py-12">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full text-center">
           <div className="rounded-xl border border-border bg-card/80 backdrop-blur-sm p-8 sm:p-12 mb-6">
-            <p className="text-xs font-bold text-gold tracking-[0.3em] mb-6">APEX DIGITAL GALLOWS</p>
+            <p className="text-xs font-bold text-gold tracking-[0.3em] mb-6">APEX PSI</p>
             <Icon className={`h-16 w-16 ${color} mx-auto mb-4`} />
             <p className={`text-6xl sm:text-7xl font-black ${color} mb-2`}>{score}%</p>
             <p className={`text-lg font-bold ${color} tracking-widest mb-2`}>{data.status}</p>
@@ -99,7 +99,7 @@ const ScoreCard = () => {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            EU AI Act compliance assessment by <span className="text-gold">APEX Digital Gallows</span>
+            EU AI Act compliance assessment by <span className="text-gold">APEX PSI</span>
           </p>
         </motion.div>
       </div>

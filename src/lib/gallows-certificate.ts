@@ -61,7 +61,7 @@ export interface ComplianceCertificate {
     privacyLevel: string;
   };
 
-  // Sovereign Tribunal (optional)
+  // Institutional Anchor Panel (optional)
   tribunal?: {
     approvals: number;
     rejections: number;
@@ -118,7 +118,7 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
       article: 'Article 14',
       title: 'Human Oversight',
       compliant: true,
-      evidence: 'Sovereign Pause (kill switch) available throughout verification pipeline.',
+      evidence: 'Protocol Pause (kill switch) available throughout verification pipeline.',
     },
     {
       article: 'Article 15',
@@ -163,7 +163,7 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
   return {
     certificateId,
     generatedAt: new Date().toISOString(),
-    engine: 'APEX Digital Gallows',
+    engine: 'APEX PSI',
     version: '2.0',
     
     commitId: record.id,
@@ -343,7 +343,7 @@ export function generateCertificateHTML(cert: ComplianceCertificate): string {
 <body>
   <div class="certificate">
     <div class="header">
-      <h1>APEX DIGITAL GALLOWS</h1>
+      <h1>APEX PSI</h1>
       <div class="subtitle">EU AI ACT COMPLIANCE CERTIFICATE</div>
       <div class="cert-id">${cert.certificateId}</div>
     </div>

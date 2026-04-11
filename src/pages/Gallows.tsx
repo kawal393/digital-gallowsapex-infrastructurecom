@@ -10,7 +10,7 @@ import HashVerifier from "@/components/gallows/HashVerifier";
 import CertificatePanel from "@/components/gallows/CertificatePanel";
 import {
   commitAction,
-  toggleSovereignPause,
+  toggleProtocolPause,
   getCommitLog,
   getTreeState,
   initializeFromLedger,
@@ -282,7 +282,7 @@ const Gallows = () => {
   }, [zkResult]);
 
   const handlePause = useCallback(() => {
-    const result = toggleSovereignPause();
+    const result = toggleProtocolPause();
     setPaused(result.paused);
     refreshState();
     

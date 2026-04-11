@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
         phase: "CHALLENGED",
         challenge_hash: challengeHash,
         challenged_at: challengeTimestamp,
-        engine: "APEX Digital Gallows v2.1",
+        engine: "APEX PSI v2.1",
       }),
       {
         status: 200,

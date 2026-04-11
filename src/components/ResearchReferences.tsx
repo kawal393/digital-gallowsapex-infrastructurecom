@@ -159,7 +159,7 @@ const references = [
     category: "Research" as Category,
     title: "Project VATA: Verifiable Human-AI Distinction with Groth16 ZK Proofs",
     source: "Medium — Mason (Feb 2026)",
-    desc: "Sovereign verification framework using Groth16 proofs and on-chain anchoring. Independent validation of the exact architecture APEX implements.",
+    desc: "Protocol verification framework using Groth16 proofs and on-chain anchoring. Independent validation of the exact architecture APEX implements.",
     url: "https://medium.com/@lhmisme2011/project-vata-building-verifiable-human-ai-distinction-with-groth16-zero-knowledge-proofs-and-b87d182e5591",
   },
   {

@@ -82,7 +82,7 @@ const TribunalAuditorPanel = () => {
       return;
     }
 
-    toast.success(`Auditor ${name} appointed to Sovereign Tribunal`);
+    toast.success(`Auditor ${name} appointed to Institutional Anchor Panel`);
     setName("");
     setOrg("");
     setRole("");
@@ -118,7 +118,7 @@ const TribunalAuditorPanel = () => {
           <div>
             <CardTitle className="text-base flex items-center gap-2">
               <Shield className="h-4 w-4 text-primary" />
-              Sovereign Tribunal — Auditor Registry
+              Institutional Anchor Panel — Auditor Registry
             </CardTitle>
             <p className="text-[10px] text-muted-foreground mt-1">
               5-party human auditor ratification layer · 3-of-5 threshold

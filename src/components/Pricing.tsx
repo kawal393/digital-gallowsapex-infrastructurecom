@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const openAccessFeatures = [
   "Full PSI Protocol verification engine",
-  "Digital Gallows SDK — complete source",
+  "APEX PSI SDK — complete source",
   "SHA-256 hash chain + Merkle audit trails",
   "Ed25519 signature verification",
   "3-node MPC consensus logic",
@@ -17,7 +17,7 @@ const openAccessFeatures = [
 ];
 
 const certificationIncludes = [
-  "Sovereign Anchor ratification (enterprise-grade cryptographic seal)",
+  "Institutional Anchor ratification (enterprise-grade cryptographic seal)",
   "Regulator-ready compliance certificate with Merkle proof",
   "Global Merkle root anchoring for proof persistence",
   "Continuous automated compliance monitoring",
@@ -45,7 +45,7 @@ const Pricing = () => {
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             The PSI Protocol (<span className="font-mono text-primary">draft-singh-psi-00</span>) is public-good infrastructure.
-            Access to the Digital Gallows SDK and core verification logic is <span className="font-bold text-foreground">$0 / Open Access</span> for
+            Access to the APEX PSI SDK and core verification logic is <span className="font-bold text-foreground">$0 / Open Access</span> for
             all developers, AI research labs, and enterprises.
           </p>
         </motion.div>
@@ -104,7 +104,7 @@ const Pricing = () => {
             </Button>
           </motion.div>
 
-          {/* Sovereign Certification — Paid */}
+          {/* Institutional Certification — Paid */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -123,7 +123,7 @@ const Pricing = () => {
                 <Shield className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-xs font-bold tracking-widest text-primary uppercase">Apex Sovereign Certification</h3>
+                <h3 className="text-xs font-bold tracking-widest text-primary uppercase">Apex Institutional Certification</h3>
                 <div>
                   <span className="text-3xl font-black text-foreground">From $2,000</span>
                   <span className="text-muted-foreground text-sm ml-1">/ month</span>
@@ -131,7 +131,7 @@ const Pricing = () => {
               </div>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              For enterprises requiring regulator-ready compliance filings, Tribunal-ratified certificates, and managed sovereign infrastructure. Certification and insurance underwriting fees apply.
+              For enterprises requiring regulator-ready compliance filings, evidence-ratified certificates, and managed protocol infrastructure. Certification and insurance underwriting fees apply.
             </p>
 
             <ul className="space-y-2.5 mb-8 flex-1">
@@ -160,7 +160,7 @@ const Pricing = () => {
           className="text-center text-xs text-muted-foreground mt-10 max-w-2xl mx-auto"
         >
           The PSI Protocol is a public-good standard. The math is free, the code is open-source, and the specification (<span className="font-mono">draft-singh-psi-00</span>) is submitted to the IETF.
-          Certification fees apply only to commercial entities requiring Tribunal-ratified, regulator-ready compliance filings.
+          Certification fees apply only to commercial entities requiring evidence-ratified, regulator-ready compliance filings.
         </motion.p>
       </div>
     </section>

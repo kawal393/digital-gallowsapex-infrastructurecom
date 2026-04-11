@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const faqs = [
   {
-    q: "What is Proof of Sovereign Integrity (PSI)?",
+    q: "What is Proof of Stateful Integrity (PSI)?",
     a: "PSI is an Optimistic ZKML architecture. Instead of generating expensive Zero-Knowledge proofs for every AI output, PSI assumes compliance by default and only generates targeted proofs when a regulator challenges a specific output — reducing costs by 99.9%.",
   },
   {

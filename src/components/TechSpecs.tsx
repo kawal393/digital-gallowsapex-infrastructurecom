@@ -20,7 +20,7 @@ const TechSpecs = () => (
       >
         <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Technical Specifications</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          Built for <span className="text-gold-gradient">Sovereign Compliance</span>
+          Built for <span className="text-gold-gradient">Institutional Compliance</span>
         </h2>
       </motion.div>
 

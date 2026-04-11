@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 const pillars = [
   {
     icon: Shield,
-    title: "Sovereign Certification Partner",
+    title: "Institutional Certification Partner",
     subtitle: "Systemic Risk Mitigation",
-    desc: "We deploy our full PSI compliance infrastructure into your enterprise. The protocol is free; the certification, Tribunal ratification, and managed MPC infrastructure are engagement-based.",
+    desc: "We deploy our full PSI compliance infrastructure into your enterprise. The protocol is free; the certification, evidence ratification, and managed MPC infrastructure are engagement-based.",
     details: [
       "Full PSI Protocol deployment and integration",
-      "Tribunal-ratified compliance certificates",
+      "Evidence-ratified compliance certificates",
       "Orbital Registry entry for global proof anchoring",
       "Terms discussed under NDA",
     ],
@@ -23,7 +23,7 @@ const pillars = [
     subtitle: "Standard-Essential Access",
     desc: "For enterprises, standards bodies, and government agencies requiring white-label deployment or jurisdictional customization of the PSI Protocol infrastructure.",
     details: [
-      "White-label sovereign infrastructure",
+      "White-label protocol infrastructure",
       "Custom jurisdictional predicate mapping",
       "Dedicated MPC node cluster",
       "SLA-backed compliance monitoring",
@@ -44,11 +44,11 @@ const BusinessModel = () => (
       >
         <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Institutional Engagement</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          The Protocol is <span className="text-gold-gradient">Free</span>. The Certification is Sovereign.
+          The Protocol is <span className="text-gold-gradient">Free</span>. The Certification is Institutional.
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           The PSI Protocol (<span className="font-mono text-primary">draft-singh-psi-00</span>) is open-source and free forever.
-          Revenue is generated through Sovereign Certification, managed infrastructure, and Tribunal ratification services.
+          Revenue is generated through Institutional Certification, managed infrastructure, and evidence ratification services.
         </p>
       </motion.div>
 

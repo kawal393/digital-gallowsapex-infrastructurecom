@@ -40,7 +40,7 @@ const Architecture = () => {
                 ARCHITECTURE SPECIFICATION
               </h1>
               <p className="text-xs font-mono text-gallows-muted mt-0.5">
-                Proof of Sovereign Integrity — Technical Documentation
+                Proof of Stateful Integrity — Technical Documentation
               </p>
             </div>
           </div>
@@ -67,8 +67,8 @@ const Architecture = () => {
           </CardHeader>
           <CardContent className="space-y-4 font-mono text-sm text-gallows-text/80 leading-relaxed">
             <p>
-              The <span className="text-amber-400 font-bold">APEX Digital Gallows</span> implements{" "}
-              <span className="text-gallows-approved font-bold">Proof of Sovereign Integrity (PSI)</span>,
+              The <span className="text-amber-400 font-bold">APEX PSI Engine</span> implements{" "}
+              <span className="text-gallows-approved font-bold">Proof of Stateful Integrity (PSI)</span>,
               an Optimistic ZKML compliance architecture designed for the EU AI Act.
             </p>
             <p>
@@ -363,7 +363,7 @@ function combinePair(a: string, b: string): string {
   "status": "APPROVED",
   "merkle_root": "abc123...",
   "eu_ai_act_compliance": true,
-  "engine": "APEX Digital Gallows v2.0",
+  "engine": "APEX PSI Engine v2.0",
   "algorithm": "SHA-256"
 }`}</pre>
               </div>

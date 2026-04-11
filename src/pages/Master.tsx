@@ -178,7 +178,7 @@ const Master = () => {
         {/* Title */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-lg sm:text-2xl font-bold text-primary">Sovereign Command Center</h1>
+            <h1 className="text-lg sm:text-2xl font-bold text-primary">Protocol Command Center</h1>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">Global Operational Map — All Sectors</p>
           </div>
           <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-primary opacity-60" />

@@ -48,7 +48,7 @@ const tiers = [
     color: "border-primary/40",
     features: [
       "Unlimited receipts",
-      "Sovereign Tribunal ratification",
+      "Institutional Anchor Panel ratification",
       "Dedicated MPC node",
       "SLA-backed 99.9% uptime",
       "Compliance certificate generation",

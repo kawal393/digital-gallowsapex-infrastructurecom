@@ -74,7 +74,7 @@ const EmbedCountdown = () => {
           CHECK YOUR COMPLIANCE →
         </a>
         <div style={{ marginTop: 12, fontSize: 10, color: "#444" }}>
-          Powered by <span style={{ color: "#d4a017" }}>APEX Digital Gallows</span>
+          Powered by <span style={{ color: "#d4a017" }}>APEX PSI</span>
         </div>
       </div>
     </div>

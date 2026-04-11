@@ -183,7 +183,7 @@ const Compare = () => {
           </h2>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Button onClick={() => navigate("/gallows")} className="bg-primary text-primary-foreground font-mono gap-2">
-              Try Digital Gallows <ArrowRight className="h-4 w-4" />
+              Try APEX PSI <ArrowRight className="h-4 w-4" />
             </Button>
             <Button variant="outline" onClick={() => navigate("/sdk")} className="font-mono gap-2">
               <FileCode className="h-4 w-4" /> SDK Documentation
