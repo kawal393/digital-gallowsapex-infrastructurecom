@@ -123,7 +123,7 @@ const Pricing = () => {
                 <Shield className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-xs font-bold tracking-widest text-primary uppercase">Apex Sovereign Certification</h3>
+                <h3 className="text-xs font-bold tracking-widest text-primary uppercase">Apex Institutional Certification</h3>
                 <div>
                   <span className="text-3xl font-black text-foreground">From $2,000</span>
                   <span className="text-muted-foreground text-sm ml-1">/ month</span>
@@ -131,7 +131,7 @@ const Pricing = () => {
               </div>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              For enterprises requiring regulator-ready compliance filings, Tribunal-ratified certificates, and managed sovereign infrastructure. Certification and insurance underwriting fees apply.
+              For enterprises requiring regulator-ready compliance filings, evidence-ratified certificates, and managed protocol infrastructure. Certification and insurance underwriting fees apply.
             </p>
 
             <ul className="space-y-2.5 mb-8 flex-1">
@@ -160,7 +160,7 @@ const Pricing = () => {
           className="text-center text-xs text-muted-foreground mt-10 max-w-2xl mx-auto"
         >
           The PSI Protocol is a public-good standard. The math is free, the code is open-source, and the specification (<span className="font-mono">draft-singh-psi-00</span>) is submitted to the IETF.
-          Certification fees apply only to commercial entities requiring Tribunal-ratified, regulator-ready compliance filings.
+          Certification fees apply only to commercial entities requiring evidence-ratified, regulator-ready compliance filings.
         </motion.p>
       </div>
     </section>

@@ -306,7 +306,6 @@ const Governance = () => {
                 <span className="text-chrome-gradient">Join the</span>{" "}
                 <span className="text-gold-gradient">Protocol</span>
               </h2>
-              </h2>
               <p className="text-muted-foreground text-sm mb-8 max-w-lg mx-auto">
                 No credentials required. No application process. Verify a proof. Submit your attestation.
                 The math is the only credential that matters.
