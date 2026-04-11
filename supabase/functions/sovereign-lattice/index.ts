@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const NODE_CONFIG = {
-  id: "digital-gallows",
+  id: "apex-psi",
   name: "DIGITAL GALLOWS",
   role: "Compliance Engine & Zero-Knowledge Audit Layer",
   projectId: "qhtntebpcribjiwrdtdd",
