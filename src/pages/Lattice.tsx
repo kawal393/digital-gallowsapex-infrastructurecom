@@ -162,7 +162,7 @@ export default function Lattice() {
               {(status?.nodes ?? [
                 { id: "apex-bounty", name: "APEX BOUNTY", role: "Intelligence Hub", status: "offline" as const },
                 { id: "apex-infrastructure", name: "APEX INFRASTRUCTURE", role: "Operations", status: "offline" as const },
-                { id: "digital-gallows", name: "DIGITAL GALLOWS", role: "Compliance", status: "offline" as const },
+                { id: "apex-psi", name: "APEX PSI", role: "Compliance", status: "offline" as const },
               ]).map((node, i) => (
                 <LatticeNodeCard key={node.id} node={node} index={i} loading={loading} />
               ))}

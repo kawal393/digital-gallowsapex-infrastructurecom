@@ -145,8 +145,8 @@ const Tribunal = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Sovereign Anchors | APEX Digital Gallows</title>
-        <meta name="description" content="Enterprise-grade Sovereign Anchor ratification layer for high-stakes compliance certification." />
+        <title>Institutional Anchors | APEX PSI</title>
+        <meta name="description" content="Enterprise-grade Institutional Anchor ratification layer for high-stakes compliance certification." />
       </Helmet>
       <Navbar />
 
