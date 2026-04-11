@@ -9,7 +9,7 @@ const corsHeaders = {
 const SEARCH_QUERIES = [
   '"PSI Protocol" AI compliance',
   '"Provable Stateful Integrity"',
-  '"digital gallows" compliance',
+  '"apex psi" compliance',
   '"APEX" AI governance IETF',
   'site:reddit.com "PSI Protocol"',
   'site:linkedin.com "PSI Protocol" OR "APEX compliance"',
@@ -121,7 +121,7 @@ Deno.serve(async (req) => {
               messages: [
                 {
                   role: "system",
-                  content: `You are a social proof analyst for APEX Compliance / PSI Protocol. Analyze the following web content and determine if it contains a positive mention, endorsement, or compliment about APEX, PSI Protocol, Digital Gallows, or Provable Stateful Integrity.
+                  content: `You are a social proof analyst for APEX Compliance / PSI Protocol. Analyze the following web content and determine if it contains a positive mention, endorsement, or compliment about APEX, PSI Protocol, APEX PSI, or Provable Stateful Integrity.
 
 RULES:
 - Only extract POSITIVE or NEUTRAL-POSITIVE mentions

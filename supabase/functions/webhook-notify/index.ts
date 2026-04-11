@@ -87,7 +87,7 @@ serve(async (req) => {
         from: "APEX Notifications <onboarding@resend.dev>",
         to: [TARGET_EMAIL],
         subject,
-        html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0b0f;color:#e8e0d0;border-radius:12px;">${html}<hr style="border:none;border-top:1px solid #1a1a2e;margin-top:24px;"><p style="color:#555;font-size:11px;">APEX Digital Gallows · Automated Notification</p></div>`,
+        html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0a0b0f;color:#e8e0d0;border-radius:12px;">${html}<hr style="border:none;border-top:1px solid #1a1a2e;margin-top:24px;"><p style="color:#555;font-size:11px;">APEX PSI · Automated Notification</p></div>`,
       }),
     });
 

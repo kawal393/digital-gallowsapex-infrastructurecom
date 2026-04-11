@@ -24,7 +24,7 @@ serve(async (req) => {
     const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:32px;background:#0a0b0f;color:#e8e0d0;border-radius:12px;border:1px solid #1a1a2e;">
   <div style="text-align:center;margin-bottom:24px;">
-    <div style="font-size:12px;letter-spacing:4px;color:#d4a017;">APEX DIGITAL GALLOWS</div>
+    <div style="font-size:12px;letter-spacing:4px;color:#d4a017;">APEX APEX PSI</div>
     <h1 style="font-size:20px;margin:8px 0;color:#fff;">Compliance Status Alert</h1>
   </div>
   <div style="background:#1a1a2e;border-radius:8px;padding:20px;margin-bottom:20px;">

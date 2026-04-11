@@ -299,7 +299,7 @@ Deno.serve(async (req) => {
         proven_at: provenAt,
         leaf_count: leaves.length,
         external_anchoring: anchoring,
-        engine: "APEX Digital Gallows v2.1",
+        engine: "APEX PSI v2.1",
       }),
       {
         status: 200,

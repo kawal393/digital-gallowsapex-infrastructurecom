@@ -219,7 +219,7 @@ Deno.serve(async (req) => {
         signature_attached: !!ed25519Signature,
         hash_mismatch_detected: hashMismatch,
         rate_limit_remaining: rateLimit.remaining,
-        engine: "APEX Digital Gallows v2.2 — Signed",
+        engine: "APEX PSI v2.2 — Signed",
       }),
       {
         status: 201,

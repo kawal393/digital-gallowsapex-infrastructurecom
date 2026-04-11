@@ -34,7 +34,7 @@ export interface CommitRecord {
   violationFound?: string;
   challengedAt?: string;
   provenAt?: string;
-  sovereignPauseAt?: string;
+  protocolPauseAt?: string;
   sequenceNumber?: number;
   ed25519Signature?: string;
 }
@@ -672,7 +672,7 @@ export function isSystemPaused(): boolean {
   return systemPaused;
 }
 
-export function toggleSovereignPause(): { paused: boolean; timestamp: string } {
+export function toggleProtocolPause(): { paused: boolean; timestamp: string } {
   systemPaused = !systemPaused;
   const timestamp = new Date().toISOString();
   return { paused: systemPaused, timestamp };
@@ -835,7 +835,7 @@ export function deterministicPreFlight(action: string, predicateId: string): {
 // Phase 1: COMMIT — Hash the action into a Merkle leaf
 export async function commitAction(action: string, predicateId: string): Promise<CommitRecord> {
   if (systemPaused) {
-    throw new Error('SOVEREIGN PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
+    throw new Error('PROTOCOL PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
   }
 
   // ── DETERMINISTIC PRE-FLIGHT ──
@@ -884,7 +884,7 @@ export async function commitAction(action: string, predicateId: string): Promise
 // Phase 2: CHALLENGE — Regulator challenges a committed action
 export async function challengeCommit(commitId: string): Promise<CommitRecord> {
   if (systemPaused) {
-    throw new Error('SOVEREIGN PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
+    throw new Error('PROTOCOL PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
   }
 
   const t0 = performance.now();
@@ -912,7 +912,7 @@ export async function challengeCommit(commitId: string): Promise<CommitRecord> {
 // Phase 3: PROVE — Generate Merkle inclusion proof
 export async function proveCommit(commitId: string): Promise<CommitRecord> {
   if (systemPaused) {
-    throw new Error('SOVEREIGN PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
+    throw new Error('PROTOCOL PAUSE ACTIVE — All operations halted by human oversight authority (EU AI Act Art. 14)');
   }
 
   const t0 = performance.now();
