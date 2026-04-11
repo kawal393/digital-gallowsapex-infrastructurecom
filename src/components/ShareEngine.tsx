@@ -10,7 +10,7 @@ interface ShareEngineProps {
 const powerStatements: Record<string, string> = {
   "/": "AI compliance is no longer self-reported. PSI Protocol makes it mathematically verifiable — backed by IETF draft-singh-psi-00.",
   "/protocol": "Read the protocol that replaces 'Trust Us' with cryptographic proof. IETF draft-singh-psi-00 is live.",
-  "/gallows": "The Digital Gallows: where AI outputs face mathematical judgment. Every claim verified, every violation blocked.",
+  "/gallows": "The APEX PSI: where AI outputs face mathematical judgment. Every claim verified, every violation blocked.",
   "/verify": "Verify any AI system's compliance in real-time. No login required. This is the new standard.",
   "/research": "From IETF drafts to arXiv papers — the institutional architecture behind verifiable AI governance.",
   "/governance": "Open Global Tribunal. Permissionless public verification with cryptographic consensus. The math is the authority.",

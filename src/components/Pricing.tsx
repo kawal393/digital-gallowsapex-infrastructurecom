@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const openAccessFeatures = [
   "Full PSI Protocol verification engine",
-  "Digital Gallows SDK — complete source",
+  "APEX PSI SDK — complete source",
   "SHA-256 hash chain + Merkle audit trails",
   "Ed25519 signature verification",
   "3-node MPC consensus logic",
@@ -45,7 +45,7 @@ const Pricing = () => {
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             The PSI Protocol (<span className="font-mono text-primary">draft-singh-psi-00</span>) is public-good infrastructure.
-            Access to the Digital Gallows SDK and core verification logic is <span className="font-bold text-foreground">$0 / Open Access</span> for
+            Access to the APEX PSI SDK and core verification logic is <span className="font-bold text-foreground">$0 / Open Access</span> for
             all developers, AI research labs, and enterprises.
           </p>
         </motion.div>

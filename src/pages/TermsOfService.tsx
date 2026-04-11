@@ -7,7 +7,7 @@ const TermsOfService = () => (
       <p>
         These Terms of Service ("Terms") constitute a legally binding agreement between you and
         APEX INTELLIGENCE EMPIRE, trading as
-        <strong> APEX DIGITAL GALLOWS</strong>
+        <strong> APEX PSI</strong>
         ("Company", "we", "us", "our"), headquartered in Melbourne, Victoria, Australia.
       </p>
       <p>
@@ -113,7 +113,7 @@ const TermsOfService = () => (
     <section>
       <h2>10. Indemnification</h2>
       <p>
-        You agree to indemnify and hold harmless APEX DIGITAL GALLOWS, its directors, officers,
+        You agree to indemnify and hold harmless APEX PSI, its directors, officers,
         and employees from any claims, losses, or damages arising from your use of the platform
         or breach of these Terms.
       </p>
