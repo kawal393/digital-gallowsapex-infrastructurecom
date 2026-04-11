@@ -25,7 +25,7 @@ const critiques = [
       "Zero-Knowledge Proofs create technical complexity. A ZKP 'pass/fail' receipt may satisfy a technical check but doesn't provide the traceability and interpretability that lawyers and regulators need under Article 14 (Human Oversight).",
     responseTitle: "ZKPs Protect Weights — The Ledger Is Fully Transparent",
     response:
-      "The ZKP layer protects only proprietary model weights during verification — it proves compliance properties without exposing trade secrets. The Gallows Ledger itself is fully transparent: every commit hash, Merkle root, challenge, and proof is publicly auditable. Article 14 requires human oversight of the AI system's behavior — our ledger provides exactly that. The ZKP proves the math checked out; the ledger shows what was checked and when.",
+      "The ZKP layer protects only proprietary model weights during verification — it proves compliance properties without exposing trade secrets. The compliance ledger itself is fully transparent: every commit hash, Merkle root, challenge, and proof is publicly auditable. Article 14 requires human oversight of the AI system's behavior — our ledger provides exactly that. The ZKP proves the math checked out; the ledger shows what was checked and when.",
     sources: [
       { label: "EU AI Act Article 14", url: "https://artificialintelligenceact.eu/article/14/" },
       { label: "ZKP Policy Impact Analysis", url: "https://policyreview.info/articles/analysis/impact-zero-knowledge-proofs" },
@@ -50,10 +50,10 @@ const critiques = [
     icon: Gavel,
     critiqueTitle: "The Liability Trap of Decentralization",
     critique:
-      "The EU AI Act places compliance burdens on specific 'AI providers' and 'importers.' Decentralized entities lack direct, legally-binding ways to handle impact assessments. If the Tribunal fails, there's no 'High-Risk Provider' to sue.",
-    responseTitle: "ASF Is the Legal Entity — The Tribunal Is the Jury",
+      "The EU AI Act places compliance burdens on specific 'AI providers' and 'importers.' Decentralized entities lack direct, legally-binding ways to handle impact assessments. If the protocol fails, there's no 'High-Risk Provider' to sue.",
+    responseTitle: "ASF Is the Legal Entity — The Protocol Is the Evidence",
     response:
-      "The APEX Standards Foundation (ASF) serves as the legal entity under Article 3(3) — a registered, accountable provider. The Open Global Tribunal doesn't replace legal liability; it adds a public verification layer on top of it. Think of it as a jury system: the court (ASF) holds liability, the jury (Tribunal auditors) provides independent verification. If a verdict is wrong, the court is still accountable. Decentralization of judgment ≠ decentralization of liability.",
+      "The APEX Standards Foundation (ASF) serves as the legal entity under Article 3(3) — a registered, accountable provider. The Open Evidence Protocol doesn't replace legal liability; it adds a public verification layer on top of it. Think of it as an evidence system: the institution (ASF) holds liability, the protocol provides independent, mathematically verifiable evidence. If a verdict is wrong, the institution is still accountable. Decentralization of evidence ≠ decentralization of liability.",
     sources: [
       { label: "EU AI Act Risk Framework", url: "https://artificialintelligenceact.eu/high-level-summary/" },
       { label: "AI Liability & Accountability", url: "https://www.tandfonline.com/doi/full/10.1080/19460171.2025.2496193" },

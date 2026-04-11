@@ -276,7 +276,7 @@ const Governance = () => {
                 </h3>
                 <p className="text-sm text-muted-foreground mb-5">
                   Article 14 requires that high-risk AI systems "shall be designed and developed in such a way
-                  [...] that they can be effectively overseen by natural persons." The Open Global Tribunal satisfies
+                  [...] that they can be effectively overseen by natural persons." The Open Evidence Protocol satisfies
                   this through:
                 </p>
                 <div className="space-y-2.5">
