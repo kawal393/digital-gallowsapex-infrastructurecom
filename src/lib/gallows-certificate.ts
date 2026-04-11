@@ -61,7 +61,7 @@ export interface ComplianceCertificate {
     privacyLevel: string;
   };
 
-  // Sovereign Tribunal (optional)
+  // Institutional Anchor Panel (optional)
   tribunal?: {
     approvals: number;
     rejections: number;
@@ -118,7 +118,7 @@ export async function generateCertificate(record: CommitRecord): Promise<Complia
       article: 'Article 14',
       title: 'Human Oversight',
       compliant: true,
-      evidence: 'Sovereign Pause (kill switch) available throughout verification pipeline.',
+      evidence: 'Protocol Pause (kill switch) available throughout verification pipeline.',
     },
     {
       article: 'Article 15',

@@ -17,7 +17,7 @@ const openAccessFeatures = [
 ];
 
 const certificationIncludes = [
-  "Sovereign Anchor ratification (enterprise-grade cryptographic seal)",
+  "Institutional Anchor ratification (enterprise-grade cryptographic seal)",
   "Regulator-ready compliance certificate with Merkle proof",
   "Global Merkle root anchoring for proof persistence",
   "Continuous automated compliance monitoring",
@@ -104,7 +104,7 @@ const Pricing = () => {
             </Button>
           </motion.div>
 
-          {/* Sovereign Certification — Paid */}
+          {/* Institutional Certification — Paid */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -132,7 +132,7 @@ const CertificatePanel = ({ certificate }: CertificatePanelProps) => {
             </div>
           )}
 
-          {/* Sovereign Tribunal */}
+          {/* Institutional Anchor Panel */}
           {certificate.tribunal && (
             <div className={`p-2 rounded bg-gallows-bg border ${certificate.tribunal.ratified ? 'border-gallows-approved/20' : 'border-gallows-border'}`}>
               <span className="text-[10px] font-mono text-gallows-muted block mb-1">SOVEREIGN TRIBUNAL (ARTICLE 14)</span>

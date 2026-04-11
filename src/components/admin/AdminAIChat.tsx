@@ -113,7 +113,7 @@ export default function AdminAIChat() {
               <Brain className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <CardTitle className="text-sm">Sovereign AI</CardTitle>
+              <CardTitle className="text-sm">Protocol AI</CardTitle>
               <p className="text-[10px] text-muted-foreground">Command Intelligence • Gemini-Powered</p>
             </div>
           </div>

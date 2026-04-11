@@ -45,7 +45,7 @@ const SolutionSection = () => (
       >
         <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Our Solution</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          <span className="text-gold-gradient">Proof of Sovereign Integrity</span> (PSI)
+          <span className="text-gold-gradient">Proof of Stateful Integrity</span> (PSI)
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           An Optimistic ZKML architecture that reduces compliance costs by 99.9% while satisfying every regulatory requirement.

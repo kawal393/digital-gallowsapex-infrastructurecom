@@ -134,7 +134,7 @@ const Tribunal = () => {
         <Navbar />
         <div className="container mx-auto px-4 py-20 text-center">
           <Shield className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h1 className="text-2xl font-mono font-bold text-foreground mb-2">Sovereign Tribunal</h1>
+          <h1 className="text-2xl font-mono font-bold text-foreground mb-2">Institutional Anchor Panel</h1>
           <p className="text-muted-foreground">You must be authenticated to access the Tribunal.</p>
         </div>
         <Footer />
@@ -157,10 +157,10 @@ const Tribunal = () => {
             <Gavel className="h-3.5 w-3.5" /> ARTICLE 14 — HUMAN OVERSIGHT
           </div>
           <h1 className="text-3xl md:text-4xl font-mono font-bold text-foreground mb-3">
-            Sovereign Anchors
+            Institutional Anchors
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
-            Enterprise-grade ratification layer. Sovereign Anchors provide the final cryptographic seal 
+            Enterprise-grade ratification layer. Institutional Anchors provide the final cryptographic seal 
             on high-value commits that have achieved public consensus through the Open Global Tribunal.
           </p>
         </motion.div>
@@ -192,7 +192,7 @@ const Tribunal = () => {
             ) : (
               <div className="flex items-center gap-2 text-muted-foreground text-sm">
                 <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                <span className="font-mono">You are not a registered Sovereign Anchor. Contact the platform administrator for enterprise ratification access.</span>
+                <span className="font-mono">You are not a registered Institutional Anchor. Contact the platform administrator for enterprise ratification access.</span>
               </div>
             )}
           </CardContent>

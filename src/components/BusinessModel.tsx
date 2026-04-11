@@ -23,7 +23,7 @@ const pillars = [
     subtitle: "Standard-Essential Access",
     desc: "For enterprises, standards bodies, and government agencies requiring white-label deployment or jurisdictional customization of the PSI Protocol infrastructure.",
     details: [
-      "White-label sovereign infrastructure",
+      "White-label protocol infrastructure",
       "Custom jurisdictional predicate mapping",
       "Dedicated MPC node cluster",
       "SLA-backed compliance monitoring",

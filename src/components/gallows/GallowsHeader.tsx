@@ -49,7 +49,7 @@ const GallowsHeader = ({ paused, onTogglePause, persistedCount = 0 }: GallowsHea
             </Badge>
           )}
 
-          {/* Sovereign Pause / Protocol Intervention Layer (PIL) — Art. 14 */}
+          {/* Protocol Pause / Protocol Intervention Layer (PIL) — Art. 14 */}
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

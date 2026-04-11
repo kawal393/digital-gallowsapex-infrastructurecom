@@ -86,7 +86,7 @@ export default function Lattice() {
   return (
     <>
       <Helmet>
-        <title>Sovereign Lattice | APEX Mesh Network</title>
+        <title>Protocol Lattice | APEX Mesh Network</title>
         <meta name="description" content="Real-time distributed mesh network status across APEX platforms" />
       </Helmet>
       <Navbar />

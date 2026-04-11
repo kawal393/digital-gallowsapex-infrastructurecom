@@ -40,7 +40,7 @@ const Architecture = () => {
                 ARCHITECTURE SPECIFICATION
               </h1>
               <p className="text-xs font-mono text-gallows-muted mt-0.5">
-                Proof of Sovereign Integrity — Technical Documentation
+                Proof of Stateful Integrity — Technical Documentation
               </p>
             </div>
           </div>
