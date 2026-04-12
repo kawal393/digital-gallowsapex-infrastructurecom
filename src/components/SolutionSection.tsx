@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Gavel, Link2, FileText, ClipboardList, Cpu } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const features = [
   {
@@ -34,7 +35,9 @@ const features = [
   },
 ];
 
-const SolutionSection = () => (
+const SolutionSection = () => {
+  const { t } = useTranslation();
+  return (
   <section className="relative py-24 px-4" id="solution">
     <div className="container mx-auto max-w-5xl">
       <motion.div
@@ -43,9 +46,9 @@ const SolutionSection = () => (
         viewport={{ once: true }}
         className="text-center mb-16"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Our Solution</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">{t("solution.badge")}</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-          <span className="text-gold-gradient">Proof of Stateful Integrity</span> (PSI)
+          <span className="text-gold-gradient">{t("solution.headline")}</span> {t("solution.headlineSuffix")}
         </h2>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           An Optimistic ZKML architecture that reduces compliance costs by 99.9% while satisfying every regulatory requirement.
