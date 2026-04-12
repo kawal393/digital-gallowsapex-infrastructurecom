@@ -19,7 +19,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
             <p className="text-xs text-muted-foreground leading-relaxed">
-              <span className="text-foreground font-semibold">Disclaimer:</span> Apex Intelligence Empire provides technical tools to assist with AI compliance. We are not a law firm and do not provide legal advice. Our tools and documentation are designed to support regulatory compliance efforts — consult qualified legal counsel for legal matters specific to your jurisdiction.
+              <span className="text-foreground font-semibold">{t("footer.disclaimerLabel")}</span> {t("footer.disclaimer")}
             </p>
           </div>
         </div>
