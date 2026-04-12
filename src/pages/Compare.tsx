@@ -32,8 +32,20 @@ const features = [
       { name: "EU AI Act (10 Articles)", apex: true, veritaschain: true, ethicshield: true },
       { name: "MiFID II Financial Trading", apex: true, veritaschain: false, ethicshield: false },
       { name: "DORA Operational Resilience", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Colorado AI Act (SB 24-205)", apex: true, veritaschain: false, ethicshield: false },
+      { name: "California ADT + SB 1047", apex: true, veritaschain: false, ethicshield: false },
+      { name: "ISO 42001 / ISO 23894 Mapping", apex: true, veritaschain: "partial" as const, ethicshield: false },
+      { name: "NIST AI RMF (4 Functions)", apex: true, veritaschain: "partial" as const, ethicshield: false },
       { name: "Multi-Regulatory Predicate Engine", apex: true, veritaschain: "partial" as const, ethicshield: false },
-      { name: "Formal Regulatory Submissions", apex: false, veritaschain: true, ethicshield: "partial" as const },
+    ],
+  },
+  {
+    category: "Agentic AI Monitoring",
+    items: [
+      { name: "Real-time Agent Action Interception", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Multi-Agent Chain Verification", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Tool Call Compliance Gates", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Autonomous Workflow Kill Switch", apex: true, veritaschain: false, ethicshield: "partial" as const },
     ],
   },
   {

@@ -497,6 +497,121 @@ export const PREDICATES: Predicate[] = [
     riskLevel: 'LIMITED',
     enforcementDate: '2026-06-01',
   },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // COLORADO AI ACT (SB 24-205)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'CO_AI_IMPACT',
+    name: 'Algorithmic Impact Assessment',
+    article: 'CO SB 24-205 § 6-1-1703',
+    description: 'Developers and deployers of high-risk AI systems must complete impact assessments before deployment, evaluating risks of algorithmic discrimination.',
+    violationPatterns: ['no impact assessment colorado', 'skip algo discrimination check', 'no bias evaluation', 'undocumented ai risk co', 'no pre-deployment assessment'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-02-01',
+  },
+  {
+    id: 'CO_AI_DISCLOSURE',
+    name: 'Consumer Disclosure',
+    article: 'CO SB 24-205 § 6-1-1704',
+    description: 'Deployers must notify consumers when a high-risk AI system makes or is a substantial factor in making a consequential decision, with explanation of the decision.',
+    violationPatterns: ['no consumer disclosure co', 'hidden ai decision', 'no consequential decision notice', 'undisclosed ai involvement', 'no explanation provided'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-02-01',
+  },
+  {
+    id: 'CO_AI_GOVERNANCE',
+    name: 'Risk Management Program',
+    article: 'CO SB 24-205 § 6-1-1702',
+    description: 'Deployers must implement a risk management policy and governance program to identify, document, and mitigate risks of algorithmic discrimination.',
+    violationPatterns: ['no risk management co', 'no governance program', 'no discrimination mitigation', 'ungoverned high risk ai co', 'no algo fairness program'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-02-01',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // CALIFORNIA AUTOMATED DECISION TOOLS (AB 2930 / SB 1047)
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'CA_ADT_IMPACT',
+    name: 'Impact Assessment',
+    article: 'CA AB 2930 — Impact Assessment',
+    description: 'Deployers of automated decision tools must perform impact assessments before use and annually thereafter, evaluating risks of adverse impacts on protected classes.',
+    violationPatterns: ['no impact assessment ca', 'no annual review adt', 'skip adverse impact check', 'no protected class analysis', 'undocumented adt risk'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-01-01',
+  },
+  {
+    id: 'CA_ADT_NOTICE',
+    name: 'Consumer Notification',
+    article: 'CA AB 2930 — Notice',
+    description: 'Deployers must provide clear notice to individuals subject to automated decision tools, including the purpose of the tool and the right to opt out where feasible.',
+    violationPatterns: ['no adt notice', 'no opt out offered', 'hidden automated decision ca', 'no purpose disclosure adt', 'denied opt out right'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2026-01-01',
+  },
+  {
+    id: 'CA_FRONTIER_SAFETY',
+    name: 'Frontier Model Safety',
+    article: 'CA SB 1047 — Safety Protocols',
+    description: 'Developers of frontier AI models exceeding compute thresholds must implement safety protocols, conduct pre-deployment testing, and maintain ability to shut down the model.',
+    violationPatterns: ['no frontier safety protocol', 'no pre-deployment test', 'no shutdown capability', 'untested frontier model', 'no safety evaluation ca'],
+    riskLevel: 'UNACCEPTABLE',
+    enforcementDate: '2026-01-01',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // ISO 42001 — AI MANAGEMENT SYSTEM
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'ISO_42001_CONTEXT',
+    name: 'Organizational Context',
+    article: 'ISO 42001 Clause 4',
+    description: 'Organizations shall determine external and internal issues relevant to AI management, understand stakeholder needs, and define the scope of the AI management system.',
+    violationPatterns: ['no organizational context', 'undefined ai scope', 'no stakeholder analysis iso', 'missing aims boundary', 'no context determination'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-12-18',
+  },
+  {
+    id: 'ISO_42001_LEADERSHIP',
+    name: 'Leadership & Commitment',
+    article: 'ISO 42001 Clause 5',
+    description: 'Top management shall demonstrate leadership and commitment to the AI management system, establish AI policy, and assign roles and responsibilities.',
+    violationPatterns: ['no ai policy', 'no leadership commitment', 'unassigned ai roles', 'no management review ai', 'missing ai governance leadership'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-12-18',
+  },
+  {
+    id: 'ISO_42001_RISK',
+    name: 'Risk Treatment',
+    article: 'ISO 42001 Clause 6.1',
+    description: 'Organizations shall plan actions to address AI risks and opportunities, conduct AI risk assessments, and implement AI risk treatment plans with controls from Annex A.',
+    violationPatterns: ['no iso risk treatment', 'no annex a controls', 'no ai risk plan', 'unaddressed ai risks iso', 'no risk treatment plan'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-12-18',
+  },
+  {
+    id: 'ISO_42001_PERFORMANCE',
+    name: 'Performance Evaluation',
+    article: 'ISO 42001 Clause 9',
+    description: 'Organizations shall monitor, measure, analyse and evaluate AI management system performance, conduct internal audits, and management reviews.',
+    violationPatterns: ['no performance monitoring iso', 'no internal audit ai', 'no management review', 'unmeasured ai performance', 'no kpi tracking ai'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-12-18',
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // ISO 23894 — AI RISK MANAGEMENT
+  // ═══════════════════════════════════════════════════════════════════════
+  {
+    id: 'ISO_23894_LIFECYCLE',
+    name: 'AI Lifecycle Risk',
+    article: 'ISO 23894 — Lifecycle Integration',
+    description: 'AI risk management shall be integrated throughout the entire AI system lifecycle from design through decommission, with continuous monitoring and reassessment.',
+    violationPatterns: ['no lifecycle risk management', 'no continuous monitoring iso', 'no decommission plan', 'static risk assessment iso', 'no lifecycle integration'],
+    riskLevel: 'HIGH',
+    enforcementDate: '2023-02-15',
+  },
 ];
 
 // ── Cryptographic Primitives ───────────────────────────────────────────
