@@ -41,13 +41,13 @@ const HowItWorks = () => {
           className="text-center mb-16"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Process
+            {t("howItWorks.badge")}
           </p>
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="text-chrome-gradient">How It</span>{" "}
-            <span className="text-gold-gradient">Works</span>
+            <span className="text-chrome-gradient">{t("howItWorks.headline1")}</span>{" "}
+            <span className="text-gold-gradient">{t("howItWorks.headline2")}</span>
           </h2>
-          <p className="text-muted-foreground">Four Steps to Compliance</p>
+          <p className="text-muted-foreground">{t("howItWorks.subtitle")}</p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">

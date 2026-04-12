@@ -2,8 +2,10 @@ import { forwardRef } from "react";
 import { Github, ExternalLink, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
+import { useTranslation } from "react-i18next";
 
 const Footer = forwardRef<HTMLElement>((_, ref) => {
+  const { t } = useTranslation();
   return (
     <footer ref={ref} className="border-t border-border py-12 px-4 relative overflow-hidden">
       <div

@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import { forwardRef, useState } from "react";
 import { toast } from "sonner";
 import { Mail, MapPin, ExternalLink, Github } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-email`;
 
 const ContactSection = forwardRef<HTMLElement>((_, ref) => {
+  const { t } = useTranslation();
   const [sending, setSending] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
