@@ -1,5 +1,6 @@
 import { Upload, Lock, Award, Eye } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const steps = [
   {
@@ -29,6 +30,7 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const { t } = useTranslation();
   return (
     <section className="relative py-24 px-4 overflow-hidden" id="how-it-works">
       <div className="container mx-auto max-w-5xl relative z-10">
