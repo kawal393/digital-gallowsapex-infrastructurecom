@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, X, Minus, Shield, ArrowRight, Zap, Globe, Lock, Network, FileCode } from "lucide-react";
+import { Check, X, Minus, Shield, ArrowRight, Zap, Globe, Lock, Network, FileCode, Bot, Scale } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const features = [
