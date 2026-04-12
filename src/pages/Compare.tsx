@@ -71,7 +71,9 @@ const pillars = [
   { icon: Network, title: "MPC Consensus", desc: "3 independent nodes verify every action. 2-of-3 threshold prevents single point of failure." },
   { icon: Zap, title: "Runtime SDK", desc: "Block non-compliant AI responses in <15ms. Express middleware drops in with one line." },
   { icon: Globe, title: "Bitcoin Anchoring", desc: "Every Merkle root timestamped via OpenTimestamps. Immutable external proof of existence." },
-  { icon: Shield, title: "Multi-Regulatory", desc: "EU AI Act + MiFID II + DORA. 20+ predicates across 3 regulatory frameworks." },
+  { icon: Shield, title: "12 Jurisdictions", desc: "EU AI Act + MiFID II + DORA + Colorado + California + ISO 42001 + NIST AI RMF. 55+ predicates." },
+  { icon: Bot, title: "Agent Monitoring", desc: "Real-time interception of agentic AI workflows. Verify every tool call, chain step, and autonomous action." },
+  { icon: Scale, title: "ISO/NIST Mapping", desc: "ISO 42001, ISO 23894, and NIST AI RMF control mapping. Enterprise standards coverage built-in." },
   { icon: FileCode, title: "Open Architecture", desc: "Full technical documentation. Every hash, proof, and certificate independently verifiable." },
 ];
 
