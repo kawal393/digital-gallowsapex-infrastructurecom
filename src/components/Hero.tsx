@@ -4,8 +4,10 @@ import { ArrowRight, Shield, Globe, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 import { useVisitorLocation, useLiveClock } from "@/hooks/use-visitor-info";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
+  const { t } = useTranslation();
   const location = useVisitorLocation();
   const time = useLiveClock();
 
@@ -51,11 +53,9 @@ const Hero = () => {
           </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 tracking-tight leading-[0.95]">
-            <span className="text-chrome-gradient">APEX PSI:</span>
+            <span className="text-chrome-gradient">{t("hero.headline1")}</span>
             <br />
-            <span className="text-gold-gradient">The Definitive Standard</span>
-            <br />
-            <span className="text-gold-gradient">for Verifiable AI Governance.</span>
+            <span className="text-gold-gradient">{t("hero.headline2")}</span>
           </h1>
 
           <motion.div
@@ -76,7 +76,7 @@ const Hero = () => {
           </p>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-3 sm:mb-4">
-            <span className="text-foreground font-semibold">Cryptographically proving AI compliance with the EU AI Act</span>
+            <span className="text-foreground font-semibold">{t("hero.subtitle1")}</span>
           </p>
           <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-5 sm:mb-6">
             <span className="text-muted-foreground">through</span>{" "}
@@ -106,10 +106,10 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <Link to="/gallows">Access the Protocol <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              <Link to="/gallows">{t("hero.ctaPrimary")} <ArrowRight className="ml-1 h-4 w-4" /></Link>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <Link to="/protocol"><Shield className="mr-1 h-4 w-4" /> View Protocol Spec</Link>
+              <Link to="/protocol"><Shield className="mr-1 h-4 w-4" /> {t("hero.ctaSecondary")}</Link>
             </Button>
           </div>
         </motion.div>

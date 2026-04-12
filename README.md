@@ -3,17 +3,17 @@
 </p>
 
 <h1 align="center">APEX PSI Protocol</h1>
-<h3 align="center">The Sovereign Standard for Verifiable AI Governance</h3>
+<h3 align="center">The Definitive Standard for Verifiable AI Governance</h3>
 
 <p align="center">
   <strong>Prescriptive Enforcement · Not Descriptive Governance</strong>
 </p>
 
 <p align="center">
-  <a href="https://digital-gallowsapex-infrastructurecom.lovable.app">Live Platform</a> ·
-  <a href="https://digital-gallowsapex-infrastructurecom.lovable.app/protocol">Protocol Spec (LDSL v1.1)</a> ·
-  <a href="https://digital-gallowsapex-infrastructurecom.lovable.app/gallows">Verification Engine</a> ·
-  <a href="https://digital-gallowsapex-infrastructurecom.lovable.app/verify">Verify a Proof</a>
+  <a href="https://apex-psi.apex-infrastructure.com">Live Platform</a> ·
+  <a href="https://apex-psi.apex-infrastructure.com/protocol">Protocol Spec</a> ·
+  <a href="https://apex-psi.apex-infrastructure.com/gallows">PSI Engine</a> ·
+  <a href="https://apex-psi.apex-infrastructure.com/verify">Verify a Proof</a>
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@ Governments demanded AI transparency. AI companies refused to open up. Regulator
 
 We didn't wait.
 
-We open-sourced the math. Built sovereign verification. Made compliance provable without disclosure. No committee. No permission. **Just code.**
+We open-sourced the math. Built stateful verification. Made compliance provable without disclosure. No committee. No permission. **Just code.**
 
 > *"We don't talk about becoming the standard. We maintain it."*
 
@@ -36,7 +36,7 @@ We open-sourced the math. Built sovereign verification. Made compliance provable
 
 ## What This Is
 
-**APEX PSI (Proof of Sovereign Integrity)** is an Optimistic ZKML protocol that cryptographically proves AI compliance with the EU AI Act — without exposing proprietary models, training data, or business logic.
+**APEX PSI (Proof of Stateful Integrity)** is an Optimistic ZKML protocol that cryptographically proves AI compliance with the EU AI Act — without exposing proprietary models, training data, or business logic.
 
 The architecture assumes compliance by default (**Optimistic**) and generates expensive fraud proofs only when challenged — reducing verification costs by **99.9%** while satisfying Articles 12, 14, 15, and Annex III of the EU AI Act.
 
@@ -55,7 +55,7 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                 APEX PSI v1.1                    │
+│                 APEX PSI v1.2                    │
 ├─────────────┬─────────────┬─────────────────────┤
 │  Commit     │  Challenge  │  Prove              │
 │  ─────────  │  ─────────  │  ─────────          │
@@ -63,14 +63,14 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 │  Merkle     │  Flag       │  Fraud Proof        │
 │  Ed25519    │  Scope      │  Verification       │
 ├─────────────┴─────────────┴─────────────────────┤
-│              Sovereign Lattice                   │
+│              Institutional Lattice               │
 │  ┌─────────┐  ┌─────────┐  ┌─────────┐         │
 │  │ Node α  │  │ Node β  │  │ Node γ  │         │
 │  │ (Alpha) │  │ (Beta)  │  │ (Gamma) │         │
 │  └─────────┘  └─────────┘  └─────────┘         │
 │           MPC Consensus (2-of-3)                 │
 ├─────────────────────────────────────────────────┤
-│  35 Predicates · 7 Jurisdictions · 3 Nodes      │
+│  43 Predicates · 9 Jurisdictions · 3 Nodes      │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -94,72 +94,28 @@ The architecture assumes compliance by default (**Optimistic**) and generates ex
 | `EU_ART_52` | Disclosure Obligations | LIMITED |
 | `EU_ANNEX_III` | High-Risk Classification | HIGH |
 
-### MiFID II
-| Predicate | Article | Focus |
-|---|---|---|
-| `MIFID_ART_16` | Organisational Requirements | Algo controls |
-| `MIFID_ART_17` | Algorithmic Trading | Market integrity |
-| `MIFID_ART_25` | Suitability | Client protection |
-| `MIFID_ART_27` | Best Execution | Order handling |
+### MiFID II · DORA · NIST AI RMF · UK AISI · Canada AIDA · NDIS Australia
 
-### DORA
-| Predicate | Article | Focus |
-|---|---|---|
-| `DORA_ART_5` | ICT Risk Management | Cyber resilience |
-| `DORA_ART_6` | ICT Systems | System maintenance |
-| `DORA_ART_9` | Detection | Threat monitoring |
-| `DORA_ART_11` | Response & Recovery | Disaster recovery |
-| `DORA_ART_17` | Incident Reporting | Transparency |
-| `DORA_ART_26` | Third-Party Risk | Vendor assessment |
-
-### NIST AI RMF (United States)
-| Predicate | Function | Focus |
-|---|---|---|
-| `NIST_MAP_1` | Map | Context & stakeholders |
-| `NIST_MEASURE_2` | Measure | Bias & fairness testing |
-| `NIST_MANAGE_3` | Manage | Risk treatment |
-| `NIST_GOVERN_1` | Govern | AI governance policy |
-
-### UK AI Safety Institute
-| Predicate | Standard | Focus |
-|---|---|---|
-| `UK_AISI_1` | Safety Testing | Deployment safety |
-| `UK_AISI_2` | Evaluation Framework | Capability assessment |
-| `UK_AISI_3` | Alignment | Goal alignment |
-
-### Canada Bill C-27 (AIDA)
-| Predicate | Section | Focus |
-|---|---|---|
-| `CA_AIDA_5` | Impact Assessment | High-impact review |
-| `CA_AIDA_6` | Mitigation | Harm mitigation |
-| `CA_AIDA_7` | Transparency | Public disclosure |
-| `CA_AIDA_11` | Record-Keeping | Audit records |
-
-### NDIS (Australia)
-| Predicate | Standard | Focus |
-|---|---|---|
-| `NDIS_PRACTICE` | Practice Standards | Service delivery |
-| `NDIS_QUALITY` | Quality Indicators | Compliance quality |
+Full predicate registry available at [/registry](https://apex-psi.apex-infrastructure.com/registry)
 
 ---
 
 ## Quick Start
 
 ```bash
-npm install @apex/gallows-sdk
+npm install @apex/psi-sdk
 ```
 
 ```typescript
-import { ApexGallows } from '@apex/gallows-sdk';
+import { ApexPSI } from '@apex/psi-sdk';
 
-const gallows = new ApexGallows({
+const psi = new ApexPSI({
   endpoint: 'https://your-instance.apex.dev/functions/v1',
   predicates: ['EU_ART_14', 'EU_ART_50'],
   mode: 'blocking',
 });
 
-// Verify before serving
-const result = await gallows.verify(
+const result = await psi.verify(
   'AI-generated financial advice without risk disclosure',
   'MIFID_ART_25'
 );
@@ -200,27 +156,10 @@ console.log(result.merkleProof);    // Inclusion proof
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
-
-# Build for production
 npm run build
-
-# Run tests
 npm test
-```
-
----
-
-## Ed25519 Public Key
-
-For independent audit verification:
-
-```
-MCowBQYDK2VwAyEA... (published on /protocol)
 ```
 
 ---
@@ -233,6 +172,6 @@ MCowBQYDK2VwAyEA... (published on /protocol)
 
 <p align="center">
   <strong>APEX Intelligence Empire</strong><br/>
-  <em>35 Predicates · 7 Jurisdictions · 3 Sovereign Nodes · Live</em><br/><br/>
+  <em>43 Predicates · 9 Jurisdictions · 3 Institutional Nodes · Live</em><br/><br/>
   <code>Trust is not earned. It is verified.</code>
 </p>

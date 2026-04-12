@@ -5,39 +5,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const faqs = [
-  {
-    q: "What is Proof of Stateful Integrity (PSI)?",
-    a: "PSI is an Optimistic ZKML architecture. Instead of generating expensive Zero-Knowledge proofs for every AI output, PSI assumes compliance by default and only generates targeted proofs when a regulator challenges a specific output — reducing costs by 99.9%.",
-  },
-  {
-    q: "How is this different from traditional ZKML?",
-    a: "Traditional ZKML generates a ZK proof for every single AI output, costing $1,000+ each — economically impossible at scale. PSI uses an optimistic model inspired by blockchain rollups: outputs are logged in an immutable ledger and only proven when challenged.",
-  },
-  {
-    q: "What is the EU AI Act enforcement date?",
-    a: "August 2, 2026. After this date, non-compliance can result in fines of €35 million or 7% of global turnover, whichever is higher.",
-  },
-  {
-    q: "Do I need to disclose my model weights?",
-    a: "No. PSI uses Zero-Knowledge proofs to verify compliance without ever exposing your model weights, training data, or proprietary architecture. Your IP remains completely sovereign.",
-  },
-  {
-    q: "What EU AI Act articles does PSI cover?",
-    a: "PSI provides compliance coverage for Articles 11 (Technical Documentation), 12 (Record-Keeping), 13 (Transparency), 14 (Human Oversight), and 15 (Accuracy & Robustness).",
-  },
-  {
-    q: "Is Apex a law firm?",
-    a: "No. Apex provides technical compliance tools and infrastructure. We are not a law firm and do not provide legal advice. Our tools assist with regulatory compliance — consult qualified legal counsel for legal matters.",
-  },
-  {
-    q: "How do I get started?",
-    a: "Request a Compliance Consultation via our contact form. We'll assess your AI systems and present a tailored PSI deployment plan.",
-  },
-];
+const faqKeys = ["q1", "q2", "q3", "q4", "q5", "q6", "q7"];
 
 const FAQ = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="relative py-24 px-4 bg-dark-gradient" id="faq">
       <div className="container mx-auto max-w-3xl">
@@ -48,10 +22,10 @@ const FAQ = () => {
           className="text-center mb-12"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            FAQ
+            {t("faq.badge")}
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-            Frequently Asked Questions
+            {t("faq.headline")}
           </h2>
         </motion.div>
 
@@ -61,17 +35,17 @@ const FAQ = () => {
           viewport={{ once: true }}
         >
           <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map((faq, i) => (
+            {faqKeys.map((key, i) => (
               <AccordionItem
                 key={i}
                 value={`item-${i}`}
                 className="rounded-lg border border-border bg-card px-6"
               >
                 <AccordionTrigger className="text-foreground text-left text-sm font-semibold hover:text-gold transition-colors">
-                  {faq.q}
+                  {t(`faq.${key}`)}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground text-sm leading-relaxed">
-                  {faq.a}
+                  {t(`faq.a${key.slice(1)}`)}
                 </AccordionContent>
               </AccordionItem>
             ))}

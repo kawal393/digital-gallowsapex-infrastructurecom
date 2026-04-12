@@ -16,7 +16,7 @@ interface LatticeNode {
 const ICONS: Record<string, typeof Shield> = {
   "apex-bounty": Zap,
   "apex-infrastructure": Server,
-  "digital-gallows": Shield,
+  "apex-psi": Shield,
 };
 
 const STATUS_COLORS: Record<string, string> = {

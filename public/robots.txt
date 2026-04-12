@@ -26,4 +26,4 @@ Disallow: /dashboard
 Disallow: /partner/dashboard
 Disallow: /reset-password
 
-Sitemap: https://digital-gallows.apex-infrastructure.com/sitemap.xml
+Sitemap: https://apex-psi.apex-infrastructure.com/sitemap.xml

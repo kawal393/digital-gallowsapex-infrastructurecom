@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import { forwardRef, useState } from "react";
 import { toast } from "sonner";
 import { Mail, MapPin, ExternalLink, Github } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-email`;
 
 const ContactSection = forwardRef<HTMLElement>((_, ref) => {
+  const { t } = useTranslation();
   const [sending, setSending] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,7 +77,7 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
                 </div>
                 <div className="flex items-center gap-3">
                   <Github className="h-4 w-4 text-gold flex-shrink-0" />
-                  <a href="https://github.com/kawal393/-apex-digital-gallows" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
+                  <a href="https://github.com/kawal393/apex-psi" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
                     GitHub Repository
                   </a>
                 </div>

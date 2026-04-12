@@ -2,8 +2,10 @@ import { forwardRef } from "react";
 import { Github, ExternalLink, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
+import { useTranslation } from "react-i18next";
 
 const Footer = forwardRef<HTMLElement>((_, ref) => {
+  const { t } = useTranslation();
   return (
     <footer ref={ref} className="border-t border-border py-12 px-4 relative overflow-hidden">
       <div
@@ -17,7 +19,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-4 w-4 text-warning flex-shrink-0 mt-0.5" />
             <p className="text-xs text-muted-foreground leading-relaxed">
-              <span className="text-foreground font-semibold">Disclaimer:</span> Apex Intelligence Empire provides technical tools to assist with AI compliance. We are not a law firm and do not provide legal advice. Our tools and documentation are designed to support regulatory compliance efforts — consult qualified legal counsel for legal matters specific to your jurisdiction.
+              <span className="text-foreground font-semibold">{t("footer.disclaimerLabel")}</span> {t("footer.disclaimer")}
             </p>
           </div>
         </div>
@@ -60,7 +62,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="mailto:apexinfrastructure369@gmail.com" className="hover:text-gold transition-colors">apexinfrastructure369@gmail.com</a></li>
               <li><a href="https://apex-infrastructure.com" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors inline-flex items-center gap-1">apex-infrastructure.com <ExternalLink className="h-3 w-3" /></a></li>
-              <li><a href="https://github.com/kawal393/-apex-digital-gallows" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors inline-flex items-center gap-1"><Github className="h-3 w-3" /> GitHub <ExternalLink className="h-3 w-3" /></a></li>
+              <li><a href="https://github.com/kawal393/apex-psi" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors inline-flex items-center gap-1"><Github className="h-3 w-3" /> GitHub <ExternalLink className="h-3 w-3" /></a></li>
             </ul>
             <h4 className="text-sm font-semibold text-foreground mt-4 mb-3">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">

@@ -40,7 +40,7 @@
   },
   "solution": {
     "badge": "PSI Protocol",
-    "headline": "Proof of Sovereign Integrity",
+    "headline": "Proof of Stateful Integrity",
     "headlineSuffix": "(PSI)",
     "subtitle": "An Optimistic ZKML architecture that reduces compliance costs by 99.9% while satisfying every regulatory requirement.",
     "feat1Title": "Optimistic Compliance",
@@ -110,7 +110,7 @@
   "faq": {
     "badge": "FAQ",
     "headline": "Frequently Asked Questions",
-    "q1": "What is Proof of Sovereign Integrity (PSI)?",
+    "q1": "What is Proof of Stateful Integrity (PSI)?",
     "a1": "PSI is an Optimistic ZKML architecture. Instead of generating expensive Zero-Knowledge proofs for every AI output, PSI assumes compliance by default and only generates targeted proofs when a regulator challenges a specific output — reducing costs by 99.9%.",
     "q2": "How is this different from traditional ZKML?",
     "a2": "Traditional ZKML generates a ZK proof for every single AI output, costing $1,000+ each — economically impossible at scale. PSI uses an optimistic model inspired by blockchain rollups: outputs are logged in an immutable ledger and only proven when challenged.",
@@ -143,7 +143,7 @@
   "footer": {
     "disclaimer": "Apex Intelligence Empire provides technical tools to assist with AI compliance. We are not a law firm and do not provide legal advice. Our tools and documentation are designed to support regulatory compliance efforts — consult qualified legal counsel for legal matters specific to your jurisdiction.",
     "disclaimerLabel": "Disclaimer:",
-    "tagline": "Proof of Sovereign Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire.",
+    "tagline": "Proof of Stateful Integrity — The Open Standard for Verifiable AI Governance. By Apex Intelligence Empire.",
     "division": "A division of",
     "navigation": "Navigation",
     "theParadox": "The Paradox",
@@ -157,7 +157,7 @@
     "terms": "Terms of Service",
     "cookies": "Cookie Policy",
     "copyright": "© 2026 Apex Intelligence Empire. All rights reserved.",
-    "trademark": "Proof of Sovereign Integrity™"
+    "trademark": "Proof of Stateful Integrity™"
   },
   "auth": {
     "email": "Email",

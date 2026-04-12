@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
   <rect x="0" y="0" width="1200" height="4" fill="url(#gold)"/>
   
   <!-- APEX Brand -->
-  <text x="80" y="80" fill="#d4a017" font-size="18" font-weight="900" font-family="system-ui" letter-spacing="6">APEX DIGITAL GALLOWS</text>
+  <text x="80" y="80" fill="#d4a017" font-size="18" font-weight="900" font-family="system-ui" letter-spacing="6">APEX PSI</text>
   <text x="80" y="108" fill="#666" font-size="14" font-family="system-ui">EU AI Act Compliance Assessment</text>
   
   <!-- Score Circle -->

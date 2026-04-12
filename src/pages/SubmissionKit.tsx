@@ -74,11 +74,11 @@ const SubmissionKit = () => {
         signature_scheme: "Ed25519",
         proof_structure: "Merkle Inclusion Proof",
         canonicalization: "RFC 8785 (JCS)",
-        sequencing: "Monotonic Counter (gallows_sequence_counter)",
+        sequencing: "Monotonic Counter (psi_sequence_counter)",
       },
-      verification_portal: "https://digital-gallows.apex-infrastructure.com/verify",
-      public_api: "https://digital-gallows.apex-infrastructure.com/api/verify-status",
-      protocol_source: "https://github.com/kawal393/-apex-digital-gallows",
+      verification_portal: "https://apex-psi.apex-infrastructure.com/verify",
+      public_api: "https://apex-psi.apex-infrastructure.com/api/verify-status",
+      protocol_source: "https://github.com/kawal393/apex-psi",
       disclaimer: "This document is cryptographically verifiable. All Merkle proof hashes can be independently validated using the APEX PSI Verification Portal without transmitting any data to Apex servers.",
     };
 
