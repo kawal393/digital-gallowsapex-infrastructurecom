@@ -93,10 +93,10 @@ Deno.serve(async (req) => {
         JSON.stringify({
           verified: false,
           found: false,
-          message: "Hash not found in the APEX Gallows immutable ledger",
+          message: "Hash not found in the APEX PSI immutable ledger",
           queried_hash: hash,
           queried_at: new Date().toISOString(),
-          engine: "APEX Digital Gallows v2.0",
+          engine: "APEX PSI v2.0",
         }),
         {
           status: 200,
@@ -128,7 +128,7 @@ Deno.serve(async (req) => {
         violation_found: entry.violation_found,
         queried_hash: hash,
         queried_at: new Date().toISOString(),
-        engine: "APEX Digital Gallows v2.0",
+        engine: "APEX PSI v2.0",
         algorithm: "SHA-256",
         eu_ai_act_compliance: entry.status === "APPROVED",
       }),
