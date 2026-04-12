@@ -4,9 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const faqs = [
+const faqKeys = ["q1", "q2", "q3", "q4", "q5", "q6", "q7"];
   {
     q: "What is Proof of Stateful Integrity (PSI)?",
     a: "PSI is an Optimistic ZKML architecture. Instead of generating expensive Zero-Knowledge proofs for every AI output, PSI assumes compliance by default and only generates targeted proofs when a regulator challenges a specific output — reducing costs by 99.9%.",
