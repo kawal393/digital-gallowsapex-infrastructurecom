@@ -75,6 +75,7 @@ const SolutionSection = () => {
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default SolutionSection;
