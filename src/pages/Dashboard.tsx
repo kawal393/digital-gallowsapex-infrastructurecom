@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles, Key } from "lucide-react";
+import { LogOut, Crown, Shield, RefreshCw, Zap, RotateCcw, BarChart3, Sparkles, Key, Bot } from "lucide-react";
 import apexLogo from "@/assets/apex-logo.png";
 import ComplianceStatus from "@/components/dashboard/ComplianceStatus";
 import TrioModeSelector from "@/components/dashboard/TrioModeSelector";
@@ -18,6 +18,7 @@ import UpgradePrompt from "@/components/dashboard/UpgradePrompt";
 import MonitoringToggle from "@/components/dashboard/MonitoringToggle";
 import WebhookConfig from "@/components/dashboard/WebhookConfig";
 import NotaryApiKeys from "@/components/dashboard/NotaryApiKeys";
+import AgentMonitor from "@/components/dashboard/AgentMonitor";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
@@ -314,6 +315,9 @@ const Dashboard = () => {
             <TabsTrigger value="analytics" className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <BarChart3 className="h-3.5 w-3.5 mr-1" /> Analytics
             </TabsTrigger>
+            <TabsTrigger value="agents" className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Bot className="h-3.5 w-3.5 mr-1" /> Agent Monitor
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="compliance">
@@ -376,6 +380,10 @@ const Dashboard = () => {
 
           <TabsContent value="analytics">
             <ChatAnalytics />
+          </TabsContent>
+
+          <TabsContent value="agents">
+            <AgentMonitor />
           </TabsContent>
         </Tabs>
       </main>

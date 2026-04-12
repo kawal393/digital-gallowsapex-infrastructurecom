@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, X, Minus, Shield, ArrowRight, Zap, Globe, Lock, Network, FileCode } from "lucide-react";
+import { Check, X, Minus, Shield, ArrowRight, Zap, Globe, Lock, Network, FileCode, Bot, Scale } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const features = [
@@ -32,8 +32,20 @@ const features = [
       { name: "EU AI Act (10 Articles)", apex: true, veritaschain: true, ethicshield: true },
       { name: "MiFID II Financial Trading", apex: true, veritaschain: false, ethicshield: false },
       { name: "DORA Operational Resilience", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Colorado AI Act (SB 24-205)", apex: true, veritaschain: false, ethicshield: false },
+      { name: "California ADT + SB 1047", apex: true, veritaschain: false, ethicshield: false },
+      { name: "ISO 42001 / ISO 23894 Mapping", apex: true, veritaschain: "partial" as const, ethicshield: false },
+      { name: "NIST AI RMF (4 Functions)", apex: true, veritaschain: "partial" as const, ethicshield: false },
       { name: "Multi-Regulatory Predicate Engine", apex: true, veritaschain: "partial" as const, ethicshield: false },
-      { name: "Formal Regulatory Submissions", apex: false, veritaschain: true, ethicshield: "partial" as const },
+    ],
+  },
+  {
+    category: "Agentic AI Monitoring",
+    items: [
+      { name: "Real-time Agent Action Interception", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Multi-Agent Chain Verification", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Tool Call Compliance Gates", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Autonomous Workflow Kill Switch", apex: true, veritaschain: false, ethicshield: "partial" as const },
     ],
   },
   {
@@ -59,7 +71,9 @@ const pillars = [
   { icon: Network, title: "MPC Consensus", desc: "3 independent nodes verify every action. 2-of-3 threshold prevents single point of failure." },
   { icon: Zap, title: "Runtime SDK", desc: "Block non-compliant AI responses in <15ms. Express middleware drops in with one line." },
   { icon: Globe, title: "Bitcoin Anchoring", desc: "Every Merkle root timestamped via OpenTimestamps. Immutable external proof of existence." },
-  { icon: Shield, title: "Multi-Regulatory", desc: "EU AI Act + MiFID II + DORA. 20+ predicates across 3 regulatory frameworks." },
+  { icon: Shield, title: "12 Jurisdictions", desc: "EU AI Act + MiFID II + DORA + Colorado + California + ISO 42001 + NIST AI RMF. 55+ predicates." },
+  { icon: Bot, title: "Agent Monitoring", desc: "Real-time interception of agentic AI workflows. Verify every tool call, chain step, and autonomous action." },
+  { icon: Scale, title: "ISO/NIST Mapping", desc: "ISO 42001, ISO 23894, and NIST AI RMF control mapping. Enterprise standards coverage built-in." },
   { icon: FileCode, title: "Open Architecture", desc: "Full technical documentation. Every hash, proof, and certificate independently verifiable." },
 ];
 
