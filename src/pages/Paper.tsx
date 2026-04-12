@@ -239,8 +239,8 @@ Oversight) through a 5-party auditor ratification layer:
 The reference implementation is open source (MIT License):
 
   Repository: github.com/apex-intelligence-empire
-  SDK:        gallows-sdk (npm package)
-  Live:       digital-gallows.apex-infrastructure.com
+  SDK:        apex-psi-sdk (npm package)
+  Live:       apex-psi.apex-infrastructure.com
 
 Runtime: Deno (Edge Functions), React (Frontend)
 Database: PostgreSQL with Row-Level Security

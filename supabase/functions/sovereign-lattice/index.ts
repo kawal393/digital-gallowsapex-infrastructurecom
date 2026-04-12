@@ -9,7 +9,7 @@ const corsHeaders = {
 
 const NODE_CONFIG = {
   id: "apex-psi",
-  name: "DIGITAL GALLOWS",
+  name: "APEX PSI",
   role: "Compliance Engine & Zero-Knowledge Audit Layer",
   projectId: "qhtntebpcribjiwrdtdd",
 };
@@ -105,7 +105,7 @@ serve(async (req) => {
       node: NODE_CONFIG.id,
       name: NODE_CONFIG.name,
       role: NODE_CONFIG.role,
-      domain: "digital-gallowsapex-infrastructurecom.lovable.app",
+      domain: "apex-psi.lovable.app",
       supabaseProjectId: NODE_CONFIG.projectId,
       status: "online",
       timestamp: now(),

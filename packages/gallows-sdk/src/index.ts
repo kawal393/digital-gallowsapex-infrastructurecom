@@ -97,7 +97,7 @@ const PATTERN_CACHE: Record<string, string[]> = {
 };
 
 /**
- * APEX Digital Gallows SDK
+ * APEX PSI SDK
  * 
  * @example
  * ```typescript
