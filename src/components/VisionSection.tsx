@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { ShieldOff, ShieldCheck } from "lucide-react";
 
 const stats = [
-  { label: "Predicates", value: "35" },
-  { label: "Jurisdictions", value: "7" },
+  { label: "Predicates", value: "55+" },
+  { label: "Jurisdictions", value: "12" },
   { label: "MPC Nodes", value: "3" },
-  { label: "Status", value: "Live" },
+  { label: "Artifacts Sealed", value: "Live" },
 ];
 
 const VisionSection = () => (

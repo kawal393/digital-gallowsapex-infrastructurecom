@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { Link2, ClipboardList, FileText, ShieldCheck, BookOpen } from "lucide-react";
 
 const specs = [
-  { icon: Link2, title: "Immutable Ledger", desc: "SHA-256 hash chaining for tamper-proof AI output logging" },
-  { icon: ClipboardList, title: "Annex III Risk Classifier", desc: "Automated EU AI Act risk categorization engine" },
-  { icon: FileText, title: "Policy Generator", desc: "Article 11 compliant technical documentation automation" },
-  { icon: ShieldCheck, title: "Optimistic ZK Fraud Proof", desc: "On-demand Zero-Knowledge proof generation for challenged outputs" },
-  { icon: BookOpen, title: "Full Article Coverage", desc: "Articles 11, 12, 13, 14, 15 — record-keeping, transparency, oversight, accuracy" },
+  { icon: Link2, title: "Immutable Ledger", desc: "SHA-256 hash chaining for tamper-proof AI output logging across 55+ predicates" },
+  { icon: ClipboardList, title: "Annex III Risk Classifier", desc: "Automated risk categorization covering EU AI Act, Colorado SB 24-205, California SB 1047" },
+  { icon: FileText, title: "NIST / ISO Control Mapping", desc: "Full NIST AI RMF 100-1 + ISO 42001 + CISA control mapping for enterprise compliance" },
+  { icon: ShieldCheck, title: "Optimistic ZK Fraud Proof", desc: "Groth16-compatible ZK proofs on BN128 curve — prove compliance without revealing AI logic" },
+  { icon: BookOpen, title: "12-Jurisdiction Coverage", desc: "EU, USA (CO, CA), Australia, India, MiFID II, DORA, ISO 42001, ISO 23894, NIST AI RMF" },
 ];
 
 const TechSpecs = () => (
