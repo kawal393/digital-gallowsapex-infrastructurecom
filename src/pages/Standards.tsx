@@ -51,6 +51,13 @@ const mappings: MappingRow[] = [
   { predicateId: "NIST_MANAGE", predicateName: "NIST Manage Function", nistControl: "MANAGE 1–4", nistFunction: "Manage", isoClause: "10 — Improvement", euArticle: "Art. 12", cisaGuideline: "Risk Management" },
   { predicateId: "AU_PRIVACY", predicateName: "Australia Privacy Act", nistControl: "GOVERN 5.1", nistFunction: "Govern", isoClause: "5.2 — Policy", euArticle: "—", cisaGuideline: "Privacy Controls" },
   { predicateId: "IN_IT_RULES", predicateName: "India IT Rules", nistControl: "GOVERN 5.1", nistFunction: "Govern", isoClause: "5.2 — Policy", euArticle: "—", cisaGuideline: "Compliance Controls" },
+  { predicateId: "CA_EO_N526_CERTIFICATION", predicateName: "CA EO N-5-26 Vendor Certification", nistControl: "GOVERN 1.1", nistFunction: "Govern", isoClause: "4.1 — Context", euArticle: "—", cisaGuideline: "Vendor Certification" },
+  { predicateId: "CA_EO_N526_TRANSPARENCY", predicateName: "CA EO N-5-26 Transparency", nistControl: "MAP 5.1", nistFunction: "Map", isoClause: "5.2 — Policy", euArticle: "—", cisaGuideline: "Transparency Standards" },
+  { predicateId: "CA_EO_N526_PROCUREMENT", predicateName: "CA EO N-5-26 Procurement", nistControl: "GOVERN 4.1", nistFunction: "Govern", isoClause: "7.5 — Documented Info", euArticle: "—", cisaGuideline: "Procurement Controls" },
+  { predicateId: "CA_EO_N526_TRUST_SAFETY", predicateName: "CA EO N-5-26 Trust & Safety", nistControl: "MANAGE 4.1", nistFunction: "Manage", isoClause: "6.1.2 — Risk Treatment", euArticle: "—", cisaGuideline: "Trust & Safety" },
+  { predicateId: "SG_MGF_TRANSPARENCY", predicateName: "Singapore MGF Transparency", nistControl: "MAP 5.1", nistFunction: "Map", isoClause: "5.2 — Policy", euArticle: "—", cisaGuideline: "Transparency Controls" },
+  { predicateId: "SG_MGF_ACCOUNTABILITY", predicateName: "Singapore MGF Accountability", nistControl: "GOVERN 6.1", nistFunction: "Govern", isoClause: "5.3 — Roles", euArticle: "—", cisaGuideline: "Accountability Framework" },
+  { predicateId: "SG_MGF_FAIRNESS", predicateName: "Singapore MGF Fairness", nistControl: "MEASURE 2.5", nistFunction: "Measure", isoClause: "9.2 — Internal Audit", euArticle: "—", cisaGuideline: "Fairness Assessment" },
 ];
 
 const functionColors: Record<string, string> = {
@@ -61,10 +68,10 @@ const functionColors: Record<string, string> = {
 };
 
 const frameworkStats = [
-  { label: "PSI Predicates", value: "55+" },
+  { label: "PSI Predicates", value: "62+" },
   { label: "NIST Controls Mapped", value: "24" },
   { label: "ISO 42001 Clauses", value: "8" },
-  { label: "Jurisdictions", value: "12" },
+  { label: "Jurisdictions", value: "14" },
 ];
 
 const Standards = () => {
