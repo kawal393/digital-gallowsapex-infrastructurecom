@@ -125,7 +125,7 @@ const Compare = () => {
           className="text-center space-y-6"
         >
           <Badge className="bg-primary/10 text-primary border-primary/20 font-mono text-xs">
-            COMPETITIVE ANALYSIS — 4 PLATFORMS COMPARED
+            COMPETITIVE ANALYSIS — 5 PLATFORMS COMPARED
           </Badge>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight">
             <span className="text-gold-gradient">Neutral Standard</span>{" "}
@@ -135,7 +135,7 @@ const Compare = () => {
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             The only IETF-submitted, vendor-neutral, open-source cryptographic governance protocol.
-            Compare against GuardianChain, Attested Intelligence, and Microsoft's Agent Governance Toolkit.
+            Compare against GuardianChain, Attested Intelligence, TaskHawk (Kevros), and Microsoft's Agent Governance Toolkit.
           </p>
         </motion.section>
 
@@ -168,8 +168,9 @@ const Compare = () => {
         >
           <h3 className="font-bold text-lg mb-3">Why "Neutral Standard" Matters</h3>
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-            Microsoft's Agent Governance Toolkit is a strong vendor product — but it's a <strong className="text-foreground">vendor product</strong>.
+            Microsoft's Agent Governance Toolkit and TaskHawk (Kevros) are strong vendor products — but they are <strong className="text-foreground">vendor products</strong>.
             Every enterprise that competes with Microsoft's other services faces a conflict of interest adopting their governance standard.
+            TaskHawk has Microsoft Marketplace distribution but no IETF draft, no ZK proofs, no cross-jurisdictional coverage.
             GuardianChain is proprietary. Attested Intelligence has a patent pending.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -188,26 +189,31 @@ const Compare = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">Feature Comparison Matrix</h2>
 
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse min-w-[700px]">
+            <table className="w-full border-collapse min-w-[900px]">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-4 px-3 text-sm font-mono text-muted-foreground w-[32%]">FEATURE</th>
-                  <th className="text-center py-4 px-2 w-[17%]">
+                  <th className="text-left py-4 px-3 text-sm font-mono text-muted-foreground w-[28%]">FEATURE</th>
+                  <th className="text-center py-4 px-2 w-[14%]">
                     <span className="text-gold-gradient font-black text-base">APEX PSI</span>
                     <br />
                     <span className="text-[9px] text-primary font-mono">IETF DRAFT</span>
                   </th>
-                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[17%]">
+                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[14%]">
                     GuardianChain
                     <br />
                     <span className="text-[9px]">Proprietary</span>
                   </th>
-                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[17%]">
+                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[14%]">
                     Attested Intel
                     <br />
                     <span className="text-[9px]">Patent Pending</span>
                   </th>
-                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[17%]">
+                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[14%]">
+                    TaskHawk
+                    <br />
+                    <span className="text-[9px]">MS Marketplace</span>
+                  </th>
+                  <th className="text-center py-4 px-2 text-xs font-mono text-muted-foreground w-[14%]">
                     Microsoft AGT
                     <br />
                     <span className="text-[9px]">Vendor Toolkit</span>
@@ -218,7 +224,7 @@ const Compare = () => {
                 {features.map((category) => (
                   <React.Fragment key={category.category}>
                     <tr>
-                      <td colSpan={5} className="pt-6 pb-2 px-3">
+                      <td colSpan={6} className="pt-6 pb-2 px-3">
                         <span className="text-xs font-mono text-primary tracking-widest uppercase">
                           {category.category}
                         </span>
@@ -230,6 +236,7 @@ const Compare = () => {
                         <td className="py-3 px-2 text-center"><CellIcon value={item.apex} /></td>
                         <td className="py-3 px-2 text-center"><CellIcon value={item.guardian} /></td>
                         <td className="py-3 px-2 text-center"><CellIcon value={item.attested} /></td>
+                        <td className="py-3 px-2 text-center"><CellIcon value={item.taskhawk} /></td>
                         <td className="py-3 px-2 text-center"><CellIcon value={item.microsoft} /></td>
                       </tr>
                     ))}
