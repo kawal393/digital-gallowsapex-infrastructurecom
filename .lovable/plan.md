@@ -1,39 +1,45 @@
 
 
-## Plan: Add "Critiques & Responses" Defense Section
+## Plan: Strategic Response — Competitive Hardening + Market Position
 
-### What
-A new homepage section called **"Adversarial Review"** or **"We Address the Hard Questions"** — a bold, transparent section that lists the 4 major technical/legal critiques and shows how the architecture already handles them. This turns criticism into credibility.
+### Context
 
-### Why
-- Pre-empts critics by showing you've already thought through every attack vector
-- Builds trust with regulators and technical evaluators who will have the same questions
-- No other compliance platform does this — radical transparency becomes a competitive moat
+Three direct competitors have emerged in cryptographic AI governance (GuardianChain, Attested Intelligence, Aegis). APEX PSI still holds architectural advantages (IETF draft, MPC consensus, predicate engine, ZKML) but needs to close gaps in public visibility: NIST/CISA mappings, sealed capsule metrics, and published control frameworks.
 
-### Implementation
+### What to Build
 
-**1. New component: `src/components/AdversarialReview.tsx`**
-- 4-card layout, each addressing one critique
-- Cards structured as: **Critique** (honest statement of the concern) → **Reality** (how PSI already handles it) → **Source** (link to supporting research)
-- The 4 critiques:
-  - Oracle Problem → "We notarize attestations, not truth. Like a legal notary."
-  - ZKP Transparency → "ZKPs protect model weights only. The ledger itself is fully transparent and Article 14 compliant."
-  - Standardization → "First-mover to IETF forces convergence. MIT license ensures the math survives any standard."
-  - Liability → "APEX Standards Foundation (ASF) serves as the legal entity wrapper under Article 3(3)."
-- Visual style: dark cards with red/amber "critique" headers flipping to gold/green "response" — reinforcing the "challenge → proof" metaphor of the protocol itself
-- Include links to the actual critique sources (the references shared) alongside your rebuttals
+**1. NIST AI RMF + CISA Control Mapping Page**
+- New `/standards` page showing how each of the 55 PSI predicates maps to specific NIST AI 100-1 controls and CISA guidelines
+- Interactive table: Predicate → NIST Control → ISO 42001 Clause → EU AI Act Article
+- This directly counters Attested Intelligence's published mappings
 
-**2. Add relevant critique sources to `ResearchReferences.tsx`**
-- Add 4-6 of the strongest cited sources (the EU AI Act Article 14 link, the ZKP policy review paper, the Springer standardization chapter, the oracle problem papers) under appropriate categories
-- This shows you don't hide from criticism — you cite it
+**2. Live Protocol Metrics Dashboard**
+- Add a real-time counter on the homepage showing total commits processed, verifications completed, and certificates issued
+- Query the existing `psi_ledger` and `psi_commits` tables for actual counts
+- Display: "X,XXX governance artifacts sealed" — directly competitive with GuardianChain's "64,000+ capsules" claim
 
-**3. Place in Index.tsx**
-- Insert after `ComparisonTable` and before `BusinessModel` — the logical position after showing competitive advantages and before showing the business case
-- This creates a narrative flow: "Here's why we're better" → "Here's what critics say and why they're wrong" → "Here's the business model"
+**3. Competitive Differentiation Section**
+- Update the Compare page with a new "Cryptographic Governance" category
+- Add GuardianChain and Attested Intelligence as named competitors alongside the existing checklist vendors
+- Show the architectural differences: single-signer vs MPC consensus, single-chain vs Bitcoin anchoring, no predicates vs 55+ predicates
 
-### Technical Details
-- Pure frontend component, no database changes
-- Framer Motion animations consistent with existing sections
-- Responsive grid: 1 column mobile, 2 columns desktop
-- Approximately 150 lines of code
+**4. Agentic AI Runtime Governance**
+- Expand the existing Agent Monitor component to show "Cryptographic Runtime Governance" capabilities
+- Add terminology that matches the emerging category language (CRG, sealed artifacts, runtime attestation)
+- This positions APEX PSI in the same category Attested Intelligence is trying to own
+
+**5. Homepage Stats Update**
+- Update VisionSection stats from "35 Predicates" to "55 Predicates" and "7 Jurisdictions" to "12 Jurisdictions"
+- Add a "Governance Artifacts Sealed" counter
+
+### Files to Create/Modify
+- Create `src/pages/Standards.tsx` — NIST/ISO/CISA mapping page
+- Modify `src/pages/Compare.tsx` — add cryptographic governance competitors
+- Modify `src/components/VisionSection.tsx` — update stats
+- Modify `src/components/TechSpecs.tsx` — update predicate/jurisdiction counts
+- Modify `src/components/dashboard/AgentMonitor.tsx` — add CRG terminology
+- Modify `src/App.tsx` — add /standards route
+
+### Why This Order
+Revenue (NDIS Consumer Shield) ships first. These changes are defensive positioning to ensure that when the open protocol launches, APEX PSI is already the most complete, most mapped, most referenced standard in the space — making competitor adoption a downgrade rather than an alternative.
 
