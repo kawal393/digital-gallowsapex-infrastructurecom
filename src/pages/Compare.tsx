@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -167,8 +168,8 @@ const Compare = () => {
               </thead>
               <tbody>
                 {features.map((category) => (
-                  <>
-                    <tr key={category.category}>
+                  <React.Fragment key={category.category}>
+                    <tr>
                       <td colSpan={4} className="pt-6 pb-2 px-4">
                         <span className="text-xs font-mono text-primary tracking-widest uppercase">
                           {category.category}
@@ -183,7 +184,7 @@ const Compare = () => {
                         <td className="py-3 px-4 text-center"><CellIcon value={item.ethicshield} /></td>
                       </tr>
                     ))}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
