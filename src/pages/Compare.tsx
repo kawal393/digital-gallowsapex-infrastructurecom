@@ -167,8 +167,8 @@ const Compare = () => {
               </thead>
               <tbody>
                 {features.map((category) => (
-                  <>
-                    <tr key={category.category}>
+                  <React.Fragment key={category.category}>
+                    <tr>
                       <td colSpan={4} className="pt-6 pb-2 px-4">
                         <span className="text-xs font-mono text-primary tracking-widest uppercase">
                           {category.category}
