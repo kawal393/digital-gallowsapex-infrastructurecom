@@ -97,7 +97,7 @@ const AgentMonitor = () => {
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
             <Bot className="h-4 w-4" />
-            Agentic AI Monitor
+            Cryptographic Runtime Governance
           </CardTitle>
           <div className="flex items-center gap-2">
             <Badge className={`font-mono text-[10px] ${isLive ? "bg-emerald-500/15 text-emerald-400 border-emerald-400/30" : "bg-muted text-muted-foreground border-border"}`}>
@@ -114,7 +114,7 @@ const AgentMonitor = () => {
         <div className="grid grid-cols-3 gap-3">
           <div className="rounded border border-border p-2.5 text-center">
             <div className="text-lg font-bold font-mono text-foreground">{totalIntercepted}</div>
-            <div className="text-[10px] font-mono text-muted-foreground">INTERCEPTED</div>
+            <div className="text-[10px] font-mono text-muted-foreground">ARTIFACTS SEALED</div>
           </div>
           <div className="rounded border border-border p-2.5 text-center">
             <div className="text-lg font-bold font-mono text-destructive">{blockedCount}</div>
@@ -148,7 +148,7 @@ const AgentMonitor = () => {
 
         {/* Recent actions stream */}
         <div className="space-y-1.5">
-          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Live Action Stream</div>
+          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Runtime Attestation Stream</div>
           <div className="max-h-48 overflow-y-auto space-y-1 pr-1">
             {recentActions.map((action) => (
               <div key={action.id} className="flex items-center gap-2 text-[10px] font-mono py-1 border-b border-border/30">

@@ -18,35 +18,38 @@ const features = [
     ],
   },
   {
-    category: "Verification Architecture",
+    category: "Cryptographic Runtime Governance (CRG)",
     items: [
       { name: "3-Node MPC Consensus (2-of-3 Threshold)", apex: true, veritaschain: false, ethicshield: false },
-      { name: "Server-Side Hash Recomputation", apex: true, veritaschain: true, ethicshield: false },
-      { name: "Sovereign Pause — Protocol Intervention Layer (Art. 14)", apex: true, veritaschain: false, ethicshield: "partial" as const },
+      { name: "Runtime Attestation Sealing", apex: true, veritaschain: false, ethicshield: "partial" as const },
+      { name: "Sealed Governance Artifacts", apex: true, veritaschain: true, ethicshield: false },
+      { name: "Sovereign Pause — Protocol Kill Switch (Art. 14)", apex: true, veritaschain: false, ethicshield: false },
       { name: "Visual 4-Stage Pipeline", apex: true, veritaschain: false, ethicshield: false },
       { name: "QR Code Verification Certificates", apex: true, veritaschain: true, ethicshield: false },
     ],
   },
   {
-    category: "Regulatory Coverage",
+    category: "Regulatory Coverage (12 Jurisdictions)",
     items: [
-      { name: "EU AI Act (10 Articles)", apex: true, veritaschain: true, ethicshield: true },
+      { name: "EU AI Act (10 Articles)", apex: true, veritaschain: true, ethicshield: "partial" as const },
       { name: "MiFID II Financial Trading", apex: true, veritaschain: false, ethicshield: false },
       { name: "DORA Operational Resilience", apex: true, veritaschain: false, ethicshield: false },
       { name: "Colorado AI Act (SB 24-205)", apex: true, veritaschain: false, ethicshield: false },
-      { name: "California ADT + SB 1047", apex: true, veritaschain: false, ethicshield: false },
-      { name: "ISO 42001 / ISO 23894 Mapping", apex: true, veritaschain: "partial" as const, ethicshield: false },
-      { name: "NIST AI RMF (4 Functions)", apex: true, veritaschain: "partial" as const, ethicshield: false },
-      { name: "Multi-Regulatory Predicate Engine", apex: true, veritaschain: "partial" as const, ethicshield: false },
+      { name: "California ADT + SB 1047 Frontier Safety", apex: true, veritaschain: false, ethicshield: false },
+      { name: "ISO 42001 / ISO 23894 Clause-Level Mapping", apex: true, veritaschain: "partial" as const, ethicshield: false },
+      { name: "NIST AI RMF 100-1 (All 4 Functions)", apex: true, veritaschain: "partial" as const, ethicshield: false },
+      { name: "CISA AI Governance Guidelines", apex: true, veritaschain: false, ethicshield: false },
+      { name: "55+ Multi-Regulatory Predicate Engine", apex: true, veritaschain: false, ethicshield: false },
     ],
   },
   {
     category: "Agentic AI Monitoring",
     items: [
       { name: "Real-time Agent Action Interception", apex: true, veritaschain: false, ethicshield: false },
-      { name: "Multi-Agent Chain Verification", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Multi-Agent Chain-of-Thought Verification", apex: true, veritaschain: false, ethicshield: false },
       { name: "Tool Call Compliance Gates", apex: true, veritaschain: false, ethicshield: false },
-      { name: "Autonomous Workflow Kill Switch", apex: true, veritaschain: false, ethicshield: "partial" as const },
+      { name: "Autonomous Workflow Kill Switch", apex: true, veritaschain: false, ethicshield: false },
+      { name: "Cryptographic Runtime Governance (CRG)", apex: true, veritaschain: false, ethicshield: "partial" as const },
     ],
   },
   {
@@ -55,6 +58,7 @@ const features = [
       { name: "Runtime Inference Blocking SDK", apex: true, veritaschain: false, ethicshield: false },
       { name: "Express/Node.js Middleware", apex: true, veritaschain: false, ethicshield: false },
       { name: "Sub-15ms Local Pattern Cache", apex: true, veritaschain: false, ethicshield: false },
+      { name: "IETF Draft Standard Submission", apex: true, veritaschain: false, ethicshield: false },
       { name: "REST API with Full Documentation", apex: true, veritaschain: true, ethicshield: true },
       { name: "Open Technical Architecture Docs", apex: true, veritaschain: false, ethicshield: false },
     ],
@@ -162,8 +166,8 @@ const Compare = () => {
                     <span className="text-gold-gradient font-black text-lg">APEX</span>
                     <Badge className="ml-2 bg-primary/10 text-primary border-0 text-[10px]">YOU ARE HERE</Badge>
                   </th>
-                  <th className="text-center py-4 px-4 text-sm font-mono text-muted-foreground w-[20%]">VeritasChain</th>
-                  <th className="text-center py-4 px-4 text-sm font-mono text-muted-foreground w-[20%]">EthicShield</th>
+                  <th className="text-center py-4 px-4 text-sm font-mono text-muted-foreground w-[20%]">GuardianChain</th>
+                  <th className="text-center py-4 px-4 text-sm font-mono text-muted-foreground w-[20%]">Attested Intel</th>
                 </tr>
               </thead>
               <tbody>

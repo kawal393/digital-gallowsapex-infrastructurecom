@@ -42,6 +42,7 @@ import Explorer from "./pages/Explorer";
 import Tribunal from "./pages/Tribunal";
 import Governance from "./pages/Governance";
 import Research from "./pages/Research";
+import Standards from "./pages/Standards";
 
 
 import ChatWidget from "@/components/chat/ChatWidget";
@@ -131,6 +132,7 @@ const App = () => (
               />
               <Route path="/governance" element={<Governance />} />
               <Route path="/research" element={<Research />} />
+              <Route path="/standards" element={<Standards />} />
               
               
               <Route path="/partner" element={<Partner />} />
