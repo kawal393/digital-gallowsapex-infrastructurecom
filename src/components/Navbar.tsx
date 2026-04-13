@@ -16,6 +16,7 @@ const infraLinks = [
   { label: "Regulation Map", href: "/regulations", icon: Globe, desc: "AI laws in 25+ countries" },
   { label: "Free Score", href: "/assess", icon: Shield, desc: "Compliance in 2 minutes" },
   { label: "Trust Badge", href: "/badge", icon: Award, desc: "Embeddable PSI badge" },
+  { label: "Standards", href: "/standards", icon: ScrollText, desc: "NIST / ISO / CISA mapping" },
   { label: "Submission Kit", href: "/submission-kit", icon: FileText, desc: "CEN-CENELEC regulatory package" },
   { label: "SDK", href: "/sdk", icon: Code, desc: "Developer integration" },
   { label: "Architecture", href: "/architecture", icon: Layers, desc: "Technical deep-dive" },

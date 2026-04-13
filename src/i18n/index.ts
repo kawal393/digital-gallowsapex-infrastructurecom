@@ -94,18 +94,20 @@ const loadTranslation = async (lang: string): Promise<any> => {
       body: JSON.stringify({ target_lang: lang, source: en }),
     });
 
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data.translations) {
-        translationCache[lang] = data.translations;
-        return data.translations;
-      }
+    if (!resp.ok) {
+      throw new Error(`Translation API returned ${resp.status}`);
     }
-  } catch (e) {
-    console.warn(`[i18n] Failed to load ${lang}, falling back to English`);
-  }
 
-  return en;
+    const data = await resp.json();
+    if (data.translations) {
+      translationCache[lang] = data.translations;
+      return data.translations;
+    }
+    throw new Error('No translations in response');
+  } catch (e) {
+    console.warn(`[i18n] Failed to load ${lang}:`, e);
+    throw e; // Re-throw so changeLanguage can handle it
+  }
 };
 
 i18n
@@ -134,13 +136,19 @@ export async function changeLanguage(lang: string) {
     return;
   }
 
-  const translations = await loadTranslation(lang);
-  i18n.addResourceBundle(lang, 'translation', translations, true, true);
-  i18n.changeLanguage(lang);
+  try {
+    const translations = await loadTranslation(lang);
+    i18n.addResourceBundle(lang, 'translation', translations, true, true);
+    i18n.changeLanguage(lang);
 
-  // Set text direction for RTL languages
-  const langConfig = LANGUAGES[lang];
-  document.documentElement.dir = langConfig?.dir === 'rtl' ? 'rtl' : 'ltr';
+    // Set text direction for RTL languages
+    const langConfig = LANGUAGES[lang];
+    document.documentElement.dir = langConfig?.dir === 'rtl' ? 'rtl' : 'ltr';
+  } catch (e) {
+    // Fall back to English on failure but still notify user
+    console.error(`[i18n] Translation failed for ${lang}, staying on current language`);
+    throw new Error(`Translation to ${LANGUAGES[lang]?.name || lang} is temporarily unavailable. Please try again later.`);
+  }
 }
 
 export default i18n;
