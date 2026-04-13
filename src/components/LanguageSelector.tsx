@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LANGUAGES, changeLanguage } from "@/i18n";
 import { Globe, Search, Check, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "@/hooks/use-toast";
 
 const LanguageSelector = () => {
   const { i18n, t } = useTranslation();
@@ -56,8 +57,12 @@ const LanguageSelector = () => {
     setLoading(true);
     try {
       await changeLanguage(code);
-    } catch (e) {
-      console.error("Language change failed:", e);
+    } catch (e: any) {
+      toast({
+        title: "Translation unavailable",
+        description: e?.message || `Could not load ${LANGUAGES[code]?.name || code}. Using English.`,
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
       setOpen(false);
