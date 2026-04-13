@@ -183,7 +183,7 @@ const Compare = () => {
                         <td className="py-3 px-4 text-center"><CellIcon value={item.ethicshield} /></td>
                       </tr>
                     ))}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
