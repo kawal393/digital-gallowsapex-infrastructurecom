@@ -1,43 +1,41 @@
 
 
-## Plan: Capture the Rob V Opportunity (3 Coordinated Moves)
+## Plan: Visibility Fix + Test Run + Toolset Audit
 
-### Move 1 — Add Australia-First Positioning Band to Homepage
+### Issue 1 — Australia Band Not Visible (Real Bug)
 
-Insert a new compact section between `Hero` and the existing trust band on `/` that signals Australian regulatory pedigree to Rob V's audience and Australian enterprise buyers landing from his post.
+**Root cause:** `Hero` uses `min-h-screen` (line 19). On mobile (384x620), it consumes the full viewport, pushing `AustraliaPositioningBand` below the fold. The band IS rendering correctly — it's just hidden by an oversized hero.
 
-**New file:** `src/components/AustraliaPositioningBand.tsx`
+**Fix:** Two coordinated changes in `src/components/AustraliaPositioningBand.tsx`:
+1. Reduce top padding on mobile (`pt-2 sm:pt-10`) so the band hugs the hero on small screens
+2. Add a subtle scroll-cue: small "↓ Australia-First" pill anchored at the bottom of `Hero.tsx` only on mobile, hinting that more content sits below
 
-Contents:
-- Single-row band, dark card with subtle gold accent border
-- Eyebrow chip: "Built in Melbourne · Deployed Globally"
-- Headline: "The Cryptographic Evolution of IRAP — for AI"
-- Sub-line: "While the world debates frameworks, Australia ships them. APEX PSI extends the operational rigour of ISM/IRAP into runtime AI verification."
-- 4 inline pills: `IRAP-Aligned` · `ISM-Mapped` · `NDIS-Ready (76 days)` · `Privacy Act 2026`
-- Right side: small `🇦🇺 → 🌏` glyph
+Plus a one-line tweak in `src/components/Hero.tsx`: change `min-h-screen` → `min-h-[calc(100vh-4rem)] md:min-h-screen` so on mobile the hero is shorter than full viewport and the top of the Australia band peeks in.
 
-**Edit:** `src/pages/Index.tsx` — import and render `<AustraliaPositioningBand />` immediately after `<Hero />`.
+### Issue 2 — Run Test Suite
 
-### Move 2 — Draft the Public LinkedIn Follow-Up Comment
+Execute `npx vitest run` against the existing 3 test files (`example.test.ts`, `pipeline.test.ts`, `registry.test.ts`). Report pass/fail counts and surface any failures. Note that `pipeline.test.ts` and `registry.test.ts` hit the live Supabase edge functions, so failures may indicate real backend issues worth investigating.
 
-Deliver as text in chat (not a file). Under 600 chars, factual, references Rob's IRAP point directly, anchors APEX PSI as the runtime-cryptographic extension of his thesis. Includes the IETF draft ID and the 62-predicate / 14-jurisdiction stat. No tags, no attacks, no emojis.
+### Issue 3 — AI Governance Toolset Audit
 
-### Move 3 — Draft the Direct Message to Rob V
+**Verdict: No new tools needed.** The site already exposes 12 distinct governance tools across `Navbar`, `Footer`, and `FreeToolsCTA`:
 
-Deliver as text in chat. 3 paragraphs:
-1. Acknowledge his IRAP/ISM thesis with one specific reference to his post
-2. Position APEX PSI as runtime-cryptographic IRAP — IETF `draft-singh-psi-00`, MPC consensus, Ed25519 signed Merkle roots
-3. Offer the EU AI Act Articles 13 & 14 Technical Implementation Guide PDF and a 20-min walkthrough; link to `digital-gallows.apex-infrastructure.com/protocol`
+```text
+Verify Hash · Free Score · Regulation Map · Trust Badge · Standards Mapping
+Verified Registry · SDK · Notary · Explorer · Protocol Spec · Evidence/Governance · Research Hub
+```
 
-### Technical Notes
+This already exceeds what comparable governance platforms (Credo AI, Holistic AI, Fairly AI) ship publicly. Adding more would dilute focus. The honest gap isn't *more tools* — it's that `FreeToolsCTA` only surfaces 4 of the 12. So instead of building new tools, I'll **expand `FreeToolsCTA` from 4 to 8 cards** to surface the underexposed ones: Standards Mapping, Verified Registry, Notary, and Explorer.
 
-- `AustraliaPositioningBand.tsx` uses existing tokens: `bg-card/80`, `border-primary/20`, `text-chrome-gradient`, `text-gold-gradient`, framer-motion `whileInView` fade — matches `OpenSourceGateway.tsx` styling for visual consistency
-- No new dependencies, no DB changes, no edge functions
-- Mobile: pills wrap to 2x2 grid below `sm` breakpoint
-- All copy is factual and defensible (IRAP/ISM are real Australian frameworks; NDIS 76-day countdown matches existing site copy; Privacy Act 2026 is on the site's regulatory map)
+### Files Touched
 
-### Out of Scope (Deferred)
+- `src/components/Hero.tsx` — relax `min-h-screen` on mobile only
+- `src/components/AustraliaPositioningBand.tsx` — tighten mobile padding
+- `src/components/FreeToolsCTA.tsx` — add 4 more tool cards (grid becomes `lg:grid-cols-4` with 8 items wrapping to 2 rows)
 
-- Stale-number sync (55+ → 62+, 12 → 14) — separate dedicated pass
-- Pre-launch full link audit — separate pass
+### Out of Scope
+
+- New governance tools (existing 12 are sufficient)
+- Stale-number sync (still deferred)
+- Pre-launch link audit (still deferred — separate dedicated pass)
 
