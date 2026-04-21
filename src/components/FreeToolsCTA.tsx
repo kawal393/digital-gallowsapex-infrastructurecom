@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Globe, Hash, Award } from "lucide-react";
+import { Shield, Globe, Hash, Award, BookOpen, Database, Stamp, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -31,6 +31,34 @@ const tools = [
     desc: "Display a PSI Verified badge on your website. Customizable theme, size, and embed code.",
     cta: "Get Badge",
     href: "/badge",
+  },
+  {
+    icon: BookOpen,
+    title: "Standards Mapping",
+    desc: "Interactive cross-walk between EU AI Act, NIST AI RMF, ISO 42001 and PSI predicates.",
+    cta: "Explore Mapping",
+    href: "/standards",
+  },
+  {
+    icon: Database,
+    title: "Verified Registry",
+    desc: "Public registry of organizations with cryptographically verified AI compliance status.",
+    cta: "Browse Registry",
+    href: "/registry",
+  },
+  {
+    icon: Stamp,
+    title: "APEX Notary",
+    desc: "Notarize any AI decision with Ed25519 signatures. Free tier: 100 records/month.",
+    cta: "Start Notarizing",
+    href: "/notary",
+  },
+  {
+    icon: Search,
+    title: "Ledger Explorer",
+    desc: "Browse the live append-only ledger of every commit, proof, and Merkle root in real time.",
+    cta: "Open Explorer",
+    href: "/explorer",
   },
 ];
 
