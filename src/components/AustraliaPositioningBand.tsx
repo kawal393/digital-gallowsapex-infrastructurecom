@@ -10,7 +10,7 @@ const pills = [
 
 const AustraliaPositioningBand = () => {
   return (
-    <section className="px-4 py-10 sm:py-14">
+    <section className="px-4 pt-2 pb-10 sm:pt-10 sm:pb-14">
       <div className="container mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

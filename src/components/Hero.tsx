@@ -16,7 +16,7 @@ const Hero = () => {
   const cityDisplay = [location.city, location.country].filter(Boolean).join(", ");
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12 grid-bg overflow-hidden">
+    <section className="relative min-h-[calc(100vh-4rem)] md:min-h-screen flex items-center justify-center px-4 pt-20 pb-12 grid-bg overflow-hidden">
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, hsl(43 85% 52% / 0.08) 0%, hsl(35 80% 45% / 0.04) 40%, transparent 70%)" }}
       />
