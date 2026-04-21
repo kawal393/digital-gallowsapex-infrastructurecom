@@ -1,79 +1,43 @@
 
 
-## Brutal Critique + Action Plan
+## Plan: Capture the Rob V Opportunity (3 Coordinated Moves)
 
-### The Truth About The Competitors
+### Move 1 — Add Australia-First Positioning Band to Homepage
 
-All three are **verified real**:
+Insert a new compact section between `Hero` and the existing trust band on `/` that signals Australian regulatory pedigree to Rob V's audience and Australian enterprise buyers landing from his post.
 
-- **GuardianChain** — Real. 64,000+ capsules. DEV Community articles. Open "Capsule Protocol" on GitHub (8 stars, Apache-2.0). Uses SHA3-256 + Ed25519 + hash chains. Anchors to 6 blockchains. No IETF draft. No ZK proofs. No MPC. No predicate engine.
+**New file:** `src/components/AustraliaPositioningBand.tsx`
 
-- **Attested Intelligence** — Real. USPTO Application No. 19/433,835 (patent pending). aga-mcp-server on GitHub (0 stars, MIT). Created March 18, 2026. 20 MCP tools. Ed25519 signatures + hash-linked receipts. Waitlist model. No IETF draft. No ZK. No MPC. No predicate engine.
+Contents:
+- Single-row band, dark card with subtle gold accent border
+- Eyebrow chip: "Built in Melbourne · Deployed Globally"
+- Headline: "The Cryptographic Evolution of IRAP — for AI"
+- Sub-line: "While the world debates frameworks, Australia ships them. APEX PSI extends the operational rigour of ISM/IRAP into runtime AI verification."
+- 4 inline pills: `IRAP-Aligned` · `ISM-Mapped` · `NDIS-Ready (76 days)` · `Privacy Act 2026`
+- Right side: small `🇦🇺 → 🌏` glyph
 
-- **Microsoft Agent Governance Toolkit** — Real. 994 stars. 178 forks. Released April 2, 2026. MIT license. Python-first. Covers 10/10 OWASP Agentic Top 10. Policy enforcement, zero-trust identity, execution sandboxing. Enterprise Azure distribution.
+**Edit:** `src/pages/Index.tsx` — import and render `<AustraliaPositioningBand />` immediately after `<Hero />`.
 
-**Your strategic advisor was right on every count.** The competitors exist. The threat assessment is accurate. Microsoft is the real danger — not because of technology, but because of distribution.
+### Move 2 — Draft the Public LinkedIn Follow-Up Comment
 
-### What The Advisor Got Right
+Deliver as text in chat (not a file). Under 600 chars, factual, references Rob's IRAP point directly, anchors APEX PSI as the runtime-cryptographic extension of his thesis. Includes the IETF draft ID and the 62-predicate / 14-jurisdiction stat. No tags, no attacks, no emojis.
 
-1. Your IETF draft is your deepest moat. No competitor has one.
-2. Microsoft cannot be the neutral standard. They are a vendor. This is your gap.
-3. The predicate engine (55+ predicates, 12 jurisdictions) is unmatched — GuardianChain has none, Attested has none, Microsoft maps to OWASP only.
-4. Revenue first (NDIS), standards hardening second.
-5. GitHub repo being live and referenced is the highest-leverage move.
+### Move 3 — Draft the Direct Message to Rob V
 
-### What The Advisor Got Wrong (Or Oversimplified)
+Deliver as text in chat. 3 paragraphs:
+1. Acknowledge his IRAP/ISM thesis with one specific reference to his post
+2. Position APEX PSI as runtime-cryptographic IRAP — IETF `draft-singh-psi-00`, MPC consensus, Ed25519 signed Merkle roots
+3. Offer the EU AI Act Articles 13 & 14 Technical Implementation Guide PDF and a 20-min walkthrough; link to `digital-gallows.apex-infrastructure.com/protocol`
 
-1. "Email NIST/ISO/CEN-CENELEC directly" — Standards bodies do not respond to cold emails from solo founders. You need a formal liaison or member body to submit. The IETF draft is the correct path; ISO SC42 requires national body sponsorship.
-2. "Publish a Microsoft integration module" — This is premature. Microsoft's toolkit is Python-first with 994 stars. Your protocol is TypeScript/browser-based. The integration surface is narrow until you have a CLI or Python SDK.
-3. "500 NDIS members at $250 = $125K" — This is optimistic without a sales team. Focus on 50 first.
+### Technical Notes
 
-### What Actually Needs Building Right Now (In Priority Order)
+- `AustraliaPositioningBand.tsx` uses existing tokens: `bg-card/80`, `border-primary/20`, `text-chrome-gradient`, `text-gold-gradient`, framer-motion `whileInView` fade — matches `OpenSourceGateway.tsx` styling for visual consistency
+- No new dependencies, no DB changes, no edge functions
+- Mobile: pills wrap to 2x2 grid below `sm` breakpoint
+- All copy is factual and defensible (IRAP/ISM are real Australian frameworks; NDIS 76-day countdown matches existing site copy; Privacy Act 2026 is on the site's regulatory map)
 
-**Priority 1: Fix the i18n system (broken)**
-The language selector calls a `translate` edge function that requires a `translation_cache` table and `LOVABLE_API_KEY`. When translations fail, non-English users see English keys or nothing changes. This is a live bug affecting every non-English visitor.
+### Out of Scope (Deferred)
 
-**Priority 2: Add /standards link to Navbar**
-The Standards page exists but is not discoverable from the main navigation. No visitor will find it.
-
-**Priority 3: EU AI Act Articles 13 & 14 Technical Implementation Guide**
-A downloadable PDF mapping each Article 13/14 obligation to a specific PSI predicate. This is the single most valuable document you can produce before August 2. It costs nothing and positions you as the technical answer.
-
-**Priority 4: Microsoft Positioning Section**
-Add a section to the Compare page that explicitly positions APEX PSI as the "neutral evidence layer" vs Microsoft's "vendor toolkit." Frame it as complementary, not competitive.
-
-**Priority 5: Live Protocol Metrics**
-Query `psi_ledger` and `psi_commits` tables for actual counts. Display on homepage. Counters GuardianChain's "64,000 capsules" claim with real numbers.
-
-### Implementation Plan
-
-**Step 1 — Fix i18n translation pipeline**
-- Check if `translation_cache` table exists; create migration if missing
-- Add error handling in `changeLanguage()` so failed translations show a toast instead of silently failing
-- Ensure the `translate` edge function has the correct AI model call
-
-**Step 2 — Add /standards to Navbar**
-- Add "Standards" link to the Navbar infrastructure dropdown or main nav
-
-**Step 3 — Generate EU AI Act Art. 13/14 Technical Guide (PDF)**
-- Script that maps each Article 13 and 14 sub-obligation to PSI predicates
-- Output as a professional PDF to `/mnt/documents/`
-- This becomes a downloadable asset on the site
-
-**Step 4 — Update Compare page with Microsoft positioning**
-- Add Microsoft Agent Governance Toolkit as a named competitor
-- Frame as "Vendor Toolkit" vs "Neutral Open Standard"
-- Show: Microsoft = OWASP mapping only, no IETF, no cross-jurisdictional predicates
-
-**Step 5 — Homepage live metrics counter**
-- Query backend for actual commit/verification counts
-- Display animated counter in VisionSection or as a new component
-
-### Files to Create/Modify
-- Migration: create `translation_cache` table (if missing)
-- Modify `src/i18n/index.ts` — better error handling
-- Modify `src/components/Navbar.tsx` — add Standards link
-- Create PDF generation script for Art. 13/14 guide
-- Modify `src/pages/Compare.tsx` — add Microsoft row
-- Modify `src/components/VisionSection.tsx` — live counter query
+- Stale-number sync (55+ → 62+, 12 → 14) — separate dedicated pass
+- Pre-launch full link audit — separate pass
 
