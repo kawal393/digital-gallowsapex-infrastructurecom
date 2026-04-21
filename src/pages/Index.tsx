@@ -28,6 +28,7 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
 import OpenSourceGateway from "@/components/OpenSourceGateway";
+import AustraliaPositioningBand from "@/components/AustraliaPositioningBand";
 
 const Index = () => {
   return (
@@ -36,6 +37,7 @@ const Index = () => {
       <Navbar />
       <div id="top" />
       <Hero />
+      <AustraliaPositioningBand />
       <VisionSection />
       <ComplianceClock />
       <SocialProofBar />
