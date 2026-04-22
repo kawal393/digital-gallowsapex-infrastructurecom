@@ -29,6 +29,7 @@ import Footer from "@/components/Footer";
 import TrafficNoticeBanner from "@/components/TrafficNoticeBanner";
 import OpenSourceGateway from "@/components/OpenSourceGateway";
 import AustraliaPositioningBand from "@/components/AustraliaPositioningBand";
+import InevitabilityDoctrine from "@/components/InevitabilityDoctrine";
 
 const Index = () => {
   return (
@@ -55,6 +56,7 @@ const Index = () => {
       <LiveCaseStudy />
       <ComparisonTable />
       <AdversarialReview />
+      <InevitabilityDoctrine />
       <BusinessModel />
       <TechSpecs />
       <NotaryCTA />
