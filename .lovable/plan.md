@@ -1,41 +1,49 @@
 
 
-## Plan: Visibility Fix + Test Run + Toolset Audit
+## Plan: Convert the Meta Review Into Two Defensive Assets
 
-### Issue 1 — Australia Band Not Visible (Real Bug)
+Two small, high-leverage pages. No DB changes, no edge functions, no new dependencies. Both are link-targets for outbound emails and IETF correspondence.
 
-**Root cause:** `Hero` uses `min-h-screen` (line 19). On mobile (384x620), it consumes the full viewport, pushing `AustraliaPositioningBand` below the fold. The band IS rendering correctly — it's just hidden by an oversized hero.
+### Asset 1 — Competitive Landscape Page (`/landscape`)
 
-**Fix:** Two coordinated changes in `src/components/AustraliaPositioningBand.tsx`:
-1. Reduce top padding on mobile (`pt-2 sm:pt-10`) so the band hugs the hero on small screens
-2. Add a subtle scroll-cue: small "↓ Australia-First" pill anchored at the bottom of `Hero.tsx` only on mobile, hinting that more content sits below
+Public page that owns the search results for "PSI vs SCITT", "PSI vs DAAP", "ZKMLOps comparison".
 
-Plus a one-line tweak in `src/components/Hero.tsx`: change `min-h-screen` → `min-h-[calc(100vh-4rem)] md:min-h-screen` so on mobile the hero is shorter than full viewport and the top of the Australia band peeks in.
+**File:** `src/pages/Landscape.tsx`
 
-### Issue 2 — Run Test Suite
+**Structure:**
+- Hero: "The Toll Booth Where Law, Crypto, and Compliance Meet" + subhead naming the 4 pieces (Protocol / Gallows / Sector / Consumer)
+- Comparison table — rows are the 4 pieces, columns are: APEX PSI, ZKMLOps (`arXiv:2510.26576v1`), SCITT VeritasChain (`draft-ietf-scitt-vcp`), Google Longfellow, DAAP v2 (`draft-aylward-daap-v2-00`). Cells: green check / red dash / partial.
+- Per-competitor card (5 cards): what they have, what they don't, our differentiator, "interop or compete" verdict. Cite draft IDs verbatim for SEO.
+- Closing band: "Net: We didn't invent ZKPs. We invented the toll booth." + CTA to `/protocol` and `/research`
+- Footer link added under "Standards"
+- Navbar: NOT added (keeps nav clean; surfaced via Research Hub + footer + outbound links)
 
-Execute `npx vitest run` against the existing 3 test files (`example.test.ts`, `pipeline.test.ts`, `registry.test.ts`). Report pass/fail counts and surface any failures. Note that `pipeline.test.ts` and `registry.test.ts` hit the live Supabase edge functions, so failures may indicate real backend issues worth investigating.
+### Asset 2 — Patent Pledge Page (`/pledge`)
 
-### Issue 3 — AI Governance Toolset Audit
+Standalone, lawyer-readable, ~400-word legal-style page. The link you paste into every IETF reply.
 
-**Verdict: No new tools needed.** The site already exposes 12 distinct governance tools across `Navbar`, `Footer`, and `FreeToolsCTA`:
+**File:** `src/pages/PatentPledge.tsx`
 
-```text
-Verify Hash · Free Score · Regulation Map · Trust Badge · Standards Mapping
-Verified Registry · SDK · Notary · Explorer · Protocol Spec · Evidence/Governance · Research Hub
-```
+**Structure:**
+- Header: "APEX PSI Patent Non-Assertion Pledge" + version + date + Australian Innovation Patent number (AMCZ-2615560564, per `mem://strategy/monopoly-on-verification`)
+- Plain-English summary box (3 bullets): what's pledged, what's not, who it covers
+- Formal pledge text (4 sections): Scope, Conformant Implementation Definition, Non-Assertion Commitment, Reservations (managed service, specific optimizations)
+- "What This Means" table — for: IETF Working Groups / Open Source Implementers / Commercial Users of the Hosted Service / Forks
+- Footer: "Questions? legal@apex-infrastructure.com" + link to IETF draft + GitHub
+- Navbar: NOT added. Linked from `/protocol`, `InevitabilityDoctrine` component (existing Patent Pledge band), and footer under "Legal"
 
-This already exceeds what comparable governance platforms (Credo AI, Holistic AI, Fairly AI) ship publicly. Adding more would dilute focus. The honest gap isn't *more tools* — it's that `FreeToolsCTA` only surfaces 4 of the 12. So instead of building new tools, I'll **expand `FreeToolsCTA` from 4 to 8 cards** to surface the underexposed ones: Standards Mapping, Verified Registry, Notary, and Explorer.
+### Wiring
 
-### Files Touched
-
-- `src/components/Hero.tsx` — relax `min-h-screen` on mobile only
-- `src/components/AustraliaPositioningBand.tsx` — tighten mobile padding
-- `src/components/FreeToolsCTA.tsx` — add 4 more tool cards (grid becomes `lg:grid-cols-4` with 8 items wrapping to 2 rows)
+- `src/App.tsx` — register `/landscape` and `/pledge` routes
+- `src/components/Footer.tsx` — add "Competitive Landscape" under Standards column, "Patent Pledge" under Legal column
+- `src/components/InevitabilityDoctrine.tsx` — make the existing Patent Pledge text a link to `/pledge`
+- `src/pages/Research.tsx` — add a single "See Full Competitive Landscape →" CTA card at the bottom linking to `/landscape`
 
 ### Out of Scope
 
-- New governance tools (existing 12 are sufficient)
+- Homepage hero rewrite to "toll booth" framing — defer until we see if `/landscape` resonates in outbound
+- Design Partner Engine (still parked from previous plan; revisit after first 10 outbound emails)
 - Stale-number sync (still deferred)
-- Pre-launch link audit (still deferred — separate dedicated pass)
+- Full link audit (still deferred)
+- New nav items (both pages are link-targets, not browse-targets)
 
