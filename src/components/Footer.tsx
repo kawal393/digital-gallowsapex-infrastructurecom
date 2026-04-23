@@ -50,10 +50,12 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
               <li><Link to="/gallows" className="hover:text-gold transition-colors">Verification Portal</Link></li>
               <li><Link to="/verify" className="hover:text-gold transition-colors">Verify Hash</Link></li>
               <li><Link to="/regulations" className="hover:text-gold transition-colors">Regulation Map</Link></li>
+              <li><Link to="/landscape" className="hover:text-gold transition-colors">Competitive Landscape</Link></li>
               <li><Link to="/assess" className="hover:text-gold transition-colors">Free Score</Link></li>
               <li><Link to="/badge" className="hover:text-gold transition-colors">Trust Badge</Link></li>
               <li><Link to="/architecture" className="hover:text-gold transition-colors">Architecture</Link></li>
               <li><Link to="/partner" className="hover:text-gold transition-colors">Partner Program</Link></li>
+              <li><Link to="/doctrine" className="hover:text-gold transition-colors">The Doctrine</Link></li>
             </ul>
           </div>
 
@@ -66,6 +68,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
             </ul>
             <h4 className="text-sm font-semibold text-foreground mt-4 mb-3">Legal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link to="/pledge" className="hover:text-gold transition-colors">Patent Pledge</Link></li>
               <li><Link to="/privacy" className="hover:text-gold transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-gold transition-colors">Terms of Service</Link></li>
               <li><Link to="/cookies" className="hover:text-gold transition-colors">Cookie Policy</Link></li>

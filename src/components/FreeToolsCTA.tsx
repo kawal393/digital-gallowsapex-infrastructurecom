@@ -71,13 +71,13 @@ const FreeToolsCTA = () => (
         viewport={{ once: true }}
         className="text-center mb-12"
       >
-        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Free Tools</p>
+        <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">The Public Instruments</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
           <span className="text-gold-gradient">Open Access</span>{" "}
-          <span className="text-chrome-gradient">Compliance Tools</span>
+          <span className="text-chrome-gradient">Verification Surface</span>
         </h2>
         <p className="text-muted-foreground max-w-lg mx-auto">
-          No account needed. Start proving compliance today.
+          The instruments are public. The ledger is permissionless. No account required.
         </p>
       </motion.div>
 

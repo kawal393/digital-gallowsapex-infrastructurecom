@@ -38,15 +38,15 @@ const Pricing = () => {
           className="text-center mb-6"
         >
           <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">
-            Public-Good Infrastructure
+            Tiers of Access to the Standard
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             The Standard is <span className="text-gold-gradient">Free</span>. Forever.
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             The PSI Protocol (<span className="font-mono text-primary">draft-singh-psi-00</span>) is public-good infrastructure.
-            Access to the APEX PSI SDK and core verification logic is <span className="font-bold text-foreground">$0 / Open Access</span> for
-            all developers, AI research labs, and enterprises.
+            The APEX PSI SDK and core verification logic remain <span className="font-bold text-foreground">$0 / Open Access</span> for
+            every developer, lab, and enterprise. Forever.
           </p>
         </motion.div>
 
@@ -146,7 +146,7 @@ const Pricing = () => {
             <Button variant="heroOutline" className="w-full" size="lg" asChild>
               <Link to="/#contact">
                 <FileText className="h-4 w-4 mr-1" />
-                Book a Demo
+                Petition the Registry
               </Link>
             </Button>
           </motion.div>

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Skull, ShieldCheck, Code2, Crown, Globe, Gauge, Swords, Infinity as InfinityIcon } from "lucide-react";
 
 const threats = [
@@ -183,9 +184,16 @@ const InevitabilityDoctrine = () => {
             <div className="mt-8 pt-6 border-t border-border/40 flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
               <ShieldCheck className="h-4 w-4 text-gold shrink-0" />
               <p className="text-xs sm:text-sm text-muted-foreground">
-                <span className="font-bold text-foreground">Patent Pledge:</span> APEX commits to non-assertion against any conformant implementation of the published PSI Protocol. The patent guards the operational service — never the standard.
+                <span className="font-bold text-foreground">
+                  <Link to="/pledge" className="text-gold hover:underline">Patent Pledge</Link>:
+                </span>{" "}
+                APEX commits to non-assertion against any conformant implementation of the published PSI Protocol. The patent guards the operational service — never the standard.{" "}
+                <Link to="/pledge" className="text-gold/80 hover:text-gold underline-offset-2 hover:underline">Read the full pledge →</Link>
               </p>
             </div>
+            <p className="mt-6 text-center text-xs text-muted-foreground/80 italic max-w-xl mx-auto">
+              We do not solicit adoption. The standard exists. Conformant implementations are welcome.
+            </p>
           </div>
         </motion.div>
 
