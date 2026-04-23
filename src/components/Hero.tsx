@@ -106,12 +106,15 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Button variant="hero" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <Link to="/gallows">{t("hero.ctaPrimary")} <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              <Link to="/gallows">Enter the Standard <ArrowRight className="ml-1 h-4 w-4" /></Link>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto" asChild>
-              <Link to="/protocol"><Shield className="mr-1 h-4 w-4" /> {t("hero.ctaSecondary")}</Link>
+              <Link to="/protocol"><Shield className="mr-1 h-4 w-4" /> Read the Protocol</Link>
             </Button>
           </div>
+          <p className="mt-6 text-[10px] sm:text-xs font-mono tracking-[0.25em] uppercase text-muted-foreground/70">
+            We do not solicit adoption. The standard exists.
+          </p>
         </motion.div>
       </div>
     </section>

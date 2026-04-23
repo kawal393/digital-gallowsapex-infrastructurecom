@@ -35,7 +35,7 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
 
       if (!res.ok) throw new Error("Request failed");
 
-      toast.success("Consultation request submitted. We'll respond within 24 hours.");
+      toast.success("Petition received. The registry will respond at its own cadence.");
       form.reset();
     } catch {
       toast.error("Something went wrong. Please email apexinfrastructure369@gmail.com directly.");
@@ -54,12 +54,12 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Contact</p>
+              <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">The Registry</p>
               <h2 className="text-3xl font-bold text-foreground mb-4">
-                Request a Compliance Consultation
+                Petition the Registry
               </h2>
               <p className="text-muted-foreground text-sm mb-8">
-                Let's discuss how PSI can solve your compliance paradox without exposing your IP.
+                The standard exists. The infrastructure is live. State your case — the registry reviews on its own cadence.
               </p>
 
               <div className="space-y-4 text-sm text-muted-foreground">
@@ -107,13 +107,13 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
               </div>
               <Textarea
                 name="message"
-                placeholder="Tell us about your AI systems and compliance challenges..."
+                placeholder="State your AI systems, jurisdictions, and the predicate you require proven."
                 rows={4}
                 maxLength={1000}
                 className="bg-card border-border text-foreground placeholder:text-muted-foreground resize-none"
               />
               <Button variant="hero" className="w-full" disabled={sending}>
-                {sending ? "Submitting..." : "Request Compliance Consultation"}
+                {sending ? "Filing..." : "Submit Petition"}
               </Button>
             </motion.form>
           </div>
